@@ -1,0 +1,391 @@
+<?php
+
+/*
+ * This file is part of the Panthère project.
+ *
+ * (c) Kévin Dunglas <dunglas@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
+namespace Panthere\DomCrawler;
+
+use Facebook\WebDriver\Exception\NoSuchElementException;
+use Facebook\WebDriver\WebDriver;
+use Facebook\WebDriver\WebDriverBy;
+use Facebook\WebDriver\WebDriverElement;
+use Symfony\Component\DomCrawler\Crawler as BaseCrawler;
+
+/**
+ * @author Kévin Dunglas <dunglas@gmail.com>
+ */
+final class Crawler extends BaseCrawler
+{
+    private $elements;
+    private $webDriver;
+
+    /**
+     * @param WebDriverElement[] $elements
+     */
+    public function __construct(array $elements = [], WebDriver $webDriver, ?string $uri = null)
+    {
+        $this->uri = $uri;
+        $this->webDriver = $webDriver;
+        $this->elements = $elements ?? [];
+    }
+
+    public function clear(): void
+    {
+        $this->throwNotSupported(__METHOD__);
+    }
+
+    public function add($node): void
+    {
+        $this->throwNotSupported(__METHOD__);
+    }
+
+    public function addContent($content, $type = null): void
+    {
+        $this->throwNotSupported(__METHOD__);
+    }
+
+    public function addHtmlContent($content, $charset = 'UTF-8'): void
+    {
+        $this->throwNotSupported(__METHOD__);
+    }
+
+    public function addXmlContent($content, $charset = 'UTF-8', $options = LIBXML_NONET): void
+    {
+        $this->throwNotSupported(__METHOD__);
+    }
+
+    public function addDocument(\DOMDocument $dom): void
+    {
+        $this->throwNotSupported(__METHOD__);
+    }
+
+    public function addNodeList(\DOMNodeList $nodes): void
+    {
+        $this->throwNotSupported(__METHOD__);
+    }
+
+    public function addNodes(array $nodes): void
+    {
+        $this->throwNotSupported(__METHOD__);
+    }
+
+    public function addNode(\DOMNode $node): void
+    {
+        $this->throwNotSupported(__METHOD__);
+    }
+
+    public function eq($position): self
+    {
+        if (isset($this->elements[$position])) {
+            return $this->createSubCrawler([$this->elements[$position]]);
+        }
+
+        return $this->createSubCrawler(null);
+    }
+
+    public function each(\Closure $closure): array
+    {
+        $data = [];
+        foreach ($this->elements as $i => $element) {
+            $data[] = $closure($this->createSubCrawler([$element]), $i);
+        }
+
+        return $data;
+    }
+
+    public function slice($offset = 0, $length = null): self
+    {
+        return $this->createSubCrawler(\array_slice($this->elements, $offset, $length));
+    }
+
+    public function reduce(\Closure $closure): self
+    {
+        $elements = [];
+        foreach ($this->elements as $i => $element) {
+            if (false !== $closure($this->createSubCrawler([$element]), $i)) {
+                $elements[] = $element;
+            }
+        }
+
+        return $this->createSubCrawler($elements);
+    }
+
+    public function first()
+    {
+        return $this->eq(0);
+    }
+
+    public function last()
+    {
+        return $this->eq(\count($this->elements) - 1);
+    }
+
+    public function siblings()
+    {
+        return $this->createSubCrawlerFromXpath('(preceding-sibling::* | following-sibling::*)');
+    }
+
+    public function nextAll()
+    {
+        return $this->createSubCrawlerFromXpath('following-sibling::*');
+    }
+
+    public function previousAll()
+    {
+        return $this->createSubCrawlerFromXpath('preceding-sibling::*');
+    }
+
+    public function parents()
+    {
+        return $this->createSubCrawlerFromXpath('ancestor::*', true);
+    }
+
+    /**
+     * @see https://github.com/symfony/symfony/issues/26432
+     */
+    public function children()
+    {
+        return $this->createSubCrawlerFromXpath('child::*');
+    }
+
+    public function attr($attribute): string
+    {
+        if (!$this->elements) {
+            throw new \InvalidArgumentException('The current node list is empty.');
+        }
+
+        if ('_text' === $attribute) {
+            return $this->text();
+        }
+
+        return $this->getElement(0)->getAttribute($attribute);
+    }
+
+    public function nodeName(): string
+    {
+        if (!$this->elements) {
+            throw new \InvalidArgumentException('The current node list is empty.');
+        }
+
+        return $this->getElement(0)->getTagName();
+    }
+
+    public function text(): string
+    {
+        if (!$this->elements) {
+            throw new \InvalidArgumentException('The current node list is empty.');
+        }
+
+        return $this->getElement(0)->getText();
+    }
+
+    public function html(): string
+    {
+        if (!$this->elements) {
+            throw new \InvalidArgumentException('The current node list is empty.');
+        }
+
+        return $this->attr('outerHTML');
+    }
+
+    public function evaluate($xpath): self
+    {
+        $this->throwNotSupported(__METHOD__);
+    }
+
+    public function extract($attributes)
+    {
+        $attributes = (array) $attributes;
+        $count = \count($attributes);
+
+        $data = [];
+        foreach ($this->elements as $element) {
+            $elements = [];
+            foreach ($attributes as $attribute) {
+                $elements[] = '_text' === $attribute ? $element->getText() : $element->getAttribute($attribute);
+            }
+
+            $data[] = 1 === $count ? $elements[0] : $elements;
+        }
+
+        return $data;
+    }
+
+    public function filterXPath($xpath): self
+    {
+        return $this->filterWebDriverBy(WebDriverBy::xpath($xpath));
+    }
+
+    public function filter($selector): self
+    {
+        return $this->filterWebDriverBy(WebDriverBy::cssSelector($selector));
+    }
+
+    public function selectLink($value)
+    {
+        return $this->selectFromXpath(
+            \sprintf('descendant-or-self::a[contains(concat(\' \', normalize-space(string(.)), \' \'), %1$s) or ./img[contains(concat(\' \', normalize-space(string(@alt)), \' \'), %1$s)]]', static::xpathLiteral(' '.$value.' '))
+        );
+    }
+
+    public function selectImage($value)
+    {
+        return $this->selectFromXpath(\sprintf('descendant-or-self::img[contains(normalize-space(string(@alt)), %s)]', static::xpathLiteral($value)));
+    }
+
+    public function selectButton($value)
+    {
+        return $this->selectFromXpath(
+            \sprintf(
+                'descendant-or-self::input[((contains(%1$s, "submit") or contains(%1$s, "button")) and contains(concat(\' \', normalize-space(string(@value)), \' \'), %2$s)) or (contains(%1$s, "image") and contains(concat(\' \', normalize-space(string(@alt)), \' \'), %2$s)) or @id=%3$s or @name=%3$s] | descendant-or-self::button[contains(concat(\' \', normalize-space(string(.)), \' \'), %2$s) or @id=%3$s or @name=%3$s]',
+                'translate(@type, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz")',
+                static::xpathLiteral(' '.$value.' '),
+                static::xpathLiteral($value)
+            )
+        );
+    }
+
+    public function link($method = 'get')
+    {
+        if (!$this->elements) {
+            throw new \InvalidArgumentException('The current node list is empty.');
+        }
+
+        if ('get' !== $method) {
+            throw new \InvalidArgumentException('Only the "get" method is supported in WebDriver mode.');
+        }
+
+        return new Link($this->getElement(0));
+    }
+
+    public function links()
+    {
+        $links = [];
+        foreach ($this->elements as $element) {
+            $links[] = new Link($element);
+        }
+
+        return $links;
+    }
+
+    public function image()
+    {
+        if (!$this->elements) {
+            throw new \InvalidArgumentException('The current node list is empty.');
+        }
+
+        return new Image($this->getElement(0));
+    }
+
+    public function images()
+    {
+        $images = [];
+        foreach ($this->elements as $element) {
+            $images[] = new Image($element);
+        }
+
+        return $images;
+    }
+
+    public function form(array $values = null, $method = null)
+    {
+        if (!$this->elements) {
+            throw new \InvalidArgumentException('The current node list is empty.');
+        }
+
+        $form = new Form($this->getElement(0), $this->webDriver);
+        if (null !== $values) {
+            $form->setValues($values);
+        }
+
+        return $form;
+    }
+
+    public function setDefaultNamespacePrefix($prefix)
+    {
+        $this->throwNotSupported(__METHOD__);
+    }
+
+    public function registerNamespace($prefix, $namespace)
+    {
+        $this->throwNotSupported(__METHOD__);
+    }
+
+    public function getNode($position): ?\DOMElement
+    {
+        throw new \InvalidArgumentException('The "getNode" method cannot be used in WebDriver mode. Use "getElement" instead.');
+    }
+
+    public function getElement(int $position): ?WebDriverElement
+    {
+        return $this->elements[$position] ?? null;
+    }
+
+    public function count()
+    {
+        return \count($this->elements);
+    }
+
+    public function getIterator(): \ArrayIterator
+    {
+        return new \ArrayIterator($this->elements);
+    }
+
+    protected function sibling($node, $siblingDir = 'nextSibling')
+    {
+        $this->throwNotSupported(__METHOD__);
+    }
+
+    private function selectFromXpath(string $xpath): self
+    {
+        $xpath = WebDriverBy::xpath($xpath);
+
+        $data = [];
+        foreach ($this->elements as $element) {
+            $data = \array_merge($data, $element->findElements($xpath));
+        }
+
+        return $this->createSubCrawler($data);
+    }
+
+    /**
+     * @param WebDriverElement[]|null $elements
+     */
+    private function createSubCrawler(?array $elements = null): self
+    {
+        return new static($elements ?? [], $this->webDriver, $this->uri);
+    }
+
+    private function createSubCrawlerFromXpath(string $selector, bool $reverse = false): self
+    {
+        if (!$this->elements) {
+            throw new \InvalidArgumentException('The current element list is empty.');
+        }
+
+        try {
+            $elements = $this->getElement(0)->findElements(WebDriverBy::xpath($selector));
+        } catch (NoSuchElementException $e) {
+            return $this->createSubCrawler(null);
+        }
+
+        return $this->createSubCrawler($reverse ? \array_reverse($elements) : $elements);
+    }
+
+    private function filterWebDriverBy(WebDriverBy $selector): self
+    {
+        $subElements = [];
+        foreach ($this->elements as $element) {
+            $subElements = \array_merge($subElements, $element->findElements($selector));
+        }
+
+        return $this->createSubCrawler($subElements);
+    }
+}
