@@ -101,7 +101,7 @@ class E2eTest extends PanthereTestCase
     {
         $symfonyClient = static::createClient(); // A cute kitty: the Symfony's functional test too
         $goutteClient = static::createGoutteClient(); // An agile lynx: Goutte
-        $panthereClient = static::createGoutteClient(); // A majestic Panther
+        $panthereClient = static::createPanthereClient(); // A majestic Panther
         
         // Both Goutte and Panthère benefits from the built-in HTTP server
         
