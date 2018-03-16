@@ -30,16 +30,20 @@ Use [Composer](https://getcomposer.org/) to install Panthère in your project:
 
 require __DIR__.'/vendor/autoload.php';
 
-$client = new \Panthere\Client();
+use Facebook\WebDriver\WebDriverExpectedCondition;
+use Facebook\WebDriver\WebDriverBy;
+use Panthere\Client;
+
+$client = new Client();
 $crawler = $client->request('GET', 'http://api-platform.com'); // Yes, this website is 100% in JavaScript
 
 $link = $crawler->selectLink('Support')->link();
 $crawler = $client->click($link);
 
 // Wait for an element to be rendered
-$client->getWebDriver()->wait()->until(
-    \Facebook\WebDriver\WebDriverExpectedCondition::visibilityOfElementLocated(\Facebook\WebDriver\WebDriverBy::className('support'))
-);
+$client->getWebDriver()
+    ->wait()
+    ->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::className('support')));
 
 echo $crawler->filter('.support')->text();
 $client->getWebDriver()->takeScreenshot('screen.png'); // Yeah, screenshot!
