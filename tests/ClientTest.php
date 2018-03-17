@@ -13,9 +13,11 @@ declare(strict_types=1);
 
 namespace Panthere\Tests;
 
+use Facebook\WebDriver\WebDriver;
 use Panthere\Client;
 use Panthere\Cookie\CookieJar;
 use Panthere\DomCrawler\Crawler;
+use Symfony\Component\BrowserKit\Client as BrowserKitClient;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\BrowserKit\CookieJar as BrowserKitCookieJar;
 use Symfony\Component\DomCrawler\Crawler as DomCrawlerCrawler;
@@ -25,6 +27,13 @@ use Symfony\Component\DomCrawler\Crawler as DomCrawlerCrawler;
  */
 class ClientTest extends TestCase
 {
+    public function testCreateClient()
+    {
+        $client = self::createPanthereClient();
+        $this->assertInstanceOf(BrowserKitClient::class, $client);
+        $this->assertInstanceOf(WebDriver::class, $client);
+    }
+
     /**
      * @dataProvider clientFactoryProvider
      */
