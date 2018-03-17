@@ -23,11 +23,11 @@ $link = $crawler->selectLink('Support')->link();
 $crawler = $client->click($link);
 
 // Wait for an element
-$client->getWebDriver()->wait()->until(
+$client->wait()->until(
     WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::className('support'))
 );
 
 echo $crawler->filter('.support')->text();
-$client->getWebDriver()->takeScreenshot('screen.png');
+$client->takeScreenshot('screen.png');
 
-$client->stop();
+$client->quit();

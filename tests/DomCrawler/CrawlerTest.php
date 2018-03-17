@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Panthere\Tests\DomCrawler;
 
+use Facebook\WebDriver\WebDriverElement;
 use Panthere\Client;
 use Panthere\DomCrawler\Image;
 use Panthere\DomCrawler\Link;
@@ -24,6 +25,13 @@ use Symfony\Component\DomCrawler\Crawler;
  */
 class CrawlerTest extends TestCase
 {
+    public function testCreateCrawler(): void
+    {
+        $crawler = self::createPanthereClient()->request('GET', self::$baseUri.'/basic.html');
+        $this->assertInstanceOf(Crawler::class, $crawler);
+        $this->assertInstanceOf(WebDriverElement::class, $crawler);
+    }
+
     /**
      * @dataProvider clientFactoryProvider
      */

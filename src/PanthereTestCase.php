@@ -73,7 +73,7 @@ abstract class PanthereTestCase extends InternalTestCase
         }
 
         if (null !== self::$panthereClient) {
-            self::$panthereClient->stop();
+            self::$panthereClient->quit();
             self::$panthereClient = null;
         }
 
