@@ -31,7 +31,7 @@ use Symfony\Component\DomCrawler\Link;
 /**
  * @author Kévin Dunglas <dunglas@gmail.com>
  */
-final class Client extends BaseClient
+final class Client extends BaseClient implements WebDriver
 {
     use ExceptionThrower;
 
@@ -62,18 +62,6 @@ final class Client extends BaseClient
 
         $factory = $this->webDriverFactory;
         $this->webDriver = $factory();
-    }
-
-    public function stop()
-    {
-        if (null === $this->webDriver) {
-            return;
-        }
-
-        $this->webDriver->quit();
-        $this->webDriver = null;
-
-        $this->stopChromeDriver();
     }
 
     private function startChromeDriver(): void
@@ -202,19 +190,6 @@ final class Client extends BaseClient
         throw new \Exception('Not useful in WebDriver mode.');
     }
 
-    public function get(string $uri): self
-    {
-        $this->start();
-
-        $this->request = $this->internalRequest = new Request($uri, 'GET');
-        $this->webDriver->get($uri);
-        $this->response = $this->internalResponse = new Response($this->webDriver->getPageSource());
-
-        $this->crawler = $this->createCrawler();
-
-        return $this;
-    }
-
     public function back()
     {
         $this->webDriver->navigate()->back();
@@ -244,7 +219,7 @@ final class Client extends BaseClient
     public function restart()
     {
         $this->webDriver->manage()->deleteAllCookies();
-        $this->stop();
+        $this->quit();
         $this->start();
     }
 
@@ -256,5 +231,100 @@ final class Client extends BaseClient
     public function getWebDriver(): WebDriver
     {
         return $this->webDriver;
+    }
+
+    public function get($uri)
+    {
+        $this->start();
+
+        $this->request = $this->internalRequest = new Request($uri, 'GET');
+        $this->webDriver->get($uri);
+        $this->response = $this->internalResponse = new Response($this->webDriver->getPageSource());
+
+        $this->crawler = $this->createCrawler();
+
+        return $this;
+    }
+
+    public function close()
+    {
+        return $this->webDriver->close();
+    }
+
+    public function getCurrentURL()
+    {
+        return $this->webDriver->getCurrentURL();
+    }
+
+    public function getPageSource()
+    {
+        return $this->webDriver->getPageSource();
+    }
+
+    public function getTitle()
+    {
+        return $this->webDriver->getTitle();
+    }
+
+    public function getWindowHandle()
+    {
+        return $this->webDriver->getWindowHandle();
+    }
+
+    public function getWindowHandles()
+    {
+        return $this->webDriver->getWindowHandles();
+    }
+
+    public function quit()
+    {
+        if (null === $this->webDriver) {
+            return;
+        }
+
+        $this->webDriver->quit();
+        $this->webDriver = null;
+
+        $this->stopChromeDriver();
+    }
+
+    public function takeScreenshot($saveAs = null)
+    {
+        return $this->webDriver->takeScreenshot($saveAs);
+    }
+
+    public function wait($timeoutInSecond = 30, $intervalInMillisecond = 250)
+    {
+        return $this->webDriver->wait($timeoutInSecond, $intervalInMillisecond);
+    }
+
+    public function manage()
+    {
+        return $this->webDriver->manage();
+    }
+
+    public function navigate()
+    {
+        return $this->webDriver->navigate();
+    }
+
+    public function switchTo()
+    {
+        return $this->webDriver->switchTo();
+    }
+
+    public function execute($name, $params)
+    {
+        return $this->webDriver->execute($name, $params);
+    }
+
+    public function findElement(WebDriverBy $locator)
+    {
+        return $this->webDriver->findElement($locator);
+    }
+
+    public function findElements(WebDriverBy $locator)
+    {
+        return $this->webDriver->findElements($locator);
     }
 }

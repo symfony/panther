@@ -22,7 +22,7 @@ use Symfony\Component\DomCrawler\Crawler as BaseCrawler;
 /**
  * @author Kévin Dunglas <dunglas@gmail.com>
  */
-final class Crawler extends BaseCrawler
+final class Crawler extends BaseCrawler implements WebDriverElement
 {
     private $elements;
     private $webDriver;
@@ -158,40 +158,27 @@ final class Crawler extends BaseCrawler
 
     public function attr($attribute): string
     {
-        if (!$this->elements) {
-            throw new \InvalidArgumentException('The current node list is empty.');
-        }
-
+        $element = $this->getElementOrThrow();
         if ('_text' === $attribute) {
             return $this->text();
         }
 
-        return $this->getElement(0)->getAttribute($attribute);
+        return $element->getAttribute($attribute);
     }
 
     public function nodeName(): string
     {
-        if (!$this->elements) {
-            throw new \InvalidArgumentException('The current node list is empty.');
-        }
-
-        return $this->getElement(0)->getTagName();
+        return $this->getElementOrThrow()->getTagName();
     }
 
     public function text(): string
     {
-        if (!$this->elements) {
-            throw new \InvalidArgumentException('The current node list is empty.');
-        }
-
-        return $this->getElement(0)->getText();
+        return $this->getElementOrThrow()->getText();
     }
 
     public function html(): string
     {
-        if (!$this->elements) {
-            throw new \InvalidArgumentException('The current node list is empty.');
-        }
+        $this->getElementOrThrow();
 
         return $this->attr('outerHTML');
     }
@@ -255,15 +242,12 @@ final class Crawler extends BaseCrawler
 
     public function link($method = 'get')
     {
-        if (!$this->elements) {
-            throw new \InvalidArgumentException('The current node list is empty.');
-        }
-
+        $element = $this->getElementOrThrow();
         if ('get' !== $method) {
             throw new \InvalidArgumentException('Only the "get" method is supported in WebDriver mode.');
         }
 
-        return new Link($this->getElement(0));
+        return new Link($element);
     }
 
     public function links()
@@ -278,11 +262,7 @@ final class Crawler extends BaseCrawler
 
     public function image()
     {
-        if (!$this->elements) {
-            throw new \InvalidArgumentException('The current node list is empty.');
-        }
-
-        return new Image($this->getElement(0));
+        return new Image($this->getElementOrThrow());
     }
 
     public function images()
@@ -297,11 +277,7 @@ final class Crawler extends BaseCrawler
 
     public function form(array $values = null, $method = null)
     {
-        if (!$this->elements) {
-            throw new \InvalidArgumentException('The current node list is empty.');
-        }
-
-        $form = new Form($this->getElement(0), $this->webDriver);
+        $form = new Form($this->getElementOrThrow(), $this->webDriver);
         if (null !== $values) {
             $form->setValues($values);
         }
@@ -366,12 +342,8 @@ final class Crawler extends BaseCrawler
 
     private function createSubCrawlerFromXpath(string $selector, bool $reverse = false): self
     {
-        if (!$this->elements) {
-            throw new \InvalidArgumentException('The current element list is empty.');
-        }
-
         try {
-            $elements = $this->getElement(0)->findElements(WebDriverBy::xpath($selector));
+            $elements = $this->getElementOrThrow()->findElements(WebDriverBy::xpath($selector));
         } catch (NoSuchElementException $e) {
             return $this->createSubCrawler(null);
         }
@@ -387,5 +359,95 @@ final class Crawler extends BaseCrawler
         }
 
         return $this->createSubCrawler($subElements);
+    }
+
+    private function getElementOrThrow(): WebDriverElement
+    {
+        $element = $this->getElement(0);
+        if (!$element) {
+            throw new \InvalidArgumentException('The current node list is empty.');
+        }
+
+        return $element;
+    }
+
+    public function click()
+    {
+        return $this->getElementOrThrow()->click();
+    }
+
+    public function getAttribute($attributeName)
+    {
+        return $this->getElementOrThrow()->getAttribute($attributeName);
+    }
+
+    public function getCSSValue($cssPropertyName)
+    {
+        return $this->getElementOrThrow()->getCSSValue($cssPropertyName);
+    }
+
+    public function getLocation()
+    {
+        return $this->getElementOrThrow()->getLocation();
+    }
+
+    public function getLocationOnScreenOnceScrolledIntoView()
+    {
+        return $this->getElementOrThrow()->getLocationOnScreenOnceScrolledIntoView();
+    }
+
+    public function getSize()
+    {
+        return $this->getElementOrThrow()->getSize();
+    }
+
+    public function getTagName()
+    {
+        return $this->getElementOrThrow()->getTagName();
+    }
+
+    public function getText()
+    {
+        return $this->getElementOrThrow()->getText();
+    }
+
+    public function isDisplayed()
+    {
+        return $this->getElementOrThrow()->isDisplayed();
+    }
+
+    public function isEnabled()
+    {
+        return $this->getElementOrThrow()->isEnabled();
+    }
+
+    public function isSelected()
+    {
+        return $this->getElementOrThrow()->isSelected();
+    }
+
+    public function sendKeys($value)
+    {
+        return $this->getElementOrThrow()->sendKeys($value);
+    }
+
+    public function submit()
+    {
+        return $this->getElementOrThrow()->submit();
+    }
+
+    public function getID()
+    {
+        return $this->getElementOrThrow()->getID();
+    }
+
+    public function findElement(WebDriverBy $locator)
+    {
+        return $this->getElementOrThrow()->findElement($locator);
+    }
+
+    public function findElements(WebDriverBy $locator)
+    {
+        return $this->getElementOrThrow()->findElements($locator);
     }
 }
