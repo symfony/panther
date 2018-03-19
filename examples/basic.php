@@ -23,6 +23,7 @@ $link = $crawler->selectLink('Support')->link();
 $crawler = $client->click($link);
 
 // Wait for an element
+$client->waitFor('.support');
 $client->wait()->until(
     WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::className('support'))
 );
