@@ -37,9 +37,7 @@ $link = $crawler->selectLink('Support')->link();
 $crawler = $client->click($link);
 
 // Wait for an element to be rendered
-$client->wait()->until(
-    \Facebook\WebDriver\WebDriverExpectedCondition::visibilityOfElementLocated(\Facebook\WebDriver\WebDriverBy::className('support'))
-);
+$client->waitFor('.support');
 
 echo $crawler->filter('.support')->text();
 $client->takeScreenshot('screen.png'); // Yeah, screenshot!

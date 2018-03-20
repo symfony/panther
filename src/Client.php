@@ -17,6 +17,7 @@ use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriver;
 use Facebook\WebDriver\WebDriverBy;
+use Facebook\WebDriver\WebDriverExpectedCondition;
 use Panthere\Cookie\CookieJar;
 use Panthere\DomCrawler\Crawler;
 use Panthere\DomCrawler\Form as PanthereForm;
@@ -226,6 +227,13 @@ final class Client extends BaseClient implements WebDriver
     public function getCookieJar()
     {
         return new CookieJar($this->webDriver);
+    }
+
+    public function waitFor(string $cssSelector, int $timeoutInSecond = 30, int $intervalInMillisecond = 250): object
+    {
+        return $this->wait($timeoutInSecond, $intervalInMillisecond)->until(
+            WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::cssSelector($cssSelector))
+        );
     }
 
     public function getWebDriver(): WebDriver
