@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Panthere;
 
+use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriver;
@@ -76,7 +77,13 @@ final class Client extends BaseClient implements WebDriver
             $this->chromeDriver->run();
         }
 
-        $this->webDriver = RemoteWebDriver::create('http://localhost:9515', DesiredCapabilities::chrome());
+        $chromeOptions = new ChromeOptions();
+        $chromeOptions->addArguments(['--headless', '--disable-gpu']);
+
+        $capabilities = DesiredCapabilities::chrome();
+        $capabilities->setCapability(ChromeOptions::CAPABILITY, $chromeOptions);
+
+        $this->webDriver = RemoteWebDriver::create('http://localhost:9515', $capabilities);
     }
 
     private function stopChromeDriver(): void
