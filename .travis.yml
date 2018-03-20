@@ -1,0 +1,17 @@
+language: php
+sudo: false
+addons:
+  chrome: stable
+
+php:
+  - 7.2
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+install:
+  - composer update
+
+script:
+  - phpunit
