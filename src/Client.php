@@ -74,11 +74,15 @@ final class Client extends BaseClient implements WebDriver
 
         if (null === $this->chromeDriver) {
             $this->chromeDriver = new ChromeDriver();
-            $this->chromeDriver->run();
         }
 
+        echo PHP_EOL.PHP_EOL;
+        var_dump(__METHOD__);
+        echo PHP_EOL.PHP_EOL;
+        $this->chromeDriver->run();
+
         $chromeOptions = new ChromeOptions();
-        $chromeOptions->addArguments(['--headless', '--disable-gpu']);
+        $chromeOptions->addArguments(['--headless', '--disable-gpu', '--no-sandbox']);
 
         $capabilities = DesiredCapabilities::chrome();
         $capabilities->setCapability(ChromeOptions::CAPABILITY, $chromeOptions);
@@ -89,6 +93,9 @@ final class Client extends BaseClient implements WebDriver
     private function stopChromeDriver(): void
     {
         if (null !== $this->chromeDriver) {
+            echo PHP_EOL.PHP_EOL;
+            var_dump(__METHOD__);
+            echo PHP_EOL.PHP_EOL;
             $this->chromeDriver->stop();
             $this->chromeDriver = null;
         }

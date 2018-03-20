@@ -34,6 +34,18 @@ trait WebServerReadinessProbeTrait
         }
     }
 
+    public function waitUntilPortAvailable(string $hostname, int $port): void
+    {
+        while (true) {
+            $resource = @\fsockopen($hostname, $port, $errno, $errstr, 0.001);
+            if (!\is_resource($resource)) {
+                return;
+            }
+
+            \fclose($resource);
+        }
+    }
+
     public function waitUntilReady(Process $process, string $url, bool $ignoreErrors = false): void
     {
         $context = \stream_context_create(['http' => [

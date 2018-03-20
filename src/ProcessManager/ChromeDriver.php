@@ -22,8 +22,6 @@ final class ChromeDriver
 {
     use WebServerReadinessProbeTrait;
 
-    private $path;
-
     /**
      * @var Process
      */
@@ -31,26 +29,23 @@ final class ChromeDriver
 
     public function __construct(?string $path = null)
     {
-        if (null !== $path) {
-            $this->path = $path;
+        if (null === $path) {
+            switch (PHP_OS_FAMILY) {
+                case 'Windows':
+                    $path = __DIR__.'/../../bin/chromedriver.exe';
+                    break;
 
-            return;
+                case 'Darwin':
+                    $path = __DIR__.'/../../bin/chromedriver_mac64';
+                    break;
+
+                default:
+                    $path = __DIR__.'/../../bin/chromedriver_linux64';
+                    break;
+            }
         }
 
-        if (PHP_OS_FAMILY === 'Windows') {
-            $this->path = __DIR__.'/../../bin/chromedriver.exe';
-
-            return;
-        }
-
-        if (PHP_OS_FAMILY === 'Darwin') {
-            $this->path = __DIR__.'/../../bin/chromedriver_mac64';
-
-            return;
-        }
-
-        // Assume Linux by default
-        $this->path = __DIR__.'/../../bin/chromedriver_linux64';
+        $this->process = new Process($path, null, null, null, null);
     }
 
     /**
@@ -60,21 +55,13 @@ final class ChromeDriver
     {
         $this->checkPortAvailable('127.0.0.1', 9515);
 
-        $this->process = new Process($this->path, null, null, null, null);
         $this->process->start();
-
         $this->waitUntilReady($this->process, 'http://127.0.0.1:9515/status');
     }
 
-    /**
-     * @throws \RuntimeException
-     */
     public function stop(): void
     {
-        if (null === $this->process || !$this->process->isStarted()) {
-            throw new \RuntimeException('ChromeDriver is not running.');
-        }
-
         $this->process->stop();
+        $this->waitUntilPortAvailable('127.0.0.1', 9515);
     }
 }

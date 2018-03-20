@@ -64,5 +64,6 @@ final class WebServer
         }
 
         $this->process->stop();
+        $this->waitUntilPortAvailable($this->hostname, $this->port);
     }
 }

@@ -14,4 +14,7 @@ install:
   - composer update
 
 script:
-  - phpunit
+  - phpunit --debug
+
+after_script:
+  - ps -A
