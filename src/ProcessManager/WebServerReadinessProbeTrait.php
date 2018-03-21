@@ -25,24 +25,23 @@ trait WebServerReadinessProbeTrait
     /**
      * @throws \RuntimeException
      */
-    private function checkPortAvailable(string $hostname, int $port): void
+    private function checkPortAvailable(string $hostname, int $port, bool $throw = true): void
     {
         $resource = @\fsockopen($hostname, $port);
         if (\is_resource($resource)) {
             \fclose($resource);
-            throw new \RuntimeException(\sprintf('The port %d is already in use.', $port));
+            if ($throw) {
+                throw new \RuntimeException(\sprintf('The port %d is already in use.', $port));
+            }
         }
     }
 
     private function waitUntilPortAvailable(string $hostname, int $port): void
     {
         while (true) {
-            $resource = @\fsockopen($hostname, $port, $errno, $errstr, 0.001);
-            if (!\is_resource($resource)) {
+            if ($this->checkPortAvailable($hostname, $port, false)) {
                 return;
             }
-
-            \fclose($resource);
         }
     }
 

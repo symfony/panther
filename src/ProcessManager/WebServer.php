@@ -63,7 +63,6 @@ final class WebServer
             throw new \RuntimeException('The web server is not running.');
         }
 
-        $this->process->stop();
-        $this->waitUntilPortAvailable($this->hostname, $this->port);
+        dump('webserver', $this->process->stop());
     }
 }

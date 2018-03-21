@@ -75,15 +75,9 @@ final class ChromeManager
             $this->client->quit();
         }
 
-        $this->process->stop();
+        dump('chromedriver', $this->process->stop());
         echo PHP_EOL.PHP_EOL;
-        var_dump('stopped, waiting...');
-        echo PHP_EOL.PHP_EOL;
-
-        $this->waitUntilPortAvailable('127.0.0.1', 9515);
-
-        echo PHP_EOL.PHP_EOL;
-        var_dump('port available...');
+        var_dump('stopped!');
         echo PHP_EOL.PHP_EOL;
     }
 
