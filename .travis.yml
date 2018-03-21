@@ -20,4 +20,4 @@ script:
   - phpunit --debug
 
 after_script:
-  - ps -A
+  - ps ax
