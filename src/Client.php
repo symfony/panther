@@ -41,9 +41,12 @@ final class Client extends BaseClient implements WebDriver
     private $webDriver;
     private $browserManager;
 
-    public static function createChromeClient(): self
+    /**
+     * @param string[]|null $arguments
+     */
+    public static function createChromeClient(?string $chromeDriverBinary = null, ?array $arguments = null): self
     {
-        return new self(new ChromeManager($chromeDriverBinary ?? null, $arguments ?? null));
+        return new self(new ChromeManager($chromeDriverBinary, $arguments));
     }
 
     public function __construct(BrowserManagerInterface $browserManager)

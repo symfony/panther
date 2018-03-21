@@ -83,7 +83,7 @@ final class ChromeManager implements BrowserManagerInterface
         $args = ['--headless', 'window-size=1200,1100', '--disable-gpu'];
 
         if ($_SERVER['HAS_JOSH_K_SEAL_OF_APPROVAL'] ?? false) {
-            // Running in Travis, disable the sandbox mode
+            // Running in Travis, disabling the sandbox mode
             $args[] = '--no-sandbox';
         }
 

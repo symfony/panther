@@ -19,7 +19,7 @@ $crawler = $client->request('GET', 'http://api-platform.com'); // Yes, this webs
 $link = $crawler->selectLink('Support')->link();
 $crawler = $client->click($link);
 
-// Wait for an element
+// Wait for an element to be rendered
 $client->waitFor('.support');
 
 echo $crawler->filter('.support')->text();
