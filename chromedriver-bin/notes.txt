@@ -1,0 +1,184 @@
+----------ChromeDriver v2.37 (2018-03-16)----------
+Supports Chrome v64-66
+Resolved issue 2304: Test ChromeDriverSiteIsolation.testCanClickOOPIF fails on Chrome v66 for all desktop platforms [[Pri-1]]
+Resolved issue 1940: Many window command endpoints are unimplemented in Chromedriver [[Pri-2]]
+Resolved issue 1937: Get element rect is not implemented [[Pri-2]]
+Resolved issue 2329: ChromeDriver does not allow value of 0 for extensionLoadTimeout option [[Pri-2]]
+
+----------ChromeDriver v2.36 (2018-03-02)----------
+Supports Chrome v63-65
+Resolved issue 1819: testIFrameWithExtensionsSource is failing on Chrome v60+ [[Pri-1]]
+Resolved issue 2221: Add command-line option to log INFO level to stderr [[Pri-2]]
+Resolved issue  450: ChromeDriver hangs when switching to new window whose document is being overwritten [[Pri-2]]
+Resolved issue 2235: Add option to control the wait for extension background pages [[Pri-2]]
+Resolved issue 2234: fixed webview_devtools_remote_ is not right [[Pri-2]]
+Resolved issue 2223: Unable to load extension if background page name starts with / [[Pri-2]]
+Resolved issue 2280: ChromeDriver should be more extensible [[Pri-]]
+Resolved issue 2231: Pixel 2 and Pixel 2 XL not working in Mobile Emulation [[Pri-]]
+Resolved issue 746266: Chromedriver does not support OOPIF
+
+----------ChromeDriver v2.35 (2018-01-10)----------
+Supports Chrome v62-64
+Resolved issue 2191: Executing JavaScript code fails if the script returns no result [[Pri-1]]
+Resolved issue 2183: Connections Aren't Persistent [[Pri-2]]
+Resolved issue 2207: Some mobile emulation devices do not work [[Pri-2]]
+Resolved issue 2177: Get local storage returns command names in Chrome 63 [[Pri-2]]
+Resolved issue 2179: absolute time on log entries [[Pri-2]]
+
+----------ChromeDriver v2.34 (2017-12-10)----------
+Supports Chrome v61-63
+Resolved issue 2025: Incorrect navigation on Chrome v63+ [['Pri-0']]
+Resolved issue 2034: Error looking for "Timeline.start" in Chrome [['Pri-2']]
+Resolved issue 1883: Unable to emulate android devices with Chromedriver 2.30 [['Pri-2']]
+Resolved issue 2103: Touch in mobile emulation doesn't work [[]]
+
+----------ChromeDriver v2.33 (2017-10-03)----------
+Supports Chrome v60-62
+Resolved issue 2032: ChromeDriver crashes while creating DNS resolver [['Pri-1']]
+Resolved issue 1918: Get/SetWindowSize & Get/SetWindowPosition commands are failing on Chromev62+ [['Pri-1']]
+Resolved issue 2013: Android 8.0.0 webviews not supported [['Pri-2']]
+Resolved issue 2017: In mobileEmulation "element is not clickable" if it is outside the visible area [['Pri-2']]
+Resolved issue 1981: chromedriver does not respect excludeSwitches flag [['Pri-2']]
+Partially Resolved issue 2002: Add Cookie is not spec compliant [[]]
+Resolved issue 1985: FindElement raises the wrong error [[]]
+
+----------ChromeDriver v2.32 (2017-08-30)----------
+Supports Chrome v59-61
+Resolved issue 1852: Error 'Element is not clickable at point' occurs on Chrome v61+ [['Pri-1']]
+Resolved issue 1950: DeleteCookie in Chrome v62 and Chromedriver v2.31 fails [['Pri-2']]
+Resolved issue 1942: ChromeDriver response in W3C mode is not standard compliant [['Pri-2']]
+Resolved issue 1910: Fails to retrieve default prompt text on Chrome v62+ [['Pri-2']]
+Resolved issue 1900: LaunchApp command throws UnknownError: cannot get automation extension on Mac and Windows Chrome v62+ [['Pri-2']]
+Resolved issue 1885: unknown error: Cannot use 'in' operator to search for 'String' in null [['Pri-2']]
+Resolved issue 1882: Chromedriver URI for Execute Async Script is not spec compliant [['Pri-3']]
+Resolved issue 1621: Implement session/<session id>/window/fullscreen command [['Pri-3']]
+Resolved issue 1896: Characters '3' and '#' are not being entered using SendKeys on Mac Chrome v62+ [[]]
+Resolved issue 1894: chromedriver 2.31 should be linked with glibc 2.17 [[]]
+Resolved issue 1740: ChromeDriver session handshake needs to be W3C compliant [[]]
+Resolved issue 1898: Wrong error is thrown while sending text to non prompt dialog. [[]]
+Resolved issue 1888: Chromedriver doesn't throw an exception when uploading an invalid file with selenium [[]]
+
+----------ChromeDriver v2.31 (2017-07-21)----------
+Supports Chrome v58-60
+Resolved issue 1804: Flakiness when retrieving cookies using GetCookies command on Windows [['Pri-1']]
+Resolved issue 1879: Implement /session/{session id}/cookie/{name} command [['Pri-2']]
+Resolved issue 1860: WebDriverException: Message: unknown error: bad inspector message:"" when attempting to get page_source [['Pri-2']]
+Resolved issue 1293: Timed out receiving message from renderer on window.location change [['Pri-2']]
+Resolved issue 1849: ChromeDriver 2.30 AddCookie command uses incorrect default path [['Pri-2']]
+Resolved issue 1256: switchToFrame should throw StaleElementReferenceException in case the element is stale [['Pri-2']]
+Resolved issue 1786: Feature request: change chromeOptions to goog:chromeOptions [['Pri-3']]
+Resolved issue 1772: Chromedriver running against canary chrome w/ headless flag requires XVFB for sendKey interactions [[]]
+Resolved issue 727979: Failed to set Chrome's command line file on device for long command line [['Pri-3']]
+
+----------ChromeDriver v2.30 (2017-06-07)----------
+Supports Chrome v58-60
+Resolved issue 644: ChromeDriver does not delete the profile & scoped_dir* folders after test exits [['Pri-1']]
+Resolved issue 1114: unknown error:Maximum call stack size exceeded on calling any webdriver command [['OS-All', 'Pri-1']]
+Resolved issue 1773: ChromeDriver crashes when using console.time on Chromev58+ [['OS-All', 'Pri-1']]
+Resolved issue 1526: mobileEmulation not working for the listed devices in the chrome [['Pri-2']]
+Resolved issue 1777: NoSuchFrameException is thrown when attempting to focus on a frame with protocol "chrome-extension://" within a page with protocol "https://" on Chrome 58 [['OS-All', 'Pri-2']]
+Resolved issue 1779: testWindowMaximize is failing on Mac for Chrome v60+ [['OS-Mac', 'Pri-2']]
+Resolved issue 1775: testShouldHandleNewWindowLoadingProperly failing on Chrome v60+ [['OS-All', 'Pri-2']]
+Resolved issue 1796: Chromedriver failed to connect to Chrome on CrOS with latest canary build [[]]
+Resolved issue 1353: Sending text to Alert / Confirm dialog should throw element not visible exception [[]]
+
+----------ChromeDriver v2.29 (2017-04-04)----------
+Supports Chrome v56-58
+Resolved issue 1521: Assignment to Object.prototype.$family causes a crash [['Pri-1']]
+Resolved issue 1482: Chromedriver cannot handle the alert generated by onbeforeunload event [['OS-All', 'Pri-2']]
+Resolved issue 1315: |switch_to.window| does not visually switch tabs [['OS-All', 'Pri-3']]
+
+----------ChromeDriver v2.28 (2017-03-09)----------
+Supports Chrome v55-57
+Resolved issue 1625: Error: cannot get automation extension on Chrome57+ [['OS-All', 'Pri-1', 'merge-merged-2987']]
+Resolved issue 1695: Chrome crashes on Linux32 bot [['OS-Linux', 'Pri-1']]
+Resolved issue 1467: A hang occurs when an alert dialog is displayed on Chrome 52+ [['OS-All', 'Pri-2']]
+Resolved issue 1688: Exported Netlog with --log-net-log is truncated [['OS-Linux', 'OS-Mac', 'Pri-2']]
+Resolved issue 1388: find Elements is failing [['Pri-2']]
+
+----------ChromeDriver v2.27 (2016-12-23)----------
+Supports Chrome v54-56
+Resolved issue 1637: Getting window handles fails in the presence of shared workers on Chrome 55+ [['OS-All', 'Pri-1']]
+
+----------ChromeDriver v2.26 (2016-12-09)----------
+Supports Chrome v53-55
+Resolved issue 1607: Chrome 57+ with perf logs enabled fails with "unexpected command response" [['OS-All', 'Pri-1']]
+Resolved issue 1502: sendKeys(): SPACE key does not work on Chrome 53 [['OS-All', 'Pri-1']]
+Resolved issue 984: Extend ChromeDriver capabilities to cover network throttling feature from Chrome DevTools [['OS-All', 'Pri-2']]
+Resolved issue 877: UnhandledAlertException not being propagated upwards [['OS-All', 'Pri-2']]
+Resolved issue 1578: Flash plugin blocked after updating Chrome browser [['OS-All', 'Pri-2']]
+Resolved issue 1617: Fullscreen command is not recognised [['OS-All', 'Pri-3']]
+Resolved issue 839: clear does not work on input type number with string value [['Pri-3']]
+Resolved issue 1500: "Could not handle JavaScript dialog" error occurs randomly when accepting confirmation dialogs. [[]]
+Resolved issue 1541: find element with empty tag is raising wrong exception in findElement [[]]
+Resolved issue 1540: empty tagname value should raise an error when doing findElements [[]]
+
+----------ChromeDriver v2.25 (2016-10-25)----------
+Supports Chrome v53-55
+Resolved issue 1547: Chromedriver crashes during event Runtime.consoleAPICalled [['OS-All', 'Pri-1']]
+Resolved issue 1514: GetLog command times out if an alert is showing [['OS-All', 'Pri-1']]
+Resolved issue 1460: "Disable Developer Mode Extensions" exists on Mac, but not Windows [[]]
+
+----------ChromeDriver v2.24 (2016-09-09)----------
+Supports Chrome v52-54
+Resolved issue 1497: GetLog fails when the current window is closed [['OS-All', 'Pri-0']]
+Resolved issue 1495: ChromeDriver crashes with "Check failed: !page_load_strategy_.empty()" [['OS-All', 'Pri-0']]
+Resolved issue 1463: SessionNotCreatedException: Runtime.evaluate missing 'wasThrown' on Chrome 54+ [['OS-All', 'Pri-0']]
+Resolved issue 1484: SendKeys of a Tab Key has no effect in Chrome 53 [['OS-All', 'Pri-1']]
+Resolved issue 1431: GetLog command does not work for Chrome 54+ [['OS-All', 'Pri-1']]
+Resolved issue 1411: sendKeys generates events that are missing some fields [['OS-All', 'Pri-1']]
+Resolved issue 1451: Chrome 54+ session not created exception: Runtime.executionContextCreated has invalid 'context' [['Pri-1']]
+Resolved issue 984: Extend ChromeDriver capabilities to cover network throttling feature from Chrome DevTools [['OS-All', 'Pri-2']]
+Resolved issue 1454: Net::ReadTimeout error on launching Canary v54 through RemoteWebDriver [[]]
+
+----------ChromeDriver v2.23 (2016-08-04)----------
+Supports Chrome v51-53
+Resolved issue 1378: Android 6: Intitialization of Chrome driver fails when Chrome/Webview process is in running (R) state [['OS-Android', 'Pri-1']]
+Resolved issue 1379: Chromedriver does not catch all available browser console log entries [['OS-All', 'Pri-2']]
+
+----------ChromeDriver v2.22 (2016-06-06)----------
+Supports Chrome v49-52
+Resolved issue 1348: Timeout error while navigating to URL on Chrome 51+ [['OS-All', 'Pri-0']]
+Resolved issue 1381: Timeout error occurs when alert dialog is displayed on Chrome 52+ [['OS-All', 'Pri-1', 'merge-merged-2743']]
+Resolved issue 1339: Failure when executing JS in a content script context [['OS-All', 'Pri-1']]
+Resolved issue 1387: ChromeDriver hangs when calling driver.get() for same-process navigations [['OS-All', 'Pri-1']]
+Resolved issue 1365: Touch emulation is not working under mobile emulation in Chrome 50+ [['OS-All', 'Pri-1']]
+Resolved issue 1224: Chrome WebDriver throws an exception when trying to click a button inside a frame  [['OS-All', 'Pri-2']]
+Resolved issue 107: ChromeDriver Won't Switch To Frame inside nested frameset [['OS-All', 'Pri-2']]
+Resolved issue 1368: ExecuteScript returns "Cannot read property 'document' of null" [[]]
+Resolved issue 1355: Session not created exception when connecting to existing browser on localhost [[]]
+Resolved issue 1331: "chromeOptions.excludeSwitches" is not working on Android [[]]
+
+----------ChromeDriver v2.21 (2016-01-28)----------
+Supports Chrome v46-50
+Resolved issue 1276: empty FindElement response is returned while trying to find element with tagname object/embed [['OS-All', 'Pri-1']]
+Resolved issue 1272: GET url returns "data:text/html,chromewebdata" [['OS-All', 'Pri-2']]
+Resolved issue 1310: ChromeDriver hangs (and times out) when inspecting inactive background pages [['OS-All', 'Pri-2']]
+Resolved issue 824: ChromeDriver creates two cookies when the cookie to add contains the domain [['OS-All', 'Pri-2']]
+Resolved issue 1274: ExecuteScript sends script to wrong execution context [['OS-All', 'Pri-2']]
+Resolved issue 1249: Change "get current URL" behavior in ChromeDriver [['OS-All', 'Pri-2']]
+Resolved issue 904: include Alert text in UnhandledAlertError stack trace [['OS-All', 'Pri-2']]
+Resolved issue 474: getAttribute() fails when attribute name has colon (:) character [['OS-All', 'Pri-3']]
+Resolved issue 1245: Unable to switch to 1st opened window in session [[]]
+Resolved issue 1290: Cannot access elements from subframes [[]]
+Resolved issue 1261: getTitle() should return empty string instead of page url when page title is empty [[]]
+Resolved issue 1238: testExecuteInRemovedFrame fails on waterfall bots [['OS-All']]
+Resolved issue 1246: Chromedriver version number is not displayed in logs/ getCapabilities() [['OS-All']]
+
+----------ChromeDriver v2.20 (2015-10-08)----------
+Supports Chrome v43-48
+Resolved issue 1225: RESPONSE InitSession unknown error: Device <device_id> is not online [['OS-Android', 'Pri-0']]
+Resolved issue 960: ChromeDriver support to access WebView elements [['OS-All', 'Pri-2']]
+Resolved issue 1229: Spec violation: /sessions endpoint returns session ID at `sessionId` key instead of `id` key [['OS-All', 'Pri-2']]
+
+----------ChromeDriver v2.19 (2015-08-28)----------
+Supports Chrome v43-47
+Resolved issue 1167: Various issues with ChromeDriver navigation tracker [['OS-All', 'Pri-1']]
+Resolved issue 1205: Chrome crashes when enabling touch emulation [['OS-Mac', 'OS-Windows', 'Pri-1']]
+Resolved issue 1142: cookies' httponly attribute is not returned [['Pri-2']]
+
+----------ChromeDriver v2.18 (2015-08-19)----------
+Supports Chrome v43-46
+Resolved issue 1158: Unable to find elements after installing Chrome 44 [['ChromeDriver-2.17', 'OS-All', 'Pri-1']]
+Resolved issue 635: Implement touch actions for android chrome [['OS-Android', 'Pri-2']]
+Resolved issue 1194: unknown error: cannot determine loading status from disconnected: received Inspector.detached event [[]]

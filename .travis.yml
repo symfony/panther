@@ -1,0 +1,17 @@
+language: php
+addons:
+  chrome: stable
+
+php:
+  - 7.2
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+before_script:
+  - phpenv config-rm xdebug.ini
+  - composer install
+
+script:
+  - phpunit

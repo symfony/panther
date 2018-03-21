@@ -10,25 +10,17 @@
  */
 
 declare(strict_types=1);
-require __DIR__.'/../vendor/autoload.php';
 
-use Facebook\WebDriver\WebDriverBy;
-use Facebook\WebDriver\WebDriverExpectedCondition;
-use Panthere\Client;
+require __DIR__.'/../vendor/autoload.php'; // Composer's autoloader
 
-$client = new Client();
+$client = \Panthere\Client::createChromeClient();
 $crawler = $client->request('GET', 'http://api-platform.com'); // Yes, this website is 100% in JavaScript
 
 $link = $crawler->selectLink('Support')->link();
 $crawler = $client->click($link);
 
-// Wait for an element
+// Wait for an element to be rendered
 $client->waitFor('.support');
-$client->wait()->until(
-    WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::className('support'))
-);
 
 echo $crawler->filter('.support')->text();
-$client->takeScreenshot('screen.png');
-
-$client->quit();
+$client->takeScreenshot('screen.png'); // Yeah, screenshot!
