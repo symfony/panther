@@ -13,25 +13,20 @@ declare(strict_types=1);
 
 namespace Panthere\Tests\ProcessManager;
 
-use Facebook\WebDriver\Remote\DesiredCapabilities;
-use Facebook\WebDriver\Remote\RemoteWebDriver;
-use Panthere\ProcessManager\ChromeDriver;
+use Panthere\ProcessManager\ChromeManager;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @author Kévin Dunglas <dunglas@gmail.com>
  */
-class ChromeDriverTest extends TestCase
+class ChromeManagerTest extends TestCase
 {
     public function testRun()
     {
-        $driver = new ChromeDriver();
-        $driver->run();
-        $rwd = RemoteWebDriver::create('http://localhost:9515', DesiredCapabilities::chrome());
-        $this->assertNotEmpty($rwd->getCurrentURL());
-        $rwd->close();
-
-        $driver->stop();
+        $manager = new ChromeManager();
+        $client = $manager->start();
+        $this->assertNotEmpty($client->getCurrentURL());
+        $manager->quit();
     }
 
     /**
@@ -41,13 +36,13 @@ class ChromeDriverTest extends TestCase
     public function testAlreadyRunning()
     {
         try {
-            $driver1 = new ChromeDriver();
-            $driver1->run();
+            $driver1 = new ChromeManager();
+            $driver1->start();
 
-            $driver2 = new ChromeDriver();
-            $driver2->run();
+            $driver2 = new ChromeManager();
+            $driver2->start();
         } finally {
-            $driver1->stop();
+            $driver1->quit();
         }
     }
 }

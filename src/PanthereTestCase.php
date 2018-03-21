@@ -15,7 +15,7 @@ namespace Panthere;
 
 use Goutte\Client as GoutteClient;
 use Panthere\Client as PanthereClient;
-use Panthere\ProcessManager\WebServer;
+use Panthere\ProcessManager\WebServerManager;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -46,9 +46,9 @@ abstract class PanthereTestCase extends InternalTestCase
     protected static $webServerDir;
 
     /**
-     * @var WebServer|null
+     * @var WebServerManager|null
      */
-    protected static $webServer;
+    protected static $webServerManager;
 
     /**
      * @var string|null
@@ -67,9 +67,9 @@ abstract class PanthereTestCase extends InternalTestCase
 
     public static function tearDownAfterClass()
     {
-        if (null !== self::$webServer) {
-            self::$webServer->stop();
-            self::$webServer = null;
+        if (null !== self::$webServerManager) {
+            self::$webServerManager->quit();
+            self::$webServerManager = null;
         }
 
         if (null !== self::$panthereClient) {
@@ -84,7 +84,7 @@ abstract class PanthereTestCase extends InternalTestCase
 
     protected static function startWebServer(?string $webServerDir = null): void
     {
-        if (null !== static::$webServer) {
+        if (null !== static::$webServerManager) {
             return;
         }
 
@@ -93,8 +93,8 @@ abstract class PanthereTestCase extends InternalTestCase
             $webServerDir = static::$webServerDir ?? $_ENV['PANTHERE_WEB_SERVER_DIR'] ?? __DIR__.'/../../../../public';
         }
 
-        self::$webServer = new WebServer($webServerDir, '127.0.0.1', 9000);
-        self::$webServer->run();
+        self::$webServerManager = new WebServerManager($webServerDir, '127.0.0.1', 9000);
+        self::$webServerManager->start();
 
         self::$baseUri = 'http://127.0.0.1:9000';
     }
@@ -103,7 +103,7 @@ abstract class PanthereTestCase extends InternalTestCase
     {
         self::startWebServer();
         if (null === self::$panthereClient) {
-            self::$panthereClient = new PanthereClient();
+            self::$panthereClient = Client::createChromeClient();
         }
 
         return self::$panthereClient;

@@ -23,14 +23,28 @@ use Symfony\Component\Process\Process;
 trait WebServerReadinessProbeTrait
 {
     /**
+     * @see http://symfony.com/doc/current/components/process.html#process-signals
+     */
+    private function fixCommand(string $command): string
+    {
+        if ('Windows' === PHP_OS_FAMILY || 'Darwin' === PHP_OS_FAMILY) {
+            return $command;
+        }
+
+        return "exec $command";
+    }
+
+    /**
      * @throws \RuntimeException
      */
-    public function checkPortAvailable(string $hostname, int $port): void
+    private function checkPortAvailable(string $hostname, int $port, bool $throw = true): void
     {
         $resource = @\fsockopen($hostname, $port);
         if (\is_resource($resource)) {
             \fclose($resource);
-            throw new \RuntimeException(\sprintf('The port %d is already in use.', $port));
+            if ($throw) {
+                throw new \RuntimeException(\sprintf('The port %d is already in use.', $port));
+            }
         }
     }
 
@@ -43,9 +57,14 @@ trait WebServerReadinessProbeTrait
             'timeout' => 1,
         ]]);
 
-        while (Process::STATUS_STARTED !== $process->getStatus() || false === @\file_get_contents($url, false, $context)) {
+        while (Process::STATUS_STARTED !== ($status = $process->getStatus()) || false === @\file_get_contents($url, false, $context)) {
+            if (Process::STATUS_TERMINATED === $status) {
+                throw new \RuntimeException($process->getErrorOutput(), $process->getExitCode());
+            }
+
             // block until the web server is ready
             \usleep(1000);
         }
+        \sleep(1);
     }
 }

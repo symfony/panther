@@ -28,9 +28,9 @@ Use [Composer](https://getcomposer.org/) to install Panthère in your project:
 ```php
 <?php
 
-require __DIR__.'/vendor/autoload.php';
+require __DIR__.'/vendor/autoload.php'; // Composer's autoloader
 
-$client = new \Panthere\Client();
+$client = \Panthere\Client::createChromeClient();
 $crawler = $client->request('GET', 'http://api-platform.com'); // Yes, this website is 100% in JavaScript
 
 $link = $crawler->selectLink('Support')->link();
@@ -41,8 +41,6 @@ $client->waitFor('.support');
 
 echo $crawler->filter('.support')->text();
 $client->takeScreenshot('screen.png'); // Yeah, screenshot!
-
-$client->quit();
 ```
 
 ## Testing Usage
@@ -132,6 +130,23 @@ Because Panthère implements the API of popular, it already has an extensive doc
 * For the `Client` class, read [the BrowserKit's documentation](https://symfony.com/doc/current/components/browser_kit.html)
 * For the `Crawler` class, read [the DomCrawler's documentation](https://symfony.com/doc/current/components/dom_crawler.html)
 * For Webdriver, read [the Facebook's PHP WebDriver documentation](https://github.com/facebook/php-webdriver)
+
+## Travis CI Integration
+
+Panthère will work out of the box with Travis until you add the Chrome addon. Here is a minimal `.travis.yml` file to run
+Panthères tests:
+
+```yaml
+language: php
+addons:
+  chrome: stable
+
+php:
+  - 7.2
+
+script:
+  - phpunit
+```
 
 ## Limitations
 
