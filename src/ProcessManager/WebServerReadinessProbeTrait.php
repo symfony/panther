@@ -54,7 +54,11 @@ trait WebServerReadinessProbeTrait
             'timeout' => 1,
         ]]);
 
-        while (Process::STATUS_STARTED !== $process->getStatus() || false === @\file_get_contents($url, false, $context)) {
+        while (Process::STATUS_STARTED !== ($status = $process->getStatus()) || false === @\file_get_contents($url, false, $context)) {
+            if (Process::STATUS_TERMINATED === $status) {
+                throw new \RuntimeException($process->getErrorOutput(), $process->getExitCode());
+            }
+
             // block until the web server is ready
             \usleep(1000);
         }

@@ -63,6 +63,6 @@ final class WebServer
             throw new \RuntimeException('The web server is not running.');
         }
 
-        dump('webserver', $this->process->stop());
+        var_dump('webserver', $this->process->stop());
     }
 }
