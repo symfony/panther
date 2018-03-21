@@ -134,7 +134,7 @@ Because Panthère implements the API of popular, it already has an extensive doc
 ## Travis CI Integration
 
 Panthère will work out of the box with Travis until you add the Chrome addon. Here is a minimal `.travis.yml` file to run
-Panthères tests:
+Panthère tests:
 
 ```yaml
 language: php
