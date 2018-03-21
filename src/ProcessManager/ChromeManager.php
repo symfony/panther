@@ -75,6 +75,7 @@ final class ChromeManager
             $this->client->quit();
         }
 
+        var_dump($this->process->getPid());
         var_dump('chromedriver', $this->process->stop());
         echo PHP_EOL.PHP_EOL;
         var_dump('stopped!');
