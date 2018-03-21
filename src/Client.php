@@ -13,9 +13,6 @@ declare(strict_types=1);
 
 namespace Panthere;
 
-use Facebook\WebDriver\Chrome\ChromeOptions;
-use Facebook\WebDriver\Remote\DesiredCapabilities;
-use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriver;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverExpectedCondition;
@@ -23,7 +20,6 @@ use Panthere\Cookie\CookieJar;
 use Panthere\DomCrawler\Crawler;
 use Panthere\DomCrawler\Form as PanthereForm;
 use Panthere\DomCrawler\Link as PanthereLink;
-use Panthere\ProcessManager\ChromeDriver;
 use Symfony\Component\BrowserKit\Client as BaseClient;
 use Symfony\Component\BrowserKit\Request;
 use Symfony\Component\BrowserKit\Response;
@@ -37,68 +33,11 @@ final class Client extends BaseClient implements WebDriver
 {
     use ExceptionThrower;
 
-    /**
-     * @var RemoteWebDriver
-     */
     private $webDriver;
 
-    /**
-     * @var ChromeDriver|null
-     */
-    private $chromeDriver;
-
-    private $webDriverFactory;
-
-    public function __construct(?callable $webDriverFactory = null)
+    public function __construct(WebDriver $webDriver)
     {
-        $this->webDriverFactory = $webDriverFactory;
-    }
-
-    public function start()
-    {
-        if (null === $this->webDriverFactory) {
-            $this->startChromeDriver();
-
-            return;
-        }
-
-        $factory = $this->webDriverFactory;
-        $this->webDriver = $factory();
-    }
-
-    private function startChromeDriver(): void
-    {
-        if (null !== $this->webDriver) {
-            return;
-        }
-
-        if (null === $this->chromeDriver) {
-            $this->chromeDriver = new ChromeDriver();
-        }
-
-        echo PHP_EOL.PHP_EOL;
-        var_dump(__METHOD__);
-        echo PHP_EOL.PHP_EOL;
-        $this->chromeDriver->run();
-
-        $chromeOptions = new ChromeOptions();
-        $chromeOptions->addArguments(['--headless', '--disable-gpu', '--no-sandbox']);
-
-        $capabilities = DesiredCapabilities::chrome();
-        $capabilities->setCapability(ChromeOptions::CAPABILITY, $chromeOptions);
-
-        $this->webDriver = RemoteWebDriver::create('http://localhost:9515', $capabilities);
-    }
-
-    private function stopChromeDriver(): void
-    {
-        if (null !== $this->chromeDriver) {
-            echo PHP_EOL.PHP_EOL;
-            var_dump(__METHOD__);
-            echo PHP_EOL.PHP_EOL;
-            $this->chromeDriver->stop();
-            $this->chromeDriver = null;
-        }
+        $this->webDriver = $webDriver;
     }
 
     public function followRedirects($followRedirect = true): void
@@ -233,9 +172,7 @@ final class Client extends BaseClient implements WebDriver
 
     public function restart()
     {
-        $this->webDriver->manage()->deleteAllCookies();
-        $this->quit();
-        $this->start();
+        $this->throwNotSupported(__METHOD__);
     }
 
     public function getCookieJar()
@@ -257,12 +194,9 @@ final class Client extends BaseClient implements WebDriver
 
     public function get($uri)
     {
-        $this->start();
-
         $this->request = $this->internalRequest = new Request($uri, 'GET');
         $this->webDriver->get($uri);
         $this->response = $this->internalResponse = new Response($this->webDriver->getPageSource());
-
         $this->crawler = $this->createCrawler();
 
         return $this;
@@ -300,14 +234,7 @@ final class Client extends BaseClient implements WebDriver
 
     public function quit()
     {
-        if (null === $this->webDriver) {
-            return;
-        }
-
         $this->webDriver->quit();
-        $this->webDriver = null;
-
-        $this->stopChromeDriver();
     }
 
     public function takeScreenshot($saveAs = null)

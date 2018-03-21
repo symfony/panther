@@ -15,6 +15,7 @@ namespace Panthere;
 
 use Goutte\Client as GoutteClient;
 use Panthere\Client as PanthereClient;
+use Panthere\ProcessManager\ChromeManager;
 use Panthere\ProcessManager\WebServer;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -61,6 +62,11 @@ abstract class PanthereTestCase extends InternalTestCase
     protected static $goutteClient;
 
     /**
+     * @var ChromeManager|null
+     */
+    protected static $chromeManager;
+
+    /**
      * @var PanthereClient|null
      */
     protected static $panthereClient;
@@ -72,7 +78,11 @@ abstract class PanthereTestCase extends InternalTestCase
             self::$webServer = null;
         }
 
-        if (null !== self::$panthereClient) {
+        if (null !== self::$chromeManager) {
+            self::$chromeManager->quit();
+            self::$chromeManager = null;
+            self::$panthereClient = null;
+        } elseif (null !== self::$panthereClient) {
             self::$panthereClient->quit();
             self::$panthereClient = null;
         }
@@ -103,7 +113,8 @@ abstract class PanthereTestCase extends InternalTestCase
     {
         self::startWebServer();
         if (null === self::$panthereClient) {
-            self::$panthereClient = new PanthereClient();
+            self::$chromeManager = new ChromeManager();
+            self::$panthereClient = self::$chromeManager->start();
         }
 
         return self::$panthereClient;

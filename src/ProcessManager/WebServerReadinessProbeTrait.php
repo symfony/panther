@@ -25,7 +25,7 @@ trait WebServerReadinessProbeTrait
     /**
      * @throws \RuntimeException
      */
-    public function checkPortAvailable(string $hostname, int $port): void
+    private function checkPortAvailable(string $hostname, int $port): void
     {
         $resource = @\fsockopen($hostname, $port);
         if (\is_resource($resource)) {
@@ -34,7 +34,7 @@ trait WebServerReadinessProbeTrait
         }
     }
 
-    public function waitUntilPortAvailable(string $hostname, int $port): void
+    private function waitUntilPortAvailable(string $hostname, int $port): void
     {
         while (true) {
             $resource = @\fsockopen($hostname, $port, $errno, $errstr, 0.001);
@@ -59,5 +59,6 @@ trait WebServerReadinessProbeTrait
             // block until the web server is ready
             \usleep(1000);
         }
+        \sleep(1);
     }
 }
