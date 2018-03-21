@@ -121,6 +121,10 @@ class ClientTest extends TestCase
 
         $crawler = $client->reload();
         $this->assertSame(self::$baseUri.'/basic.html#e2', $crawler->getUri());
+
+        $client->restart();
+        $crawler = $client->request('GET', self::$baseUri.'/link.html');
+        $this->assertSame(self::$baseUri.'/link.html', $crawler->getUri());
     }
 
     /**

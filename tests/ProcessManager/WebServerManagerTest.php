@@ -13,21 +13,21 @@ declare(strict_types=1);
 
 namespace Panthere\Tests\ProcessManager;
 
-use Panthere\ProcessManager\WebServer;
+use Panthere\ProcessManager\WebServerManager;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @author Kévin Dunglas <dunglas@gmail.com>
  */
-class WebServerTest extends TestCase
+class WebServerManagerTest extends TestCase
 {
     public function testRun()
     {
-        $server = new WebServer(__DIR__.'/../fixtures/', '127.0.0.1', 1234);
-        $server->run();
+        $server = new WebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234);
+        $server->start();
         $this->assertContains('Hello', \file_get_contents('http://127.0.0.1:1234/basic.html'));
 
-        $server->stop();
+        $server->quit();
     }
 
     /**
@@ -37,13 +37,13 @@ class WebServerTest extends TestCase
     public function testAlreadyRunning()
     {
         try {
-            $server1 = new WebServer(__DIR__.'/../fixtures/', '127.0.0.1', 1234);
-            $server1->run();
+            $server1 = new WebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234);
+            $server1->start();
 
-            $server2 = new WebServer(__DIR__.'/../fixtures/', '127.0.0.1', 1234);
-            $server2->run();
+            $server2 = new WebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234);
+            $server2->start();
         } finally {
-            $server1->stop();
+            $server1->quit();
         }
     }
 }

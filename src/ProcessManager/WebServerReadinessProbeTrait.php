@@ -23,6 +23,18 @@ use Symfony\Component\Process\Process;
 trait WebServerReadinessProbeTrait
 {
     /**
+     * @see http://symfony.com/doc/current/components/process.html#process-signals
+     */
+    private function fixCommand(string $command): string
+    {
+        if ('Windows' === PHP_OS_FAMILY || 'Darwin' === PHP_OS_FAMILY) {
+            return $command;
+        }
+
+        return "exec $command";
+    }
+
+    /**
      * @throws \RuntimeException
      */
     private function checkPortAvailable(string $hostname, int $port, bool $throw = true): void
@@ -32,15 +44,6 @@ trait WebServerReadinessProbeTrait
             \fclose($resource);
             if ($throw) {
                 throw new \RuntimeException(\sprintf('The port %d is already in use.', $port));
-            }
-        }
-    }
-
-    private function waitUntilPortAvailable(string $hostname, int $port): void
-    {
-        while (true) {
-            if ($this->checkPortAvailable($hostname, $port, false)) {
-                return;
             }
         }
     }

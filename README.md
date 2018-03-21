@@ -28,21 +28,19 @@ Use [Composer](https://getcomposer.org/) to install Panthère in your project:
 ```php
 <?php
 
-require __DIR__.'/vendor/autoload.php';
+require __DIR__.'/../vendor/autoload.php'; // Composer's autoloader
 
-$client = new \Panthere\Client();
+$client = \Panthere\Client::createChromeClient();
 $crawler = $client->request('GET', 'http://api-platform.com'); // Yes, this website is 100% in JavaScript
 
 $link = $crawler->selectLink('Support')->link();
 $crawler = $client->click($link);
 
-// Wait for an element to be rendered
+// Wait for an element
 $client->waitFor('.support');
 
 echo $crawler->filter('.support')->text();
 $client->takeScreenshot('screen.png'); // Yeah, screenshot!
-
-$client->quit();
 ```
 
 ## Testing Usage

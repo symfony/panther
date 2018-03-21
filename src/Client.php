@@ -20,6 +20,8 @@ use Panthere\Cookie\CookieJar;
 use Panthere\DomCrawler\Crawler;
 use Panthere\DomCrawler\Form as PanthereForm;
 use Panthere\DomCrawler\Link as PanthereLink;
+use Panthere\ProcessManager\BrowserManagerInterface;
+use Panthere\ProcessManager\ChromeManager;
 use Symfony\Component\BrowserKit\Client as BaseClient;
 use Symfony\Component\BrowserKit\Request;
 use Symfony\Component\BrowserKit\Response;
@@ -33,11 +35,32 @@ final class Client extends BaseClient implements WebDriver
 {
     use ExceptionThrower;
 
+    /**
+     * @var WebDriver
+     */
     private $webDriver;
+    private $browserManager;
 
-    public function __construct(WebDriver $webDriver)
+    public static function createChromeClient(): self
     {
-        $this->webDriver = $webDriver;
+        return new self(new ChromeManager($chromeDriverBinary ?? null, $arguments ?? null));
+    }
+
+    public function __construct(BrowserManagerInterface $browserManager)
+    {
+        $this->browserManager = $browserManager;
+    }
+
+    public function __destruct()
+    {
+        $this->quit();
+    }
+
+    public function start()
+    {
+        if (null === $this->webDriver) {
+            $this->webDriver = $this->browserManager->start();
+        }
     }
 
     public function followRedirects($followRedirect = true): void
@@ -134,6 +157,7 @@ final class Client extends BaseClient implements WebDriver
 
     protected function createCrawler(): Crawler
     {
+        $this->start();
         $elements = $this->webDriver->findElements(WebDriverBy::cssSelector('html'));
 
         return new Crawler($elements, $this->webDriver, $this->webDriver->getCurrentURL());
@@ -146,6 +170,7 @@ final class Client extends BaseClient implements WebDriver
 
     public function back()
     {
+        $this->start();
         $this->webDriver->navigate()->back();
 
         return $this->crawler = $this->createCrawler();
@@ -153,6 +178,7 @@ final class Client extends BaseClient implements WebDriver
 
     public function forward()
     {
+        $this->start();
         $this->webDriver->navigate()->forward();
 
         return $this->crawler = $this->createCrawler();
@@ -160,6 +186,7 @@ final class Client extends BaseClient implements WebDriver
 
     public function reload()
     {
+        $this->start();
         $this->webDriver->navigate()->refresh();
 
         return $this->crawler = $this->createCrawler();
@@ -172,11 +199,18 @@ final class Client extends BaseClient implements WebDriver
 
     public function restart()
     {
-        $this->throwNotSupported(__METHOD__);
+        if (null !== $this->webDriver) {
+            $this->webDriver->manage()->deleteAllCookies();
+        }
+
+        $this->quit();
+        $this->start();
     }
 
     public function getCookieJar()
     {
+        $this->start();
+
         return new CookieJar($this->webDriver);
     }
 
@@ -189,11 +223,15 @@ final class Client extends BaseClient implements WebDriver
 
     public function getWebDriver(): WebDriver
     {
+        $this->start();
+
         return $this->webDriver;
     }
 
     public function get($uri)
     {
+        $this->start();
+
         $this->request = $this->internalRequest = new Request($uri, 'GET');
         $this->webDriver->get($uri);
         $this->response = $this->internalResponse = new Response($this->webDriver->getPageSource());
@@ -204,76 +242,108 @@ final class Client extends BaseClient implements WebDriver
 
     public function close()
     {
+        $this->start();
+
         return $this->webDriver->close();
     }
 
     public function getCurrentURL()
     {
+        $this->start();
+
         return $this->webDriver->getCurrentURL();
     }
 
     public function getPageSource()
     {
+        $this->start();
+
         return $this->webDriver->getPageSource();
     }
 
     public function getTitle()
     {
+        $this->start();
+
         return $this->webDriver->getTitle();
     }
 
     public function getWindowHandle()
     {
+        $this->start();
+
         return $this->webDriver->getWindowHandle();
     }
 
     public function getWindowHandles()
     {
+        $this->start();
+
         return $this->webDriver->getWindowHandles();
     }
 
     public function quit()
     {
-        $this->webDriver->quit();
+        if (null !== $this->webDriver) {
+            $this->webDriver->quit();
+            $this->webDriver = null;
+        }
+        $this->browserManager->quit();
     }
 
     public function takeScreenshot($saveAs = null)
     {
+        $this->start();
+
         return $this->webDriver->takeScreenshot($saveAs);
     }
 
     public function wait($timeoutInSecond = 30, $intervalInMillisecond = 250)
     {
+        $this->start();
+
         return $this->webDriver->wait($timeoutInSecond, $intervalInMillisecond);
     }
 
     public function manage()
     {
+        $this->start();
+
         return $this->webDriver->manage();
     }
 
     public function navigate()
     {
+        $this->start();
+
         return $this->webDriver->navigate();
     }
 
     public function switchTo()
     {
+        $this->start();
+
         return $this->webDriver->switchTo();
     }
 
     public function execute($name, $params)
     {
+        $this->start();
+
         return $this->webDriver->execute($name, $params);
     }
 
     public function findElement(WebDriverBy $locator)
     {
+        $this->start();
+
         return $this->webDriver->findElement($locator);
     }
 
     public function findElements(WebDriverBy $locator)
     {
+        $this->start();
+
         return $this->webDriver->findElements($locator);
     }
 }
