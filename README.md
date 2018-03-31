@@ -1,5 +1,5 @@
 # Panthère
-**A browser testing and web scrapping library for [PHP](https://php.net) and [Symfony](https://symfony.com)**
+**A browser testing and web scraping library for [PHP](https://php.net) and [Symfony](https://symfony.com)**
 
 *Panthère* is a convenient standalone library to scrape websites and to run end to end tests **using real browsers**.
 
@@ -15,7 +15,7 @@ Keep in mind that Panthère doesn't depend of Symfony, it's a standalone library
 Because Panthère automatically finds your local installation of Chrome and launches it (thanks to [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/)),
 you don't have anything to install on your computer: no Selenium server nor obscure driver.
 In test mode, Panthère automatically starts your application using [the PHP built-in web-server](http://php.net/manual/en/features.commandline.webserver.php).
-Focus on writing your tests or web-scrapping scenario, Panthère takes care of everything else.
+Focus on writing your tests or web-scraping scenario, Panthère takes care of everything else.
 
 ## Install
 
@@ -78,7 +78,7 @@ services. Unlike the Panthère's client, the Symfony's testing client doesn't su
 it is super-fast!
 
 Alternatively (and even for non-Symfony apps), Panthère can also leverage the [Goutte](https://github.com/FriendsOfPHP/Goutte)
-web scrapping library. Goutte is an intermediate between the Symfony's test client and the Panthère one: it sends real HTTP
+web scraping library. Goutte is an intermediate between the Symfony's test client and the Panthère one: it sends real HTTP
 requests, is fast and can browse any webpage, not only the ones of the application under test.
 But, because it is entirely written in PHP, Goutte doesn't support JavaScript and other advanced features.
 
@@ -113,7 +113,7 @@ class E2eTest extends PanthereTestCase
 
 ## Features
 
-Unlike testing and web scrapping libraries you're used to, Panthère:
+Unlike testing and web scraping libraries you're used to, Panthère:
 
 * executes the JavaScript code contained in webpages
 * supports all everything that Chrome (or Firefox) implements
@@ -133,7 +133,7 @@ Because Panthère implements the API of popular, it already has an extensive doc
 
 ## Travis CI Integration
 
-Panthère will work out of the box with Travis until you add the Chrome addon. Here is a minimal `.travis.yml` file to run
+Panthère will work out of the box with Travis if you add the Chrome addon. Here is a minimal `.travis.yml` file to run
 Panthère tests:
 
 ```yaml
