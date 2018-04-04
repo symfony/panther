@@ -23,18 +23,6 @@ use Symfony\Component\Process\Process;
 trait WebServerReadinessProbeTrait
 {
     /**
-     * @see http://symfony.com/doc/current/components/process.html#process-signals
-     */
-    private function fixCommand(string $command): string
-    {
-        if ('Windows' === PHP_OS_FAMILY || 'Darwin' === PHP_OS_FAMILY) {
-            return $command;
-        }
-
-        return "exec $command";
-    }
-
-    /**
      * @throws \RuntimeException
      */
     private function checkPortAvailable(string $hostname, int $port, bool $throw = true): void
