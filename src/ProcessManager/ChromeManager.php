@@ -31,7 +31,7 @@ final class ChromeManager implements BrowserManagerInterface
 
     public function __construct(?string $chromeDriverBinary = null, ?array $arguments = null)
     {
-        $this->process = new Process($this->fixCommand($chromeDriverBinary ?? $this->findChromeDriverBinary()), null, null, null, null);
+        $this->process = new Process([$chromeDriverBinary ?? $this->findChromeDriverBinary()], null, null, null, null);
         $this->arguments = $arguments ?? $this->getDefaultArguments();
     }
 
