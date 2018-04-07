@@ -1,21 +1,20 @@
 # Panthère
 **A browser testing and web scraping library for [PHP](https://php.net) and [Symfony](https://symfony.com)**
 
-*Panthère* is a convenient standalone library to scrape websites and to run end to end tests **using real browsers**.
+*Panthère* is a convenient standalone library to scrape websites and to run end-to-end tests **using real browsers**.
 
-Because it leverages [the W3C's WebDriver protocol](https://www.w3.org/TR/webdriver/) to drive native web browsers such
-as Google Chrome and Firefox, Panthère is super powerful.
+Panthère is super powerful, it leverages [the W3C's WebDriver protocol](https://www.w3.org/TR/webdriver/) to drive native web browsers such as Google Chrome and Firefox.
 
-Because it implements the popular Symfony's [BrowserKit](https://symfony.com/doc/current/components/browser_kit.html) and
-[DomCrawler](https://symfony.com/doc/current/components/dom_crawler.html) APIs, Panthère is very easy to use, and contains
-all features you need to test your apps. It will sound familiar if you ever created [a functional test for a Symfony app](https://symfony.com/doc/current/testing.html#functional-tests):
-the API is exactly the same!
+Panthère is very easy to use, because it implements the popular Symfony's [BrowserKit](https://symfony.com/doc/current/components/browser_kit.html) and
+[DomCrawler](https://symfony.com/doc/current/components/dom_crawler.html) APIs, , and contains
+all features you need to test your apps. It will sound familiar if you have ever created [a functional test for a Symfony app](https://symfony.com/doc/current/testing.html#functional-tests):
+as the API is exactly the same!
 Keep in mind that Panthère doesn't depend of Symfony, it's a standalone library.
 
-Because Panthère automatically finds your local installation of Chrome and launches it (thanks to [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/)),
-you don't have anything to install on your computer: no Selenium server nor obscure driver.
+Panthère automatically finds your local installation of Chrome and launches it (thanks to [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/)),
+so you don't need to install anything on your computer, neither Selenium server nor obscure driver.
 In test mode, Panthère automatically starts your application using [the PHP built-in web-server](http://php.net/manual/en/features.commandline.webserver.php).
-Focus on writing your tests or web-scraping scenario, Panthère takes care of everything else.
+You can just focus on writing your tests or web-scraping scenario, Panthère takes care of everything else.
 
 ## Install
 
@@ -72,15 +71,15 @@ To run this test:
 
 ### A Polymorph Feline
 
-If you are testing a Symfony application, `PanthereTestCase` automatically extends the `WebTestCase` class. It means that
-you can easily create functional tests executing directly the kernel of your application and accessing all your existing
-services. Unlike the Panthère's client, the Symfony's testing client doesn't support JavaScript or taking screenshots, but
+If you are testing a Symfony application, `PanthereTestCase` automatically extends the `WebTestCase` class. It means
+you can easily create functional tests, which can directly execute the kernel of your application and access all your existing
+services. Unlike the Panthère's client, the Symfony's testing client doesn't support JavaScript and screenshots capturing, but
 it is super-fast!
 
 Alternatively (and even for non-Symfony apps), Panthère can also leverage the [Goutte](https://github.com/FriendsOfPHP/Goutte)
-web scraping library. Goutte is an intermediate between the Symfony's test client and the Panthère one: it sends real HTTP
-requests, is fast and can browse any webpage, not only the ones of the application under test.
-But, because it is entirely written in PHP, Goutte doesn't support JavaScript and other advanced features.
+web scraping library, which is an intermediate between the Symfony's and the Panthère's test clients. Goutte sends real HTTP
+requests, it is fast and is able to browse any webpage, not only the ones of the application under test.
+But Goutte doesn't support JavaScript and other advanced features because it is entirely written in PHP.
 
 The fun part is that the 3 libraries implement the exact same API, so you can switch from one to another just by calling
 the appropriate factory method, and find the good trade off for every single test case (do I need JavaScript, do I need
@@ -116,8 +115,8 @@ class E2eTest extends PanthereTestCase
 Unlike testing and web scraping libraries you're used to, Panthère:
 
 * executes the JavaScript code contained in webpages
-* supports all everything that Chrome (or Firefox) implements
-* can take screenshots
+* supports everything that Chrome (or Firefox) implements
+* allows screenshots taking
 * can wait for the appearance of elements loaded asynchronously 
 * lets you run your own JS code or XPath queries in the context of the loaded page
 * supports custom [Selenium server](https://www.seleniumhq.org) installations
@@ -125,7 +124,7 @@ Unlike testing and web scraping libraries you're used to, Panthère:
 
 ## Documentation
 
-Because Panthère implements the API of popular, it already has an extensive documentation:
+Since Panthère implements the API of popular, it already has an extensive documentation:
 
 * For the `Client` class, read [the BrowserKit's documentation](https://symfony.com/doc/current/components/browser_kit.html)
 * For the `Crawler` class, read [the DomCrawler's documentation](https://symfony.com/doc/current/components/dom_crawler.html)
