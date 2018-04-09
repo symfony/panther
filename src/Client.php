@@ -22,6 +22,8 @@ use Facebook\WebDriver\WebDriverCapabilities;
 use Facebook\WebDriver\WebDriverExpectedCondition;
 use Facebook\WebDriver\WebDriverHasInputDevices;
 use Symfony\Component\BrowserKit\AbstractBrowser;
+use Symfony\Component\Panther\ProcessManager\FirefoxManager;
+use Symfony\Component\BrowserKit\Client as BaseClient;
 use Symfony\Component\BrowserKit\Request;
 use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\DomCrawler\Form;
@@ -58,6 +60,11 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
     public static function createChromeClient(?string $chromeDriverBinary = null, ?array $arguments = null, array $options = [], ?string $baseUri = null): self
     {
         return new self(new ChromeManager($chromeDriverBinary, $arguments, $options), $baseUri);
+    }
+
+    public static function createFirefoxClient(?string $geckodriverBinary = null, ?array $arguments = null, array $options = [], ?string $baseUri = null): self
+    {
+        return new self(new FirefoxManager($geckodriverBinary, $arguments, $options), $baseUri);
     }
 
     public static function createSeleniumClient(?string $host = null, ?WebDriverCapabilities $capabilities = null, ?string $baseUri = null, array $options = []): self
@@ -299,7 +306,9 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
 
         $this->internalRequest = new Request($uri, 'GET');
         $this->webDriver->get($uri);
-        $this->internalResponse = new Response($this->webDriver->getPageSource());
+        //$this->internalResponse = new Response($this->webDriver->getPageSource());
+
+        $this->response = $this->internalResponse = new Response($this->webDriver->getPageSource());
         $this->crawler = $this->createCrawler();
 
         return $this;

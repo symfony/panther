@@ -173,7 +173,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
             return $this->text();
         }
 
-        return $element->getAttribute($attribute);
+        return $element->getAttribute($attribute) ?? '';
     }
 
     public function nodeName(): string
@@ -211,6 +211,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
 
             return (string) $default;
         }
+        //return $this->webDriver->getPageSource();
     }
 
     public function evaluate($xpath): self
@@ -277,14 +278,14 @@ final class Crawler extends BaseCrawler implements WebDriverElement
             throw new \InvalidArgumentException('Only the "get" method is supported in WebDriver mode.');
         }
 
-        return new Link($element);
+        return new Link($element, $this->webDriver->getCurrentURL());
     }
 
     public function links()
     {
         $links = [];
         foreach ($this->elements as $element) {
-            $links[] = new Link($element);
+            $links[] = new Link($element, $this->webDriver->getCurrentURL());
         }
 
         return $links;

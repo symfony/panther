@@ -16,9 +16,15 @@
       "homepage": "https://symfony.com/contributors"
     }
   ],
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/dunglas/php-webdriver"
+    }
+  ],
   "require": {
     "php": ">=7.1",
-    "php-webdriver/webdriver": "^1.7.1",
+    "php-webdriver/webdriver": "^1.8.1",
     "symfony/browser-kit": "^4.3 || ^5.0",
     "symfony/dom-crawler": "^4.3 || ^5.0",
     "symfony/http-client": "^4.3 || ^5.0",

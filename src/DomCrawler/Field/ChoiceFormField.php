@@ -201,7 +201,7 @@ final class ChoiceFormField extends BaseChoiceFormField
             throw new \LogicException(\sprintf('A ChoiceFormField can only be created from an input or select tag (%s given).', $tagName));
         }
 
-        $type = \strtolower($this->element->getAttribute('type'));
+        $type = \strtolower($this->element->getAttribute('type') ?? '');
         if ('input' === $tagName && 'checkbox' !== $type && 'radio' !== $type) {
             throw new \LogicException(\sprintf('A ChoiceFormField can only be created from an input tag with a type of checkbox or radio (given type is %s).', $type));
         }

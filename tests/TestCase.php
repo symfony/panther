@@ -44,11 +44,16 @@ abstract class TestCase extends PantherTestCase
 
     public function clientFactoryProvider(): array
     {
-        // Tests must pass with both Panther and Goutte
+        $firefoxFactory = function (): PantherClient {
+            return self::createPantherClient(['browser' => self::FIREFOX]);
+        };
+
+        // Tests must pass with both Panther and HttpBrowser
         return [
             'Goutte' => [[static::class, 'createGoutteClient'], GoutteClient::class],
             'HttpBrowser' => [[static::class, 'createHttpBrowserClient'], HttpBrowserClient::class],
             'Panther' => [[static::class, 'createPantherClient'], PantherClient::class],
+            'PantherFirefox' => [$firefoxFactory, PantherClient::class],
         ];
     }
 

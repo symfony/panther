@@ -26,7 +26,7 @@ final class Link extends BaseLink
 
     private $element;
 
-    public function __construct(WebDriverElement $element)
+    public function __construct(WebDriverElement $element, string $currentUri)
     {
         $tagName = $element->getTagName();
         if ('a' !== $tagName && 'area' !== $tagName && 'link' !== $tagName) {
@@ -35,6 +35,7 @@ final class Link extends BaseLink
 
         $this->element = $element;
         $this->method = 'GET';
+        $this->currentUri = $currentUri;
     }
 
     public function getElement(): WebDriverElement
@@ -54,6 +55,6 @@ final class Link extends BaseLink
 
     protected function getRawUri()
     {
-        return $this->element->getAttribute('href');
+        return $this->element->getAttribute('href') ?? '';
     }
 }
