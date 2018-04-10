@@ -15,6 +15,7 @@ namespace Panthere;
 
 use Facebook\WebDriver\WebDriver;
 use Facebook\WebDriver\WebDriverBy;
+use Facebook\WebDriver\WebDriverCapabilities;
 use Facebook\WebDriver\WebDriverExpectedCondition;
 use Panthere\Cookie\CookieJar;
 use Panthere\DomCrawler\Crawler;
@@ -22,6 +23,7 @@ use Panthere\DomCrawler\Form as PanthereForm;
 use Panthere\DomCrawler\Link as PanthereLink;
 use Panthere\ProcessManager\BrowserManagerInterface;
 use Panthere\ProcessManager\ChromeManager;
+use Panthere\ProcessManager\SeleniumManager;
 use Symfony\Component\BrowserKit\Client as BaseClient;
 use Symfony\Component\BrowserKit\Request;
 use Symfony\Component\BrowserKit\Response;
@@ -47,6 +49,11 @@ final class Client extends BaseClient implements WebDriver
     public static function createChromeClient(?string $chromeDriverBinary = null, ?array $arguments = null): self
     {
         return new self(new ChromeManager($chromeDriverBinary, $arguments));
+    }
+
+    public static function createSeleniumClient(?string $host = null, ?WebDriverCapabilities $capabilities = null): self
+    {
+        return new self(new SeleniumManager($host, $capabilities));
     }
 
     public function __construct(BrowserManagerInterface $browserManager)
