@@ -39,6 +39,13 @@ trait WebServerReadinessProbeTrait
     public function waitUntilReady(Process $process, string $url): void
     {
         $host = parse_url($url, PHP_URL_HOST);
+
+        if ($host === '0.0.0.0') {
+            // When server listens to any host, we can't ping 0.0.0.0 to check if server is ready.
+            // So we listen to local host to be sure it's accessible anyway.
+            $host = '127.0.0.1';
+        }
+
         $port = parse_url($url, PHP_URL_PORT);
 
         $retries = 0;
