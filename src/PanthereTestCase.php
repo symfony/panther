@@ -84,7 +84,7 @@ abstract class PanthereTestCase extends InternalTestCase
         self::$baseUri = null;
     }
 
-    protected static function startWebServer(?string $webServerDir = null): void
+    protected static function startWebServer(?string $webServerDir = null, array $env = [], bool $mergeWithGlobalEnv = true): void
     {
         if (null !== static::$webServerManager) {
             return;
@@ -95,7 +95,12 @@ abstract class PanthereTestCase extends InternalTestCase
             $webServerDir = static::$webServerDir ?? $_ENV['PANTHERE_WEB_SERVER_DIR'] ?? __DIR__.'/../../../../public';
         }
 
-        self::$webServerManager = new WebServerManager($webServerDir, '127.0.0.1', 9000);
+        // $_ENV should already be populated by PHPUnit, but it can be overriden.
+        if ($mergeWithGlobalEnv === true) {
+            $env = array_merge($_ENV, $env);
+        }
+
+        self::$webServerManager = new WebServerManager($webServerDir, '127.0.0.1', 9000, $env);
         self::$webServerManager->start();
 
         self::$baseUri = 'http://127.0.0.1:9000';

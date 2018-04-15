@@ -34,7 +34,7 @@ final class WebServerManager
     /**
      * @throws \RuntimeException
      */
-    public function __construct(string $documentRoot, string $hostname, int $port)
+    public function __construct(string $documentRoot, string $hostname, int $port, array $env = [])
     {
         $this->hostname = $hostname;
         $this->port = $port;
@@ -46,7 +46,7 @@ final class WebServerManager
 
         $commandLine = array_merge([$binary], $finder->findArguments(), ['-dvariables_order=EGPCS', '-S', \sprintf('%s:%d', $this->hostname, $this->port)]);
 
-        $this->process = new Process($commandLine, $documentRoot, null, null, null);
+        $this->process = new Process($commandLine, $documentRoot, $env, null, null);
     }
 
     public function start(): void
