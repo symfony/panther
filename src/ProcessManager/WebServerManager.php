@@ -54,7 +54,7 @@ final class WebServerManager
         $this->checkPortAvailable($this->hostname, $this->port);
         $this->process->start();
 
-        $this->waitUntilReady($this->process, "http://$this->hostname:$this->port", true);
+        $this->waitUntilReady($this->process, "http://$this->hostname:$this->port");
     }
 
     /**
