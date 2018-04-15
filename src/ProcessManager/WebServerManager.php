@@ -44,7 +44,13 @@ final class WebServerManager
             throw new \RuntimeException('Unable to find the PHP binary.');
         }
 
-        $this->process = new Process([$binary] + $finder->findArguments() + ['-dvariables_order=EGPCS', '-S', \sprintf('%s:%d', $this->hostname, $this->port)], $documentRoot, null, null, null);
+        $this->process = new Process(
+            \array_merge([$binary], $finder->findArguments(), ['-dvariables_order=EGPCS', '-S', \sprintf('%s:%d', $this->hostname, $this->port)]),
+            $documentRoot,
+            null,
+            null,
+            null
+        );
     }
 
     public function start(): void
