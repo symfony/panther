@@ -80,6 +80,8 @@ abstract class PanthereTestCase extends InternalTestCase
         if (null !== self::$goutteClient) {
             self::$goutteClient = null;
         }
+
+        self::$baseUri = null;
     }
 
     protected static function startWebServer(?string $webServerDir = null): void
