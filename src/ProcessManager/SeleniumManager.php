@@ -16,8 +16,7 @@ namespace Panthere\ProcessManager;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriver;
-use \Facebook\WebDriver\WebDriverCapabilities;
-
+use Facebook\WebDriver\WebDriverCapabilities;
 
 final class SeleniumManager implements BrowserManagerInterface
 {
@@ -33,7 +32,6 @@ final class SeleniumManager implements BrowserManagerInterface
         $capabilities = $capabilities ?? DesiredCapabilities::chrome();
         $this->host = $host;
         $this->capabilities = $capabilities;
-
     }
 
     public function start(): WebDriver
