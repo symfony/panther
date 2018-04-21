@@ -21,7 +21,7 @@ use Facebook\WebDriver\WebDriverCapabilities;
 final class SeleniumManager implements BrowserManagerInterface
 {
 
-    const DEFAULT_HOST = 'http://127.0.0.1:4444/wd/hub';
+    private const DEFAULT_HOST = 'http://127.0.0.1:4444/wd/hub';
 
     private $host;
     private $capabilities;
