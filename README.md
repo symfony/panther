@@ -1,6 +1,8 @@
 # Panthère
 **A browser testing and web scraping library for [PHP](https://php.net) and [Symfony](https://symfony.com)**
 
+[![Build Status](https://travis-ci.org/dunglas/panthere.svg?branch=master)](https://travis-ci.org/dunglas/panthere)
+
 *Panthère* is a convenient standalone library to scrape websites and to run end-to-end tests **using real browsers**.
 
 Panthère is super powerful, it leverages [the W3C's WebDriver protocol](https://www.w3.org/TR/webdriver/) to drive native web browsers such as Google Chrome and Firefox.
