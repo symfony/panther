@@ -9,9 +9,13 @@ cache:
   directories:
     - $HOME/.composer/cache
 
+before_install:
+  - wget https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v2.11.1/php-cs-fixer.phar
+
 before_script:
   - phpenv config-rm xdebug.ini
   - composer install
 
 script:
   - phpunit
+  - php php-cs-fixer.phar fix --dry-run --diff --no-ansi
