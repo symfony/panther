@@ -34,7 +34,7 @@ final class ChromeManager implements BrowserManagerInterface
     {
         $this->process = new Process([$chromeDriverBinary ?? $this->findChromeDriverBinary()], null, null, null, null);
         $this->arguments = $arguments ?? $this->getDefaultArguments();
-        $this->options = array_merge($this->getDefaultOptions(), $options);
+        $this->options = \array_merge($this->getDefaultOptions(), $options);
     }
 
     /**
@@ -44,11 +44,11 @@ final class ChromeManager implements BrowserManagerInterface
      */
     public function start(): WebDriver
     {
-        $url = $this->options['scheme'] . '://' . $this->options['host'] . ':' . $this->options['port'];
+        $url = $this->options['scheme'].'://'.$this->options['host'].':'.$this->options['port'];
         if (!$this->process->isRunning()) {
             $this->checkPortAvailable($this->options['host'], $this->options['port']);
             $this->process->start();
-            $this->waitUntilReady($this->process, $url . $this->options['path']);
+            $this->waitUntilReady($this->process, $url.$this->options['path']);
         }
 
         $capabilities = DesiredCapabilities::chrome();
@@ -99,7 +99,7 @@ final class ChromeManager implements BrowserManagerInterface
             'scheme' => 'http',
             'host' => '127.0.0.1',
             'port' => 9515,
-            'path' => '/status'
+            'path' => '/status',
         ];
     }
 }
