@@ -44,7 +44,7 @@ final class ChromeManager implements BrowserManagerInterface
      */
     public function start(): WebDriver
     {
-        $url = ($this->options['https'] ? 'https' : 'http') . '://' . $this->options['host'] . ':' . $this->options['port'];
+        $url = $this->options['scheme'] . '://' . $this->options['host'] . ':' . $this->options['port'];
         if (!$this->process->isRunning()) {
             $this->checkPortAvailable($this->options['host'], $this->options['port']);
             $this->process->start();
@@ -96,7 +96,7 @@ final class ChromeManager implements BrowserManagerInterface
     private function getDefaultOptions(): array
     {
         return [
-            'https' => false,
+            'scheme' => 'http',
             'host' => '127.0.0.1',
             'port' => 9515,
             'status' => '/status'
