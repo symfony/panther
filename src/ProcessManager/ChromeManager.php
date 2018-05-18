@@ -28,11 +28,13 @@ final class ChromeManager implements BrowserManagerInterface
 
     private $process;
     private $arguments;
+    private $options;
 
-    public function __construct(?string $chromeDriverBinary = null, ?array $arguments = null)
+    public function __construct(?string $chromeDriverBinary = null, ?array $arguments = null, array $options = [])
     {
         $this->process = new Process([$chromeDriverBinary ?? $this->findChromeDriverBinary()], null, null, null, null);
         $this->arguments = $arguments ?? $this->getDefaultArguments();
+        $this->options = \array_merge($this->getDefaultOptions(), $options);
     }
 
     /**
@@ -42,10 +44,11 @@ final class ChromeManager implements BrowserManagerInterface
      */
     public function start(): WebDriver
     {
+        $url = $this->options['scheme'].'://'.$this->options['host'].':'.$this->options['port'];
         if (!$this->process->isRunning()) {
-            $this->checkPortAvailable('127.0.0.1', 9515);
+            $this->checkPortAvailable($this->options['host'], $this->options['port']);
             $this->process->start();
-            $this->waitUntilReady($this->process, 'http://127.0.0.1:9515/status');
+            $this->waitUntilReady($this->process, $url.$this->options['path']);
         }
 
         $capabilities = DesiredCapabilities::chrome();
@@ -55,7 +58,7 @@ final class ChromeManager implements BrowserManagerInterface
             $capabilities->setCapability(ChromeOptions::CAPABILITY, $chromeOptions);
         }
 
-        return RemoteWebDriver::create('http://localhost:9515', $capabilities);
+        return RemoteWebDriver::create($url, $capabilities);
     }
 
     public function quit(): void
@@ -88,5 +91,15 @@ final class ChromeManager implements BrowserManagerInterface
         }
 
         return $args;
+    }
+
+    private function getDefaultOptions(): array
+    {
+        return [
+            'scheme' => 'http',
+            'host' => '127.0.0.1',
+            'port' => 9515,
+            'path' => '/status',
+        ];
     }
 }
