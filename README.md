@@ -11,7 +11,7 @@ Panthère is very easy to use, because it implements the popular Symfony's [Brow
 [DomCrawler](https://symfony.com/doc/current/components/dom_crawler.html) APIs, , and contains
 all features you need to test your apps. It will sound familiar if you have ever created [a functional test for a Symfony app](https://symfony.com/doc/current/testing.html#functional-tests):
 as the API is exactly the same!
-Keep in mind that Panthère doesn't depend of Symfony, it's a standalone library.
+Keep in mind that Panthère can be used in every PHP project, it's a standalone library.
 
 Panthère automatically finds your local installation of Chrome and launches it (thanks to [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/)),
 so you don't need to install anything on your computer, neither Selenium server nor obscure driver.
