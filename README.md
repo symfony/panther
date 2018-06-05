@@ -8,13 +8,14 @@
 Panthère is super powerful, it leverages [the W3C's WebDriver protocol](https://www.w3.org/TR/webdriver/) to drive native web browsers such as Google Chrome and Firefox.
 
 Panthère is very easy to use, because it implements the popular Symfony's [BrowserKit](https://symfony.com/doc/current/components/browser_kit.html) and
-[DomCrawler](https://symfony.com/doc/current/components/dom_crawler.html) APIs, , and contains
+[DomCrawler](https://symfony.com/doc/current/components/dom_crawler.html) APIs, and contains
 all features you need to test your apps. It will sound familiar if you have ever created [a functional test for a Symfony app](https://symfony.com/doc/current/testing.html#functional-tests):
 as the API is exactly the same!
 Keep in mind that Panthère can be used in every PHP project, it's a standalone library.
 
 Panthère automatically finds your local installation of Chrome and launches it (thanks to [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/)),
 so you don't need to install anything on your computer, neither Selenium server nor obscure driver.
+
 In test mode, Panthère automatically starts your application using [the PHP built-in web-server](http://php.net/manual/en/features.commandline.webserver.php).
 You can just focus on writing your tests or web-scraping scenario, Panthère takes care of everything else.
 
