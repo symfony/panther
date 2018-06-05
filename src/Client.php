@@ -123,8 +123,12 @@ final class Client extends BaseClient implements WebDriver
         return parent::click($link);
     }
 
-    public function submit(Form $form, array $values = [])
+    public function submit(Form $form, array $values = [], $serverParameters = null)
     {
+        if (null !== $serverParameters) {
+            throw new \InvalidArgumentException('Server parameters cannot be set when using WebDriver.');
+        }
+
         if ($form instanceof PanthereForm) {
             $button = $form->getButton();
             null === $button ? $form->getElement()->submit() : $button->click();
