@@ -34,7 +34,7 @@ final class WebServerManager
     /**
      * @throws \RuntimeException
      */
-    public function __construct(string $documentRoot, string $hostname, int $port)
+    public function __construct(string $documentRoot, string $hostname, int $port, array $env = [])
     {
         $this->hostname = $hostname;
         $this->port = $port;
@@ -44,7 +44,9 @@ final class WebServerManager
             throw new \RuntimeException('Unable to find the PHP binary.');
         }
 
-        $this->process = new Process([$binary] + $finder->findArguments() + ['-dvariables_order=EGPCS', '-S', \sprintf('%s:%d', $this->hostname, $this->port)], $documentRoot, null, null, null);
+        $commandLine = array_merge([$binary], $finder->findArguments(), ['-dvariables_order=EGPCS', '-S', \sprintf('%s:%d', $this->hostname, $this->port)]);
+
+        $this->process = new Process($commandLine, $documentRoot, $env, null, null);
     }
 
     public function start(): void
@@ -52,7 +54,7 @@ final class WebServerManager
         $this->checkPortAvailable($this->hostname, $this->port);
         $this->process->start();
 
-        $this->waitUntilReady($this->process, "http://$this->hostname:$this->port", true);
+        $this->waitUntilReady($this->process, "http://$this->hostname:$this->port");
     }
 
     /**

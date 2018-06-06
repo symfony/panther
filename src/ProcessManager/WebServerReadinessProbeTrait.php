@@ -36,23 +36,46 @@ trait WebServerReadinessProbeTrait
         }
     }
 
-    public function waitUntilReady(Process $process, string $url, bool $ignoreErrors = false): void
+    public function waitUntilReady(Process $process, string $url): void
     {
-        $context = \stream_context_create(['http' => [
-            'ignore_errors' => $ignoreErrors,
-            'protocol_version' => '1.1',
-            'header' => ['Connection: close'],
-            'timeout' => 1,
-        ]]);
+        $host = parse_url($url, PHP_URL_HOST);
 
-        while (Process::STATUS_STARTED !== ($status = $process->getStatus()) || false === @\file_get_contents($url, false, $context)) {
+        if ('0.0.0.0' === $host) {
+            // When server listens to any host, we can't ping 0.0.0.0 to check if server is ready.
+            // So we listen to local host to be sure it's accessible anyway.
+            $host = '127.0.0.1';
+        }
+
+        $port = parse_url($url, PHP_URL_PORT);
+
+        $retries = 0;
+        $maxRetries = 5;
+
+        $socketErrors = [];
+
+        do {
+            $status = $process->getStatus();
+
+            $socket = fsockopen($host, $port, $errno, $errstr);
+
             if (Process::STATUS_TERMINATED === $status) {
                 throw new \RuntimeException($process->getErrorOutput(), $process->getExitCode());
             }
 
+            if ($errno !== 0) {
+                $socketErrors[] = "#$errno:$errstr";
+            }
+
             // block until the web server is ready
             \usleep(1000);
+        } while (Process::STATUS_STARTED !== $status || ++$retries === $maxRetries);
+
+        if (\count($socketErrors)) {
+            throw new \RuntimeException(implode("\n", $socketErrors));
         }
-        \sleep(1);
+
+        if ($socket) {
+            fclose($socket);
+        }
     }
 }
