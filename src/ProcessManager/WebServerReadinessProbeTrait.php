@@ -40,7 +40,7 @@ trait WebServerReadinessProbeTrait
     {
         $host = parse_url($url, PHP_URL_HOST);
 
-        if ($host === '0.0.0.0') {
+        if ('0.0.0.0' === $host) {
             // When server listens to any host, we can't ping 0.0.0.0 to check if server is ready.
             // So we listen to local host to be sure it's accessible anyway.
             $host = '127.0.0.1';
@@ -70,7 +70,7 @@ trait WebServerReadinessProbeTrait
             \usleep(1000);
         } while (Process::STATUS_STARTED !== $status || ++$retries === $maxRetries);
 
-        if (count($socketErrors)) {
+        if (\count($socketErrors)) {
             throw new \RuntimeException(implode("\n", $socketErrors));
         }
 
