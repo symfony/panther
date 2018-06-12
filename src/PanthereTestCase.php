@@ -84,7 +84,7 @@ abstract class PanthereTestCase extends InternalTestCase
         self::$baseUri = null;
     }
 
-    protected static function startWebServer(?string $webServerDir = null): void
+    protected static function startWebServer(?string $webServerDir = null, string $hostname = '127.0.0.1', int $port = 9000): void
     {
         if (null !== static::$webServerManager) {
             return;
@@ -95,15 +95,15 @@ abstract class PanthereTestCase extends InternalTestCase
             $webServerDir = static::$webServerDir ?? $_ENV['PANTHERE_WEB_SERVER_DIR'] ?? __DIR__.'/../../../../public';
         }
 
-        self::$webServerManager = new WebServerManager($webServerDir, '127.0.0.1', 9000);
+        self::$webServerManager = new WebServerManager($webServerDir, $hostname, $port);
         self::$webServerManager->start();
 
-        self::$baseUri = 'http://127.0.0.1:9000';
+        self::$baseUri = "http://$hostname:$port";
     }
 
-    protected static function createPanthereClient(): PanthereClient
+    protected static function createPanthereClient(string $hostname = '127.0.0.1', int $port = 9000): PanthereClient
     {
-        self::startWebServer();
+        self::startWebServer(null, $hostname, $port);
         if (null === self::$panthereClient) {
             self::$panthereClient = Client::createChromeClient();
         }
