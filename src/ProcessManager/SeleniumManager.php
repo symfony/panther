@@ -4,7 +4,6 @@
  * This file is part of the Panthère project.
  *
  * (c) Kévin Dunglas <dunglas@gmail.com>
- * (c) Dmitry Kuzmin <rockwith@me.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -21,7 +20,6 @@ use Facebook\WebDriver\WebDriverCapabilities;
 
 final class SeleniumManager implements BrowserManagerInterface
 {
-
     private const DEFAULT_HOST = 'http://127.0.0.1:4444/wd/hub';
 
     private $host;
@@ -40,7 +38,6 @@ final class SeleniumManager implements BrowserManagerInterface
             $this->capabilities
         );
     }
-
 
     public function quit(): void
     {
