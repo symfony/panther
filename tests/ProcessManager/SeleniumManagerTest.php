@@ -19,7 +19,7 @@ use Panthere\ProcessManager\SeleniumManager;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @author Kévin Dunglas <dunglas@gmail.com>
+ * @author Dmitry Kuzmin <rockwith@me.com>
  */
 class SeleniumManagerTest extends TestCase
 {

@@ -18,16 +18,18 @@ use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriver;
 use Facebook\WebDriver\WebDriverCapabilities;
 
+/**
+ * @author Dmitry Kuzmin <rockwith@me.com>
+ */
 final class SeleniumManager implements BrowserManagerInterface
 {
-    private const DEFAULT_HOST = 'http://127.0.0.1:4444/wd/hub';
-
     private $host;
     private $capabilities;
 
-    public function __construct(?string $host = null, ?WebDriverCapabilities $capabilities = null)
-    {
-        $this->host = $host ?? self::DEFAULT_HOST;
+    public function __construct(
+        ?string $host = 'http://127.0.0.1:4444/wd/hub',
+        ?WebDriverCapabilities $capabilities = null
+    ) {
         $this->capabilities = $capabilities ?? DesiredCapabilities::chrome();
     }
 
