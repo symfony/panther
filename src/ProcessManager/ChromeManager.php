@@ -77,7 +77,7 @@ final class ChromeManager implements BrowserManagerInterface
         }
     }
 
-    private function getDefaultArguments(): array
+    public function getDefaultArguments(): array
     {
         // Enable the headless mode
         $args = ['--headless', 'window-size=1200,1100', '--disable-gpu'];

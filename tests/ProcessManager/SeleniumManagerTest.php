@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Panthere\Tests\ProcessManager;
 
+use Facebook\WebDriver\Chrome\ChromeOptions;
 use Panthere\ProcessManager\ChromeManager;
 use Panthere\ProcessManager\SeleniumManager;
 use PHPUnit\Framework\TestCase;
@@ -22,32 +23,31 @@ use PHPUnit\Framework\TestCase;
  */
 class SeleniumManagerTest extends TestCase
 {
-
     /**
-    * we can mock selenium with built-in ChromeManager
-    * @var ChromeManager
-    */
+     * we can mock selenium with built-in ChromeManager.
+     *
+     * @var ChromeManager
+     */
     protected $chromeMockManager;
 
-
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->chromeMockManager = new ChromeManager();
         $this->chromeMockManager->start();
     }
 
-
-    public function tearDown() : void
+    public function tearDown(): void
     {
         $this->chromeMockManager->quit();
     }
 
     public function testRun()
     {
-        $manager = new SeleniumManager('http://localhost:9515');
+        $co = new ChromeOptions();
+        $co->addArguments($this->chromeMockManager->getDefaultArguments());
+        $manager = new SeleniumManager('http://localhost:9515', $co->toCapabilities());
         $client = $manager->start();
         $this->assertNotEmpty($client->getCurrentURL());
         $manager->quit();
     }
-
 }

@@ -4,6 +4,7 @@
  * This file is part of the Panthère project.
  *
  * (c) Kévin Dunglas <dunglas@gmail.com>
+ * (c) Dmitry Kuzmin <rockwith@me.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -28,10 +29,8 @@ final class SeleniumManager implements BrowserManagerInterface
 
     public function __construct(?string $host = null, ?WebDriverCapabilities $capabilities = null)
     {
-        $host = $host ?? self::DEFAULT_HOST;
-        $capabilities = $capabilities ?? DesiredCapabilities::chrome();
-        $this->host = $host;
-        $this->capabilities = $capabilities;
+        $this->host = $host ?? self::DEFAULT_HOST;
+        $this->capabilities = $capabilities ?? DesiredCapabilities::chrome();
     }
 
     public function start(): WebDriver
