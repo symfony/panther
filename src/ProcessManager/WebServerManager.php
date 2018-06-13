@@ -45,7 +45,17 @@ final class WebServerManager
         }
 
         $this->process = new Process(
-            \array_merge([$binary], $finder->findArguments(), ['-dvariables_order=EGPCS', '-S', \sprintf('%s:%d', $this->hostname, $this->port)]),
+            \array_merge(
+                [$binary],
+                $finder->findArguments(),
+                [
+                    '-dvariables_order=EGPCS',
+                    '-S',
+                    \sprintf('%s:%d', $this->hostname, $this->port),
+                    '-t',
+                    $documentRoot,
+                ]
+            ),
             $documentRoot,
             null,
             null,
