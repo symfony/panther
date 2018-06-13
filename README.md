@@ -1,4 +1,5 @@
-# Panthère
+<h1 align="center"><img src="panthere.png" alt="Panthère"></h1>
+
 **A browser testing and web scraping library for [PHP](https://php.net) and [Symfony](https://symfony.com)**
 
 [![Build Status](https://travis-ci.org/dunglas/panthere.svg?branch=master)](https://travis-ci.org/dunglas/panthere)
