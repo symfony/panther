@@ -24,7 +24,7 @@ You can just focus on writing your tests or web-scraping scenario, Panthère tak
 
 Use [Composer](https://getcomposer.org/) to install Panthère in your project:
 
-    composer req dunglas/panthere:dev-master
+    composer req symfony/panthere:dev-master
 
 ## Basic Usage
 
