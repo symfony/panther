@@ -1,5 +1,5 @@
 {
-  "name": "dunglas/panthere",
+  "name": "symfony/panthere",
   "type": "library",
   "description": "A browser testing and web scrapping library for PHP and Symfony.",
   "keywords": ["scrapping", "E2E", "testing", "webdriver", "selenium", "symfony"],
