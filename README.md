@@ -2,7 +2,7 @@
 
 **A browser testing and web scraping library for [PHP](https://php.net) and [Symfony](https://symfony.com)**
 
-[![Build Status](https://travis-ci.org/dunglas/panthere.svg?branch=master)](https://travis-ci.org/dunglas/panthere)
+[![Build Status](https://travis-ci.org/symfony/panthere.svg?branch=master)](https://travis-ci.org/symfony/panthere)
 
 *Panthère* is a convenient standalone library to scrape websites and to run end-to-end tests **using real browsers**.
 
