@@ -75,6 +75,16 @@ final class Client extends BaseClient implements WebDriver
         }
     }
 
+    public function getRequest()
+    {
+        throw new \LogicException('HttpFoundation Request object is not available when using WebDriver.');
+    }
+
+    public function getResponse()
+    {
+        throw new \LogicException('HttpFoundation Response object is not available when using WebDriver.');
+    }
+
     public function followRedirects($followRedirect = true): void
     {
         if (!$followRedirect) {
@@ -177,7 +187,7 @@ final class Client extends BaseClient implements WebDriver
 
     protected function doRequest($request)
     {
-        throw new \Exception('Not useful in WebDriver mode.');
+        throw new \LogicException('Not useful in WebDriver mode.');
     }
 
     public function back()
