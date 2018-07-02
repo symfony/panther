@@ -42,23 +42,25 @@ final class Client extends BaseClient implements WebDriver
      */
     private $webDriver;
     private $browserManager;
+    private $baseUri;
 
     /**
      * @param string[]|null $arguments
      */
-    public static function createChromeClient(?string $chromeDriverBinary = null, ?array $arguments = null): self
+    public static function createChromeClient(?string $chromeDriverBinary = null, ?array $arguments = null, array $options = [], ?string $baseUri = null): self
     {
-        return new self(new ChromeManager($chromeDriverBinary, $arguments));
+        return new self(new ChromeManager($chromeDriverBinary, $arguments, $options), $baseUri);
     }
 
-    public static function createSeleniumClient(?string $host = null, ?WebDriverCapabilities $capabilities = null): self
+    public static function createSeleniumClient(?string $host = null, ?WebDriverCapabilities $capabilities = null, ?string $baseUri = null): self
     {
-        return new self(new SeleniumManager($host, $capabilities));
+        return new self(new SeleniumManager($host, $capabilities), $baseUri);
     }
 
-    public function __construct(BrowserManagerInterface $browserManager)
+    public function __construct(BrowserManagerInterface $browserManager, ?string $baseUri = null)
     {
         $this->browserManager = $browserManager;
+        $this->baseUri = $baseUri;
     }
 
     public function __destruct()
@@ -87,7 +89,7 @@ final class Client extends BaseClient implements WebDriver
 
     public function setMaxRedirects($maxRedirects): void
     {
-        if ($maxRedirects !== -1) {
+        if (-1 !== $maxRedirects) {
             throw new \InvalidArgumentException('There are no max redirects when using WebDriver.');
         }
     }
@@ -241,6 +243,11 @@ final class Client extends BaseClient implements WebDriver
     public function get($uri)
     {
         $this->start();
+
+        // Prepend the base URI to URIs without a host
+        if (null !== $this->baseUri && (false !== $components = \parse_url($uri)) && !isset($components['host'])) {
+            $uri = $this->baseUri.$uri;
+        }
 
         $this->request = $this->internalRequest = new Request($uri, 'GET');
         $this->webDriver->get($uri);

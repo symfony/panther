@@ -39,6 +39,6 @@ abstract class TestCase extends PanthereTestCase
 
     protected function request(callable $clientFactory, string $path): Crawler
     {
-        return $clientFactory()->request('GET', static::$baseUri.$path);
+        return $clientFactory()->request('GET', $path);
     }
 }
