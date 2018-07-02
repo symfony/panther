@@ -22,9 +22,11 @@ You can just focus on writing your tests or web-scraping scenario, Panthère tak
 
 ## Install
 
-Use [Composer](https://getcomposer.org/) to install Panthère in your project:
+Use [Composer](https://getcomposer.org/) to install Panthère in your project. You may want to use the --dev flag if you want to use Panthere for testing only and not for web scraping:
 
     composer req symfony/panthere:dev-master
+    
+    composer req --dev symfony/panthere:dev-master
 
 ## Basic Usage
 
