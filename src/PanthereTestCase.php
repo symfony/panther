@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Panthere;
 
 use Goutte\Client as GoutteClient;
+use GuzzleHttp\Client as GuzzleClient;
 use Panthere\Client as PanthereClient;
 use Panthere\ProcessManager\WebServerManager;
 use PHPUnit\Framework\TestCase;
@@ -105,7 +106,7 @@ abstract class PanthereTestCase extends InternalTestCase
     {
         self::startWebServer(null, $hostname, $port);
         if (null === self::$panthereClient) {
-            self::$panthereClient = Client::createChromeClient();
+            self::$panthereClient = Client::createChromeClient(null, null, [], self::$baseUri);
         }
 
         return self::$panthereClient;
@@ -119,7 +120,10 @@ abstract class PanthereTestCase extends InternalTestCase
 
         self::startWebServer();
         if (null === self::$goutteClient) {
-            self::$goutteClient = new GoutteClient();
+            $goutteClient = new GoutteClient();
+            $goutteClient->setClient(new GuzzleClient(['base_uri' => self::$baseUri]));
+
+            self::$goutteClient = $goutteClient;
         }
 
         return self::$goutteClient;

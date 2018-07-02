@@ -64,7 +64,7 @@ class E2eTest extends PanthereTestCase
     public function testMyApp()
     {
         $client = static::createPanthereClient(); // Your app is automatically started using the built-in web server
-        $crawler = $client->request('GET', static::$baseUri.'/mypage'); // static::$baseUri contains the base URL
+        $crawler = $client->request('GET', '/mypage');
 
         $this->assertContains('My Title', $crawler->filter('title')->text()); // You can use any PHPUnit assertion
     }
