@@ -22,5 +22,12 @@ $crawler = $client->click($link);
 // Wait for an element to be rendered
 $client->waitFor('.support');
 
+// populate the search box with some search text - this will trigger a search box overlay to appear with results
+$client->findElement(WebDriverBy::cssSelector('.search__input.ds-input'))
+    ->sendKeys('how');
+
+// Wait for the dynamic searchbox to appear
+$client->waitFor('#algolia-autocomplete-listbox-0');
+
 echo $crawler->filter('.support')->text();
 $client->takeScreenshot('screen.png'); // Yeah, screenshot!
