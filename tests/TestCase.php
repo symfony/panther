@@ -25,9 +25,6 @@ abstract class TestCase extends PanthereTestCase
 {
     protected static $webServerDir = __DIR__.'/fixtures';
 
-    /**
-     * @return callable[]
-     */
     public function clientFactoryProvider(): array
     {
         // Tests must pass with both Panthere and Goutte

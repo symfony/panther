@@ -38,8 +38,6 @@ final class ChromeManager implements BrowserManagerInterface
     }
 
     /**
-     * @param string[]|null $arguments
-     *
      * @throws \RuntimeException
      */
     public function start(): WebDriver
