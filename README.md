@@ -4,6 +4,7 @@
 
 [![Build Status](https://travis-ci.org/symfony/panthere.svg?branch=master)](https://travis-ci.org/symfony/panthere)
 [![Build status](https://ci.appveyor.com/api/projects/status/bunoc4ufud4oie45?svg=true)](https://ci.appveyor.com/project/fabpot/panthere)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/9ea7e78c-998a-4489-9815-7449ce8291ef/mini.png)](https://insight.sensiolabs.com/projects/9ea7e78c-998a-4489-9815-7449ce8291ef)
 
 *Panthère* is a convenient standalone library to scrape websites and to run end-to-end tests **using real browsers**.
 
