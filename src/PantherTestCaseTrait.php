@@ -51,7 +51,29 @@ trait PantherTestCaseTrait
      */
     protected static $pantherClient;
 
+    /**
+     * @var bool
+     */
+    private static $stopServerOnTeardown = true;
+
+    public static function stopServerOnTeardown()
+    {
+        self::$stopServerOnTeardown = true;
+    }
+
+    public static function keepServerOnTeardown()
+    {
+        self::$stopServerOnTeardown = false;
+    }
+
     public static function tearDownAfterClass()
+    {
+        if (true === self::$stopServerOnTeardown) {
+            static::stopWebServer();
+        }
+    }
+
+    public static function stopWebServer()
     {
         if (null !== self::$webServerManager) {
             self::$webServerManager->quit();
@@ -70,7 +92,7 @@ trait PantherTestCaseTrait
         self::$baseUri = null;
     }
 
-    protected static function startWebServer(?string $webServerDir = null, string $hostname = '127.0.0.1', int $port = 9000): void
+    public static function startWebServer(?string $webServerDir = null, string $hostname = '127.0.0.1', int $port = 9000): void
     {
         if (null !== static::$webServerManager) {
             return;

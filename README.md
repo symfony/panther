@@ -166,6 +166,24 @@ Unlike testing and web scraping libraries you're used to, Panther:
 * supports custom [Selenium server](https://www.seleniumhq.org) installations
 * supports remote browser testing services including [SauceLabs](https://saucelabs.com/) and [BrowserStack](https://www.browserstack.com/)
 
+### Use the `ServerListener` to always have a running web server
+
+When you use the Panthère client, the web server running in background will be started at runtime and stopped at test's
+teardown.
+
+If you want to save a few performances and launch the server at PHPUnit startup, you can add the `ServerListener` to
+your PHPUnit configuration:
+
+```xml
+<!-- phpunit.xml.dist -->
+
+    <listeners>
+        <listener class="Panthere\ServerListener" />
+    </listeners>
+```
+
+The listener will start the webserver when the test suite is started, and will stop it when all your tests are executed.
+
 ## Documentation
 
 Since Panther implements the API of popular libraries, it already has an extensive documentation:
