@@ -17,6 +17,7 @@ use Facebook\WebDriver\Exception\NoSuchElementException;
 use Facebook\WebDriver\WebDriver;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverElement;
+use Panthere\ExceptionThrower;
 use Symfony\Component\DomCrawler\Crawler as BaseCrawler;
 
 /**
@@ -24,6 +25,8 @@ use Symfony\Component\DomCrawler\Crawler as BaseCrawler;
  */
 final class Crawler extends BaseCrawler implements WebDriverElement
 {
+    use ExceptionThrower;
+
     private $elements;
     private $webDriver;
 
