@@ -100,11 +100,11 @@ final class CookieJar extends BaseCookieJar
         $webDriverCookie = new WebDriverCookie($cookie->getName(), $cookie->getValue());
 
         if ('' !== $domain = $cookie->getDomain()) {
-            $webDriverCookie->setDomain($cookie->getDomain());
+            $webDriverCookie->setDomain($domain);
         }
 
         if (null !== $expiresTime = $cookie->getExpiresTime()) {
-            $webDriverCookie->setExpiry((int) $cookie->getExpiresTime());
+            $webDriverCookie->setExpiry((int) $expiresTime);
         }
 
         if ('/' !== $path = $cookie->getPath()) {
