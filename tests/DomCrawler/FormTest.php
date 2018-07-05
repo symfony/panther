@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Panthere\Tests\DomCrawler;
 
 use Panthere\Tests\TestCase;
+use Symfony\Component\DomCrawler\Field\ChoiceFormField;
 
 /**
  * @author Kévin Dunglas <dunglas@gmail.com>
@@ -75,17 +76,27 @@ class FormTest extends TestCase
     public function testFormFields(callable $clientFactory)
     {
         $crawler = $this->request($clientFactory, '/form.html');
+
         $form = $crawler->filter('#another-form')->form();
-        $form['j3']->select('j3a');
+
+        /**
+         * @var ChoiceFormField
+         */
+        $j3 = $form['j3'];
+        $j3->select('j3a');
 
         $originalValues = $form->getValues();
         unset($originalValues['single-cb']);
 
-        $form['single-cb']->tick();
+        /**
+         * @var ChoiceFormField
+         */
+        $singleCb = $form['single-cb'];
+        $singleCb->tick();
         $this->assertSame($originalValues + ['single-cb' => 'hello'], $form->getValues());
         $this->assertSame('hello', $form['single-cb']->getValue());
 
-        $form['single-cb']->untick();
+        $singleCb->untick();
         $this->assertSame($originalValues, $form->getValues());
     }
 
@@ -99,8 +110,18 @@ class FormTest extends TestCase
         $form['i1']->setValue('Durruti');
         $form['i2']->setValue('Бакунин');
         $form['i3']->setValue('Ferrer');
-        $form['i4']->select('i4b');
-        $form['i5']->select(['i5b', 'i5c']);
+
+        /**
+         * @var ChoiceFormField
+         */
+        $i4 = $form['i4'];
+        $i4->select('i4b');
+
+        /**
+         * @var ChoiceFormField
+         */
+        $i5 = $form['i5'];
+        $i5->select(['i5b', 'i5c']);
 
         $this->assertSame([
             'i1' => 'Durruti',

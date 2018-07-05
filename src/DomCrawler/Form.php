@@ -126,7 +126,7 @@ final class Form extends BaseForm
                 }
 
                 // Flatten non array-checkboxes
-                if (!$isArrayElement && 1 === \count($value)) {
+                if (\is_array($value) && !$isArrayElement && 1 === \count($value)) {
                     $value = $value[0];
                 }
             }
@@ -300,10 +300,12 @@ final class Form extends BaseForm
         try {
             $element = $this->element->findElement(WebDriverBy::name($name));
         } catch (NoSuchElementException $e) {
-            // Compatibility with the DomCrawler API
-            if (\is_array($value)) {
-                $element = $this->element->findElement(WebDriverBy::name($name.'[]'));
+            if (!\is_array($value)) {
+                throw $e;
             }
+
+            // Compatibility with the DomCrawler API
+            $element = $this->element->findElement(WebDriverBy::name($name.'[]'));
         }
 
         if (null === $webDriverSelect = $this->getWebDriverSelect($element)) {

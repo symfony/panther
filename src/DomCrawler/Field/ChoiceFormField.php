@@ -78,13 +78,17 @@ final class ChoiceFormField extends BaseChoiceFormField
     /**
      * Sets the value of the field.
      *
-     * @param string $value The value of the field
+     * @param string|array|bool $value The value of the field
      *
      * @throws \InvalidArgumentException When value type provided is not correct
      */
     public function setValue($value)
     {
-        if ('checkbox' === $this->type && \is_bool($value)) {
+        if (\is_bool($value)) {
+            if ('checkbox' !== $this->type) {
+                throw new \InvalidArgumentException(\sprintf('Invalid argument of type "%s"', \gettype($value)));
+            }
+
             if ($value) {
                 if (!$this->element->isSelected()) {
                     $this->element->click();
