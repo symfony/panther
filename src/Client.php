@@ -259,9 +259,9 @@ final class Client extends BaseClient implements WebDriver
             $uri = $this->baseUri.$uri;
         }
 
-        $this->request = $this->internalRequest = new Request($uri, 'GET');
+        $this->internalRequest = new Request($uri, 'GET');
         $this->webDriver->get($uri);
-        $this->response = $this->internalResponse = new Response($this->webDriver->getPageSource());
+        $this->internalResponse = new Response($this->webDriver->getPageSource());
         $this->crawler = $this->createCrawler();
 
         return $this;
