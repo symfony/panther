@@ -36,11 +36,11 @@ class WebServerManagerTest extends TestCase
      */
     public function testAlreadyRunning()
     {
-        try {
-            $server1 = new WebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234);
-            $server1->start();
+        $server1 = new WebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234);
+        $server1->start();
 
-            $server2 = new WebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234);
+        $server2 = new WebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234);
+        try {
             $server2->start();
         } finally {
             $server1->quit();

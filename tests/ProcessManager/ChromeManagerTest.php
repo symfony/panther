@@ -35,11 +35,11 @@ class ChromeManagerTest extends TestCase
      */
     public function testAlreadyRunning()
     {
-        try {
-            $driver1 = new ChromeManager();
-            $driver1->start();
+        $driver1 = new ChromeManager();
+        $driver1->start();
 
-            $driver2 = new ChromeManager();
+        $driver2 = new ChromeManager();
+        try {
             $driver2->start();
         } finally {
             $driver1->quit();

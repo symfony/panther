@@ -38,7 +38,7 @@ final class Client extends BaseClient implements WebDriver
     use ExceptionThrower;
 
     /**
-     * @var WebDriver
+     * @var WebDriver|null
      */
     private $webDriver;
     private $browserManager;
