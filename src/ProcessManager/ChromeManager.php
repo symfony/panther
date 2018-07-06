@@ -32,7 +32,7 @@ final class ChromeManager implements BrowserManagerInterface
 
     public function __construct(?string $chromeDriverBinary = null, ?array $arguments = null, array $options = [])
     {
-        $this->process = new Process([$chromeDriverBinary ?? $this->findChromeDriverBinary()], null, null, null, null);
+        $this->process = new Process([$chromeDriverBinary ?: $this->findChromeDriverBinary()], null, null, null, null);
         $this->arguments = $arguments ?? $this->getDefaultArguments();
         $this->options = \array_merge($this->getDefaultOptions(), $options);
     }
@@ -66,6 +66,10 @@ final class ChromeManager implements BrowserManagerInterface
 
     private function findChromeDriverBinary(): string
     {
+        if ($binary = $_SERVER['PANTHERE_CHROME_DRIVER_BINARY'] ?? null) {
+            return $binary;
+        }
+
         switch (PHP_OS_FAMILY) {
             case 'Windows':
                 return __DIR__.'/../../chromedriver-bin/chromedriver.exe';
