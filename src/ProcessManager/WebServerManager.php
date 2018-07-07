@@ -34,7 +34,7 @@ final class WebServerManager
     /**
      * @throws \RuntimeException
      */
-    public function __construct(string $documentRoot, string $hostname, int $port)
+    public function __construct(string $documentRoot, string $hostname, int $port, array $env = [])
     {
         $this->hostname = $hostname;
         $this->port = $port;
@@ -57,7 +57,7 @@ final class WebServerManager
                 ]
             ),
             $documentRoot,
-            null,
+            $env,
             null,
             null
         );
