@@ -37,7 +37,7 @@ Use [Composer](https://getcomposer.org/) to install Panthère in your project. Y
 
 require __DIR__.'/vendor/autoload.php'; // Composer's autoloader
 
-$client = \Panthere\Client::createChromeClient();
+$client = \Symfony\Component\Panthere\Client::createChromeClient();
 $crawler = $client->request('GET', 'http://api-platform.com'); // Yes, this website is 100% in JavaScript
 
 $link = $crawler->selectLink('Support')->link();
@@ -59,7 +59,7 @@ It extends [PHPUnit](https://phpunit.de/)'s `TestCase` and provide all testing t
 ```php
 <?php
 
-use Panthere\PanthereTestCase;
+use Symfony\Component\Panthere\PanthereTestCase;
 
 class E2eTest extends PanthereTestCase
 {
@@ -96,7 +96,7 @@ to authenticate to an external SSO server, do I want to access the kernel of the
 ```php
 <?php
 
-use Panthere\PanthereTestCase;
+use Symfony\Component\Panthere\PanthereTestCase;
 
 class E2eTest extends PanthereTestCase
 {

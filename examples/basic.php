@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 require __DIR__.'/../vendor/autoload.php'; // Composer's autoloader
 
-$client = \Panthere\Client::createChromeClient();
+$client = \Symfony\Component\Panthere\Client::createChromeClient();
 $crawler = $client->request('GET', 'http://api-platform.com'); // Yes, this website is 100% in JavaScript
 
 $link = $crawler->selectLink('Support')->link();

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Panthere\DomCrawler;
+namespace Symfony\Component\Panthere\DomCrawler;
 
 use Facebook\WebDriver\Exception\NoSuchElementException;
 use Facebook\WebDriver\Support\XPathEscaper;
@@ -20,13 +20,13 @@ use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverElement;
 use Facebook\WebDriver\WebDriverSelect;
 use Facebook\WebDriver\WebDriverSelectInterface;
-use Panthere\DomCrawler\Field\ChoiceFormField;
-use Panthere\DomCrawler\Field\InputFormField;
-use Panthere\DomCrawler\Field\TextareaFormField;
-use Panthere\ExceptionThrower;
-use Panthere\WebDriver\WebDriverCheckbox;
 use Symfony\Component\DomCrawler\Field\FormField;
 use Symfony\Component\DomCrawler\Form as BaseForm;
+use Symfony\Component\Panthere\DomCrawler\Field\ChoiceFormField;
+use Symfony\Component\Panthere\DomCrawler\Field\InputFormField;
+use Symfony\Component\Panthere\DomCrawler\Field\TextareaFormField;
+use Symfony\Component\Panthere\ExceptionThrower;
+use Symfony\Component\Panthere\WebDriver\WebDriverCheckbox;
 
 /**
  * @author Kévin Dunglas <dunglas@gmail.com>
