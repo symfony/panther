@@ -176,6 +176,38 @@ php:
 script:
   - phpunit
 ```
+## AppVeyor Integration
+
+Panthère will work out of the box with AppVeyor as long as Google Chrome is installed. Here is a minimal `appveyor.yml`
+file to run Panthère tests:
+
+```yaml
+build: false
+platform: x86
+clone_folder: c:\projects\myproject
+
+cache:
+  - '%LOCALAPPDATA%\Composer\files'
+
+install:
+  - ps: Set-Service wuauserv -StartupType Manual
+  - cinst -y php composer googlechrome
+  - refreshenv
+  - cd c:\tools\php72
+  - copy php.ini-production php.ini /Y
+  - echo date.timezone="UTC" >> php.ini
+  - echo extension_dir=ext >> php.ini
+  - echo extension=php_openssl.dll >> php.ini
+  - echo extension=php_mbstring.dll >> php.ini
+  - echo extension=php_curl.dll >> php.ini
+  - echo memory_limit=3G >> php.ini
+  - cd %APPVEYOR_BUILD_FOLDER%
+  - composer install --no-interaction --no-progress
+
+test_script:
+  - cd %APPVEYOR_BUILD_FOLDER%
+  - php vendor\phpunit\phpunit\phpunit
+```
 
 ## Limitations
 
