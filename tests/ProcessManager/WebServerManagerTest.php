@@ -11,10 +11,10 @@
 
 declare(strict_types=1);
 
-namespace Panthere\Tests\ProcessManager;
+namespace Symfony\Component\Panthere\Tests\ProcessManager;
 
-use Panthere\ProcessManager\WebServerManager;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Panthere\ProcessManager\WebServerManager;
 
 /**
  * @author Kévin Dunglas <dunglas@gmail.com>

@@ -11,16 +11,16 @@
 
 declare(strict_types=1);
 
-namespace Panthere\Tests;
+namespace Symfony\Component\Panthere\Tests;
 
 use Facebook\WebDriver\WebDriver;
-use Panthere\Client;
-use Panthere\Cookie\CookieJar;
-use Panthere\DomCrawler\Crawler;
 use Symfony\Component\BrowserKit\Client as BrowserKitClient;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\BrowserKit\CookieJar as BrowserKitCookieJar;
 use Symfony\Component\DomCrawler\Crawler as DomCrawlerCrawler;
+use Symfony\Component\Panthere\Client;
+use Symfony\Component\Panthere\Cookie\CookieJar;
+use Symfony\Component\Panthere\DomCrawler\Crawler;
 
 /**
  * @author Kévin Dunglas <dunglas@gmail.com>
