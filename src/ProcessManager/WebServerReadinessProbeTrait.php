@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Panthere\ProcessManager;
+namespace Symfony\Component\Panthere\ProcessManager;
 
 use Symfony\Component\Process\Process;
 

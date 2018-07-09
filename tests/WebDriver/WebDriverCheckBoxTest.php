@@ -11,10 +11,10 @@
 
 declare(strict_types=1);
 
-namespace Panthere\Tests\WebDriver;
+namespace Symfony\Component\Panthere\Tests\WebDriver;
 
-use Panthere\Tests\TestCase;
-use Panthere\WebDriver\WebDriverCheckbox;
+use Symfony\Component\Panthere\Tests\TestCase;
+use Symfony\Component\Panthere\WebDriver\WebDriverCheckbox;
 
 /**
  * @author Kévin Dunglas <dunglas@gmail.com>

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Panthere\DomCrawler\Field;
+namespace Symfony\Component\Panthere\DomCrawler\Field;
 
 use Symfony\Component\DomCrawler\Field\InputFormField as BaseInputFormField;
 

@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Panthere\DomCrawler;
+namespace Symfony\Component\Panthere\DomCrawler;
 
 use Facebook\WebDriver\WebDriverElement;
-use Panthere\ExceptionThrower;
 use Symfony\Component\DomCrawler\Image as BaseImage;
+use Symfony\Component\Panthere\ExceptionThrower;
 
 /**
  * @author Kévin Dunglas <dunglas@gmail.com>

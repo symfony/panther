@@ -11,10 +11,10 @@
 
 declare(strict_types=1);
 
-namespace Panthere\Tests\DomCrawler;
+namespace Symfony\Component\Panthere\Tests\DomCrawler;
 
-use Panthere\Tests\TestCase;
 use Symfony\Component\DomCrawler\Field\ChoiceFormField;
+use Symfony\Component\Panthere\Tests\TestCase;
 
 /**
  * @author Kévin Dunglas <dunglas@gmail.com>

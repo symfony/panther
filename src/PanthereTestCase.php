@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Panthere;
+namespace Symfony\Component\Panthere;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Panthere;
+namespace Symfony\Component\Panthere;
 
 /**
  * @internal

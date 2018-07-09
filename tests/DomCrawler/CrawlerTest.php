@@ -11,14 +11,14 @@
 
 declare(strict_types=1);
 
-namespace Panthere\Tests\DomCrawler;
+namespace Symfony\Component\Panthere\Tests\DomCrawler;
 
 use Facebook\WebDriver\WebDriverElement;
-use Panthere\Client;
-use Panthere\DomCrawler\Image;
-use Panthere\DomCrawler\Link;
-use Panthere\Tests\TestCase;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\Panthere\Client;
+use Symfony\Component\Panthere\DomCrawler\Image;
+use Symfony\Component\Panthere\DomCrawler\Link;
+use Symfony\Component\Panthere\Tests\TestCase;
 
 /**
  * @author Kévin Dunglas <dunglas@gmail.com>

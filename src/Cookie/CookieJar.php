@@ -11,14 +11,14 @@
 
 declare(strict_types=1);
 
-namespace Panthere\Cookie;
+namespace Symfony\Component\Panthere\Cookie;
 
 use Facebook\WebDriver\Cookie as WebDriverCookie;
 use Facebook\WebDriver\WebDriver;
-use Panthere\ExceptionThrower;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\BrowserKit\CookieJar as BaseCookieJar;
 use Symfony\Component\BrowserKit\Response;
+use Symfony\Component\Panthere\ExceptionThrower;
 
 /**
  * @author Kévin Dunglas <dunglas@gmail.com>

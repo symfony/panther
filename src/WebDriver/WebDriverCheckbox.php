@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Panthere\WebDriver;
+namespace Symfony\Component\Panthere\WebDriver;
 
 use Facebook\WebDriver\Exception\NoSuchElementException;
 use Facebook\WebDriver\Exception\UnexpectedTagNameException;

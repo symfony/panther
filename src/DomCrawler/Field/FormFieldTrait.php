@@ -11,10 +11,10 @@
 
 declare(strict_types=1);
 
-namespace Panthere\DomCrawler\Field;
+namespace Symfony\Component\Panthere\DomCrawler\Field;
 
 use Facebook\WebDriver\WebDriverElement;
-use Panthere\ExceptionThrower;
+use Symfony\Component\Panthere\ExceptionThrower;
 
 /**
  * @internal

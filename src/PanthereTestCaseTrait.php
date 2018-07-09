@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Panthere;
+namespace Symfony\Component\Panthere;
 
 use Goutte\Client as GoutteClient;
 use GuzzleHttp\Client as GuzzleClient;
-use Panthere\Client as PanthereClient;
-use Panthere\ProcessManager\WebServerManager;
+use Symfony\Component\Panthere\Client as PanthereClient;
+use Symfony\Component\Panthere\ProcessManager\WebServerManager;
 
 /**
  * Eases conditional class definition.
