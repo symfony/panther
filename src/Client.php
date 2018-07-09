@@ -11,24 +11,24 @@
 
 declare(strict_types=1);
 
-namespace Panthere;
+namespace Symfony\Component\Panthere;
 
 use Facebook\WebDriver\WebDriver;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverCapabilities;
 use Facebook\WebDriver\WebDriverExpectedCondition;
-use Panthere\Cookie\CookieJar;
-use Panthere\DomCrawler\Crawler;
-use Panthere\DomCrawler\Form as PanthereForm;
-use Panthere\DomCrawler\Link as PanthereLink;
-use Panthere\ProcessManager\BrowserManagerInterface;
-use Panthere\ProcessManager\ChromeManager;
-use Panthere\ProcessManager\SeleniumManager;
 use Symfony\Component\BrowserKit\Client as BaseClient;
 use Symfony\Component\BrowserKit\Request;
 use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\DomCrawler\Form;
 use Symfony\Component\DomCrawler\Link;
+use Symfony\Component\Panthere\Cookie\CookieJar;
+use Symfony\Component\Panthere\DomCrawler\Crawler;
+use Symfony\Component\Panthere\DomCrawler\Form as PanthereForm;
+use Symfony\Component\Panthere\DomCrawler\Link as PanthereLink;
+use Symfony\Component\Panthere\ProcessManager\BrowserManagerInterface;
+use Symfony\Component\Panthere\ProcessManager\ChromeManager;
+use Symfony\Component\Panthere\ProcessManager\SeleniumManager;
 
 /**
  * @author Kévin Dunglas <dunglas@gmail.com>

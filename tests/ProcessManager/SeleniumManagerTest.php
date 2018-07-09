@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Panthere\Tests\ProcessManager;
+namespace Symfony\Component\Panthere\Tests\ProcessManager;
 
 use Facebook\WebDriver\Chrome\ChromeOptions;
-use Panthere\ProcessManager\ChromeManager;
-use Panthere\ProcessManager\SeleniumManager;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Panthere\ProcessManager\ChromeManager;
+use Symfony\Component\Panthere\ProcessManager\SeleniumManager;
 
 /**
  * @author Dmitry Kuzmin <rockwith@me.com>

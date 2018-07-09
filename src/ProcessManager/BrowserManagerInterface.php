@@ -19,7 +19,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Panthere\ProcessManager;
+namespace Symfony\Component\Panthere\ProcessManager;
 
 use Facebook\WebDriver\WebDriver;
 

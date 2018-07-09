@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Panthere\ProcessManager;
+namespace Symfony\Component\Panthere\ProcessManager;
 
 use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Remote\DesiredCapabilities;

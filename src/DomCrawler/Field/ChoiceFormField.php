@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Panthere\DomCrawler\Field;
+namespace Symfony\Component\Panthere\DomCrawler\Field;
 
 use Facebook\WebDriver\WebDriverSelect;
 use Facebook\WebDriver\WebDriverSelectInterface;
-use Panthere\WebDriver\WebDriverCheckbox;
 use Symfony\Component\DomCrawler\Field\ChoiceFormField as BaseChoiceFormField;
+use Symfony\Component\Panthere\WebDriver\WebDriverCheckbox;
 
 /**
  * @author Kévin Dunglas <dunglas@gmail.com>

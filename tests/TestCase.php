@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Panthere\Tests;
+namespace Symfony\Component\Panthere\Tests;
 
 use Goutte\Client as GoutteClient;
-use Panthere\Client as PanthereClient;
-use Panthere\PanthereTestCase;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\Panthere\Client as PanthereClient;
+use Symfony\Component\Panthere\PanthereTestCase;
 
 /**
  * @author Kévin Dunglas <dunglas@gmail.com>
