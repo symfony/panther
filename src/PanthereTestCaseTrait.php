@@ -79,7 +79,7 @@ trait PanthereTestCaseTrait
 
         if (null === $webServerDir) {
             // Try the local $webServerDir property, or the PANTHERE_WEB_SERVER_DIR env var or default to the Flex directory structure
-            $webServerDir = static::$webServerDir ?? $_ENV['PANTHERE_WEB_SERVER_DIR'] ?? __DIR__.'/../../../../public';
+            $webServerDir = static::$webServerDir ?? $_SERVER['PANTHERE_WEB_SERVER_DIR'] ?? __DIR__.'/../../../../public';
         }
 
         self::$webServerManager = new WebServerManager($webServerDir, $hostname, $port);
