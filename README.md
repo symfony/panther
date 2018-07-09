@@ -138,6 +138,28 @@ Since Panthère implements the API of popular, it already has an extensive docum
 * For the `Crawler` class, read [the DomCrawler's documentation](https://symfony.com/doc/current/components/dom_crawler.html)
 * For Webdriver, read [the Facebook's PHP WebDriver documentation](https://github.com/facebook/php-webdriver)
 
+## Environment Variables
+
+The following environment variables can be set to change some Panthère behaviors:
+
+* `PANTHERE_NO_HEADLESS`: to disable browsers's headless mode (will display the testing window, useful to debug)
+* `PANTHERE_NO_SANDBOX`: to disable [Chrome's sandboxing](https://chromium.googlesource.com/chromium/src/+/b4730a0c2773d8f6728946013eb812c6d3975bec/docs/design/sandbox.md) (unsafe, but allows to use Panthère in containers)
+* `PANTHERE_WEB_SERVER_DIR`: to change the project's document root (default to `public/`)
+
+## Docker Integration
+
+Here is a minimal Docker image that can run Panthère:
+
+```
+FROM php:latest
+
+RUN apt-get update && apt-get install -y zlib1g-dev chromium && docker-php-ext-install zip
+ENV PANTHERE_NO_SANDBOX 1
+```
+
+Build it with `docker build . -t myproject`
+Run it with `docker run -it -v "$PWD":/srv/myproject -w /srv/myproject myproject bin/phpunit`
+
 ## Travis CI Integration
 
 Panthère will work out of the box with Travis if you add the Chrome addon. Here is a minimal `.travis.yml` file to run
@@ -153,6 +175,38 @@ php:
 
 script:
   - phpunit
+```
+## AppVeyor Integration
+
+Panthère will work out of the box with AppVeyor as long as Google Chrome is installed. Here is a minimal `appveyor.yml`
+file to run Panthère tests:
+
+```yaml
+build: false
+platform: x86
+clone_folder: c:\projects\myproject
+
+cache:
+  - '%LOCALAPPDATA%\Composer\files'
+
+install:
+  - ps: Set-Service wuauserv -StartupType Manual
+  - cinst -y php composer googlechrome
+  - refreshenv
+  - cd c:\tools\php72
+  - copy php.ini-production php.ini /Y
+  - echo date.timezone="UTC" >> php.ini
+  - echo extension_dir=ext >> php.ini
+  - echo extension=php_openssl.dll >> php.ini
+  - echo extension=php_mbstring.dll >> php.ini
+  - echo extension=php_curl.dll >> php.ini
+  - echo memory_limit=3G >> php.ini
+  - cd %APPVEYOR_BUILD_FOLDER%
+  - composer install --no-interaction --no-progress
+
+test_script:
+  - cd %APPVEYOR_BUILD_FOLDER%
+  - php vendor\phpunit\phpunit\phpunit
 ```
 
 ## Limitations
