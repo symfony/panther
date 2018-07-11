@@ -145,6 +145,7 @@ The following environment variables can be set to change some Panthère behavior
 * `PANTHERE_NO_HEADLESS`: to disable browsers's headless mode (will display the testing window, useful to debug)
 * `PANTHERE_NO_SANDBOX`: to disable [Chrome's sandboxing](https://chromium.googlesource.com/chromium/src/+/b4730a0c2773d8f6728946013eb812c6d3975bec/docs/design/sandbox.md) (unsafe, but allows to use Panthère in containers)
 * `PANTHERE_WEB_SERVER_DIR`: to change the project's document root (default to `public/`)
+* `PANTHERE_CHROME_DRIVER_BINARY`: to use another `chromedriver` binary, instead of relying on the ones already provided by Panthère
 
 ## Docker Integration
 
