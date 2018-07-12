@@ -71,8 +71,7 @@ trait PanthereTestCaseTrait
         self::$baseUri = null;
     }
 
-    protected static function startWebServer(?string $webServerDir = null, string $hostname = '127.0.0.1', int $port = 9000): void
-    {
+    protected static function startWebServer(?string $webServerDir = null, string $hostname = '127.0.0.1', int $port = 9000, array $env = []): void {
         if (null !== static::$webServerManager) {
             return;
         }
@@ -82,7 +81,7 @@ trait PanthereTestCaseTrait
             $webServerDir = static::$webServerDir ?? $_SERVER['PANTHERE_WEB_SERVER_DIR'] ?? __DIR__.'/../../../../public';
         }
 
-        self::$webServerManager = new WebServerManager($webServerDir, $hostname, $port);
+        self::$webServerManager = new WebServerManager($webServerDir, $hostname, $port, $env);
         self::$webServerManager->start();
 
         self::$baseUri = "http://$hostname:$port";
