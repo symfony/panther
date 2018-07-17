@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Panthère project.
+ * This file is part of the Panther project.
  *
  * (c) Kévin Dunglas <dunglas@gmail.com>
  *
@@ -11,10 +11,10 @@
 
 declare(strict_types=1);
 
-namespace Symfony\Component\Panthere\Tests\DomCrawler;
+namespace Symfony\Component\Panther\Tests\DomCrawler;
 
 use Symfony\Component\DomCrawler\Field\ChoiceFormField;
-use Symfony\Component\Panthere\Tests\TestCase;
+use Symfony\Component\Panther\Tests\TestCase;
 
 /**
  * @author Kévin Dunglas <dunglas@gmail.com>

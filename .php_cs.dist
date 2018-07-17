@@ -1,7 +1,7 @@
 <?php
 
 $header = <<<'HEADER'
-This file is part of the Panthère project.
+This file is part of the Panther project.
 
 (c) Kévin Dunglas <dunglas@gmail.com>
 

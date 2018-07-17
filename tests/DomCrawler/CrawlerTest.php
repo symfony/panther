@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Panthère project.
+ * This file is part of the Panther project.
  *
  * (c) Kévin Dunglas <dunglas@gmail.com>
  *
@@ -11,14 +11,14 @@
 
 declare(strict_types=1);
 
-namespace Symfony\Component\Panthere\Tests\DomCrawler;
+namespace Symfony\Component\Panther\Tests\DomCrawler;
 
 use Facebook\WebDriver\WebDriverElement;
 use Symfony\Component\DomCrawler\Crawler;
-use Symfony\Component\Panthere\Client;
-use Symfony\Component\Panthere\DomCrawler\Image;
-use Symfony\Component\Panthere\DomCrawler\Link;
-use Symfony\Component\Panthere\Tests\TestCase;
+use Symfony\Component\Panther\Client;
+use Symfony\Component\Panther\DomCrawler\Image;
+use Symfony\Component\Panther\DomCrawler\Link;
+use Symfony\Component\Panther\Tests\TestCase;
 
 /**
  * @author Kévin Dunglas <dunglas@gmail.com>
@@ -27,7 +27,7 @@ class CrawlerTest extends TestCase
 {
     public function testCreateCrawler(): void
     {
-        $crawler = self::createPanthereClient()->request('GET', self::$baseUri.'/basic.html');
+        $crawler = self::createPantherClient()->request('GET', self::$baseUri.'/basic.html');
         $this->assertInstanceOf(Crawler::class, $crawler);
         $this->assertInstanceOf(WebDriverElement::class, $crawler);
     }

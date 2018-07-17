@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Panthère project.
+ * This file is part of the Panther project.
  *
  * (c) Kévin Dunglas <dunglas@gmail.com>
  *
@@ -11,19 +11,19 @@
 
 declare(strict_types=1);
 
-namespace Symfony\Component\Panthere;
+namespace Symfony\Component\Panther;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 if (\class_exists(WebTestCase::class)) {
-    abstract class PanthereTestCase extends WebTestCase
+    abstract class PantherTestCase extends WebTestCase
     {
-        use PanthereTestCaseTrait;
+        use PantherTestCaseTrait;
     }
 } else {
-    abstract class PanthereTestCase extends TestCase
+    abstract class PantherTestCase extends TestCase
     {
-        use PanthereTestCaseTrait;
+        use PantherTestCaseTrait;
     }
 }
