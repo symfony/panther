@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Panthère project.
+ * This file is part of the Panther project.
  *
  * (c) Kévin Dunglas <dunglas@gmail.com>
  *
@@ -11,14 +11,14 @@
 
 declare(strict_types=1);
 
-namespace Symfony\Component\Panthere\Cookie;
+namespace Symfony\Component\Panther\Cookie;
 
 use Facebook\WebDriver\Cookie as WebDriverCookie;
 use Facebook\WebDriver\WebDriver;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\BrowserKit\CookieJar as BaseCookieJar;
 use Symfony\Component\BrowserKit\Response;
-use Symfony\Component\Panthere\ExceptionThrower;
+use Symfony\Component\Panther\ExceptionThrower;
 
 /**
  * @author Kévin Dunglas <dunglas@gmail.com>
