@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Panthère project.
+ * This file is part of the Panther project.
  *
  * (c) Kévin Dunglas <dunglas@gmail.com>
  *
@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Symfony\Component\Panthere\ProcessManager;
+namespace Symfony\Component\Panther\ProcessManager;
 
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;

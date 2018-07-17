@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Panthère project.
+ * This file is part of the Panther project.
  *
  * (c) Kévin Dunglas <dunglas@gmail.com>
  *
@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Symfony\Component\Panthere;
+namespace Symfony\Component\Panther;
 
 use Facebook\WebDriver\WebDriver;
 use Facebook\WebDriver\WebDriverBy;
@@ -22,13 +22,13 @@ use Symfony\Component\BrowserKit\Request;
 use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\DomCrawler\Form;
 use Symfony\Component\DomCrawler\Link;
-use Symfony\Component\Panthere\Cookie\CookieJar;
-use Symfony\Component\Panthere\DomCrawler\Crawler;
-use Symfony\Component\Panthere\DomCrawler\Form as PanthereForm;
-use Symfony\Component\Panthere\DomCrawler\Link as PanthereLink;
-use Symfony\Component\Panthere\ProcessManager\BrowserManagerInterface;
-use Symfony\Component\Panthere\ProcessManager\ChromeManager;
-use Symfony\Component\Panthere\ProcessManager\SeleniumManager;
+use Symfony\Component\Panther\Cookie\CookieJar;
+use Symfony\Component\Panther\DomCrawler\Crawler;
+use Symfony\Component\Panther\DomCrawler\Form as PantherForm;
+use Symfony\Component\Panther\DomCrawler\Link as PantherLink;
+use Symfony\Component\Panther\ProcessManager\BrowserManagerInterface;
+use Symfony\Component\Panther\ProcessManager\ChromeManager;
+use Symfony\Component\Panther\ProcessManager\SeleniumManager;
 
 /**
  * @author Kévin Dunglas <dunglas@gmail.com>
@@ -123,7 +123,7 @@ final class Client extends BaseClient implements WebDriver
 
     public function click(Link $link)
     {
-        if ($link instanceof PanthereLink) {
+        if ($link instanceof PantherLink) {
             $link->getElement()->click();
 
             return $this->crawler = $this->createCrawler();
@@ -134,7 +134,7 @@ final class Client extends BaseClient implements WebDriver
 
     public function submit(Form $form, array $values = [])
     {
-        if ($form instanceof PanthereForm) {
+        if ($form instanceof PantherForm) {
             $button = $form->getButton();
             null === $button ? $form->getElement()->submit() : $button->click();
 

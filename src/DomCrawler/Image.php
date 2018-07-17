@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Panthère project.
+ * This file is part of the Panther project.
  *
  * (c) Kévin Dunglas <dunglas@gmail.com>
  *
@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Symfony\Component\Panthere\DomCrawler;
+namespace Symfony\Component\Panther\DomCrawler;
 
 use Facebook\WebDriver\WebDriverElement;
 use Symfony\Component\DomCrawler\Image as BaseImage;
-use Symfony\Component\Panthere\ExceptionThrower;
+use Symfony\Component\Panther\ExceptionThrower;
 
 /**
  * @author Kévin Dunglas <dunglas@gmail.com>
