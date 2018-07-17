@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Panthère project.
+ * This file is part of the Panther project.
  *
  * (c) Kévin Dunglas <dunglas@gmail.com>
  *
@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 require __DIR__.'/../vendor/autoload.php'; // Composer's autoloader
 
-$client = \Symfony\Component\Panthere\Client::createChromeClient();
+$client = \Symfony\Component\Panther\Client::createChromeClient();
 $crawler = $client->request('GET', 'http://api-platform.com'); // Yes, this website is 100% in JavaScript
 
 $link = $crawler->selectLink('Support')->link();

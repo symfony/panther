@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Panthère project.
+ * This file is part of the Panther project.
  *
  * (c) Kévin Dunglas <dunglas@gmail.com>
  *
@@ -11,16 +11,16 @@
 
 declare(strict_types=1);
 
-namespace Symfony\Component\Panthere\Tests;
+namespace Symfony\Component\Panther\Tests;
 
 use Facebook\WebDriver\WebDriver;
 use Symfony\Component\BrowserKit\Client as BrowserKitClient;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\BrowserKit\CookieJar as BrowserKitCookieJar;
 use Symfony\Component\DomCrawler\Crawler as DomCrawlerCrawler;
-use Symfony\Component\Panthere\Client;
-use Symfony\Component\Panthere\Cookie\CookieJar;
-use Symfony\Component\Panthere\DomCrawler\Crawler;
+use Symfony\Component\Panther\Client;
+use Symfony\Component\Panther\Cookie\CookieJar;
+use Symfony\Component\Panther\DomCrawler\Crawler;
 
 /**
  * @author Kévin Dunglas <dunglas@gmail.com>
@@ -29,7 +29,7 @@ class ClientTest extends TestCase
 {
     public function testCreateClient()
     {
-        $client = self::createPanthereClient();
+        $client = self::createPantherClient();
         $this->assertInstanceOf(BrowserKitClient::class, $client);
         $this->assertInstanceOf(WebDriver::class, $client);
     }

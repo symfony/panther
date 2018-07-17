@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Panthère project.
+ * This file is part of the Panther project.
  *
  * (c) Kévin Dunglas <dunglas@gmail.com>
  *
@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Symfony\Component\Panthere;
+namespace Symfony\Component\Panther;
 
 use Goutte\Client as GoutteClient;
 use GuzzleHttp\Client as GuzzleClient;
-use Symfony\Component\Panthere\Client as PanthereClient;
-use Symfony\Component\Panthere\ProcessManager\WebServerManager;
+use Symfony\Component\Panther\Client as PantherClient;
+use Symfony\Component\Panther\ProcessManager\WebServerManager;
 
 /**
  * Eases conditional class definition.
@@ -25,7 +25,7 @@ use Symfony\Component\Panthere\ProcessManager\WebServerManager;
  *
  * @author Kévin Dunglas <dunglas@gmail.com>
  */
-trait PanthereTestCaseTrait
+trait PantherTestCaseTrait
 {
     /**
      * @var string|null
@@ -48,9 +48,9 @@ trait PanthereTestCaseTrait
     protected static $goutteClient;
 
     /**
-     * @var PanthereClient|null
+     * @var PantherClient|null
      */
-    protected static $panthereClient;
+    protected static $pantherClient;
 
     public static function tearDownAfterClass()
     {
@@ -59,9 +59,9 @@ trait PanthereTestCaseTrait
             self::$webServerManager = null;
         }
 
-        if (null !== self::$panthereClient) {
-            self::$panthereClient->quit();
-            self::$panthereClient = null;
+        if (null !== self::$pantherClient) {
+            self::$pantherClient->quit();
+            self::$pantherClient = null;
         }
 
         if (null !== self::$goutteClient) {
@@ -78,8 +78,8 @@ trait PanthereTestCaseTrait
         }
 
         if (null === $webServerDir) {
-            // Try the local $webServerDir property, or the PANTHERE_WEB_SERVER_DIR env var or default to the Flex directory structure
-            $webServerDir = static::$webServerDir ?? $_SERVER['PANTHERE_WEB_SERVER_DIR'] ?? __DIR__.'/../../../../public';
+            // Try the local $webServerDir property, or the PANTHER_WEB_SERVER_DIR env var or default to the Flex directory structure
+            $webServerDir = static::$webServerDir ?? $_SERVER['PANTHER_WEB_SERVER_DIR'] ?? __DIR__.'/../../../../public';
         }
 
         self::$webServerManager = new WebServerManager($webServerDir, $hostname, $port);
@@ -88,14 +88,14 @@ trait PanthereTestCaseTrait
         self::$baseUri = "http://$hostname:$port";
     }
 
-    protected static function createPanthereClient(string $hostname = '127.0.0.1', int $port = 9000): PanthereClient
+    protected static function createPantherClient(string $hostname = '127.0.0.1', int $port = 9000): PantherClient
     {
         self::startWebServer(null, $hostname, $port);
-        if (null === self::$panthereClient) {
-            self::$panthereClient = Client::createChromeClient(null, null, [], self::$baseUri);
+        if (null === self::$pantherClient) {
+            self::$pantherClient = Client::createChromeClient(null, null, [], self::$baseUri);
         }
 
-        return self::$panthereClient;
+        return self::$pantherClient;
     }
 
     protected static function createGoutteClient(): GoutteClient

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Panthère project.
+ * This file is part of the Panther project.
  *
  * (c) Kévin Dunglas <dunglas@gmail.com>
  *
@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Symfony\Component\Panthere\ProcessManager;
+namespace Symfony\Component\Panther\ProcessManager;
 
 use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
@@ -66,17 +66,15 @@ final class ChromeManager implements BrowserManagerInterface
 
     private function findChromeDriverBinary(): string
     {
-        if ($binary = $_SERVER['PANTHERE_CHROME_DRIVER_BINARY'] ?? null) {
+        if ($binary = $_SERVER['PANTHER_CHROME_DRIVER_BINARY'] ?? null) {
             return $binary;
         }
 
         switch (PHP_OS_FAMILY) {
             case 'Windows':
                 return __DIR__.'/../../chromedriver-bin/chromedriver.exe';
-                break;
             case 'Darwin':
                 return __DIR__.'/../../chromedriver-bin/chromedriver_mac64';
-                break;
             default:
                 return __DIR__.'/../../chromedriver-bin/chromedriver_linux64';
         }
@@ -84,11 +82,11 @@ final class ChromeManager implements BrowserManagerInterface
 
     private function getDefaultArguments(): array
     {
-        // Enable the headless mode unless PANTHERE_NO_HEADLESS is defined
-        $args = ($_SERVER['PANTHERE_NO_HEADLESS'] ?? false) ? [] : ['--headless', 'window-size=1200,1100', '--disable-gpu'];
+        // Enable the headless mode unless PANTHER_NO_HEADLESS is defined
+        $args = ($_SERVER['PANTHER_NO_HEADLESS'] ?? false) ? [] : ['--headless', 'window-size=1200,1100', '--disable-gpu'];
 
-        // Disable Chrome's sandbox if PANTHERE_NO_SANDBOX is defined or if running in Travis
-        if ($_SERVER['PANTHERE_NO_SANDBOX'] ?? $_SERVER['HAS_JOSH_K_SEAL_OF_APPROVAL'] ?? false) {
+        // Disable Chrome's sandbox if PANTHER_NO_SANDBOX is defined or if running in Travis
+        if ($_SERVER['PANTHER_NO_SANDBOX'] ?? $_SERVER['HAS_JOSH_K_SEAL_OF_APPROVAL'] ?? false) {
             // Running in Travis, disabling the sandbox mode
             $args[] = '--no-sandbox';
         }

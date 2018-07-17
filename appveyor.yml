@@ -1,6 +1,6 @@
 build: false
 platform: x86
-clone_folder: c:\projects\symfony\panthere
+clone_folder: c:\projects\symfony\panther
 
 cache:
   - '%LOCALAPPDATA%\Composer\files'

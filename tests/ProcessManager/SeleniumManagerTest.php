@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Panthère project.
+ * This file is part of the Panther project.
  *
  * (c) Kévin Dunglas <dunglas@gmail.com>
  *
@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Symfony\Component\Panthere\Tests\ProcessManager;
+namespace Symfony\Component\Panther\Tests\ProcessManager;
 
 use Facebook\WebDriver\Chrome\ChromeOptions;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Panthere\ProcessManager\ChromeManager;
-use Symfony\Component\Panthere\ProcessManager\SeleniumManager;
+use Symfony\Component\Panther\ProcessManager\ChromeManager;
+use Symfony\Component\Panther\ProcessManager\SeleniumManager;
 
 /**
  * @author Dmitry Kuzmin <rockwith@me.com>

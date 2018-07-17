@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Panthère project.
+ * This file is part of the Panther project.
  *
  * (c) Kévin Dunglas <dunglas@gmail.com>
  *
@@ -11,26 +11,26 @@
 
 declare(strict_types=1);
 
-namespace Symfony\Component\Panthere\Tests;
+namespace Symfony\Component\Panther\Tests;
 
 use Goutte\Client as GoutteClient;
 use Symfony\Component\DomCrawler\Crawler;
-use Symfony\Component\Panthere\Client as PanthereClient;
-use Symfony\Component\Panthere\PanthereTestCase;
+use Symfony\Component\Panther\Client as PantherClient;
+use Symfony\Component\Panther\PantherTestCase;
 
 /**
  * @author Kévin Dunglas <dunglas@gmail.com>
  */
-abstract class TestCase extends PanthereTestCase
+abstract class TestCase extends PantherTestCase
 {
     protected static $webServerDir = __DIR__.'/fixtures';
 
     public function clientFactoryProvider(): array
     {
-        // Tests must pass with both Panthere and Goutte
+        // Tests must pass with both Panther and Goutte
         return [
             [[static::class, 'createGoutteClient'], GoutteClient::class],
-            [[static::class, 'createPanthereClient'], PanthereClient::class],
+            [[static::class, 'createPantherClient'], PantherClient::class],
         ];
     }
 
