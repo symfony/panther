@@ -226,7 +226,7 @@ final class Client extends BaseClient implements WebDriver
         return new CookieJar($this->webDriver);
     }
 
-    public function waitFor(string $cssSelector, int $timeoutInSecond = 30, int $intervalInMillisecond = 250): object
+    public function waitFor(string $cssSelector, int $timeoutInSecond = 30, int $intervalInMillisecond = 250)
     {
         return $this->wait($timeoutInSecond, $intervalInMillisecond)->until(
             WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::cssSelector($cssSelector))
