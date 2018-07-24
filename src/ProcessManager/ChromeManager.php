@@ -90,6 +90,12 @@ final class ChromeManager implements BrowserManagerInterface
             // Running in Travis, disabling the sandbox mode
             $args[] = '--no-sandbox';
         }
+        
+        // Add custom arguments with PANTHER_CHROME_ARGUMENTS
+        if ($_SERVER['PANTHER_CHROME_ARGUMENTS'] ?? false) {
+            $arguments = explode(' ', $_SERVER['PANTHER_CHROME_ARGUMENTS']);
+            $args = array_merge($args, $arguments);
+        }
 
         return $args;
     }
