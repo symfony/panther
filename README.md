@@ -27,7 +27,7 @@ You can just focus on writing your tests or web-scraping scenario, Panther takes
 Use [Composer](https://getcomposer.org/) to install Panther in your project. You may want to use the --dev flag if you want to use Panther for testing only and not for web scraping:
 
     composer req symfony/panther:dev-master
-    
+
     composer req --dev symfony/panther:dev-master
 
 ## Basic Usage
@@ -105,9 +105,9 @@ class E2eTest extends PantherTestCase
         $symfonyClient = static::createClient(); // A cute kitty: the Symfony's functional test too
         $goutteClient = static::createGoutteClient(); // An agile lynx: Goutte
         $pantherClient = static::createPantherClient(); // A majestic Panther
-        
+
         // Both Goutte and Panther benefits from the built-in HTTP server
-        
+
         // enjoy the same API for the 3 felines
         // $*client->request('GET', '...')
 
@@ -125,7 +125,7 @@ Unlike testing and web scraping libraries you're used to, Panther:
 * executes the JavaScript code contained in webpages
 * supports everything that Chrome (or Firefox) implements
 * allows screenshots taking
-* can wait for the appearance of elements loaded asynchronously 
+* can wait for the appearance of elements loaded asynchronously
 * lets you run your own JS code or XPath queries in the context of the loaded page
 * supports custom [Selenium server](https://www.seleniumhq.org) installations
 * supports remote browser testing services including [SauceLabs](https://saucelabs.com/) and [BrowserStack](https://www.browserstack.com/)
@@ -146,6 +146,7 @@ The following environment variables can be set to change some Panther behaviors:
 * `PANTHER_NO_SANDBOX`: to disable [Chrome's sandboxing](https://chromium.googlesource.com/chromium/src/+/b4730a0c2773d8f6728946013eb812c6d3975bec/docs/design/sandbox.md) (unsafe, but allows to use Panther in containers)
 * `PANTHER_WEB_SERVER_DIR`: to change the project's document root (default to `public/`)
 * `PANTHER_CHROME_DRIVER_BINARY`: to use another `chromedriver` binary, instead of relying on the ones already provided by Panther
+* `GOOGLE_CHROME_SHIM`: to use another `google-chrome` binary
 
 ## Docker Integration
 

@@ -53,6 +53,7 @@ final class ChromeManager implements BrowserManagerInterface
         if ($this->arguments) {
             $chromeOptions = new ChromeOptions();
             $chromeOptions->addArguments($this->arguments);
+            $chromeOptions->setBinary(getenv('GOOGLE_CHROME_SHIM') ?: '');
             $capabilities->setCapability(ChromeOptions::CAPABILITY, $chromeOptions);
         }
 
