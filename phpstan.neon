@@ -1,6 +1,4 @@
 parameters:
 	ignoreErrors:
-		# https://github.com/symfony/symfony/pull/27849
-		- '/Parameter #1 \$value of method Symfony\\Component\\DomCrawler\\Field\\ChoiceFormField::select\(\) expects string, array<int, string> given\./'
 		# Require a redesign of the underlying Symfony components
 		- '#Panther\\[a-zA-Z\\]+::__construct\(\) does not call parent constructor from Symfony\\Component\\(BrowserKit|DomCrawler)\\[a-zA-Z]+\.#'
