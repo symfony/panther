@@ -5,17 +5,11 @@ clone_folder: c:\projects\symfony\panther
 cache:
   - '%LOCALAPPDATA%\Composer\files'
 
-matrix:
-  - PHP_VERSION: 7.1.7
-    VERSION: 71
-  - PHP_VERSION: 7.2.8
-    VERSION: 72
-
 install:
   - ps: Set-Service wuauserv -StartupType Manual
-  - cinst -y php --version %PHP_VERSION% composer googlechrome
+  - cinst -y php composer googlechrome
   - refreshenv
-  - cd c:\tools\php%VERSION%
+  - cd c:\tools\php72
   - copy php.ini-production php.ini /Y
   - echo date.timezone="UTC" >> php.ini
   - echo extension_dir=ext >> php.ini
