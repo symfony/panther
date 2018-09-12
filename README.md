@@ -26,9 +26,9 @@ You can just focus on writing your tests or web-scraping scenario, Panther takes
 
 Use [Composer](https://getcomposer.org/) to install Panther in your project. You may want to use the --dev flag if you want to use Panther for testing only and not for web scraping:
 
-    composer req symfony/panther:dev-master
+    composer req symfony/panther
     
-    composer req --dev symfony/panther:dev-master
+    composer req --dev symfony/panther
 
 ## Basic Usage
 
