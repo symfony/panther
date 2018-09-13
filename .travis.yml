@@ -10,13 +10,23 @@ cache:
   directories:
     - $HOME/.composer/cache
 
+matrix:
+  include:
+    -
+      env: DEPS="low"
+
 before_install:
   - wget https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v2.12.1/php-cs-fixer.phar
   - wget https://github.com/phpstan/phpstan/releases/download/0.10.1/phpstan.phar
 
 before_script:
   - phpenv config-rm xdebug.ini
-  - composer install
+  - |
+    if [ "$DEPS" = "low" ] ; then
+      composer update --prefer-lowest
+    else
+      composer install
+    fi
 
 script:
   - phpunit
