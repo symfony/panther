@@ -93,8 +93,8 @@ final class ChromeManager implements BrowserManagerInterface
 
         // Add custom arguments with PANTHER_CHROME_ARGUMENTS
         if ($_SERVER['PANTHER_CHROME_ARGUMENTS'] ?? false) {
-            $arguments = \explode(' ', $_SERVER['PANTHER_CHROME_ARGUMENTS']);
-            $args = \array_merge($args, $arguments);
+            $arguments = explode(' ', $_SERVER['PANTHER_CHROME_ARGUMENTS']);
+            $args = array_merge($args, $arguments);
         }
 
         return $args;
