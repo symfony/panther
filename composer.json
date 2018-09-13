@@ -1,8 +1,8 @@
 {
   "name": "symfony/panther",
   "type": "library",
-  "description": "A browser testing and web scrapping library for PHP and Symfony.",
-  "keywords": ["scrapping", "E2E", "testing", "webdriver", "selenium", "symfony"],
+  "description": "A browser testing and web scraping library for PHP and Symfony.",
+  "keywords": ["scraping", "E2E", "testing", "webdriver", "selenium", "symfony"],
   "homepage": "https://dunglas.fr",
   "license": "MIT",
   "authors": [
