@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 /*
- * This file is part of the Panthère project.
+ * This file is part of the Panther project.
  *
  * (c) Kévin Dunglas <dunglas@gmail.com>
  *
