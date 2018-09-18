@@ -5,6 +5,8 @@ addons:
 php:
   - 7.1
   - 7.2
+  - php: '7.2'
+    env: deps=low
 
 cache:
   directories:
@@ -16,7 +18,13 @@ before_install:
 
 before_script:
   - phpenv config-rm xdebug.ini
-  - composer install
+
+install:
+  - if [[ $deps = 'low' ]]; then
+      composer update --prefer-dist --no-progress --no-suggest --prefer-stable --prefer-lowest --ansi;
+    else
+      composer update --prefer-dist --no-progress --no-suggest --ansi;
+    fi
 
 script:
   - phpunit
