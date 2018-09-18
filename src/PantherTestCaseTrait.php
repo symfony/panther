@@ -98,13 +98,13 @@ trait PantherTestCaseTrait
         return self::$pantherClient;
     }
 
-    protected static function createGoutteClient(): GoutteClient
+    protected static function createGoutteClient(string $hostname = '127.0.0.1', int $port = 9000): GoutteClient
     {
         if (!\class_exists(GoutteClient::class)) {
             throw new \RuntimeException('Goutte is not installed. Run "composer req fabpot/goutte".');
         }
 
-        self::startWebServer();
+        self::startWebServer(null, $hostname, $port);
         if (null === self::$goutteClient) {
             $goutteClient = new GoutteClient();
             $goutteClient->setClient(new GuzzleClient(['base_uri' => self::$baseUri]));
