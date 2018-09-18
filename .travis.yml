@@ -6,6 +6,7 @@ jobs:
   include:
     - php: '7.1'
     - php: '7.2'
+      env: lint=1
     - php: '7.2'
       env: deps=low
 
@@ -29,5 +30,5 @@ install:
 
 script:
   - phpunit
-  - php php-cs-fixer.phar fix --dry-run --diff --no-ansi
-  - php phpstan.phar analyse src tests --level=6
+  - if [[ $lint = '1' ]]; then php php-cs-fixer.phar fix --dry-run --diff --no-ansi; fi
+  - if [[ $lint = '1' ]]; then php phpstan.phar analyse src tests --level=6; fi
