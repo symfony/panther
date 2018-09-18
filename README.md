@@ -138,6 +138,10 @@ Since Panther implements the API of popular libraries, it already has an extensi
 * For the `Crawler` class, read [the DomCrawler's documentation](https://symfony.com/doc/current/components/dom_crawler.html)
 * For Webdriver, read [the Facebook's PHP WebDriver documentation](https://github.com/facebook/php-webdriver)
 
+## Notice
+
+* Webdriver returns only the displayed text. When you filter on head tag (like `title`), the method `text()` returns an empty string. Use the method `html()` method to get the complete contents of the tag (including the tag itself). 
+
 ## Environment Variables
 
 The following environment variables can be set to change some Panther behaviors:
