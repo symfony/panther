@@ -53,10 +53,16 @@ final class ChromeManager implements BrowserManagerInterface
         if ($this->arguments) {
             $chromeOptions = new ChromeOptions();
             $chromeOptions->addArguments($this->arguments);
+            $chromeOptions->setBinary(getenv('GOOGLE_CHROME_SHIM') ?: '');
             $capabilities->setCapability(ChromeOptions::CAPABILITY, $chromeOptions);
         }
 
-        return RemoteWebDriver::create($url, $capabilities);
+        return RemoteWebDriver::create(
+            $url,
+            $capabilities,
+            $this->options['connection_timeout_in_ms'],
+            $this->options['request_timeout_in_ms']
+        );
     }
 
     public function quit(): void
@@ -101,6 +107,8 @@ final class ChromeManager implements BrowserManagerInterface
             'host' => '127.0.0.1',
             'port' => 9515,
             'path' => '/status',
+            'connection_timeout_in_ms' => 30000,
+            'request_timeout_in_ms' => 30000
         ];
     }
 }
