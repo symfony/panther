@@ -15,6 +15,7 @@ namespace Symfony\Component\Panther;
 
 use Goutte\Client as GoutteClient;
 use GuzzleHttp\Client as GuzzleClient;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Panther\Client as PantherClient;
 use Symfony\Component\Panther\ProcessManager\WebServerManager;
 
@@ -86,17 +87,27 @@ trait PantherTestCaseTrait
         self::$baseUri = "http://$hostname:$port";
     }
 
-    protected static function createPantherClient(string $hostname = '127.0.0.1', int $port = 9000): PantherClient
+    /**
+     * @param array $kernelOptions An array of options to pass to the createKernel method
+     */
+    protected static function createPantherClient(string $hostname = '127.0.0.1', int $port = 9000, array $kernelOptions = []): PantherClient
     {
         self::startWebServer(null, $hostname, $port);
         if (null === self::$pantherClient) {
             self::$pantherClient = Client::createChromeClient(null, null, [], self::$baseUri);
         }
 
+        if (\is_a(self::class, KernelTestCase::class, true)) {
+            static::bootKernel($kernelOptions);
+        }
+
         return self::$pantherClient;
     }
 
-    protected static function createGoutteClient(string $hostname = '127.0.0.1', int $port = 9000): GoutteClient
+    /**
+     * @param array $kernelOptions An array of options to pass to the createKernel method
+     */
+    protected static function createGoutteClient(string $hostname = '127.0.0.1', int $port = 9000, array $kernelOptions = []): GoutteClient
     {
         if (!\class_exists(GoutteClient::class)) {
             throw new \RuntimeException('Goutte is not installed. Run "composer req fabpot/goutte".');
@@ -108,6 +119,10 @@ trait PantherTestCaseTrait
             $goutteClient->setClient(new GuzzleClient(['base_uri' => self::$baseUri]));
 
             self::$goutteClient = $goutteClient;
+        }
+
+        if (\is_a(self::class, KernelTestCase::class, true)) {
+            static::bootKernel($kernelOptions);
         }
 
         return self::$goutteClient;
