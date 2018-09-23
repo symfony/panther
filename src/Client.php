@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther;
 
+use Facebook\WebDriver\Exception\NoSuchElementException;
+use Facebook\WebDriver\Exception\TimeOutException;
+use Facebook\WebDriver\Remote\RemoteWebElement;
 use Facebook\WebDriver\WebDriver;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverCapabilities;
@@ -226,7 +229,13 @@ final class Client extends BaseClient implements WebDriver
         return new CookieJar($this->webDriver);
     }
 
-    public function waitFor(string $cssSelector, int $timeoutInSecond = 30, int $intervalInMillisecond = 250): object
+    /**
+     * @throws NoSuchElementException
+     * @throws TimeOutException
+     *
+     * @return RemoteWebElement
+     */
+    public function waitFor(string $cssSelector, int $timeoutInSecond = 30, int $intervalInMillisecond = 250)
     {
         return $this->wait($timeoutInSecond, $intervalInMillisecond)->until(
             WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::cssSelector($cssSelector))

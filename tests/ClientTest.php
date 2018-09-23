@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\Tests;
 
+use Facebook\WebDriver\Remote\RemoteWebElement;
 use Facebook\WebDriver\WebDriver;
 use Symfony\Component\BrowserKit\Client as BrowserKitClient;
 use Symfony\Component\BrowserKit\Cookie;
@@ -32,6 +33,15 @@ class ClientTest extends TestCase
         $client = self::createPantherClient();
         $this->assertInstanceOf(BrowserKitClient::class, $client);
         $this->assertInstanceOf(WebDriver::class, $client);
+    }
+
+    public function testWaitFor()
+    {
+        $client = self::createPantherClient();
+        $crawler = $client->request('GET', '/waitfor.html');
+        $c = $client->waitFor('#hello');
+        $this->assertInstanceOf(RemoteWebElement::class, $c);
+        $this->assertSame('Hello', $crawler->filter('#hello')->text());
     }
 
     /**
