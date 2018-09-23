@@ -25,7 +25,7 @@ class WebServerManagerTest extends TestCase
     {
         $server = new WebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234);
         $server->start();
-        $this->assertContains('Hello', \file_get_contents('http://127.0.0.1:1234/basic.html'));
+        $this->assertContains('Hello', file_get_contents('http://127.0.0.1:1234/basic.html'));
 
         $server->quit();
     }

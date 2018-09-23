@@ -139,7 +139,7 @@ final class CookieJar extends BaseCookieJar
         }
 
         $cookiePath = $cookie->getPath() ?? '/';
-        if (0 !== \strpos($path, $cookiePath)) {
+        if (0 !== strpos($path, $cookiePath)) {
             return null;
         }
 
@@ -148,8 +148,8 @@ final class CookieJar extends BaseCookieJar
             return $cookie;
         }
 
-        $cookieDomain = '.'.\ltrim($cookieDomain, '.');
-        if ($cookieDomain !== \substr('.'.$domain, -\strlen($cookieDomain))) {
+        $cookieDomain = '.'.ltrim($cookieDomain, '.');
+        if ($cookieDomain !== substr('.'.$domain, -\strlen($cookieDomain))) {
             return null;
         }
 
