@@ -34,7 +34,7 @@ final class ChromeManager implements BrowserManagerInterface
     {
         $this->process = new Process([$chromeDriverBinary ?: $this->findChromeDriverBinary()], null, null, null, null);
         $this->arguments = $arguments ?? $this->getDefaultArguments();
-        $this->options = \array_merge($this->getDefaultOptions(), $options);
+        $this->options = array_merge($this->getDefaultOptions(), $options);
     }
 
     /**
