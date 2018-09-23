@@ -15,8 +15,8 @@ cache:
     - $HOME/.composer/cache
 
 before_install:
-  - wget https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v2.12.1/php-cs-fixer.phar
-  - wget https://github.com/phpstan/phpstan/releases/download/0.10.1/phpstan.phar
+  - if [[ $lint = '1' ]]; then wget https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v2.12.1/php-cs-fixer.phar; fi
+  - if [[ $lint = '1' ]]; then wget https://github.com/phpstan/phpstan/releases/download/0.10.1/phpstan.phar; fi
 
 before_script:
   - phpenv config-rm xdebug.ini
