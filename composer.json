@@ -21,7 +21,7 @@
     "facebook/webdriver": "^1.5",
     "symfony/browser-kit": "^4.0",
     "symfony/polyfill-php72": "^1.9",
-    "symfony/process": "^4.0"
+    "symfony/process": "^3.4 || ^4.0"
   },
   "conflict": {
     "symfony/browser-kit": "4.1.0"
@@ -41,8 +41,10 @@
     "sort-packages": true
   },
   "require-dev": {
-    "fabpot/goutte": "^3.2",
+    "guzzlehttp/guzzle": "^6.3",
+    "fabpot/goutte": "^3.2.3",
     "phpunit/phpunit": "^7.0",
-    "symfony/framework-bundle": "^4.0"
+    "symfony/css-selector": "^3.4 || ^4.0",
+    "symfony/framework-bundle": "^3.4 || ^4.0"
   }
 }
