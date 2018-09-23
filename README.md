@@ -97,6 +97,7 @@ to authenticate to an external SSO server, do I want to access the kernel of the
 <?php
 
 use Symfony\Component\Panther\PantherTestCase;
+use Symfony\Component\Panther\Client;
 
 class E2eTest extends PantherTestCase
 {
@@ -105,9 +106,13 @@ class E2eTest extends PantherTestCase
         $symfonyClient = static::createClient(); // A cute kitty: the Symfony's functional test too
         $goutteClient = static::createGoutteClient(); // An agile lynx: Goutte
         $pantherClient = static::createPantherClient(); // A majestic Panther
-        
         // Both Goutte and Panther benefits from the built-in HTTP server
-        
+
+        $customChromeClient = Client::createChromeClient(null, null, [], 'https://example.com'); // Create a custom Chrome client
+        $customSeleniumClient = Client::createSeleniumClient('http://127.0.0.1:4444/wd/hub', null, 'https://example.com'); // Create a custom Selenium client
+        // When initializing a custom client, the integrated web server IS NOT started automatically.
+        // Use PantherTestCase::startWebServer() or WebServerManager if you want to start it manually.
+
         // enjoy the same API for the 3 felines
         // $*client->request('GET', '...')
 
@@ -177,6 +182,7 @@ php:
 script:
   - phpunit
 ```
+
 ## AppVeyor Integration
 
 Panther will work out of the box with AppVeyor as long as Google Chrome is installed. Here is a minimal `appveyor.yml`
