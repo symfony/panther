@@ -2,23 +2,33 @@ language: php
 addons:
   chrome: stable
 
-php:
-  - 7.1
-  - 7.2
+jobs:
+  include:
+    - php: '7.1'
+    - php: '7.2'
+      env: lint=1
+    - php: '7.2'
+      env: deps=low
 
 cache:
   directories:
     - $HOME/.composer/cache
 
 before_install:
-  - wget https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v2.12.1/php-cs-fixer.phar
-  - wget https://github.com/phpstan/phpstan/releases/download/0.10.1/phpstan.phar
+  - if [[ $lint = '1' ]]; then wget https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v2.12.1/php-cs-fixer.phar; fi
+  - if [[ $lint = '1' ]]; then wget https://github.com/phpstan/phpstan/releases/download/0.10.1/phpstan.phar; fi
 
 before_script:
   - phpenv config-rm xdebug.ini
-  - composer install
+
+install:
+  - if [[ $deps = 'low' ]]; then
+      composer update --prefer-dist --no-progress --no-suggest --prefer-stable --prefer-lowest --ansi;
+    else
+      composer update --prefer-dist --no-progress --no-suggest --ansi;
+    fi
 
 script:
   - phpunit
-  - php php-cs-fixer.phar fix --dry-run --diff --no-ansi
-  - php phpstan.phar analyse src tests --level=6
+  - if [[ $lint = '1' ]]; then php php-cs-fixer.phar fix --dry-run --diff --no-ansi; fi
+  - if [[ $lint = '1' ]]; then php phpstan.phar analyse src tests --level=6; fi
