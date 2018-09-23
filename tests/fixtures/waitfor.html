@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WaitFor</title>
+</head>
+<body>
+<div id="root"></div>
+
+<template id="t-hello">
+    <p id="hello">Hello</p>
+</template>
+
+<script>
+    window.setTimeout(function () {
+        document.getElementById('root').appendChild(
+            document.importNode(document.getElementById('t-hello').content, true)
+        );
+    }, 1000);
+</script>
+</body>
+</html>
