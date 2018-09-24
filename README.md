@@ -8,23 +8,23 @@
 
 *Panther* is a convenient standalone library to scrape websites and to run end-to-end tests **using real browsers**.
 
-Panther is super powerful, it leverages [the W3C's WebDriver protocol](https://www.w3.org/TR/webdriver/) to drive native web browsers such as Google Chrome and Firefox.
+Panther is super powerful. It leverages [the W3C's WebDriver protocol](https://www.w3.org/TR/webdriver/) to drive native web browsers such as Google Chrome and Firefox.
 
-Panther is very easy to use, because it implements the popular Symfony's [BrowserKit](https://symfony.com/doc/current/components/browser_kit.html) and
+Panther is very easy to use, because it implements Symfony's popular [BrowserKit](https://symfony.com/doc/current/components/browser_kit.html) and
 [DomCrawler](https://symfony.com/doc/current/components/dom_crawler.html) APIs, and contains
 all features you need to test your apps. It will sound familiar if you have ever created [a functional test for a Symfony app](https://symfony.com/doc/current/testing.html#functional-tests):
 as the API is exactly the same!
-Keep in mind that Panther can be used in every PHP project, it's a standalone library.
+Keep in mind that Panther can be used in every PHP project, as it is a standalone library.
 
 Panther automatically finds your local installation of Chrome and launches it (thanks to [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/)),
-so you don't need to install anything on your computer, neither Selenium server nor obscure driver.
+so you don't need to install anything on your computer, neither Selenium server nor any other obscure driver.
 
 In test mode, Panther automatically starts your application using [the PHP built-in web-server](http://php.net/manual/en/features.commandline.webserver.php).
-You can just focus on writing your tests or web-scraping scenario, Panther takes care of everything else.
+You can focus on writing your tests or web-scraping scenario and Panther will take care of everything else.
 
 ## Install
 
-Use [Composer](https://getcomposer.org/) to install Panther in your project. You may want to use the --dev flag if you want to use Panther for testing only and not for web scraping:
+Use [Composer](https://getcomposer.org/) to install Panther in your project. You may want to use the --dev flag if you want to use Panther for testing only and not for web scraping in a production environment:
 
     composer req symfony/panther
     
@@ -58,6 +58,8 @@ It extends [PHPUnit](https://phpunit.de/)'s `TestCase` and provide all testing t
 
 ```php
 <?php
+
+namespace App\Tests;
 
 use Symfony\Component\Panther\PantherTestCase;
 
@@ -96,6 +98,8 @@ to authenticate to an external SSO server, do I want to access the kernel of the
 ```php
 <?php
 
+namespace App\Tests;
+
 use Symfony\Component\Panther\PantherTestCase;
 use Symfony\Component\Panther\Client;
 
@@ -116,9 +120,36 @@ class E2eTest extends PantherTestCase
         // enjoy the same API for the 3 felines
         // $*client->request('GET', '...')
 
-        $kernel = static::createKernel(); // You can also access to the app's kernel
+        $kernel = static::createKernel(); // You have also access to the app's kernel
 
         // ...
+    }
+}
+```
+
+### Usage with Other Testing Tools
+
+If you want to use Panther with other testing tools like [LiipFunctionalTestBundle](https://github.com/liip/LiipFunctionalTestBundle) or if you just need to use a different base class, Panther has got you covered. It provides you with the `Symfony\Component\Panther\PantherTestCaseTrait` and you can use it to enhance your existing test-infrastructure with some Panther awesomeness:
+
+```php
+<?php
+
+namespace App\Tests\Controller;
+
+use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Panther\PantherTestCaseTrait;
+
+class DefaultControllerTest extends WebTestCase
+{
+    use PantherTestCaseTrait; // this is the magic. Panther is now available.
+
+    public function testWithFixtures()
+    {
+        $this->loadFixtures([]); // load your fixtures
+        $client = self::createPantherClient(); // create your panther client
+
+        $client->request('GET', '/');
     }
 }
 ```
@@ -130,7 +161,7 @@ Unlike testing and web scraping libraries you're used to, Panther:
 * executes the JavaScript code contained in webpages
 * supports everything that Chrome (or Firefox) implements
 * allows screenshots taking
-* can wait for the appearance of elements loaded asynchronously 
+* can wait for the appearance of asynchronously loaded elements
 * lets you run your own JS code or XPath queries in the context of the loaded page
 * supports custom [Selenium server](https://www.seleniumhq.org) installations
 * supports remote browser testing services including [SauceLabs](https://saucelabs.com/) and [BrowserStack](https://www.browserstack.com/)
