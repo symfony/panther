@@ -87,18 +87,9 @@ trait PantherTestCaseTrait
         self::$baseUri = "http://$hostname:$port";
     }
 
-    private static function getPort(?int $port): int
-    {
-        if (null === $port) {
-            $port = (int) ($_SERVER['PANTHER_WEB_SERVER_PORT'] ?? 9000);
-        }
-
-        return $port;
-    }
-
     protected static function createPantherClient(string $hostname = '127.0.0.1', ?int $port = null, array $kernelOptions = []): PantherClient
     {
-        $port = self::getPort($port);
+        $port = (int) ($port ?? $_SERVER['PANTHER_WEB_SERVER_PORT'] ?? 9000);
 
         self::startWebServer(null, $hostname, $port);
         if (null === self::$pantherClient) {
@@ -118,7 +109,7 @@ trait PantherTestCaseTrait
             throw new \RuntimeException('Goutte is not installed. Run "composer req fabpot/goutte".');
         }
 
-        $port = self::getPort($port);
+        $port = (int) ($port ?? $_SERVER['PANTHER_WEB_SERVER_PORT'] ?? 9000);
 
         self::startWebServer(null, $hostname, $port);
         if (null === self::$goutteClient) {
