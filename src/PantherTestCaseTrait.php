@@ -21,8 +21,6 @@ use Symfony\Component\Panther\ProcessManager\WebServerManager;
 /**
  * Eases conditional class definition.
  *
- * @internal
- *
  * @author Kévin Dunglas <dunglas@gmail.com>
  */
 trait PantherTestCaseTrait
