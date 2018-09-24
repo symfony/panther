@@ -59,6 +59,8 @@ It extends [PHPUnit](https://phpunit.de/)'s `TestCase` and provide all testing t
 ```php
 <?php
 
+namespace App\Tests;
+
 use Symfony\Component\Panther\PantherTestCase;
 
 class E2eTest extends PantherTestCase
@@ -96,6 +98,8 @@ to authenticate to an external SSO server, do I want to access the kernel of the
 ```php
 <?php
 
+namespace App\Tests;
+
 use Symfony\Component\Panther\PantherTestCase;
 
 class E2eTest extends PantherTestCase
@@ -118,13 +122,14 @@ class E2eTest extends PantherTestCase
 }
 ```
 
-### Usage with other testing tools
+### Usage with Other Testing Tools
 
 If you want to use Panther with other testing tools like [LiipFunctionalTestBundle](https://github.com/liip/LiipFunctionalTestBundle) or if you just need to use a different base class, Panther has got you covered. It provides you with the `Symfony\Component\Panther\PantherTestCaseTrait` and you can use it to enhance your existing test-infrastructure with some Panther awesomeness:
 
 ```php
 <?php
-namespace Tests\App\Controller;
+
+namespace App\Tests\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
