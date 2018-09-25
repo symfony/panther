@@ -54,7 +54,7 @@ class DummyKernel implements KernelInterface
     {
     }
 
-    public function getBundle($name)
+    public function getBundle($name, $first = true)
     {
     }
 
