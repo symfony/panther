@@ -171,7 +171,7 @@ Unlike testing and web scraping libraries you're used to, Panther:
 When you use the Panther client, the web server running in background will be started at runtime and stopped at test's
 teardown.
 
-If you want to save a few performances and launch the server at PHPUnit startup, you can add the `ServerListener` to
+If you want to improve performances and launch the server at PHPUnit startup, you can add the `ServerListener` to
 your PHPUnit configuration:
 
 ```xml
