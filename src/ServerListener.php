@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Panthère project.
+ * This file is part of the Panther project.
  *
  * (c) Kévin Dunglas <dunglas@gmail.com>
  *
@@ -11,13 +11,13 @@
 
 declare(strict_types=1);
 
-namespace Panther;
+namespace Symfony\Component\Panther;
 
 use PHPUnit\Framework\TestListener;
 use PHPUnit\Framework\TestListenerDefaultImplementation;
 use PHPUnit\Framework\TestSuite;
 
-class ServerListener implements TestListener
+final class ServerListener implements TestListener
 {
     use TestListenerDefaultImplementation;
 
@@ -25,11 +25,7 @@ class ServerListener implements TestListener
     {
         echo "Starting Panther server for test suite {$suite->getName()}...\n";
         PantherTestCase::stopServerOnTeardown();
-        PantherTestCase::startWebServer(
-            getenv('PANTHER_LISTENER_SERVER_DIR') ?: null,
-            getenv('PANTHER_LISTENER_HOSTNAME') ?: '127.0.0.1',
-            getenv('PANTHER_LISTENER_PORT') ?: 9000
-        );
+        PantherTestCase::startWebServer();
     }
 
     public function endTestSuite(TestSuite $suite): void
