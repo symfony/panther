@@ -36,7 +36,7 @@ use Symfony\Component\Panther\ProcessManager\SeleniumManager;
 /**
  * @author Kévin Dunglas <dunglas@gmail.com>
  *
- * @method Crawler getCrawler
+ * @method Crawler getCrawler()
  */
 final class Client extends BaseClient implements WebDriver
 {
