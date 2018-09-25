@@ -190,4 +190,14 @@ class ClientTest extends TestCase
         $cookieJar->expire('foo');
         $this->assertNull($cookieJar->get('foo'));
     }
+
+    /**
+     * @dataProvider clientFactoryProvider
+     */
+    public function testServerPort(callable $clientFactory): void
+    {
+        $expectedPort = $_SERVER['PANTHER_WEB_SERVER_PORT'] ?? '9000';
+        $client = $clientFactory();
+        $this->assertEquals($expectedPort, \mb_substr(self::$baseUri, -4));
+    }
 }

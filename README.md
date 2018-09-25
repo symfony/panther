@@ -187,6 +187,7 @@ The following environment variables can be set to change some Panther behaviors:
 * `PANTHER_WEB_SERVER_DIR`: to change the project's document root (default to `public/`)
 * `PANTHER_CHROME_DRIVER_BINARY`: to use another `chromedriver` binary, instead of relying on the ones already provided by Panther
 * `PANTHER_CHROME_ARGUMENTS`: to customize `chromedriver` arguments. You need to set `PANTHER_NO_HEADLESS` to fully customize.
+* `PANTHER_WEB_SERVER_PORT`: to change the web server's port (default to `9000`)
 
 ## Docker Integration
 
