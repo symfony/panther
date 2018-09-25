@@ -157,6 +157,11 @@ final class Client extends BaseClient implements WebDriver
         return parent::submit($form, $values);
     }
 
+    public function refreshCrawler(): Crawler
+    {
+        return $this->crawler = $this->createCrawler();
+    }
+
     public function request(string $method, string $uri, array $parameters = [], array $files = [], array $server = [], string $content = null, bool $changeHistory = true): Crawler
     {
         if ('GET' !== $method) {
