@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Panthere;
+namespace Panther;
 
 use PHPUnit\Framework\TestListener;
 use PHPUnit\Framework\TestListenerDefaultImplementation;
@@ -23,18 +23,18 @@ class ServerListener implements TestListener
 
     public function startTestSuite(TestSuite $suite): void
     {
-        echo "Starting Panthere server for test suite {$suite->getName()}...\n";
-        PanthereTestCase::stopServerOnTeardown();
-        PanthereTestCase::startWebServer(
-            getenv('PANTHERE_LISTENER_SERVER_DIR') ?: null,
-            getenv('PANTHERE_LISTENER_HOSTNAME') ?: '127.0.0.1',
-            getenv('PANTHERE_LISTENER_PORT') ?: 9000
+        echo "Starting Panther server for test suite {$suite->getName()}...\n";
+        PantherTestCase::stopServerOnTeardown();
+        PantherTestCase::startWebServer(
+            getenv('PANTHER_LISTENER_SERVER_DIR') ?: null,
+            getenv('PANTHER_LISTENER_HOSTNAME') ?: '127.0.0.1',
+            getenv('PANTHER_LISTENER_PORT') ?: 9000
         );
     }
 
     public function endTestSuite(TestSuite $suite): void
     {
-        echo "\nShutting down Panthere server...\n";
-        PanthereTestCase::stopWebServer();
+        echo "\nShutting down Panther server...\n";
+        PantherTestCase::stopWebServer();
     }
 }

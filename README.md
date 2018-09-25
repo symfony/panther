@@ -178,7 +178,7 @@ your PHPUnit configuration:
 <!-- phpunit.xml.dist -->
 
     <listeners>
-        <listener class="Panthere\ServerListener" />
+        <listener class="Panther\ServerListener" />
     </listeners>
 ```
 
