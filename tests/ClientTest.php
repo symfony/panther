@@ -19,6 +19,7 @@ use Symfony\Component\BrowserKit\Client as BrowserKitClient;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\BrowserKit\CookieJar as BrowserKitCookieJar;
 use Symfony\Component\DomCrawler\Crawler as DomCrawlerCrawler;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Panther\Client;
 use Symfony\Component\Panther\Cookie\CookieJar;
 use Symfony\Component\Panther\DomCrawler\Crawler;
@@ -33,6 +34,7 @@ class ClientTest extends TestCase
         $client = self::createPantherClient();
         $this->assertInstanceOf(BrowserKitClient::class, $client);
         $this->assertInstanceOf(WebDriver::class, $client);
+        $this->assertInstanceOf(KernelInterface::class, self::$kernel);
     }
 
     public function testWaitFor()
