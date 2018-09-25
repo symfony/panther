@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of the Panther project.
+ *
+ * (c) Kévin Dunglas <dunglas@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
 namespace Symfony\Component\Panther\Tests;
 
 use PHPUnit\Framework\TestSuite;
@@ -7,7 +18,7 @@ use Symfony\Component\Panther\ServerListener;
 
 class ServerListenerTest extends TestCase
 {
-    private function createTestSuite(): TestSuite
+    private function createTestSuite()
     {
         $suite = $this->createMock(TestSuite::class);
         $suite->expects($this->once())->method('getName')->willReturn('Dummy test suite');

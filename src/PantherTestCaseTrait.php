@@ -27,6 +27,11 @@ use Symfony\Component\Panther\ProcessManager\WebServerManager;
 trait PantherTestCaseTrait
 {
     /**
+     * @var bool
+     */
+    public static $stopServerOnTeardown = true;
+
+    /**
      * @var string|null
      */
     protected static $webServerDir;
@@ -50,21 +55,6 @@ trait PantherTestCaseTrait
      * @var PantherClient|null
      */
     protected static $pantherClient;
-
-    /**
-     * @var bool
-     */
-    private static $stopServerOnTeardown = true;
-
-    public static function stopServerOnTeardown()
-    {
-        self::$stopServerOnTeardown = true;
-    }
-
-    public static function keepServerOnTeardown()
-    {
-        self::$stopServerOnTeardown = false;
-    }
 
     public static function tearDownAfterClass()
     {
