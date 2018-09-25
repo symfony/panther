@@ -87,11 +87,10 @@ trait PantherTestCaseTrait
         self::$baseUri = "http://$hostname:$port";
     }
 
-    /**
-     * @param array $kernelOptions An array of options to pass to the createKernel method
-     */
-    protected static function createPantherClient(string $hostname = '127.0.0.1', int $port = 9000, array $kernelOptions = []): PantherClient
+    protected static function createPantherClient(string $hostname = '127.0.0.1', ?int $port = null, array $kernelOptions = []): PantherClient
     {
+        $port = (int) ($port ?? $_SERVER['PANTHER_WEB_SERVER_PORT'] ?? 9000);
+
         self::startWebServer(null, $hostname, $port);
         if (null === self::$pantherClient) {
             self::$pantherClient = Client::createChromeClient(null, null, [], self::$baseUri);
@@ -104,14 +103,13 @@ trait PantherTestCaseTrait
         return self::$pantherClient;
     }
 
-    /**
-     * @param array $kernelOptions An array of options to pass to the createKernel method
-     */
-    protected static function createGoutteClient(string $hostname = '127.0.0.1', int $port = 9000, array $kernelOptions = []): GoutteClient
+    protected static function createGoutteClient(string $hostname = '127.0.0.1', ?int $port = null, array $kernelOptions = []): GoutteClient
     {
         if (!\class_exists(GoutteClient::class)) {
             throw new \RuntimeException('Goutte is not installed. Run "composer req fabpot/goutte".');
         }
+
+        $port = (int) ($port ?? $_SERVER['PANTHER_WEB_SERVER_PORT'] ?? 9000);
 
         self::startWebServer(null, $hostname, $port);
         if (null === self::$goutteClient) {
