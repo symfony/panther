@@ -15,6 +15,7 @@ namespace Symfony\Component\Panther;
 
 use Facebook\WebDriver\Exception\NoSuchElementException;
 use Facebook\WebDriver\Exception\TimeOutException;
+use Facebook\WebDriver\JavaScriptExecutor;
 use Facebook\WebDriver\Remote\RemoteWebElement;
 use Facebook\WebDriver\WebDriver;
 use Facebook\WebDriver\WebDriverBy;
@@ -38,7 +39,7 @@ use Symfony\Component\Panther\ProcessManager\SeleniumManager;
  *
  * @method Crawler getCrawler()
  */
-final class Client extends BaseClient implements WebDriver
+final class Client extends BaseClient implements WebDriver, JavaScriptExecutor
 {
     use ExceptionThrower;
 
@@ -388,5 +389,23 @@ final class Client extends BaseClient implements WebDriver
         $this->start();
 
         return $this->webDriver->findElements($locator);
+    }
+
+    public function executeScript($script, array $arguments = [])
+    {
+        if (!$this->webDriver instanceof JavaScriptExecutor) {
+            throw new \RuntimeException(sprintf('"%s" does not implement "%s".', \get_class($this->webDriver), JavaScriptExecutor::class));
+        }
+
+        return $this->webDriver->executeScript($script, $arguments);
+    }
+
+    public function executeAsyncScript($script, array $arguments = [])
+    {
+        if (!$this->webDriver instanceof JavaScriptExecutor) {
+            throw new \RuntimeException(sprintf('"%s" does not implement "%s".', \get_class($this->webDriver), JavaScriptExecutor::class));
+        }
+
+        return $this->webDriver->executeAsyncScript($script, $arguments);
     }
 }
