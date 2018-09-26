@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>JavaScript redirect page</title>
+    </head>
+    <body>
+        <h1>Hello</h1>
+        <a href="#" id="redirect-link">Redirect Link</a>
+    </body>
+
+    <script type="text/javascript">
+        document.querySelector('#redirect-link')
+            .addEventListener('click', function() {
+                onRedirectClick();
+            });
+
+        function onRedirectClick() {
+            window.setTimeout(function() {
+                window.location.href = 'basic.html';
+            }, 2000)
+        }
+    </script>
+</html>
