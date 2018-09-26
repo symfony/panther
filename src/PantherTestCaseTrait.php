@@ -27,6 +27,11 @@ use Symfony\Component\Panther\ProcessManager\WebServerManager;
 trait PantherTestCaseTrait
 {
     /**
+     * @var bool
+     */
+    public static $stopServerOnTeardown = true;
+
+    /**
      * @var string|null
      */
     protected static $webServerDir;
@@ -53,6 +58,13 @@ trait PantherTestCaseTrait
 
     public static function tearDownAfterClass()
     {
+        if (true === self::$stopServerOnTeardown) {
+            static::stopWebServer();
+        }
+    }
+
+    public static function stopWebServer()
+    {
         if (null !== self::$webServerManager) {
             self::$webServerManager->quit();
             self::$webServerManager = null;
@@ -70,7 +82,7 @@ trait PantherTestCaseTrait
         self::$baseUri = null;
     }
 
-    protected static function startWebServer(?string $webServerDir = null, string $hostname = '127.0.0.1', int $port = 9000): void
+    public static function startWebServer(?string $webServerDir = null, string $hostname = '127.0.0.1', int $port = 9000): void
     {
         if (null !== static::$webServerManager) {
             return;
