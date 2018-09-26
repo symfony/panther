@@ -15,6 +15,7 @@ namespace Symfony\Component\Panther\Tests;
 
 use Facebook\WebDriver\Remote\RemoteWebElement;
 use Facebook\WebDriver\WebDriver;
+use Facebook\WebDriver\WebDriverExpectedCondition;
 use Symfony\Component\BrowserKit\Client as BrowserKitClient;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\BrowserKit\CookieJar as BrowserKitCookieJar;
@@ -56,6 +57,25 @@ class ClientTest extends TestCase
         if (Client::class === $type) {
             $this->assertInstanceOf(Crawler::class, $crawler);
         }
+    }
+
+    public function testRefreshCrawler(): void
+    {
+        $client = self::createPantherClient();
+
+        $crawler = $client->request('GET', '/js-redirect.html');
+        $linkCrawler = $crawler->selectLink('Redirect Link');
+
+        $this->assertSame('Redirect Link', $linkCrawler->text());
+
+        $client->click($linkCrawler->link());
+        $client->wait(5)->until(WebDriverExpectedCondition::titleIs('A basic page'));
+
+        $refreshedCrawler = $client->refreshCrawler();
+
+        $this->assertInstanceOf(Crawler::class, $refreshedCrawler);
+        $this->assertSame(self::$baseUri.'/basic.html', $refreshedCrawler->getUri());
+        $this->assertSame('Hello', $refreshedCrawler->filter('h1')->text());
     }
 
     /**
