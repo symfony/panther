@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\Tests;
 
+use Facebook\WebDriver\JavaScriptExecutor;
 use Facebook\WebDriver\Remote\RemoteWebElement;
 use Facebook\WebDriver\WebDriver;
 use Facebook\WebDriver\WebDriverExpectedCondition;
@@ -35,6 +36,7 @@ class ClientTest extends TestCase
         $client = self::createPantherClient();
         $this->assertInstanceOf(BrowserKitClient::class, $client);
         $this->assertInstanceOf(WebDriver::class, $client);
+        $this->assertInstanceOf(JavaScriptExecutor::class, $client);
         $this->assertInstanceOf(KernelInterface::class, self::$kernel);
     }
 
@@ -45,6 +47,30 @@ class ClientTest extends TestCase
         $c = $client->waitFor('#hello');
         $this->assertInstanceOf(RemoteWebElement::class, $c);
         $this->assertSame('Hello', $crawler->filter('#hello')->text());
+    }
+
+    public function testExecuteScript()
+    {
+        $client = self::createPantherClient();
+        $client->request('GET', '/basic.html');
+        $innerText = $client->executeScript('return document.querySelector(arguments[0]).innerText;', ['.p-1']);
+        $this->assertSame('P1', $innerText);
+    }
+
+    public function testExecuteAsyncScript()
+    {
+        $client = self::createPantherClient();
+        $client->request('GET', '/basic.html');
+        $innerText = $client->executeAsyncScript(<<<JS
+setTimeout(function (parentArgs) {
+    const callback = parentArgs[parentArgs.length - 1];
+    const t = document.querySelector(parentArgs[0]).innerText;
+    callback(t);
+}, 100, arguments);
+JS
+            , ['.p-1']);
+
+        $this->assertSame('P1', $innerText);
     }
 
     /**
