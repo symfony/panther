@@ -166,23 +166,34 @@ Unlike testing and web scraping libraries you're used to, Panther:
 * supports custom [Selenium server](https://www.seleniumhq.org) installations
 * supports remote browser testing services including [SauceLabs](https://saucelabs.com/) and [BrowserStack](https://www.browserstack.com/)
 
-### Using the `ServerListener` to Always Have a Running Web Server
+### Improve Performances by Having a Persistent Web Server Running
 
-When you use the Panther client, the web server running in background will be started at runtime and stopped at test's
-teardown.
+When you use the Panther client, the web server running in background will be started on demand at the first call to
+`createPantherClient()`, `createGoutteClient()` or `startWebServer()` and it will be stopped at `tearDownAfterClass()`.
 
-If you want to improve performances and launch the server at PHPUnit startup, you can add the `ServerListener` to
-your PHPUnit configuration:
+If you want to improve performances, you can hook to PHPUnit in your `phpunit.xml.dist` configuration file with the
+Panther's server extension:
 
 ```xml
 <!-- phpunit.xml.dist -->
+    <extensions>
+        <extension class="Symfony\Component\Panther\ServerExtension" />
+    </extensions>
+```
 
+This extension will start the web server on demand like previously, but it will stop it after the very last test.
+
+It should be noted that the Panther's extension only works with PHPUnit `>= 7.3`. Nonetheless, if you are using an
+anterior PHPUnit version, you can also hook to PHPUnit with the Panther's server listener:
+
+```xml
+<!-- phpunit.xml.dist -->
     <listeners>
         <listener class="Symfony\Component\Panther\ServerListener" />
     </listeners>
 ```
 
-The listener will start the webserver when the test suite is started, and will stop it when all your tests are executed.
+This listener will start the web server on demand like previously, but it will stop it after each test suite.
 
 ## Documentation
 
