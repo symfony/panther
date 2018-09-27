@@ -16,7 +16,6 @@ namespace Symfony\Component\Panther;
 use Facebook\WebDriver\Exception\NoSuchElementException;
 use Facebook\WebDriver\Exception\TimeOutException;
 use Facebook\WebDriver\JavaScriptExecutor;
-use Facebook\WebDriver\Remote\RemoteWebElement;
 use Facebook\WebDriver\WebDriver;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverCapabilities;
@@ -251,13 +250,15 @@ final class Client extends BaseClient implements WebDriver, JavaScriptExecutor
      * @throws NoSuchElementException
      * @throws TimeOutException
      *
-     * @return RemoteWebElement
+     * @return Crawler
      */
     public function waitFor(string $cssSelector, int $timeoutInSecond = 30, int $intervalInMillisecond = 250)
     {
-        return $this->wait($timeoutInSecond, $intervalInMillisecond)->until(
+        $this->wait($timeoutInSecond, $intervalInMillisecond)->until(
             WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::cssSelector($cssSelector))
         );
+
+        return $this->crawler = $this->createCrawler();
     }
 
     public function getWebDriver(): WebDriver
