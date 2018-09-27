@@ -13,11 +13,10 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\Tests;
 
-use PHPUnit\Framework\TestSuite;
 use Symfony\Component\Panther\PantherTestCase;
-use Symfony\Component\Panther\ServerListener;
+use Symfony\Component\Panther\ServerExtension;
 
-class ServerListenerTest extends TestCase
+class ServerExtensionTest extends TestCase
 {
     public static function tearDownAfterClass()
     {
@@ -26,13 +25,12 @@ class ServerListenerTest extends TestCase
 
     public function testStartAndStop(): void
     {
-        $testSuite = new TestSuite();
-        $listener = new ServerListener();
+        $listener = new ServerExtension();
 
-        $listener->startTestSuite($testSuite);
+        $listener->executeBeforeFirstTest();
         static::assertFalse(PantherTestCase::$stopServerOnTeardown);
 
-        $listener->endTestSuite($testSuite);
+        $listener->executeAfterLastTest();
         static::assertNull(PantherTestCase::$webServerManager);
     }
 }

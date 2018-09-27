@@ -13,21 +13,22 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther;
 
-use PHPUnit\Framework\TestListener;
-use PHPUnit\Framework\TestListenerDefaultImplementation;
-use PHPUnit\Framework\TestSuite;
+use PHPUnit\Runner\AfterLastTestHook;
+use PHPUnit\Runner\BeforeFirstTestHook;
 
-final class ServerListener implements TestListener
+/**
+ *  @author Dany Maillard <danymaillard93b@gmail.com>
+ */
+final class ServerExtension implements BeforeFirstTestHook, AfterLastTestHook
 {
-    use TestListenerDefaultImplementation;
     use ServerTrait;
 
-    public function startTestSuite(TestSuite $suite): void
+    public function executeBeforeFirstTest(): void
     {
         $this->keepServerOnTeardown();
     }
 
-    public function endTestSuite(TestSuite $suite): void
+    public function executeAfterLastTest(): void
     {
         $this->stopWebServer();
     }
