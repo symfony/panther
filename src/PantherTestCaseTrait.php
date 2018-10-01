@@ -62,7 +62,7 @@ trait PantherTestCaseTrait
     protected static $defaultOptions = [
         'webServerDir' => __DIR__.'/../../../../public', // the Flex directory structure
         'hostname' => '127.0.0.1',
-        'port' => 9000,
+        'port' => 9080,
         'router' => '',
     ];
 
