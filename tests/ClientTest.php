@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Symfony\Component\Panther\Tests;
 
 use Facebook\WebDriver\JavaScriptExecutor;
-use Facebook\WebDriver\Remote\RemoteWebElement;
 use Facebook\WebDriver\WebDriver;
 use Facebook\WebDriver\WebDriverExpectedCondition;
 use Symfony\Component\BrowserKit\Client as BrowserKitClient;
@@ -45,7 +44,7 @@ class ClientTest extends TestCase
         $client = self::createPantherClient();
         $crawler = $client->request('GET', '/waitfor.html');
         $c = $client->waitFor('#hello');
-        $this->assertInstanceOf(RemoteWebElement::class, $c);
+        $this->assertInstanceOf(Crawler::class, $c);
         $this->assertSame('Hello', $crawler->filter('#hello')->text());
     }
 
