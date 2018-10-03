@@ -114,6 +114,11 @@ trait PantherTestCaseTrait
         self::$baseUri = sprintf('http://%s:%s', $options['hostname'], $options['port']);
     }
 
+    public static function isWebServerStarted()
+    {
+        return self::$webServerManager->isStarted();
+    }
+
     /**
      * @param array $options       see {@see $defaultOptions}
      * @param array $kernelOptions

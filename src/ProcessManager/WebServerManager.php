@@ -79,4 +79,9 @@ final class WebServerManager
     {
         $this->process->stop();
     }
+
+    public function isStarted()
+    {
+        return $this->process->isStarted();
+    }
 }
