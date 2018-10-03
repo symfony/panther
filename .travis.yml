@@ -29,6 +29,6 @@ install:
     fi
 
 script:
-  - phpunit
+  - vendor/bin/phpunit
   - if [[ $lint = '1' ]]; then php php-cs-fixer.phar fix --dry-run --diff --no-ansi; fi
   - if [[ $lint = '1' ]]; then php phpstan.phar analyse src tests --level=6; fi

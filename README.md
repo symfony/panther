@@ -130,6 +130,20 @@ class E2eTest extends PantherTestCase
 }
 ```
 
+### Interactive Mode
+
+Panther can make a pause in your tests suites after a failure.
+It is a break time really appreciated for investigating the problem through the web browser.
+For enabling this mode, you need the `--debug` PHPUnit option without the headless mode:
+
+    $ export PANTHER_NO_HEADLESS=1
+    $ phpunit --debug
+    
+    Test 'App\AdminTest::testLogin' started
+    Error: something is wrong.
+    
+    Press enter to continue...
+
 ## Features
 
 Unlike testing and web scraping libraries you're used to, Panther:

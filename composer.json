@@ -43,7 +43,7 @@
   "require-dev": {
     "guzzlehttp/guzzle": "^6.3",
     "fabpot/goutte": "^3.2.3",
-    "phpunit/phpunit": "^7.0",
+    "phpunit/phpunit": "^7.3",
     "symfony/css-selector": "^3.4 || ^4.0",
     "symfony/framework-bundle": "^3.4 || ^4.0"
   }
