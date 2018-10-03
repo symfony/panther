@@ -102,10 +102,10 @@ trait PantherTestCaseTrait
         }
 
         $options = [
-            'webServerDir' => $options['webServerDir'] ?? static::$webServerDir ?? $_SERVER['PANTHER_WEB_SERVER_DIR'] ?? self::$defaultOptions['webServerDir'],
+            'webServerDir' => $options['webServerDir'] ?? static::$webServerDir ?? getenv('PANTHER_WEB_SERVER_DIR') ?: self::$defaultOptions['webServerDir'],
             'hostname' => $options['webServerDir'] ?? self::$defaultOptions['hostname'],
-            'port' => (int) ($options['port'] ?? $_SERVER['PANTHER_WEB_SERVER_PORT'] ?? self::$defaultOptions['port']),
-            'router' => $options['router'] ?? $_SERVER['PANTHER_WEB_SERVER_ROUTER'] ?? self::$defaultOptions['router'],
+            'port' => (int) ($options['port'] ?? getenv('PANTHER_WEB_SERVER_PORT') ?: self::$defaultOptions['port']),
+            'router' => $options['router'] ?? getenv('PANTHER_WEB_SERVER_ROUTER') ?: self::$defaultOptions['router'],
         ];
 
         self::$webServerManager = new WebServerManager(...array_values($options));
