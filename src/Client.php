@@ -20,6 +20,7 @@ use Facebook\WebDriver\WebDriver;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverCapabilities;
 use Facebook\WebDriver\WebDriverExpectedCondition;
+use Facebook\WebDriver\WebDriverHasInputDevices;
 use Symfony\Component\BrowserKit\Client as BaseClient;
 use Symfony\Component\BrowserKit\Request;
 use Symfony\Component\BrowserKit\Response;
@@ -35,10 +36,11 @@ use Symfony\Component\Panther\ProcessManager\SeleniumManager;
 
 /**
  * @author Kévin Dunglas <dunglas@gmail.com>
+ * @author Dany Maillard <danymaillard93b@gmail.com>
  *
  * @method Crawler getCrawler()
  */
-final class Client extends BaseClient implements WebDriver, JavaScriptExecutor
+final class Client extends BaseClient implements WebDriver, JavaScriptExecutor, WebDriverHasInputDevices
 {
     use ExceptionThrower;
 
@@ -408,5 +410,23 @@ final class Client extends BaseClient implements WebDriver, JavaScriptExecutor
         }
 
         return $this->webDriver->executeAsyncScript($script, $arguments);
+    }
+
+    public function getKeyboard()
+    {
+        if (!$this->webDriver instanceof WebDriverHasInputDevices) {
+            throw new \RuntimeException(sprintf('"%s" does not implement "%s".', \get_class($this->webDriver), WebDriverHasInputDevices::class));
+        }
+
+        return $this->webDriver->getKeyboard();
+    }
+
+    public function getMouse()
+    {
+        if (!$this->webDriver instanceof WebDriverHasInputDevices) {
+            throw new \RuntimeException(sprintf('"%s" does not implement "%s".', \get_class($this->webDriver), WebDriverHasInputDevices::class));
+        }
+
+        return $this->webDriver->getMouse();
     }
 }
