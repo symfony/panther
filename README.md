@@ -267,7 +267,7 @@ install:
   - ps: Set-Service wuauserv -StartupType Manual
   - cinst -y php composer googlechrome
   - refreshenv
-  - cd c:\tools\php71
+  - cd c:\tools\php72
   - copy php.ini-production php.ini /Y
   - echo date.timezone="UTC" >> php.ini
   - echo extension_dir=ext >> php.ini
