@@ -127,33 +127,6 @@ class E2eTest extends PantherTestCase
 }
 ```
 
-### Usage with Other Testing Tools
-
-If you want to use Panther with other testing tools like [LiipFunctionalTestBundle](https://github.com/liip/LiipFunctionalTestBundle) or if you just need to use a different base class, Panther has got you covered. It provides you with the `Symfony\Component\Panther\PantherTestCaseTrait` and you can use it to enhance your existing test-infrastructure with some Panther awesomeness:
-
-```php
-<?php
-
-namespace App\Tests\Controller;
-
-use Liip\FunctionalTestBundle\Test\WebTestCase;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Panther\PantherTestCaseTrait;
-
-class DefaultControllerTest extends WebTestCase
-{
-    use PantherTestCaseTrait; // this is the magic. Panther is now available.
-
-    public function testWithFixtures()
-    {
-        $this->loadFixtures([]); // load your fixtures
-        $client = self::createPantherClient(); // create your panther client
-
-        $client->request('GET', '/');
-    }
-}
-```
-
 ## Features
 
 Unlike testing and web scraping libraries you're used to, Panther:
@@ -166,7 +139,15 @@ Unlike testing and web scraping libraries you're used to, Panther:
 * supports custom [Selenium server](https://www.seleniumhq.org) installations
 * supports remote browser testing services including [SauceLabs](https://saucelabs.com/) and [BrowserStack](https://www.browserstack.com/)
 
-### Improve Performances by Having a Persistent Web Server Running
+## Documentation
+
+Since Panther implements the API of popular libraries, it already has an extensive documentation:
+
+* For the `Client` class, read [the BrowserKit's documentation](https://symfony.com/doc/current/components/browser_kit.html)
+* For the `Crawler` class, read [the DomCrawler's documentation](https://symfony.com/doc/current/components/dom_crawler.html)
+* For Webdriver, read [the Facebook's PHP WebDriver documentation](https://github.com/facebook/php-webdriver)
+
+### Improve Performances by Having a Persistent Web Server Running
 
 When you use the Panther client, the web server running in background will be started on demand at the first call to
 `createPantherClient()`, `createGoutteClient()` or `startWebServer()` and it will be stopped at `tearDownAfterClass()`.
@@ -195,19 +176,11 @@ anterior PHPUnit version, you can also hook to PHPUnit with the Panther's server
 
 This listener will start the web server on demand like previously, but it will stop it after each test suite.
 
-## Documentation
+### Hidden Text
 
-Since Panther implements the API of popular libraries, it already has an extensive documentation:
+Webdriver returns only the displayed text. When you filter on head tag (like `title`), the method `text()` returns an empty string. Use the method `html()` method to get the complete contents of the tag (including the tag itself). 
 
-* For the `Client` class, read [the BrowserKit's documentation](https://symfony.com/doc/current/components/browser_kit.html)
-* For the `Crawler` class, read [the DomCrawler's documentation](https://symfony.com/doc/current/components/dom_crawler.html)
-* For Webdriver, read [the Facebook's PHP WebDriver documentation](https://github.com/facebook/php-webdriver)
-
-## Notice
-
-* Webdriver returns only the displayed text. When you filter on head tag (like `title`), the method `text()` returns an empty string. Use the method `html()` method to get the complete contents of the tag (including the tag itself). 
-
-## Environment Variables
+### Environment Variables
 
 The following environment variables can be set to change some Panther behaviors:
 
@@ -219,7 +192,7 @@ The following environment variables can be set to change some Panther behaviors:
 * `PANTHER_WEB_SERVER_PORT`: to change the web server's port (default to `9080`)
 * `PANTHER_WEB_SERVER_ROUTER`:  to use a web server router script which is run at the start of each HTTP request
 
-## Docker Integration
+### Docker Integration
 
 Here is a minimal Docker image that can run Panther:
 
@@ -233,7 +206,7 @@ ENV PANTHER_NO_SANDBOX 1
 Build it with `docker build . -t myproject`
 Run it with `docker run -it -v "$PWD":/srv/myproject -w /srv/myproject myproject bin/phpunit`
 
-## Travis CI Integration
+### Travis CI Integration
 
 Panther will work out of the box with Travis if you add the Chrome addon. Here is a minimal `.travis.yml` file to run
 Panther tests:
@@ -250,7 +223,7 @@ script:
   - phpunit
 ```
 
-## AppVeyor Integration
+### AppVeyor Integration
 
 Panther will work out of the box with AppVeyor as long as Google Chrome is installed. Here is a minimal `appveyor.yml`
 file to run Panther tests:
@@ -281,6 +254,33 @@ install:
 test_script:
   - cd %APPVEYOR_BUILD_FOLDER%
   - php vendor\phpunit\phpunit\phpunit
+```
+
+### Usage with Other Testing Tools
+
+If you want to use Panther with other testing tools like [LiipFunctionalTestBundle](https://github.com/liip/LiipFunctionalTestBundle) or if you just need to use a different base class, Panther has got you covered. It provides you with the `Symfony\Component\Panther\PantherTestCaseTrait` and you can use it to enhance your existing test-infrastructure with some Panther awesomeness:
+
+```php
+<?php
+
+namespace App\Tests\Controller;
+
+use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Panther\PantherTestCaseTrait;
+
+class DefaultControllerTest extends WebTestCase
+{
+    use PantherTestCaseTrait; // this is the magic. Panther is now available.
+
+    public function testWithFixtures()
+    {
+        $this->loadFixtures([]); // load your fixtures
+        $client = self::createPantherClient(); // create your panther client
+
+        $client->request('GET', '/');
+    }
+}
 ```
 
 ## Limitations
