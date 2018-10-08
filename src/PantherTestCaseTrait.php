@@ -103,7 +103,7 @@ trait PantherTestCaseTrait
 
         $options = [
             'webServerDir' => $options['webServerDir'] ?? static::$webServerDir ?? $_SERVER['PANTHER_WEB_SERVER_DIR'] ?? self::$defaultOptions['webServerDir'],
-            'hostname' => $options['webServerDir'] ?? self::$defaultOptions['hostname'],
+            'hostname' => $options['hostname'] ?? self::$defaultOptions['hostname'],
             'port' => (int) ($options['port'] ?? $_SERVER['PANTHER_WEB_SERVER_PORT'] ?? self::$defaultOptions['port']),
             'router' => $options['router'] ?? $_SERVER['PANTHER_WEB_SERVER_ROUTER'] ?? self::$defaultOptions['router'],
         ];
