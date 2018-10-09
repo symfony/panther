@@ -30,7 +30,8 @@ Use [Composer](https://getcomposer.org/) to install Panther in your project. You
     
     composer req --dev symfony/panther
 
-**Warning: make sure you have `unzip` installed on your computer. If you don't, you may have strange issues due to a PHP's zip extension not preserving the permissions of binaries.**
+**Warning:** The `unzip` command must be installed or you will encounter an error similar to `RuntimeException: sh: 1: exec: /app/vendor/symfony/panther/src/ProcessManager/../../chromedriver-bin/chromedriver_linux64: Permission denied` (or `chromedriver_linux64: not found).
+The underlying reason is that PHP's `ZipArchive` doesn't preserve UNIX executable permissions.
 
 ## Basic Usage
 
