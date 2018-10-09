@@ -30,6 +30,8 @@ Use [Composer](https://getcomposer.org/) to install Panther in your project. You
     
     composer req --dev symfony/panther
 
+**Warning: make sure you have `unzip` installed on your computer. If you don't, you may have strange issues due to a PHP's zip extension not preserving the permissions of binaries.**
+
 ## Basic Usage
 
 ```php
