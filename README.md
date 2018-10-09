@@ -245,6 +245,7 @@ addons:
 
 php:
   - 7.1
+  - 7.2
 
 script:
   - phpunit
