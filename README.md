@@ -217,6 +217,7 @@ addons:
   chrome: stable
 
 php:
+  - 7.1
   - 7.2
 
 script:
