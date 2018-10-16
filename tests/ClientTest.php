@@ -158,6 +158,29 @@ JS
     /**
      * @dataProvider clientFactoryProvider
      */
+    public function testSubmitFormWithValues(callable $clientFactory, string $type): void
+    {
+        /**
+         * @var \Symfony\Component\BrowserKit\Client
+         */
+        $client = $clientFactory();
+        $crawler = $client->request('GET', static::$baseUri.'/form.html');
+        $form = $crawler->filter('form')->eq(0)->selectButton('OK')->form();
+
+        $crawler = $client->submit($form, [
+            'i1' => 'Reclus',
+        ]);
+        $this->assertInstanceOf(DomCrawlerCrawler::class, $crawler);
+        if (Client::class === $type) {
+            $this->assertInstanceOf(Crawler::class, $crawler);
+        }
+        $this->assertSame(self::$baseUri.'/form-handle.php', $crawler->getUri());
+        $this->assertSame('I1: Reclus', $crawler->filter('#result')->text());
+    }
+
+    /**
+     * @dataProvider clientFactoryProvider
+     */
     public function testHistory(callable $clientFactory)
     {
         /**
