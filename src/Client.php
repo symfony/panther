@@ -150,6 +150,10 @@ final class Client extends BaseClient implements WebDriver, JavaScriptExecutor
     public function submit(Form $form, array $values = [])
     {
         if ($form instanceof PantherForm) {
+            foreach ($values as $field => $value) {
+                $form->get($field)->setValue($value);
+            }
+
             $button = $form->getButton();
             null === $button ? $form->getElement()->submit() : $button->click();
 
