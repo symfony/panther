@@ -33,6 +33,7 @@ use Symfony\Component\Panther\DomCrawler\Link as PantherLink;
 use Symfony\Component\Panther\ProcessManager\BrowserManagerInterface;
 use Symfony\Component\Panther\ProcessManager\ChromeManager;
 use Symfony\Component\Panther\ProcessManager\SeleniumManager;
+use Symfony\Component\Panther\WebDriver\WebDriverMouse;
 
 /**
  * @author Kévin Dunglas <dunglas@gmail.com>
@@ -425,12 +426,12 @@ final class Client extends BaseClient implements WebDriver, JavaScriptExecutor, 
         return $this->webDriver->getKeyboard();
     }
 
-    public function getMouse()
+    public function getMouse(): WebDriverMouse
     {
         if (!$this->webDriver instanceof WebDriverHasInputDevices) {
             throw new \RuntimeException(sprintf('"%s" does not implement "%s".', \get_class($this->webDriver), WebDriverHasInputDevices::class));
         }
 
-        return $this->webDriver->getMouse();
+        return new WebDriverMouse($this->webDriver->getMouse(), $this);
     }
 }
