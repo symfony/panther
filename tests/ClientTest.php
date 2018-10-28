@@ -323,4 +323,15 @@ JS
 
         self::createPantherClient()->getHistory();
     }
+
+    public function testPing()
+    {
+        $client = self::createPantherClient();
+        $client->request('GET', '/basic.html');
+
+        $this->assertTrue($client->ping());
+
+        self::stopWebServer();
+        $this->assertFalse($client->ping());
+    }
 }
