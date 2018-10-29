@@ -45,4 +45,27 @@ class ChromeManagerTest extends TestCase
             $driver1->quit();
         }
     }
+
+    public function testNonDefaultPort()
+    {
+        $manager = new ChromeManager(null, null, ['port' => 9516]);
+        $client = $manager->start();
+        $this->assertNotEmpty($client->getCurrentURL());
+        $manager->quit();
+    }
+
+    public function testMultipleInstances()
+    {
+        $driver1 = new ChromeManager();
+        $client1 = $driver1->start();
+
+        $driver2 = new ChromeManager(null, null, ['port' => 9516]);
+        $client2 = $driver2->start();
+
+        $this->assertNotEmpty($client1->getCurrentURL());
+        $this->assertNotEmpty($client2->getCurrentURL());
+
+        $driver1->quit();
+        $driver2->quit();
+    }
 }
