@@ -27,7 +27,7 @@ You can focus on writing your tests or web-scraping scenario and Panther will ta
 Use [Composer](https://getcomposer.org/) to install Panther in your project. You may want to use the --dev flag if you want to use Panther for testing only and not for web scraping in a production environment:
 
     composer req symfony/panther
-    
+
     composer req --dev symfony/panther
 
 **Warning:** On \*nix systems, the `unzip` command must be installed or you will encounter an error similar to `RuntimeException: sh: 1: exec: /app/vendor/symfony/panther/src/ProcessManager/../../chromedriver-bin/chromedriver_linux64: Permission denied` (or `chromedriver_linux64: not found`).
@@ -181,7 +181,7 @@ This listener will start the web server on demand like previously, but it will s
 
 ### Hidden Text
 
-Webdriver returns only the displayed text. When you filter on head tag (like `title`), the method `text()` returns an empty string. Use the method `html()` method to get the complete contents of the tag (including the tag itself). 
+Webdriver returns only the displayed text. When you filter on head tag (like `title`), the method `text()` returns an empty string. Use the method `html()` method to get the complete contents of the tag (including the tag itself).
 
 ### Environment Variables
 
@@ -208,6 +208,15 @@ ENV PANTHER_NO_SANDBOX 1
 
 Build it with `docker build . -t myproject`
 Run it with `docker run -it -v "$PWD":/srv/myproject -w /srv/myproject myproject bin/phpunit`
+
+If you are using **Alpine Linux**, you may need to use another `chromedriver` binary.
+
+```
+RUN apk add --no-cache \
+        chromium \
+        chromium-chromedriver
+ENV PANTHER_CHROME_DRIVER_BINARY /usr/lib/chromium/chromedriver
+```
 
 ### Travis CI Integration
 
