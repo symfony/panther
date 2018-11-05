@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Mouse page</title>
+    </head>
+    <body>
+        <button id="mouse">Mouse me !</button>
+        <button id="mouse-up" onmouseup="callback(event)">Mouse up me !</button>
+        <p id="result"></p>
+    </body>
+
+    <script type="text/javascript">
+        var mouse = document.querySelector('#mouse');
+        var result = document.querySelector('#result');
+        mouse.addEventListener('click', callback);
+        mouse.addEventListener('dblclick', callback);
+        mouse.addEventListener('contextmenu', callback);
+        mouse.addEventListener('mousedown', callback);
+        mouse.addEventListener('mousemove', callback);
+        function callback (e) {
+            result.innerHTML = e.type;
+        }
+    </script>
+</html>
