@@ -26,12 +26,31 @@ final class ChromeManager implements BrowserManagerInterface
 {
     use WebServerReadinessProbeTrait;
 
+    /**
+     * @var Process
+     */
     private $process;
+
+    /**
+     * @var array
+     */
     private $arguments;
+
+    /**
+     * @var array
+     */
     private $options;
 
-    public function __construct(?string $chromeDriverBinary = null, ?array $arguments = null, array $options = [])
-    {
+    /**
+     * @param $chromeDriverBinary
+     * @param $arguments
+     * @param $options
+     */
+    public function __construct(
+        ?string $chromeDriverBinary = null,
+        ?array $arguments = null,
+        array $options = []
+    ) {
         $this->options = array_merge($this->getDefaultOptions(), $options);
         $this->process = new Process([$chromeDriverBinary ?: $this->findChromeDriverBinary(), '--port='.$this->options['port']], null, null, null, null);
         $this->arguments = $arguments ?? $this->getDefaultArguments();
@@ -80,6 +99,9 @@ final class ChromeManager implements BrowserManagerInterface
         }
     }
 
+    /**
+     * @return Array
+     */
     private function getDefaultArguments(): array
     {
         // Enable the headless mode unless PANTHER_NO_HEADLESS is defined
@@ -100,13 +122,16 @@ final class ChromeManager implements BrowserManagerInterface
         return $args;
     }
 
+    /**
+     * @return Array
+     */
     private function getDefaultOptions(): array
     {
         return [
             'scheme' => 'http',
-            'host' => '127.0.0.1',
-            'port' => 9515,
-            'path' => '/status',
+            'host'   => '127.0.0.1',
+            'port'   => 9515,
+            'path'   => '/status',
         ];
     }
 }
