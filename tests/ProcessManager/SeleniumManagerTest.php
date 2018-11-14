@@ -44,7 +44,7 @@ class SeleniumManagerTest extends TestCase
     public function testRun()
     {
         $co = new ChromeOptions();
-        $co->addArguments(['--headless', 'window-size=1200,1100', '--disable-gpu', '--no-sandbox']);
+        $co->addArguments(['--headless', '--window-size=1200,1100', '--disable-gpu', '--no-sandbox']);
         $manager = new SeleniumManager('http://localhost:9515', $co->toCapabilities());
         $client = $manager->start();
         $this->assertNotEmpty($client->getCurrentURL());
