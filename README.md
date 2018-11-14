@@ -195,6 +195,11 @@ The following environment variables can be set to change some Panther behaviors:
 * `PANTHER_WEB_SERVER_PORT`: to change the web server's port (default to `9080`)
 * `PANTHER_WEB_SERVER_ROUTER`:  to use a web server router script which is run at the start of each HTTP request
 
+### Accepting Self-signed SSL Certificates
+
+To force Chrome to accept invalid and self-signed certificates, set the following environment variable: `PANTHER_CHROME_ARGUMENTS='--ignore-certificate-errors'`
+**This option is insecure**, use it only for testing in controller environment, never in production (e.g. for web crawlers).
+
 ### Docker Integration
 
 Here is a minimal Docker image that can run Panther:
