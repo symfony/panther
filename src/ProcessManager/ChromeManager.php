@@ -100,7 +100,7 @@ final class ChromeManager implements BrowserManagerInterface
     }
 
     /**
-     * @return Array
+     * @return array
      */
     private function getDefaultArguments(): array
     {
@@ -123,7 +123,7 @@ final class ChromeManager implements BrowserManagerInterface
     }
 
     /**
-     * @return Array
+     * @return array
      */
     private function getDefaultOptions(): array
     {
