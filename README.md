@@ -194,6 +194,7 @@ The following environment variables can be set to change some Panther behaviors:
 * `PANTHER_CHROME_ARGUMENTS`: to customize `chromedriver` arguments. You need to set `PANTHER_NO_HEADLESS` to fully customize.
 * `PANTHER_WEB_SERVER_PORT`: to change the web server's port (default to `9080`)
 * `PANTHER_WEB_SERVER_ROUTER`:  to use a web server router script which is run at the start of each HTTP request
+* `PANTHER_CHROME_BINARY`: to use another `google-chrome` binary
 
 ### Accepting Self-signed SSL Certificates
 
