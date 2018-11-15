@@ -86,7 +86,7 @@ final class ChromeManager implements BrowserManagerInterface
     private function getDefaultArguments(): array
     {
         // Enable the headless mode unless PANTHER_NO_HEADLESS is defined
-        $args = ($_SERVER['PANTHER_NO_HEADLESS'] ?? false) ? ['--auto-open-devtools-for-tabs'] : ['--headless', 'window-size=1200,1100', '--disable-gpu'];
+        $args = ($_SERVER['PANTHER_NO_HEADLESS'] ?? false) ? ['--auto-open-devtools-for-tabs'] : ['--headless', '--window-size=1200,1100', '--disable-gpu'];
 
         // Disable Chrome's sandbox if PANTHER_NO_SANDBOX is defined or if running in Travis
         if ($_SERVER['PANTHER_NO_SANDBOX'] ?? $_SERVER['HAS_JOSH_K_SEAL_OF_APPROVAL'] ?? false) {
