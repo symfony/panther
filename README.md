@@ -179,6 +179,28 @@ anterior PHPUnit version, you can also hook to PHPUnit with the Panther's server
 
 This listener will start the web server on demand like previously, but it will stop it after each test suite.
 
+### Using an External Web Server
+
+Sometimes, it's convenient to reuse an existing web server configuration instead of starting the built-in PHP one.
+To do so, set the `external_base_uri` option:
+
+```php
+<?php
+
+namespace App\Tests;
+
+use Symfony\Component\Panther\PantherTestCase;
+
+class E2eTest extends PantherTestCase
+{
+    public function testMyApp()
+    {
+        $pantherClient = static::createPantherClient(['external_base_uri' => 'https://localhost']);
+        // the PHP integrated web server will not be started
+    }
+}
+```
+
 ### Hidden Text
 
 Webdriver returns only the displayed text. When you filter on head tag (like `title`), the method `text()` returns an empty string. Use the method `html()` method to get the complete contents of the tag (including the tag itself).
@@ -194,6 +216,7 @@ The following environment variables can be set to change some Panther behaviors:
 * `PANTHER_CHROME_ARGUMENTS`: to customize `chromedriver` arguments. You need to set `PANTHER_NO_HEADLESS` to fully customize.
 * `PANTHER_WEB_SERVER_PORT`: to change the web server's port (default to `9080`)
 * `PANTHER_WEB_SERVER_ROUTER`:  to use a web server router script which is run at the start of each HTTP request
+* `PANTHER_EXTERNAL_BASE_URI`: to use an external web server (the PHP built-in web server will not be started)
 * `PANTHER_CHROME_BINARY`: to use another `google-chrome` binary
 
 ### Accepting Self-signed SSL Certificates

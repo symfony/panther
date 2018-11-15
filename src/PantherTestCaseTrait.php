@@ -64,6 +64,7 @@ trait PantherTestCaseTrait
         'hostname' => '127.0.0.1',
         'port' => 9080,
         'router' => '',
+        'external_base_uri' => null,
     ];
 
     public static function tearDownAfterClass()
@@ -98,6 +99,12 @@ trait PantherTestCaseTrait
     public static function startWebServer(array $options = []): void
     {
         if (null !== static::$webServerManager) {
+            return;
+        }
+
+        if ($externalBaseUri = $options['external_base_uri'] ?? $_SERVER['PANTHER_EXTERNAL_BASE_URI'] ?? self::$defaultOptions['external_base_uri']) {
+            self::$baseUri = $externalBaseUri;
+
             return;
         }
 
