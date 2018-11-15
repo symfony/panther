@@ -53,8 +53,10 @@ final class ChromeManager implements BrowserManagerInterface
         if ($this->arguments) {
             $chromeOptions = new ChromeOptions();
             $chromeOptions->addArguments($this->arguments);
-            $chromeOptions->setBinary(getenv('PANTHER_CHROME_BINARY') ?: '');
             $capabilities->setCapability(ChromeOptions::CAPABILITY, $chromeOptions);
+            if (isset($_SERVER['PANTHER_CHROME_BINARY']) {
+                $chromeOptions->setBinary($_SERVER['PANTHER_CHROME_BINARY']);
+            }
         }
 
         return RemoteWebDriver::create($url, $capabilities);
