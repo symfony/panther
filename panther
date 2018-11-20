@@ -1,0 +1,58 @@
+#!/usr/bin/env php
+<?php
+
+/*
+ * This file is part of the Panther project.
+ *
+ * (c) Kévin Dunglas <dunglas@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+use Psy\Shell;
+use Symfony\Component\Panther\Client;
+use Symfony\Component\Panther\PantherTestCaseTrait;
+
+require file_exists($autoload = __DIR__.'/vendor/autoload.php') ? $autoload : __DIR__.'/../../autoload.php';
+
+if (!class_exists(Shell::class)) {
+    $psyshBin = $_SERVER['PANTHER_PSYSH_BIN'] ?? strtok(exec(sprintf('%s psysh', '\\' === \DIRECTORY_SEPARATOR ? 'where' : 'command -v')), PHP_EOL);
+    if (file_exists($psyshBin)) {
+        require $psyshBin;
+        if (version_compare(Shell::VERSION, '0.9.9', '<=')) {
+            fwrite(STDERR, sprintf('Please upgrade the version of your PsySH script at "%s".', $psyshBin).PHP_EOL);
+        }
+    } else {
+        fwrite(STDERR, 'PsySH is not installed. Run "composer req psy/psysh" (or use the "PANTHER_PSYSH_BIN" env var).'.PHP_EOL);
+        exit(1);
+    }
+}
+
+/**
+ * Starts Panther in a REPL mode.
+ *
+ * @author Dany Maillard <danymaillard93b@gmail.com>
+ */
+
+$repl = new class() {
+    use PantherTestCaseTrait;
+
+    /**
+     * @var Client
+     */
+    public $p;
+
+    public function __construct()
+    {
+        $_SERVER['PANTHER_NO_HEADLESS'] = $_SERVER['PANTHER_NO_HEADLESS'] ?? 1;
+        $_SERVER['PANTHER_WEB_SERVER_DIR'] = $_SERVER['PANTHER_WEB_SERVER_DIR'] ?? __DIR__;
+        $this->p = self::createPantherClient();
+        $this->p->request('GET', self::$baseUri);
+    }
+};
+
+$sh = new Shell();
+$sh->setScopeVariables(['p' => $repl->p]);
+$sh->addInput('ls -l', true);
+$sh->run();

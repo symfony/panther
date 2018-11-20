@@ -44,7 +44,14 @@
     "guzzlehttp/guzzle": "^6.3",
     "fabpot/goutte": "^3.2.3",
     "phpunit/phpunit": "^7.3",
+    "psy/psysh": "^0.9.9",
     "symfony/css-selector": "^3.4 || ^4.0",
     "symfony/framework-bundle": "^3.4 || ^4.0"
-  }
+  },
+  "suggest": {
+    "psy/psysh": "Allows to start Panther in a REPL mode"
+  },
+  "bin": [
+    "panther"
+  ]
 }

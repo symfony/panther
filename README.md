@@ -143,6 +143,24 @@ For enabling this mode, you need the `--debug` PHPUnit option without the headle
     Error: something is wrong.
     
     Press enter to continue...
+    
+### REPL Debugger
+
+![Panther REPL](panther-repl.gif)
+
+Panther provides a REPL (Read-Eval-Print Loop) for helping you to debug your end-to-end tests thanks to the `bin/panther` script.
+The Panther client is accessible through a `$p` variable. For instance, try to type something like:
+
+    $ bin/panther
+    >>> $p->get('https://symfony.com/')
+
+Type `help` for more information about the usages of the Panther REPL.
+
+Panther REPL internally needs [PsySH](https://psysh.org/) and uses `/usr/local/bin/psysh` binary by default (you can use `PANTHER_PSYSH_BIN` env var for customizing its path). 
+If you don't have any PsySH binary locally installed, you can also installing it with composer:
+
+    $ composer require psy/psysh --dev
+
 
 ## Features
 
@@ -232,6 +250,7 @@ The following environment variables can be set to change some Panther behaviors:
 * `PANTHER_WEB_SERVER_ROUTER`:  to use a web server router script which is run at the start of each HTTP request
 * `PANTHER_EXTERNAL_BASE_URI`: to use an external web server (the PHP built-in web server will not be started)
 * `PANTHER_CHROME_BINARY`: to use another `google-chrome` binary
+* `PANTHER_PSYSH_BIN`: to use a [PsySH binary installed locally](https://github.com/bobthecow/psysh/wiki/Installation), avoiding to require it as a dev dependency of your project.
 
 ### Accepting Self-signed SSL Certificates
 
