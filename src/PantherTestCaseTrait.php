@@ -123,7 +123,7 @@ trait PantherTestCaseTrait
 
     public static function isWebServerStarted()
     {
-        return self::$webServerManager->isStarted();
+        return self::$webServerManager && self::$webServerManager->isStarted();
     }
 
     /**
