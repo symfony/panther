@@ -21,7 +21,7 @@ if (!class_exists(Shell::class)) {
     if (file_exists($psyshBin)) {
         require $psyshBin;
         if (version_compare(Shell::VERSION, '0.9.9', '<=')) {
-            fwrite(STDERR, sprintf('Please upgrade the version of your PsySH script at "%s".', $psyshBin).PHP_EOL);
+            @trigger_error(sprintf('Please upgrade the version of your PsySH script at "%s" to version 0.9.9 or superior.', $psyshBin), E_USER_DEPRECATED);
         }
     } else {
         fwrite(STDERR, 'PsySH is not installed. Run "composer req psy/psysh" (or use the "PANTHER_PSYSH_BIN" env var).'.PHP_EOL);
