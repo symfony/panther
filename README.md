@@ -12,7 +12,7 @@ Panther is super powerful. It leverages [the W3C's WebDriver protocol](https://w
 
 Panther is very easy to use, because it implements Symfony's popular [BrowserKit](https://symfony.com/doc/current/components/browser_kit.html) and
 [DomCrawler](https://symfony.com/doc/current/components/dom_crawler.html) APIs, and contains
-all features you need to test your apps. It will sound familiar if you have ever created [a functional test for a Symfony app](https://symfony.com/doc/current/testing.html#functional-tests):
+all the features you need to test your apps. It will sound familiar if you have ever created [a functional test for a Symfony app](https://symfony.com/doc/current/testing.html#functional-tests):
 as the API is exactly the same!
 Keep in mind that Panther can be used in every PHP project, as it is a standalone library.
 
@@ -57,7 +57,7 @@ $client->takeScreenshot('screen.png'); // Yeah, screenshot!
 
 The `PantherTestCase` class allows you to easily write E2E tests. It automatically starts your app using the built-in PHP
 web server and let you crawl it using Panther.
-It extends [PHPUnit](https://phpunit.de/)'s `TestCase` and provide all testing tools you're used to.
+It extends [PHPUnit](https://phpunit.de/)'s `TestCase` and provides all of the testing tools you're used to.
 
 ```php
 <?php
@@ -82,7 +82,7 @@ To run this test:
 
     phpunit tests/E2eTest.php
 
-### A Polymorph Feline
+### A Polymorphic Feline
 
 If you are testing a Symfony application, `PantherTestCase` automatically extends the `WebTestCase` class. It means
 you can easily create functional tests, which can directly execute the kernel of your application and access all your existing
@@ -92,11 +92,11 @@ it is super-fast!
 Alternatively (and even for non-Symfony apps), Panther can also leverage the [Goutte](https://github.com/FriendsOfPHP/Goutte)
 web scraping library, which is an intermediate between the Symfony's and the Panther's test clients. Goutte sends real HTTP
 requests, it is fast and is able to browse any webpage, not only the ones of the application under test.
-But Goutte doesn't support JavaScript and other advanced features because it is entirely written in PHP.
+However, Goutte doesn't support JavaScript and other advanced features because it is entirely written in PHP.
 
 The fun part is that the 3 libraries implement the exact same API, so you can switch from one to another just by calling
-the appropriate factory method, and find the good trade off for every single test case (do I need JavaScript, do I need
-to authenticate to an external SSO server, do I want to access the kernel of the current request...).
+the appropriate factory method, resulting in a good trade-off for every single test case (Do I need JavaScript? Do I need
+to authenticate with an external SSO server? Do I want to access the kernel of the current request? ... etc).
 
 ```php
 <?php
@@ -166,7 +166,7 @@ Since Panther implements the API of popular libraries, it already has an extensi
 
 ### Improve Performances by Having a Persistent Web Server Running
 
-When you use the Panther client, the web server running in background will be started on demand at the first call to
+When you use the Panther client, the web server running in the background will be started on demand at the first call to
 `createPantherClient()`, `createGoutteClient()` or `startWebServer()` and it will be stopped at `tearDownAfterClass()`.
 
 If you want to improve performances, you can hook to PHPUnit in your `phpunit.xml.dist` configuration file with the
@@ -217,13 +217,14 @@ class E2eTest extends PantherTestCase
 
 ### Hidden Text
 
-Webdriver returns only the displayed text. When you filter on head tag (like `title`), the method `text()` returns an empty string. Use the method `html()` method to get the complete contents of the tag (including the tag itself).
+Webdriver returns only the displayed text. When you filter on a head tag (like `title`), the method `text()` returns an
+empty string. Use the method `html()` to get the complete contents of the tag, including the tag itself.
 
 ### Environment Variables
 
-The following environment variables can be set to change some Panther behaviors:
+The following environment variables can be set to change some Panther's behaviour:
 
-* `PANTHER_NO_HEADLESS`: to disable browsers's headless mode (will display the testing window, useful to debug)
+* `PANTHER_NO_HEADLESS`: to disable browser's headless mode (will display the testing window, useful to debug)
 * `PANTHER_NO_SANDBOX`: to disable [Chrome's sandboxing](https://chromium.googlesource.com/chromium/src/+/b4730a0c2773d8f6728946013eb812c6d3975bec/docs/design/sandbox.md) (unsafe, but allows to use Panther in containers)
 * `PANTHER_WEB_SERVER_DIR`: to change the project's document root (default to `public/`)
 * `PANTHER_CHROME_DRIVER_BINARY`: to use another `chromedriver` binary, instead of relying on the ones already provided by Panther
@@ -236,7 +237,7 @@ The following environment variables can be set to change some Panther behaviors:
 ### Accepting Self-signed SSL Certificates
 
 To force Chrome to accept invalid and self-signed certificates, set the following environment variable: `PANTHER_CHROME_ARGUMENTS='--ignore-certificate-errors'`
-**This option is insecure**, use it only for testing in controller environment, never in production (e.g. for web crawlers).
+**This option is insecure**, use it only for testing in development environments, never in production (e.g. for web crawlers).
 
 ### Docker Integration
 
