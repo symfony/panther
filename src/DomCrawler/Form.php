@@ -252,7 +252,7 @@ final class Form extends BaseForm
      */
     private function getAllElements(): array
     {
-        return $this->element->findElements(WebDriverBy::xpath('.//input[@name] | .//textarea[@name] | .//select[@name=] | .//button[@name]'));
+        return $this->element->findElements(WebDriverBy::xpath('.//input[@name] | .//textarea[@name] | .//select[@name] | .//button[@name]'));
     }
 
     private function getWebDriverSelect(WebDriverElement $element): ?WebDriverSelectInterface
