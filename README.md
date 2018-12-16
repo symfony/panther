@@ -245,7 +245,7 @@ Here is a minimal Docker image that can run Panther:
 ```
 FROM php:latest
 
-RUN apt-get update && apt-get install -y zlib1g-dev chromium && docker-php-ext-install zip
+RUN apt-get update && apt-get install -y libzip-dev zlib1g-dev chromium && docker-php-ext-install zip
 ENV PANTHER_NO_SANDBOX 1
 ```
 
