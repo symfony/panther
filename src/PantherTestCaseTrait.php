@@ -29,32 +29,34 @@ trait PantherTestCaseTrait
     /**
      * @var bool
      */
-    public static $stopServerOnTeardown = true;
+    public static $stopServersOnTeardown = true;
 
     /**
      * @var string|null
      */
-    protected static $webServerDir;
+    protected static $webServerDir = null;
 
     /**
-     * @var WebServerManager|null
+     * @var WebServerManager[]
      */
-    protected static $webServerManager;
+    protected static $webServerManagers = [];
 
     /**
+     * The last started web server base uri.
+     *
      * @var string|null
      */
     protected static $baseUri;
 
     /**
-     * @var GoutteClient|null
+     * @var GoutteClient[]
      */
-    protected static $goutteClient;
+    protected static $goutteClients = [];
 
     /**
-     * @var PantherClient|null
+     * @var PantherClient[]
      */
-    protected static $pantherClient;
+    protected static $pantherClients = [];
 
     /**
      * @var array
@@ -69,26 +71,26 @@ trait PantherTestCaseTrait
 
     public static function tearDownAfterClass()
     {
-        if (self::$stopServerOnTeardown) {
-            static::stopWebServer();
+        if (self::$stopServersOnTeardown) {
+            static::stopWebServers();
         }
     }
 
-    public static function stopWebServer()
+    public static function stopWebServers(): void
     {
-        if (null !== self::$webServerManager) {
-            self::$webServerManager->quit();
-            self::$webServerManager = null;
+        foreach (self::$webServerManagers as $webServerManager) {
+            $webServerManager->quit();
         }
 
-        if (null !== self::$pantherClient) {
-            self::$pantherClient->quit();
-            self::$pantherClient = null;
+        self::$webServerManagers = [];
+
+        foreach (self::$pantherClients as $pantherClient) {
+            $pantherClient->quit();
         }
 
-        if (null !== self::$goutteClient) {
-            self::$goutteClient = null;
-        }
+        self::$pantherClients = [];
+
+        self::$goutteClients = [];
 
         self::$baseUri = null;
     }
@@ -96,34 +98,42 @@ trait PantherTestCaseTrait
     /**
      * @param array $options see {@see $defaultOptions}
      */
-    public static function startWebServer(array $options = []): void
+    public static function startWebServer(array $options = []): string
     {
-        if (null !== static::$webServerManager) {
-            return;
-        }
-
         if ($externalBaseUri = $options['external_base_uri'] ?? $_SERVER['PANTHER_EXTERNAL_BASE_URI'] ?? self::$defaultOptions['external_base_uri']) {
             self::$baseUri = $externalBaseUri;
 
-            return;
+            return $externalBaseUri;
         }
 
-        $options = [
-            'webServerDir' => $options['webServerDir'] ?? static::$webServerDir ?? $_SERVER['PANTHER_WEB_SERVER_DIR'] ?? self::$defaultOptions['webServerDir'],
-            'hostname' => $options['hostname'] ?? self::$defaultOptions['hostname'],
-            'port' => (int) ($options['port'] ?? $_SERVER['PANTHER_WEB_SERVER_PORT'] ?? self::$defaultOptions['port']),
-            'router' => $options['router'] ?? $_SERVER['PANTHER_WEB_SERVER_ROUTER'] ?? self::$defaultOptions['router'],
-        ];
+        $hostname = $options['hostname'] ?? self::$defaultOptions['hostname'];
+        $port = (int) ($options['port'] ?? $_SERVER['PANTHER_WEB_SERVER_PORT'] ?? self::$defaultOptions['port']);
 
-        self::$webServerManager = new WebServerManager(...array_values($options));
-        self::$webServerManager->start();
+        $baseUri = sprintf('http://%s:%s', $hostname, $port);
+        if (!isset(self::$webServerManagers[$baseUri])) {
+            $webServerDir = $options['webServerDir'] ?? static::$webServerDir ?? $_SERVER['PANTHER_WEB_SERVER_DIR'] ?? self::$defaultOptions['webServerDir'];
+            $router = $options['router'] ?? $_SERVER['PANTHER_WEB_SERVER_ROUTER'] ?? self::$defaultOptions['router'];
 
-        self::$baseUri = sprintf('http://%s:%s', $options['hostname'], $options['port']);
+            $webServerManager = new WebServerManager($webServerDir, $hostname, $port, $router);
+            $webServerManager->start();
+
+            self::$baseUri = $baseUri;
+
+            self::$webServerManagers[$baseUri] = $webServerManager;
+        }
+
+        return $baseUri;
     }
 
-    public static function isWebServerStarted()
+    public static function isWebServerStarted(): bool
     {
-        return self::$webServerManager && self::$webServerManager->isStarted();
+        foreach (self::$webServerManagers as $webServerManager) {
+            if ($webServerManager->isStarted()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -132,16 +142,17 @@ trait PantherTestCaseTrait
      */
     protected static function createPantherClient(array $options = [], array $kernelOptions = []): PantherClient
     {
-        self::startWebServer($options);
-        if (null === self::$pantherClient) {
-            self::$pantherClient = Client::createChromeClient(null, null, [], self::$baseUri);
+        $baseUri = self::startWebServer($options);
+
+        if (!isset(self::$pantherClients[$baseUri])) {
+            self::$pantherClients[$baseUri] = Client::createChromeClient(null, null, [], $baseUri);
         }
 
         if (\is_a(self::class, KernelTestCase::class, true)) {
             static::bootKernel($kernelOptions);
         }
 
-        return self::$pantherClient;
+        return self::$pantherClients[$baseUri];
     }
 
     /**
@@ -154,18 +165,19 @@ trait PantherTestCaseTrait
             throw new \RuntimeException('Goutte is not installed. Run "composer req fabpot/goutte".');
         }
 
-        self::startWebServer($options);
-        if (null === self::$goutteClient) {
-            $goutteClient = new GoutteClient();
-            $goutteClient->setClient(new GuzzleClient(['base_uri' => self::$baseUri]));
+        $baseUri = self::startWebServer($options);
 
-            self::$goutteClient = $goutteClient;
+        if (!isset(self::$goutteClients[$baseUri])) {
+            $goutteClient = new GoutteClient();
+            $goutteClient->setClient(new GuzzleClient(['base_uri' => $baseUri]));
+
+            self::$goutteClients[$baseUri] = $goutteClient;
         }
 
         if (\is_a(self::class, KernelTestCase::class, true)) {
             static::bootKernel($kernelOptions);
         }
 
-        return self::$goutteClient;
+        return self::$goutteClients[$baseUri];
     }
 }
