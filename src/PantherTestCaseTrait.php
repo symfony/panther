@@ -67,7 +67,7 @@ trait PantherTestCaseTrait
         'external_base_uri' => null,
     ];
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         if (self::$stopServerOnTeardown) {
             static::stopWebServer();
