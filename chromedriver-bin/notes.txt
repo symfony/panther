@@ -1,3 +1,108 @@
+----------ChromeDriver v2.46 (2019-02-01)----------
+Supports Chrome v71-73
+Resolved issue 2728: Is Element Displayed command does not work correctly with v0 shadow DOM inserts [[Pri-1]]
+Resolved issue  755: /session/:sessionId/doubleclick only generates one set of mousedown/mouseup/click events [[Pri-2]]
+Resolved issue 2744: Execute Script returns wrong error code when JavaScript returns a cyclic data structure [[Pri-2]]
+Resolved issue 1529: OnResponse behavior can lead to port exhaustion [[Pri-2]]
+Resolved issue 2736: Close Window command should handle user prompts based on session capabilities [[Pri-2]]
+Resolved issue 1963: Sending keys to disabled element should throw Element Not interactable error [[Pri-2]]
+Resolved issue 2679: Timeout value handling is not spec compliant [[Pri-2]]
+Resolved issue 2002: Add Cookie is not spec compliant [[Pri-2]]
+Resolved issue 2749: Update Switch To Frame error checks to match latest W3C spec [[Pri-3]]
+Resolved issue 2716: Clearing Text Boxes [[Pri-3]]
+Resolved issue 2714: ConnectException: Failed to connect to localhost/0:0:0:0:0:0:0:1:15756. Could not start driver. [[Pri-3]]
+Resolved issue 2722: Execute Script does not correctly convert document.all into JSON format [[Pri-3]]
+Resolved issue 2681: ChromeDriver doesn't differentiate "no such element" and "stale element reference" [[Pri-3]]
+
+----------ChromeDriver v2.45 (2018-12-10)----------
+Supports Chrome v70-72
+Resolved issue 1997: New Session is not spec compliant [[Pri-1]]
+Resolved issue 2685: Should Assert that the chrome version is compatible [[Pri-2]]
+Resolved issue 2677: Find Element command returns wrong error code when an invalid locator is used [[Pri-2]]
+Resolved issue 2676: Some ChromeDriver status codes are wrong [[Pri-2]]
+Resolved issue 2665: compile error in JS inside of WebViewImpl::DispatchTouchEventsForMouseEvents [[Pri-2]]
+Resolved issue 2658: Window size commands should handle user prompts [[Pri-2]]
+Resolved issue 2684: ChromeDriver doesn't start Chrome correctly with options.addArguments("user-data-dir=") [[Pri-3]]
+Resolved issue 2688: Status command is not spec compliant [[Pri-3]]
+Resolved issue 2654: Add support for strictFileInteractability [[Pri-]]
+
+----------ChromeDriver v2.44 (2018-11-19)----------
+Supports Chrome v69-71
+Resolved issue 2522: Test ChromeDriverTest.testWindowMaximize is failing on Mac build bot on Waterfall [[Pri-2]]
+Resolved issue 2615: Incorrect 'alert open error' for window handle call [[Pri-2]]
+Resolved issue 2649: Element Send Keys should get "text" property in W3C mode [[Pri-2]]
+Resolved issue 1995: XML special case of Is Element Enabled is not handled as per spec [[Pri-2]]
+Resolved issue 1994: XML special case of Get Element CSS Value is not handled as per spec [[Pri-2]]
+Resolved issue 2655: Set Window Rect needs to check for invalid input [[Pri-3]]
+Resolved issue 2597: Support new unhandledPromptBehavior modes [[Pri-3]]
+
+----------ChromeDriver v2.43 (2018-10-16)----------
+Supports Chrome v69-71
+Resolved issue 2537: Parsing of proxy configuration is not standard compliant [[Pri-1]]
+Resolved issue 2607: Launch App command is flaky [[Pri-2]]
+Resolved issue 2575: Screenshot of element inside iFrame is taken incorrectly [[Pri-2]]
+Resolved issue 1855: Feature request : ChromeDriver to support window resizing over a remote connection [[Pri-2]]
+Resolved issue 1998: Error codes are not handled in Clear element [[Pri-2]]
+Resolved issue 2016: Not Waiting until element is visible [[Pri-2]]
+Resolved issue 1936: Get element property is not implemented [[Pri-2]]
+Resolved issue 1992: Switch To Frame is not spec compliant [[Pri-2]]
+Resolved issue 2001: Execute Async Script does not return spec compliant error codes [[Pri-2]]
+Resolved issue 2000: Execute Script does not return spec compliant error codes [[Pri-2]]
+Resolved issue 1987: Error code in ExecuteGet is not conformant with spec [[Pri-2]]
+Resolved issue 2003: Send Alert Text is not returning spec compliant error codes [[Pri-2]]
+Resolved issue 1319: clear() on an input type="date" pretends element is not user-editable [[Pri-3]]
+Resolved issue 1404: Chromedriver gets window handle for the tab which is opened manually [[Pri-3]]
+Resolved issue  586: Allow append or start a new log file for chromedriver [[Pri-3]]
+Resolved issue 2371: New Session does not invoke w3c mode if flag is in firstMatch [[Pri-]]
+
+----------ChromeDriver v2.42 (2018-09-13)----------
+Supports Chrome v68-70
+Resolved issue 2144: Test testClickElement from MobileEmulationCapabilityTest class fails on Chromium for all platforms [[Pri-1]]
+Resolved issue 2566: whitelisted-ips not working with ipv4 [[Pri-1]]
+Resolved issue 2541: chromedriver v2.41 fails to start with whitelisted-ips flag on macOS [[Pri-1]]
+Resolved issue 2057: Set Timeouts is not implemented [[Pri-1]]
+Resolved issue 1938: Take element screenshot not implemented in Chromedriver [[Pri-2]]
+Resolved issue 2550: chromedriver ignores PATH when searching for chrome binary [[Pri-2]]
+Resolved issue 1993: Fullscreen Window command not spec compliant [[Pri-2]]
+Resolved issue 2501: Implement log-replay functionality [[Pri-2]]
+Resolved issue 2552: Some error codes are not standard compliant [[Pri-2]]
+Resolved issue  669: console.log with multiple arguments not handled properly [[Pri-2]]
+Resolved issue 2545: Getting "unknown error: getting size failed to return x" for SVG rect [[Pri-2]]
+Resolved issue 2571: chromedriver 2.35 ~ 2.41 - touch emulation not working (swipe) [[Pri-]]
+
+----------ChromeDriver v2.41 (2018-07-27)----------
+Supports Chrome v67-69
+Resolved issue 2458: Chromedriver fails to start with whitelisted-ips option [[Pri-1]]
+Resolved issue 2379: Returned capabilities should include remote debugging port [[Pri-2]]
+Resolved issue 1005: driver.manage().window().getSize() is not implemented on Android [[Pri-2]]
+Resolved issue 2474: desktop launcher error messages are not readable by users [[Pri-]]
+Resolved issue 2496: Fail fast when not able to start binary [[Pri-]]
+Resolved issue 1990: Close Window return value does not conform with spec [[Pri-]]
+
+----------ChromeDriver v2.40 (2018-06-07)----------
+Supports Chrome v66-68
+Resolved issue 2446: Regression: Chromedriver 2.39 hangs on open when user-data-dir is specified and exists [[Pri-1]]
+Resolved issue  779: Make ChromeDriver able to listen on requests from IPv6. [[Pri-1]]
+Resolved issue 2339: Chromedriver couldn't find the Android file using valid file path [[Pri-2]]
+Resolved issue 2307: /session/:sessionId/send_command and /session/:sessionId/send_command_and_get_result should be changed to be proper extension commands [[Pri-]]
+
+----------ChromeDriver v2.39 (2018-05-30)----------
+Supports Chrome v66-68
+Resolved issue 2436: ChromeDriver for Android does not provide useful error message for old adb version [[Pri-1]]
+Resolved issue 2431: ChromeDriver tests that close Windows are flaky [[Pri-1]]
+Resolved issue 2259: Click on component into an Iframe (with container padding > 0) is not working [[Pri-1]]
+Resolved issue 2161: ChromeDriver remote debug port reservation race conditions [[Pri-2]]
+Resolved issue 2420: Get Alert Text is not returning spec compliant error codes [[Pri-2]]
+Resolved issue 2369: Clean up state of androidUseRunningApp feature [[Pri-2]]
+Resolved issue 2406: Minimize/Maximize window need a w3c compliant endpoints [[Pri-]]
+
+----------ChromeDriver v2.38 (2018-04-17)----------
+Supports Chrome v65-67
+Resolved issue 2354: The chromedriver crashes/lose connection when navigate to gmail [[Pri-0]]
+Resolved issue 2381: Unknown session ID and cannot determine loading status [[Pri-1]]
+Resolved issue 2198: ChromeDriver 2.34 doesn't wait until iframe content loads after switching into iframe [[Pri-2]]
+Resolved issue 2142: unknown error: Element is not clickable at point - after updating chrome browser and chrome driver to latest version [[Pri-2]]
+
 ----------ChromeDriver v2.37 (2018-03-16)----------
 Supports Chrome v64-66
 Resolved issue 2304: Test ChromeDriverSiteIsolation.testCanClickOOPIF fails on Chrome v66 for all desktop platforms [[Pri-1]]
