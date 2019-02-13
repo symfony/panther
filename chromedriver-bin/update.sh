@@ -12,7 +12,7 @@ do
    curl -s https://chromedriver.storage.googleapis.com/${latest}/${name}.zip -O
    unzip -q -o ${name}.zip
    rm ${name}.zip
-   if [ -f "chromedriver" ]; then
+   if [[ -f "chromedriver" ]]; then
       mv chromedriver ${name}
    fi
 done
