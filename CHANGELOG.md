@@ -7,7 +7,7 @@ CHANGELOG
 * Add a new API to manipulate the mouse
 * Keep the browser window open on fail, when running in non-headless mode
 * Automatically open Chrome DevTools when running in non-headless mode
-* PHPUnit 7.8 compatibility
+* PHPUnit 8 compatibility
 * Add a PHPUnit extension to keep alive the webserver and the client between tests 
 * Change the default port of the web server to `9080` to prevent a conflit with Xdebug
 * Allow to use an external web server instead of the built-in one for testing
