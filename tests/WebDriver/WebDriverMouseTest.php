@@ -20,7 +20,7 @@ use Symfony\Component\Panther\Tests\TestCase;
  */
 class WebDriverMouseTest extends TestCase
 {
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         self::createPantherClient()->request('GET', self::$baseUri.'/mouse.html');
     }
