@@ -18,7 +18,7 @@ use Symfony\Component\Panther\ServerExtension;
 
 class ServerExtensionTest extends TestCase
 {
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         PantherTestCase::$stopServerOnTeardown = true;
     }
