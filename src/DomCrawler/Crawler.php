@@ -40,9 +40,9 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         $this->elements = $elements ?? [];
     }
 
-    public function clear(): void
+    public function clear(): WebDriverElement
     {
-        $this->throwNotSupported(__METHOD__);
+        return $this->getElementOrThrow()->clear();
     }
 
     public function add($node): void

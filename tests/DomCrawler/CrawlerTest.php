@@ -279,4 +279,16 @@ class CrawlerTest extends TestCase
         $this->assertSame('GET', $image->getMethod());
         $this->assertSame('https://api-platform.com/logo-250x250.png', $image->getUri());
     }
+
+    public function testClear(): void
+    {
+        $crawler = self::createPantherClient()->request('GET', self::$baseUri.'/form.html');
+        $input = $crawler->filter('form [name="i1"]');
+
+        $input->sendKeys('Durruti');
+        $this->assertSame($input->attr('value'), 'Durruti');
+
+        $input->clear();
+        $this->assertSame($input->attr('value'), '');
+    }
 }
