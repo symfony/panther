@@ -65,6 +65,7 @@ trait PantherTestCaseTrait
         'port' => 9080,
         'router' => '',
         'external_base_uri' => null,
+        'readinessPath' => '',
     ];
 
     public static function tearDownAfterClass(): void
@@ -113,6 +114,7 @@ trait PantherTestCaseTrait
             'hostname' => $options['hostname'] ?? self::$defaultOptions['hostname'],
             'port' => (int) ($options['port'] ?? $_SERVER['PANTHER_WEB_SERVER_PORT'] ?? self::$defaultOptions['port']),
             'router' => $options['router'] ?? $_SERVER['PANTHER_WEB_SERVER_ROUTER'] ?? self::$defaultOptions['router'],
+            'readinessPath' => $options['readinessPath'] ?? $_SERVER['PANTHER_READINESS_PATH'] ?? self::$defaultOptions['readinessPath'],
         ];
 
         self::$webServerManager = new WebServerManager(...array_values($options));

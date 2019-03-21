@@ -25,6 +25,7 @@ final class WebServerManager
 
     private $hostname;
     private $port;
+    private $readinessPath;
 
     /**
      * @var Process
@@ -34,10 +35,11 @@ final class WebServerManager
     /**
      * @throws \RuntimeException
      */
-    public function __construct(string $documentRoot, string $hostname, int $port, string $router = '')
+    public function __construct(string $documentRoot, string $hostname, int $port, string $router = '', string $readinessPath = '')
     {
         $this->hostname = $hostname;
         $this->port = $port;
+        $this->readinessPath = $readinessPath;
 
         $finder = new PhpExecutableFinder();
         if (false === $binary = $finder->find(false)) {
@@ -69,7 +71,13 @@ final class WebServerManager
         $this->checkPortAvailable($this->hostname, $this->port);
         $this->process->start();
 
-        $this->waitUntilReady($this->process, "http://$this->hostname:$this->port", true);
+        $url = "http://$this->hostname:$this->port";
+
+        if ($this->readinessPath) {
+            $url .= $this->readinessPath;
+        }
+
+        $this->waitUntilReady($this->process, $url, true);
     }
 
     /**
