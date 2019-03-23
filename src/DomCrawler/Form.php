@@ -23,6 +23,7 @@ use Facebook\WebDriver\WebDriverSelectInterface;
 use Symfony\Component\DomCrawler\Field\FormField;
 use Symfony\Component\DomCrawler\Form as BaseForm;
 use Symfony\Component\Panther\DomCrawler\Field\ChoiceFormField;
+use Symfony\Component\Panther\DomCrawler\Field\FileFormField;
 use Symfony\Component\Panther\DomCrawler\Field\InputFormField;
 use Symfony\Component\Panther\DomCrawler\Field\TextareaFormField;
 use Symfony\Component\Panther\ExceptionThrower;
@@ -241,7 +242,7 @@ final class Form extends BaseForm
         }
 
         if ('input' === $tagName && 'file' === $type) {
-            throw new \InvalidArgumentException('File types are not supported yet');
+            return new FileFormField($element);
         }
 
         return new InputFormField($element);
