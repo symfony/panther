@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\Tests\DomCrawler\Field;
 
-use Facebook\WebDriver\Exception\ExpectedException;
 use Symfony\Component\DomCrawler\Field\FileFormField;
 use Symfony\Component\Panther\Tests\TestCase;
 
@@ -22,13 +21,12 @@ use Symfony\Component\Panther\Tests\TestCase;
  */
 class FileFormFieldTest extends TestCase
 {
-    private static $uploadFileName = 'some-file.txt';
     private static $invalidUploadFileName = 'narf.txt';
 
     /**
      * @dataProvider clientFactoryProvider
      */
-    public function testFileUpload(callable $clientFactory)
+    public function testFileUploadWithUpload(callable $clientFactory)
     {
         $crawler = $this->request($clientFactory, '/file-form-field.html');
         $form = $crawler->filter('form')->form();
@@ -36,9 +34,44 @@ class FileFormFieldTest extends TestCase
         /** @var FileFormField */
         $fileFormField = $form['file_upload'];
         $this->assertInstanceOf(FileFormField::class, $fileFormField);
-        $fileFormField->upload($this->getUploadFilePath());
+        $fileFormField->upload($this->getUploadFilePath(self::$uploadFileName));
 
         $this->assertContains(self::$uploadFileName, $form['file_upload']->getValue());
+    }
+
+    /**
+     * @dataProvider clientFactoryProvider
+     */
+    public function testFileUploadWithSetValue(callable $clientFactory)
+    {
+        $crawler = $this->request($clientFactory, '/file-form-field.html');
+        $form = $crawler->filter('form')->form();
+
+        /** @var FileFormField */
+        $fileFormField = $form['file_upload'];
+        $this->assertInstanceOf(FileFormField::class, $fileFormField);
+        $fileFormField->setValue($this->getUploadFilePath(self::$uploadFileName));
+
+        $this->assertContains(self::$uploadFileName, $form['file_upload']->getValue());
+    }
+
+    /**
+     * @dataProvider clientFactoryProvider
+     */
+    public function testFileUploadWithSetFilePath(callable $clientFactory)
+    {
+        $crawler = $this->request($clientFactory, '/file-form-field.html');
+        $form = $crawler->filter('form')->form();
+
+        /** @var FileFormField */
+        $fileFormField = $form['file_upload'];
+        $this->assertInstanceOf(FileFormField::class, $fileFormField);
+
+        $fileFormField->setFilePath($this->getUploadFilePath(self::$uploadFileName));
+        $this->assertContains(self::$uploadFileName, $form['file_upload']->getValue());
+
+        $fileFormField->setFilePath($this->getUploadFilePath(self::$anotherUploadFileName));
+        $this->assertContains(self::$anotherUploadFileName, $form['file_upload']->getValue());
     }
 
     /**
@@ -53,36 +86,35 @@ class FileFormFieldTest extends TestCase
         $fileFormField = $form['file_upload'];
         $this->assertInstanceOf(FileFormField::class, $fileFormField);
 
-        if (isset($clientFactory[1]) && 'createGoutteClient' === $clientFactory[1]) {
-            $fileFormField->upload(self::$invalidUploadFileName);
-            $this->assertSame(
-                [
-                    'name' => '',
-                    'type' => '',
-                    'tmp_name' => '',
-                    'error' => \UPLOAD_ERR_NO_FILE,
-                    'size' => 0,
-                ],
-                $fileFormField->getValue()
-            );
-        } elseif (isset($clientFactory[1]) && 'createPantherClient' === $clientFactory[1]) {
-            $this->expectException(ExpectedException::class);
-            $this->expectExceptionMessage(sprintf('File not found : %s', self::$invalidUploadFileName));
-            $fileFormField->upload(self::$invalidUploadFileName);
-        } else {
-            $this->markAsRisky();
-        }
+        $fileFormField->upload(self::$invalidUploadFileName);
+        $this->assertSame(
+            [
+                'name' => '',
+                'type' => '',
+                'tmp_name' => '',
+                'error' => \UPLOAD_ERR_NO_FILE,
+                'size' => 0,
+            ],
+            $fileFormField->getValue()
+        );
     }
 
-    private function getUploadFilePath(): string
+    /**
+     * @dataProvider clientFactoryProvider
+     */
+    public function testPreventIsNotCanonicalError(callable $clientFactory)
     {
-        $realpath = \realpath(sprintf('%s/%s', self::$webServerDir, self::$uploadFileName));
-        if (\is_bool($realpath)) {
-            $this->fail(sprintf('Could not create a realpath for file "%s"', self::$uploadFileName));
+        $crawler = $this->request($clientFactory, '/file-form-field.html');
+        $form = $crawler->filter('form')->form();
 
-            return '';
-        }
+        /** @var FileFormField */
+        $fileFormField = $form['file_upload'];
+        $this->assertInstanceOf(FileFormField::class, $fileFormField);
 
-        return $realpath;
+        $nonCanonicalPath = \sprintf('%s/../fixtures/%s', self::$webServerDir, self::$uploadFileName);
+
+        $fileFormField->upload($nonCanonicalPath);
+        $fileFormField->setValue($nonCanonicalPath);
+        $fileFormField->setFilePath($nonCanonicalPath);
     }
 }

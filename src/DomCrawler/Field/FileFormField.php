@@ -22,6 +22,45 @@ final class FileFormField extends BaseFileFormField
 {
     use FormFieldTrait;
 
+    /** @var array */
+    protected $value;
+
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    public function setValue($value)
+    {
+        $value = $this->sanitizeValue($value);
+
+        if (null !== $value && \is_readable($value)) {
+            $error = UPLOAD_ERR_OK;
+            $size = \filesize($value);
+            $name = \pathinfo($value, \PATHINFO_BASENAME);
+
+            $this->setFilePath($value);
+            $value = $this->element->getAttribute('value');
+        } else {
+            $error = UPLOAD_ERR_NO_FILE;
+            $size = 0;
+            $name = '';
+            $value = '';
+        }
+
+        $this->value = ['name' => $name, 'type' => '', 'tmp_name' => $value, 'error' => $error, 'size' => $size];
+    }
+
+    /**
+     * Sets path to the file as string for simulating HTTP request.
+     *
+     * @param string $path The path to the file
+     */
+    public function setFilePath($path)
+    {
+        $this->element->sendKeys($this->sanitizeValue($path));
+    }
+
     /**
      * Initializes the form field.
      *
@@ -44,6 +83,35 @@ final class FileFormField extends BaseFileFormField
             );
         }
 
-        $this->setValue(null);
+        $value = $this->element->getAttribute('value');
+        if ($value) {
+            $this->setValueFromTmp($value);
+        } else {
+            $this->setValue(null);
+        }
+    }
+
+    private function setValueFromTmp($tmpValue)
+    {
+        $value = $tmpValue;
+        $error = UPLOAD_ERR_OK;
+        // size not determinable
+        $size = 0;
+        // C:\fakepath\filename.extension
+        $basename = \pathinfo($value, \PATHINFO_BASENAME);
+        $nameParts = \explode('\\', $basename);
+        $name = \end($nameParts);
+
+        $this->value = ['name' => $name, 'type' => '', 'tmp_name' => $value, 'error' => $error, 'size' => $size];
+    }
+
+    private function sanitizeValue($value)
+    {
+        $realpathValue = \is_string($value) && $value ? \realpath($value) : false;
+        if (\is_string($realpathValue)) {
+            $value = $realpathValue;
+        }
+
+        return $value;
     }
 }
