@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\ProcessManager;
 
+use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\Process\Process;
+use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
 
 /**
  * @internal
@@ -36,23 +38,45 @@ trait WebServerReadinessProbeTrait
         }
     }
 
-    public function waitUntilReady(Process $process, string $url, bool $ignoreErrors = false): void
+    public function waitUntilReady(Process $process, string $url, bool $ignoreErrors = false, int $timeout = 5): void
     {
-        $context = stream_context_create(['http' => [
-            'ignore_errors' => $ignoreErrors,
-            'protocol_version' => '1.1',
-            'header' => ['Connection: close'],
-            'timeout' => 5,
-        ]]);
+        $client = HttpClient::create(['timeout' => $timeout]);
 
-        while (Process::STATUS_STARTED !== ($status = $process->getStatus()) || false === @file_get_contents($url, false, $context)) {
-            if (Process::STATUS_TERMINATED === $status) {
-                throw new \RuntimeException($process->getErrorOutput(), $process->getExitCode());
+        $start = microtime(true);
+
+        while (true) {
+            $status = $process->getStatus();
+            if (Process::STATUS_STARTED !== $status) {
+                if (microtime(true) - $start >= $timeout) {
+                    throw new \RuntimeException("Chrome could not start (or has crashed) after $timeout seconds.");
+                }
+
+                usleep(1000);
+
+                continue;
             }
 
-            // block until the web server is ready
+            $ready = false;
+
+            $response = $client->request('GET', $url);
+            $e = $statusCode = null;
+            try {
+                if (200 === $statusCode = $response->getStatusCode()) {
+                    return;
+                }
+            } catch (ExceptionInterface $e) {
+            }
+
+            if (microtime(true) - $start >= $timeout) {
+                if ($e) {
+                    $message = $e->getMessage();
+                } else {
+                    $message = "Status code: $statusCode";
+                }
+                throw new \RuntimeException("Could not connect to chrome after $timeout seconds ($message).");
+            }
+
             usleep(1000);
         }
-        sleep(1);
     }
 }
