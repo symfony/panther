@@ -150,7 +150,7 @@ final class Client extends BaseClient implements WebDriver, JavaScriptExecutor, 
         return parent::click($link);
     }
 
-    public function submit(Form $form, array $values = [])
+    public function submit(Form $form, array $values = [], array $serverParameters = [])
     {
         if ($form instanceof PantherForm) {
             foreach ($values as $field => $value) {
@@ -163,7 +163,7 @@ final class Client extends BaseClient implements WebDriver, JavaScriptExecutor, 
             return $this->crawler = $this->createCrawler();
         }
 
-        return parent::submit($form, $values);
+        return parent::submit($form, $values, $serverParameters);
     }
 
     public function refreshCrawler(): Crawler
