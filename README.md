@@ -215,6 +215,18 @@ class E2eTest extends PantherTestCase
 }
 ```
 
+### Using a proxy 
+
+You need to override default arguments passed to the Chrome binary in order to use a proxy:
+
+```php
+$client = Client::createChromeClient(null, [
+             '--proxy-server=socks://127.0.0.1:9050',
+             '--headless',
+             "--disable-gpu",
+        ]);
+```
+
 ### Hidden Text
 
 Webdriver returns only the displayed text. When you filter on a head tag (like `title`), the method `text()` returns an
