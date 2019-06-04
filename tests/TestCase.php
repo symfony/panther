@@ -23,6 +23,8 @@ use Symfony\Component\Panther\PantherTestCase;
  */
 abstract class TestCase extends PantherTestCase
 {
+    protected static $uploadFileName = 'some-file.txt';
+    protected static $anotherUploadFileName = 'another-file.txt';
     protected static $webServerDir = __DIR__.'/fixtures';
 
     public function clientFactoryProvider(): array
@@ -37,5 +39,10 @@ abstract class TestCase extends PantherTestCase
     protected function request(callable $clientFactory, string $path): Crawler
     {
         return $clientFactory()->request('GET', $path);
+    }
+
+    protected function getUploadFilePath(string $fileName): string
+    {
+        return \sprintf('%s/%s', self::$webServerDir, $fileName);
     }
 }
