@@ -352,6 +352,11 @@ The following features are not currently supported:
 
 Pull Requests are welcome to fill the remaining gaps!
 
+## Save the Panthers
+
+Many of the wild cat species are highly threatened.
+If you like this software, help save the (real) panthers by [donating to the Panthera organization](https://www.panthera.org/donate).
+
 ## Credits
 
 Created by [Kévin Dunglas](https://dunglas.fr). Sponsored by [Les-Tilleuls.coop](https://les-tilleuls.coop).
