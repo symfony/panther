@@ -1,6 +1,15 @@
 CHANGELOG
 =========
 
+0.4.0
+-----
+
+* Speed up the boot sequence
+* Add basic support for file uploads
+* Add a `readinessPath` option to use a custom path for server readiness detection
+* Fix the behavior of `ChoiceFormField::getValue()` to be consistent with other BrowserKit implementations
+* Ensure to clean the previous content of field when using `TextareaFormField::setValue()` and `InputFormField::setValue()`
+
 0.3.0
 -----
 
