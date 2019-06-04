@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Symfony\Component\Panther\DomCrawler\Field;
 
 use Facebook\WebDriver\WebDriverElement;
+use Facebook\WebDriver\WebDriverKeys;
 use Symfony\Component\Panther\ExceptionThrower;
 
 /**
@@ -48,13 +49,17 @@ trait FormFieldTrait
         return $this->element->getAttribute('value');
     }
 
-    public function setValue($value)
-    {
-        \is_bool($value) ? $this->element->click() : $this->element->sendKeys($value);
-    }
-
     public function isDisabled()
     {
         return $this->element->getAttribute('disabled') ?? false;
+    }
+
+    private function setTextValue($value): void
+    {
+        // Ensure to clean field before sending keys.
+        // Unable to use $this->element->clear(); because it triggers a change event on it's own which is unexpected behavior.
+        $existingValueLength = \strlen($this->getValue());
+        $deleteKeys = \str_repeat(WebDriverKeys::BACKSPACE.WebDriverKeys::DELETE, $existingValueLength);
+        $this->element->sendKeys($deleteKeys.$value);
     }
 }
