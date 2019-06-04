@@ -29,7 +29,7 @@ class FormTest extends TestCase
         $crawler = $this->request($clientFactory, '/form.html');
         $buttons = $crawler->selectButton('OK');
 
-        $this->assertCount(2, $buttons);
+        $this->assertCount(3, $buttons);
 
         $values = [
             'i1' => 'foo',
@@ -137,5 +137,37 @@ class FormTest extends TestCase
             'i4' => 'i4b',
             'i5' => ['i5b', 'i5c'],
         ], $form->getPhpValues());
+    }
+
+    /**
+     * @dataProvider clientFactoryProvider
+     */
+    public function testGetValuesDoesNotContainFiles(callable $clientFactory)
+    {
+        $crawler = $this->request($clientFactory, '/form.html');
+        $form = $crawler->filter('#file-form')->form();
+
+        $form['file_upload']->setValue($this->getUploadFilePath(self::$uploadFileName));
+        $form['k1']->setValue('narf');
+
+        $this->assertContains('narf', $form->getValues());
+        $this->assertNotContains(self::$uploadFileName, $form->getValues());
+    }
+
+    /**
+     * @dataProvider clientFactoryProvider
+     */
+    public function testGetFilesContainOnlyFiles(callable $clientFactory)
+    {
+        $crawler = $this->request($clientFactory, '/form.html');
+        $form = $crawler->filter('#file-form')->form();
+
+        $form['file_upload']->setValue($this->getUploadFilePath(self::$uploadFileName));
+        $form['k1']->setValue('narf');
+
+        $files = $form->getFiles();
+        $this->assertNotContains('narf', $files);
+        $this->assertArrayHasKey('file_upload', $files);
+        $this->assertContains(self::$uploadFileName, $files['file_upload']);
     }
 }
