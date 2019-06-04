@@ -37,6 +37,10 @@ final class ChoiceFormField extends BaseChoiceFormField
 
     public function hasValue()
     {
+        if (\count($this->selector->getAllSelectedOptions())) {
+            return true;
+        }
+
         return $this->element->isSelected();
     }
 
@@ -73,6 +77,35 @@ final class ChoiceFormField extends BaseChoiceFormField
         }
 
         $this->setValue(false);
+    }
+
+    public function getValue()
+    {
+        $type = $this->element->getAttribute('type');
+
+        if (!$this->hasValue()) {
+            return $this->isMultiple() && 'checkbox' !== $type ? [] : null;
+        }
+
+        if ($this->isMultiple()) {
+            $value = [];
+            foreach ($this->selector->getAllSelectedOptions() as $selectedOption) {
+                if ($selectedOption->isSelected()) {
+                    $value[] = $selectedOption->getAttribute('value');
+                }
+            }
+
+            $count = \count($value);
+            if (1 === $count && 'checkbox' === $type) {
+                return \current($value);
+            }
+
+            return $value;
+        } elseif (\count($this->selector->getAllSelectedOptions())) {
+            return $this->selector->getFirstSelectedOption()->getAttribute('value');
+        }
+
+        return $this->element->getAttribute('value');
     }
 
     /**

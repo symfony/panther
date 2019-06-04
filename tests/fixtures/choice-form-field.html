@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Form with ChoiceFormField</title>
+    <style>
+        label, .field {
+            border: 1px solid lightgrey;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<form method="post">
+
+    <label class="field">
+        select_selected_none
+        <select name="select_selected_none">
+            <option disabled selected value> -- select an option -- </option>
+            <option value="10">ten</option>
+            <option value="20">twenty</option>
+            <option value="30">thirty</option>
+        </select>
+    </label>
+
+    <label class="field">
+        select_selected_one
+        <select name="select_selected_one">
+            <option value="10">ten</option>
+            <option value="20" selected>twenty</option>
+            <option value="30">thirty</option>
+        </select>
+    </label>
+
+    <label class="field">
+        select_multiple_selected_one
+        <select name="select_multiple_selected_one" multiple="multiple">
+            <option value="10">ten</option>
+            <option value="20" selected>twenty</option>
+            <option value="30">thirty</option>
+        </select>
+    </label>
+
+
+    <label class="field">
+        select_multiple_selected_multiple
+        <select name="select_multiple_selected_multiple" multiple="multiple">
+            <option value="10">ten</option>
+            <option value="20" selected>twenty</option>
+            <option value="30" selected>thirty</option>
+        </select>
+    </label>
+
+    <label class="field">
+        select_multiple_selected_none
+        <select name="select_multiple_selected_none" multiple="multiple">
+            <option value="10">ten</option>
+            <option value="20">twenty</option>
+            <option value="30">thirty</option>
+        </select>
+    </label>
+
+    <div class="field">
+        radio_checked
+        <span><input type="radio" name="radio_checked" value="i_am_not_checked" />i_am_not_checked</span>
+        <span><input type="radio" name="radio_checked" value="i_am_checked" checked="checked" />i_am_checked</span>
+    </div>
+
+    <div class="field">
+        radio_non_checked
+        <span><input type="radio" name="radio_non_checked" value="not_checked_one" />not_checked_one</span>
+        <span><input type="radio" name="radio_non_checked" value="not_checked_two" />not_checked_two</span>
+    </div>
+
+    <div class="field">
+        checkbox_checked
+        <input type="checkbox" name="checkbox_checked" value="i_am_not_checked"/>
+        <input type="checkbox" name="checkbox_checked" checked="checked" value="i_am_checked"/>
+    </div>
+
+    <div class="field">
+        checkbox_multiple_checked
+        <input type="checkbox" name="checkbox_multiple_checked" checked="checked" value="checked_one"/>
+        <input type="checkbox" name="checkbox_multiple_checked" checked="checked" value="checked_two"/>
+    </div>
+
+    <div class="field">
+        checkbox_non_checked
+        <input type="checkbox" name="checkbox_non_checked" value="not_checked_one"/>
+        <input type="checkbox" name="checkbox_non_checked" value="not_checked_two"/>
+    </div>
+
+    <input type="submit" value="OK" formmethod="POST">
+</form>
+</body>
+</html>
