@@ -57,7 +57,7 @@ trait FormFieldTrait
     private function setTextValue($value): void
     {
         // Ensure to clean field before sending keys.
-        // Unable use $this->element->clear(); cause it triggers a change event on it's own which is unexpected behavior.
+        // Unable to use $this->element->clear(); because it triggers a change event on it's own which is unexpected behavior.
         $existingValueLength = \strlen($this->getValue());
         $deleteKeys = \str_repeat(WebDriverKeys::BACKSPACE.WebDriverKeys::DELETE, $existingValueLength);
         $this->element->sendKeys($deleteKeys.$value);
