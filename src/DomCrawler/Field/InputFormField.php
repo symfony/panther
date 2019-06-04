@@ -22,6 +22,17 @@ final class InputFormField extends BaseInputFormField
 {
     use FormFieldTrait;
 
+    public function setValue($value)
+    {
+        if (\in_array($this->element->getAttribute('type'), ['text'], true)) {
+            $this->setTextValue($value);
+        } elseif (\is_bool($value)) {
+            $this->element->click();
+        } else {
+            $this->element->sendKeys($value);
+        }
+    }
+
     /**
      * Initializes the form field.
      *
