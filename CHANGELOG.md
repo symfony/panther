@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+0.4.1
+-----
+
+* Remove the direct dependency to `symfony/contracts`
+
 0.4.0
 -----
 
