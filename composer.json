@@ -20,7 +20,6 @@
     "php": ">=7.1",
     "facebook/webdriver": "^1.5",
     "symfony/browser-kit": "^4.0",
-    "symfony/contracts": "^1.1",
     "symfony/http-client": "^4.3",
     "symfony/polyfill-php72": "^1.9",
     "symfony/process": "^3.4 || ^4.0"
