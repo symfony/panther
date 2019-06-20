@@ -38,7 +38,7 @@ trait WebServerReadinessProbeTrait
         }
     }
 
-    public function waitUntilReady(Process $process, string $url, bool $ignoreErrors = false, int $timeout = 5): void
+    public function waitUntilReady(Process $process, string $url, string $service, int $timeout = 5): void
     {
         $client = HttpClient::create(['timeout' => $timeout]);
 
@@ -48,7 +48,7 @@ trait WebServerReadinessProbeTrait
             $status = $process->getStatus();
             if (Process::STATUS_STARTED !== $status) {
                 if (microtime(true) - $start >= $timeout) {
-                    throw new \RuntimeException("Chrome could not start (or has crashed) after $timeout seconds.");
+                    throw new \RuntimeException("Could not start $service (or it crashed) after $timeout seconds.");
                 }
 
                 usleep(1000);
@@ -73,7 +73,7 @@ trait WebServerReadinessProbeTrait
                 } else {
                     $message = "Status code: $statusCode";
                 }
-                throw new \RuntimeException("Could not connect to chrome after $timeout seconds ($message).");
+                throw new \RuntimeException("Could not connect to $service after $timeout seconds ($message).");
             }
 
             usleep(1000);

@@ -46,7 +46,7 @@ final class ChromeManager implements BrowserManagerInterface
         if (!$this->process->isRunning()) {
             $this->checkPortAvailable($this->options['host'], $this->options['port']);
             $this->process->start();
-            $this->waitUntilReady($this->process, $url.$this->options['path']);
+            $this->waitUntilReady($this->process, $url.$this->options['path'], 'chrome');
         }
 
         $capabilities = DesiredCapabilities::chrome();
