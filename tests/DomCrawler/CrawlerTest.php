@@ -194,7 +194,7 @@ class CrawlerTest extends TestCase
             $names[$i] = $c->nodeName();
         });
 
-        $this->assertSame(['h1', 'main', 'p', 'p'], $names);
+        $this->assertSame(['h1', 'main', 'p', 'p', 'input'], $names);
     }
 
     /**
