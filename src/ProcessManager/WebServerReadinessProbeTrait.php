@@ -38,7 +38,7 @@ trait WebServerReadinessProbeTrait
         }
     }
 
-    public function waitUntilReady(Process $process, string $url, string $service, int $timeout = 5): void
+    public function waitUntilReady(Process $process, string $url, string $service, bool $allowNotOkStatusCode = false, int $timeout = 30): void
     {
         $client = HttpClient::create(['timeout' => $timeout]);
 
@@ -56,12 +56,11 @@ trait WebServerReadinessProbeTrait
                 continue;
             }
 
-            $ready = false;
-
             $response = $client->request('GET', $url);
             $e = $statusCode = null;
             try {
-                if (200 === $statusCode = $response->getStatusCode()) {
+                $statusCode = $response->getStatusCode();
+                if ($allowNotOkStatusCode || 200 === $statusCode) {
                     return;
                 }
             } catch (ExceptionInterface $e) {
