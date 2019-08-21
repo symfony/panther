@@ -6,17 +6,17 @@ jobs:
   include:
     - php: '7.1'
     - php: '7.2'
-      env: lint=1
-    - php: '7.2'
-      env: deps=low
     - php: '7.3'
+      env: lint=1
+    - php: '7.3'
+      env: deps=low
 
 cache:
   directories:
     - $HOME/.composer/cache
 
 before_install:
-  - if [[ $lint = '1' ]]; then wget https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v2.13.0/php-cs-fixer.phar; fi
+  - if [[ $lint = '1' ]]; then wget https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v2.15.1/php-cs-fixer.phar; fi
   - if [[ $lint = '1' ]]; then wget https://github.com/phpstan/phpstan/releases/download/0.10.3/phpstan.phar; fi
 
 before_script:
