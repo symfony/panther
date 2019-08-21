@@ -58,7 +58,13 @@ trait FormFieldTrait
     {
         // Ensure to clean field before sending keys.
         // Unable to use $this->element->clear(); because it triggers a change event on it's own which is unexpected behavior.
-        $existingValueLength = \strlen($this->getValue());
+
+        $v = $this->getValue();
+        if (\is_array($v)) {
+            throw new \InvalidArgumentException('The value must not be an array');
+        }
+
+        $existingValueLength = \strlen($v);
         $deleteKeys = \str_repeat(WebDriverKeys::BACKSPACE.WebDriverKeys::DELETE, $existingValueLength);
         $this->element->sendKeys($deleteKeys.$value);
     }
