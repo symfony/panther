@@ -71,6 +71,11 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
         $this->baseUri = $baseUri;
     }
 
+    public function getBrowserManager(): BrowserManagerInterface
+    {
+        return $this->browserManager;
+    }
+
     public function __destruct()
     {
         $this->quit();
@@ -242,7 +247,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
             $this->webDriver->manage()->deleteAllCookies();
         }
 
-        $this->quit();
+        $this->quit(false);
         $this->start();
     }
 
@@ -334,13 +339,16 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
         return $this->webDriver->getWindowHandles();
     }
 
-    public function quit()
+    public function quit(bool $quitBrowserManager = true)
     {
         if (null !== $this->webDriver) {
             $this->webDriver->quit();
             $this->webDriver = null;
         }
-        $this->browserManager->quit();
+
+        if ($quitBrowserManager) {
+            $this->browserManager->quit();
+        }
     }
 
     public function takeScreenshot($saveAs = null)
