@@ -77,7 +77,7 @@ final class WebServerManager
             $url .= $this->readinessPath;
         }
 
-        $this->waitUntilReady($this->process, $url, 'web server');
+        $this->waitUntilReady($this->process, $url, 'web server', true);
     }
 
     /**
