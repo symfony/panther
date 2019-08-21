@@ -143,6 +143,10 @@ trait PantherTestCaseTrait
             static::bootKernel($kernelOptions);
         }
 
+        if (method_exists(self::class, 'getClient')) {
+            return self::getClient(self::$pantherClient);
+        }
+
         return self::$pantherClient;
     }
 
@@ -168,6 +172,7 @@ trait PantherTestCaseTrait
             static::bootKernel($kernelOptions);
         }
 
+        // It's not possible to use assertions with Goutte yet, https://github.com/FriendsOfPHP/Goutte/pull/382 needed
         return self::$goutteClient;
     }
 
