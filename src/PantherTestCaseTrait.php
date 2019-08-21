@@ -143,7 +143,7 @@ trait PantherTestCaseTrait
             static::bootKernel($kernelOptions);
         }
 
-        if (method_exists(self::class, 'getClient')) {
+        if (is_callable([self::class, 'getClient'])) {
             return self::getClient(self::$pantherClient);
         }
 
