@@ -60,7 +60,7 @@ trait FormFieldTrait
         // Unable to use $this->element->clear(); because it triggers a change event on it's own which is unexpected behavior.
 
         $v = $this->getValue();
-        if (is_array($v)) {
+        if (\is_array($v)) {
             throw new \InvalidArgumentException('The value must not be an array');
         }
 
