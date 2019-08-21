@@ -11,4 +11,5 @@
 
 declare(strict_types=1);
 
-echo 'OK';
+http_response_code(500); // The web server must start even in case of error
+echo 'ready';
