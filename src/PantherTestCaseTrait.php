@@ -110,7 +110,7 @@ trait PantherTestCaseTrait
         }
 
         $options = [
-            'webServerDir' => $options['webServerDir'] ?? static::$webServerDir ?? $_SERVER['PANTHER_WEB_SERVER_DIR'] ?? self::$defaultOptions['webServerDir'],
+            'webServerDir' => self::getWebServerDir($options),
             'hostname' => $options['hostname'] ?? self::$defaultOptions['hostname'],
             'port' => (int) ($options['port'] ?? $_SERVER['PANTHER_WEB_SERVER_PORT'] ?? self::$defaultOptions['port']),
             'router' => $options['router'] ?? $_SERVER['PANTHER_WEB_SERVER_ROUTER'] ?? self::$defaultOptions['router'],
@@ -169,5 +169,26 @@ trait PantherTestCaseTrait
         }
 
         return self::$goutteClient;
+    }
+
+    private static function getWebServerDir(array $options)
+    {
+        if (isset($options['webServerDir'])) {
+            return $options['webServerDir'];
+        }
+
+        if (null !== static::$webServerDir) {
+            return static::$webServerDir;
+        }
+
+        if (isset($_SERVER['PANTHER_WEB_SERVER_DIR'])) {
+            if ('./' === substr($_SERVER['PANTHER_WEB_SERVER_DIR'], 0, 2)) {
+                return getcwd().substr($_SERVER['PANTHER_WEB_SERVER_DIR'], 1);
+            }
+
+            return $_SERVER['PANTHER_WEB_SERVER_DIR'];
+        }
+
+        return self::$defaultOptions['webServerDir'];
     }
 }
