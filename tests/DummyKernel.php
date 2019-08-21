@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace Symfony\Component\Panther\Tests;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\KernelInterface;
 
@@ -80,14 +82,37 @@ class DummyKernel implements KernelInterface
 
     public function getContainer()
     {
-        return new class() implements \Psr\Container\ContainerInterface {
-            public function get($id)
+        return new class() implements ContainerInterface {
+            public function get($id, $invalidBehavior = ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE)
             {
             }
 
             public function has($id)
             {
                 return false;
+            }
+
+            public function set($id, $service)
+            {
+            }
+
+            public function initialized($id)
+            {
+                return true;
+            }
+
+            public function getParameter($name)
+            {
+                return null;
+            }
+
+            public function hasParameter($name)
+            {
+                return false;
+            }
+
+            public function setParameter($name, $value)
+            {
             }
         };
     }
@@ -105,6 +130,10 @@ class DummyKernel implements KernelInterface
     }
 
     public function getCharset()
+    {
+    }
+
+    public function getProjectDir()
     {
     }
 }
