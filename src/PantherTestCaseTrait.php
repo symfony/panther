@@ -182,13 +182,12 @@ trait PantherTestCaseTrait
         }
 
         if (isset($_SERVER['PANTHER_WEB_SERVER_DIR'])) {
-            if (substr($_SERVER['PANTHER_WEB_SERVER_DIR'], 0, 2) === './') {
+            if ('./' === substr($_SERVER['PANTHER_WEB_SERVER_DIR'], 0, 2)) {
                 return getcwd().substr($_SERVER['PANTHER_WEB_SERVER_DIR'], 1);
             }
 
             return $_SERVER['PANTHER_WEB_SERVER_DIR'];
         }
-
 
         return self::$defaultOptions['webServerDir'];
     }
