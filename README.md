@@ -22,9 +22,23 @@ so you don't need to install anything on your computer, neither Selenium server 
 In test mode, Panther automatically starts your application using [the PHP built-in web-server](http://php.net/manual/en/features.commandline.webserver.php).
 You can focus on writing your tests or web-scraping scenario and Panther will take care of everything else.
 
-## Install
+## Features
 
-Use [Composer](https://getcomposer.org/) to install Panther in your project. You may want to use the --dev flag if you want to use Panther for testing only and not for web scraping in a production environment:
+Unlike testing and web scraping libraries you're used to, Panther:
+
+* executes the JavaScript code contained in webpages
+* supports everything that Chrome (or Firefox) implements
+* allows screenshots taking
+* can wait for asynchronously loaded elements to show up
+* lets you run your own JS code or XPath queries in the context of the loaded page
+* supports custom [Selenium server](https://www.seleniumhq.org) installations
+* supports remote browser testing services including [SauceLabs](https://saucelabs.com/) and [BrowserStack](https://www.browserstack.com/)
+
+## Documentation
+
+### Install
+
+Use [Composer](https://getcomposer.org/) to install Panther in your project. You may want to use the `--dev` flag if you want to use Panther for testing only and not for web scraping in a production environment:
 
     composer req symfony/panther
 
@@ -33,7 +47,7 @@ Use [Composer](https://getcomposer.org/) to install Panther in your project. You
 **Warning:** On \*nix systems, the `unzip` command must be installed or you will encounter an error similar to `RuntimeException: sh: 1: exec: /app/vendor/symfony/panther/src/ProcessManager/../../chromedriver-bin/chromedriver_linux64: Permission denied` (or `chromedriver_linux64: not found`).
 The underlying reason is that PHP's `ZipArchive` doesn't preserve UNIX executable permissions.
 
-## Basic Usage
+### Basic Usage
 
 ```php
 <?php
@@ -41,10 +55,9 @@ The underlying reason is that PHP's `ZipArchive` doesn't preserve UNIX executabl
 require __DIR__.'/vendor/autoload.php'; // Composer's autoloader
 
 $client = \Symfony\Component\Panther\Client::createChromeClient();
-$crawler = $client->request('GET', 'https://api-platform.com'); // Yes, this website is 100% in JavaScript
+$crawler = $client->request('GET', 'https://api-platform.com'); // Yes, this website is 100% written in JavaScript
 
-$link = $crawler->selectLink('Support')->link();
-$crawler = $client->click($link);
+$crawler->clickLink('Support');
 
 // Wait for an element to be rendered
 $client->waitFor('.support');
@@ -53,11 +66,16 @@ echo $crawler->filter('.support')->text();
 $client->takeScreenshot('screen.png'); // Yeah, screenshot!
 ```
 
-## Testing Usage
+### Testing Usage
 
 The `PantherTestCase` class allows you to easily write E2E tests. It automatically starts your app using the built-in PHP
 web server and let you crawl it using Panther.
-It extends [PHPUnit](https://phpunit.de/)'s `TestCase` and provides all of the testing tools you're used to.
+To provides all of the testing tools you're used to, it extends [PHPUnit](https://phpunit.de/)'s `TestCase`.
+
+If you are testing a Symfony application, `PantherTestCase` automatically extends [the `WebTestCase` class](https://symfony.com/doc/current/testing.html#functional-tests).
+It means you can easily create functional tests, which can directly execute the kernel of your application and access all
+your existing services. In this case, you can use [all crawler test assertions](https://symfony.com/doc/current/testing/functional_tests_assertions.html#crawler)
+provided by Symfony with Panther.
 
 ```php
 <?php
@@ -68,12 +86,14 @@ use Symfony\Component\Panther\PantherTestCase;
 
 class E2eTest extends PantherTestCase
 {
-    public function testMyApp()
+    public function testMyApp(): void
     {
         $client = static::createPantherClient(); // Your app is automatically started using the built-in web server
-        $crawler = $client->request('GET', '/mypage');
+        $client->request('GET', '/mypage');
 
-        $this->assertContains('My Title', $crawler->filter('title')->html()); // You can use any PHPUnit assertion
+        // Use any PHPUnit assertion, including the ones provided by Symfony
+        $this->assertPageTitleContains('My Title');
+        $this->assertSelectorTextContains('#main', 'My body');
     }
 }
 ```
@@ -84,19 +104,25 @@ To run this test:
 
 ### A Polymorphic Feline
 
-If you are testing a Symfony application, `PantherTestCase` automatically extends the `WebTestCase` class. It means
-you can easily create functional tests, which can directly execute the kernel of your application and access all your existing
-services. Unlike the Panther's client, the Symfony's testing client doesn't support JavaScript and screenshots capturing, but
-it is super-fast!
+Panther also gives you instant access to other BrowserKit-based implementations of `Client` and `Crawler`.
+Unlike Panther's native client, these alternative clients don't support JavaScript, CSS and screenshots capturing,
+but they are **super-fast**!
 
-Alternatively (and even for non-Symfony apps), Panther can also leverage the [Goutte](https://github.com/FriendsOfPHP/Goutte)
-web scraping library, which is an intermediate between the Symfony's and the Panther's test clients. Goutte sends real HTTP
-requests, it is fast and is able to browse any webpage, not only the ones of the application under test.
-However, Goutte doesn't support JavaScript and other advanced features because it is entirely written in PHP.
+Two alternative clients are available:
 
-The fun part is that the 3 libraries implement the exact same API, so you can switch from one to another just by calling
+* The first directly manipulates the Symfony kernel provided by `WebTestCase`, it's the fastest client available,
+  but it is only available for Symfony apps.
+* The second leverages the [Goutte](https://github.com/FriendsOfPHP/Goutte) web scraping library.
+  It is an intermediate between the Symfony's and the Panther's test clients. Goutte sends real HTTP requests, it is fast
+  and is able to browse any webpage, not only the ones of the application under test.
+  However, Goutte doesn't support JavaScript and other advanced features because it is entirely written in PHP.
+  This one is available even for non-Symfony apps!
+
+The fun part is that the 3 clients implement the exact same API, so you can switch from one to another just by calling
 the appropriate factory method, resulting in a good trade-off for every single test case (Do I need JavaScript? Do I need
 to authenticate with an external SSO server? Do I want to access the kernel of the current request? ... etc).
+
+Here is how to retrieve instances of these clients:
 
 ```php
 <?php
@@ -110,7 +136,7 @@ class E2eTest extends PantherTestCase
 {
     public function testMyApp()
     {
-        $symfonyClient = static::createClient(); // A cute kitty: the Symfony's functional test too
+        $symfonyClient = static::createClient(); // A cute kitty: the Symfony's functional test tool
         $goutteClient = static::createGoutteClient(); // An agile lynx: Goutte
         $pantherClient = static::createPantherClient(); // A majestic Panther
         // Both Goutte and Panther benefits from the built-in HTTP server
@@ -123,12 +149,73 @@ class E2eTest extends PantherTestCase
         // enjoy the same API for the 3 felines
         // $*client->request('GET', '...')
 
-        $kernel = static::createKernel(); // You have also access to the app's kernel
+        $kernel = static::createKernel(); // If you are testing a Symfony app, you also have access to the kernel
 
         // ...
     }
 }
 ```
+
+### Creating Isolated Browsers to Test Apps Using [Mercure](https://mercure.rocks) or WebSockets
+
+Panther provides a convenient way to test applications with real-time capabilities which use [Mercure](https://symfony.com/doc/current/mercure.html), [WebSockets](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API)
+and similar technologies.
+
+The `PantherTestCase::createAdditionalPantherClient()` creates additional, isolated, browsers; that can interact with each others.
+For instance, this can be useful to test a chat application having several users connected simultaneously:
+
+```php
+<?php
+
+use Symfony\Component\Panther\PantherTestCase;
+
+class ChatTest extends PantherTestCase
+{
+    public function testChat(): void
+    {
+        $client1 = self::createPantherClient();
+        $client1->request('GET', '/chat'); 
+ 
+        // Connect a 2nd user using an isolated browser and say hi!
+        $crawler2 = self::createAdditionalPantherClient()->request('GET', '/chat');
+        $crawler2->submitForm('Post message', ['message' => 'Hi folks 👋😻']);
+
+        // Wait for the message to be received by the first client
+        $client1->waitFor('.message');
+
+        // Symfony Assertions are always executed in the **primary** browser
+        $this->assertSelectorTextContains('.message', 'Hi folks 👋😻');
+    }
+}
+```
+
+## Extra Documentations
+
+Since Panther implements the API of popular libraries, it already has an extensive documentation:
+
+* For the `Client` class, read [the BrowserKit's documentation](https://symfony.com/doc/current/components/browser_kit.html)
+* For the `Crawler` class, read [the DomCrawler's documentation](https://symfony.com/doc/current/components/dom_crawler.html)
+* For Webdriver, read [the Facebook's PHP WebDriver documentation](https://github.com/facebook/php-webdriver)
+
+### Environment Variables
+
+The following environment variables can be set to change some Panther's behaviour:
+
+* `PANTHER_NO_HEADLESS`: to disable browser's headless mode (will display the testing window, useful to debug)
+* `PANTHER_NO_SANDBOX`: to disable [Chrome's sandboxing](https://chromium.googlesource.com/chromium/src/+/b4730a0c2773d8f6728946013eb812c6d3975bec/docs/design/sandbox.md) (unsafe, but allows to use Panther in containers)
+* `PANTHER_WEB_SERVER_DIR`: to change the project's document root (default to `public/`)
+* `PANTHER_CHROME_DRIVER_BINARY`: to use another `chromedriver` binary, instead of relying on the ones already provided by Panther
+* `PANTHER_CHROME_ARGUMENTS`: to customize `chromedriver` arguments. You need to set `PANTHER_NO_HEADLESS` to fully customize.
+* `PANTHER_WEB_SERVER_PORT`: to change the web server's port (default to `9080`)
+* `PANTHER_WEB_SERVER_ROUTER`:  to use a web server router script which is run at the start of each HTTP request
+* `PANTHER_EXTERNAL_BASE_URI`: to use an external web server (the PHP built-in web server will not be started)
+* `PANTHER_CHROME_BINARY`: to use another `google-chrome` binary
+
+### Accessing To Hidden Text
+
+According to the spec, WebDriver implementations returns only the **displayed** text by default.
+When you filter on a head tag (like `title`), the method `text()` returns an empty string. Use the method `html()` to get
+the complete contents of the tag, including the tag itself.
 
 ### Interactive Mode
 
@@ -144,27 +231,8 @@ For enabling this mode, you need the `--debug` PHPUnit option without the headle
     
     Press enter to continue...
 
-## Features
 
-Unlike testing and web scraping libraries you're used to, Panther:
-
-* executes the JavaScript code contained in webpages
-* supports everything that Chrome (or Firefox) implements
-* allows screenshots taking
-* can wait for the appearance of asynchronously loaded elements
-* lets you run your own JS code or XPath queries in the context of the loaded page
-* supports custom [Selenium server](https://www.seleniumhq.org) installations
-* supports remote browser testing services including [SauceLabs](https://saucelabs.com/) and [BrowserStack](https://www.browserstack.com/)
-
-## Documentation
-
-Since Panther implements the API of popular libraries, it already has an extensive documentation:
-
-* For the `Client` class, read [the BrowserKit's documentation](https://symfony.com/doc/current/components/browser_kit.html)
-* For the `Crawler` class, read [the DomCrawler's documentation](https://symfony.com/doc/current/components/dom_crawler.html)
-* For Webdriver, read [the Facebook's PHP WebDriver documentation](https://github.com/facebook/php-webdriver)
-
-### Improve Performances by Having a Persistent Web Server Running
+### Using a Persistent Web Server to Improve Performance
 
 When you use the Panther client, the web server running in the background will be started on demand at the first call to
 `createPantherClient()`, `createGoutteClient()` or `startWebServer()` and it will be stopped at `tearDownAfterClass()`.
@@ -217,28 +285,7 @@ class E2eTest extends PantherTestCase
 
 ### Using a Proxy 
 
-To use a proxy server, override the `--proxy-server` option passed to the Chrome binary by using the `PANTHER_CHROME_ARGUMENTS` environment variable.
-
-Example: `PANTHER_CHROME_ARGUMENTS="--proxy-server=socks://127.0.0.1:9050"`
-
-### Hidden Text
-
-Webdriver returns only the displayed text. When you filter on a head tag (like `title`), the method `text()` returns an
-empty string. Use the method `html()` to get the complete contents of the tag, including the tag itself.
-
-### Environment Variables
-
-The following environment variables can be set to change some Panther's behaviour:
-
-* `PANTHER_NO_HEADLESS`: to disable browser's headless mode (will display the testing window, useful to debug)
-* `PANTHER_NO_SANDBOX`: to disable [Chrome's sandboxing](https://chromium.googlesource.com/chromium/src/+/b4730a0c2773d8f6728946013eb812c6d3975bec/docs/design/sandbox.md) (unsafe, but allows to use Panther in containers)
-* `PANTHER_WEB_SERVER_DIR`: to change the project's document root (default to `public/`)
-* `PANTHER_CHROME_DRIVER_BINARY`: to use another `chromedriver` binary, instead of relying on the ones already provided by Panther
-* `PANTHER_CHROME_ARGUMENTS`: to customize `chromedriver` arguments. You need to set `PANTHER_NO_HEADLESS` to fully customize.
-* `PANTHER_WEB_SERVER_PORT`: to change the web server's port (default to `9080`)
-* `PANTHER_WEB_SERVER_ROUTER`:  to use a web server router script which is run at the start of each HTTP request
-* `PANTHER_EXTERNAL_BASE_URI`: to use an external web server (the PHP built-in web server will not be started)
-* `PANTHER_CHROME_BINARY`: to use another `google-chrome` binary
+To use a proxy server, set the following environment variable: `PANTHER_CHROME_ARGUMENTS='--proxy-server=socks://127.0.0.1:9050'`
 
 ### Accepting Self-signed SSL Certificates
 
