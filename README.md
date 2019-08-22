@@ -110,7 +110,7 @@ but they are **super-fast**!
 
 Two alternative clients are available:
 
-* The first directly manipulates the Symfony kernel provided by `WebTestCase`, it is the fastest client available,
+* The first directly manipulates the Symfony kernel provided by `WebTestCase`. It is the fastest client available,
   but it is only available for Symfony apps.
 * The second leverages the [Goutte](https://github.com/FriendsOfPHP/Goutte) web scraping library.
   It is an intermediate between Symfony's and Panther's test clients. Goutte sends real HTTP requests. 
@@ -161,7 +161,7 @@ class E2eTest extends PantherTestCase
 Panther provides a convenient way to test applications with real-time capabilities which use [Mercure](https://symfony.com/doc/current/mercure.html), [WebSocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API)
 and similar technologies.
 
-`PantherTestCase::createAdditionalPantherClient()` creates additional, isolated, browsers; that can interact with each others.
+`PantherTestCase::createAdditionalPantherClient()` creates additional, isolated browsers which can interact with each other.
 For instance, this can be useful to test a chat application having several users connected simultaneously:
 
 ```php
@@ -190,7 +190,7 @@ class ChatTest extends PantherTestCase
 }
 ```
 
-## Additional Documentations
+## Additional Documentation
 
 Since Panther implements the API of popular libraries, it already has extensive documentation:
 
