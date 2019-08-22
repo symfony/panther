@@ -52,9 +52,14 @@ trait PantherTestCaseTrait
     protected static $goutteClient;
 
     /**
-     * @var PantherClient|null
+     * @var PantherClient|null The primary Panther client instance created
      */
     protected static $pantherClient;
+
+    /**
+     * @var PantherClient[] All Panther clients, the first one is the primary one (aka self::$pantherClient)
+     */
+    protected static $pantherClients = [];
 
     /**
      * @var array
@@ -83,8 +88,14 @@ trait PantherTestCaseTrait
         }
 
         if (null !== self::$pantherClient) {
-            self::$pantherClient->quit();
+            foreach (self::$pantherClients as $i => $pantherClient) {
+                // Stop ChromeDriver only when all sessions are already closed
+                $pantherClient->quit(false);
+            }
+
+            self::$pantherClient->getBrowserManager()->quit();
             self::$pantherClient = null;
+            self::$pantherClients = [];
         }
 
         if (null !== self::$goutteClient) {
@@ -129,15 +140,19 @@ trait PantherTestCaseTrait
     }
 
     /**
-     * @param array $options       see {@see $defaultOptions}
-     * @param array $kernelOptions
+     * Creates the primary browser.
+     *
+     * @param array $options see {@see $defaultOptions}
      */
     protected static function createPantherClient(array $options = [], array $kernelOptions = []): PantherClient
     {
-        self::startWebServer($options);
-        if (null === self::$pantherClient) {
-            self::$pantherClient = Client::createChromeClient(null, null, [], self::$baseUri);
+        if (null !== self::$pantherClient) {
+            return self::$pantherClient;
         }
+
+        self::startWebServer($options);
+
+        self::$pantherClients[0] = self::$pantherClient = Client::createChromeClient(null, null, [], self::$baseUri);
 
         if (\is_a(self::class, KernelTestCase::class, true)) {
             static::bootKernel($kernelOptions);
@@ -148,6 +163,18 @@ trait PantherTestCaseTrait
         }
 
         return self::$pantherClient;
+    }
+
+    /**
+     * Creates an additional browser. Convenient to test apps leveraging Mercure or WebSocket (e.g. a chat).
+     */
+    protected static function createAdditionalPantherClient(): PantherClient
+    {
+        if (null === self::$pantherClient) {
+            return self::createPantherClient();
+        }
+
+        return self::$pantherClients[] = self::$pantherClient = new PantherClient(self::$pantherClient->getBrowserManager(), self::$baseUri);
     }
 
     /**

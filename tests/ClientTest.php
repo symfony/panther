@@ -265,7 +265,7 @@ JS
     public function testServerPort(callable $clientFactory): void
     {
         $expectedPort = $_SERVER['PANTHER_WEB_SERVER_PORT'] ?? '9080';
-        $client = $clientFactory();
+        $clientFactory();
         $this->assertEquals($expectedPort, \mb_substr(self::$baseUri, -4));
     }
 }
