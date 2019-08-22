@@ -105,16 +105,16 @@ To run this test:
 ### A Polymorphic Feline
 
 Panther also gives you instant access to other BrowserKit-based implementations of `Client` and `Crawler`.
-Unlike Panther's native client, these alternative clients don't support JavaScript, CSS and screenshots capturing,
+Unlike Panther's native client, these alternative clients don't support JavaScript, CSS and screenshot capturing,
 but they are **super-fast**!
 
 Two alternative clients are available:
 
-* The first directly manipulates the Symfony kernel provided by `WebTestCase`, it's the fastest client available,
+* The first directly manipulates the Symfony kernel provided by `WebTestCase`, it is the fastest client available,
   but it is only available for Symfony apps.
 * The second leverages the [Goutte](https://github.com/FriendsOfPHP/Goutte) web scraping library.
-  It is an intermediate between the Symfony's and the Panther's test clients. Goutte sends real HTTP requests, it is fast
-  and is able to browse any webpage, not only the ones of the application under test.
+  It is an intermediate between Symfony's and Panther's test clients. Goutte sends real HTTP requests. 
+  It is fast and is able to browse any webpage, not only the ones of the application under test.
   However, Goutte doesn't support JavaScript and other advanced features because it is entirely written in PHP.
   This one is available even for non-Symfony apps!
 
@@ -136,7 +136,7 @@ class E2eTest extends PantherTestCase
 {
     public function testMyApp()
     {
-        $symfonyClient = static::createClient(); // A cute kitty: the Symfony's functional test tool
+        $symfonyClient = static::createClient(); // A cute kitty: Symfony's functional test tool
         $goutteClient = static::createGoutteClient(); // An agile lynx: Goutte
         $pantherClient = static::createPantherClient(); // A majestic Panther
         // Both Goutte and Panther benefits from the built-in HTTP server
@@ -156,12 +156,12 @@ class E2eTest extends PantherTestCase
 }
 ```
 
-### Creating Isolated Browsers to Test Apps Using [Mercure](https://mercure.rocks) or WebSockets
+### Creating Isolated Browsers to Test Apps Using [Mercure](https://mercure.rocks) or WebSocket
 
-Panther provides a convenient way to test applications with real-time capabilities which use [Mercure](https://symfony.com/doc/current/mercure.html), [WebSockets](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API)
+Panther provides a convenient way to test applications with real-time capabilities which use [Mercure](https://symfony.com/doc/current/mercure.html), [WebSocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API)
 and similar technologies.
 
-The `PantherTestCase::createAdditionalPantherClient()` creates additional, isolated, browsers; that can interact with each others.
+`PantherTestCase::createAdditionalPantherClient()` creates additional, isolated, browsers; that can interact with each others.
 For instance, this can be useful to test a chat application having several users connected simultaneously:
 
 ```php
@@ -189,13 +189,13 @@ class ChatTest extends PantherTestCase
 }
 ```
 
-## Extra Documentations
+## Additional Documentations
 
-Since Panther implements the API of popular libraries, it already has an extensive documentation:
+Since Panther implements the API of popular libraries, it already has extensive documentation:
 
-* For the `Client` class, read [the BrowserKit's documentation](https://symfony.com/doc/current/components/browser_kit.html)
-* For the `Crawler` class, read [the DomCrawler's documentation](https://symfony.com/doc/current/components/dom_crawler.html)
-* For Webdriver, read [the Facebook's PHP WebDriver documentation](https://github.com/facebook/php-webdriver)
+* For the `Client` class, read [the BrowserKit documentation](https://symfony.com/doc/current/components/browser_kit.html)
+* For the `Crawler` class, read [the DomCrawler documentation](https://symfony.com/doc/current/components/dom_crawler.html)
+* For WebDriver, read [the Facebook PHP WebDriver documentation](https://github.com/facebook/php-webdriver)
 
 ### Environment Variables
 
@@ -213,8 +213,8 @@ The following environment variables can be set to change some Panther's behaviou
 
 ### Accessing To Hidden Text
 
-According to the spec, WebDriver implementations returns only the **displayed** text by default.
-When you filter on a head tag (like `title`), the method `text()` returns an empty string. Use the method `html()` to get
+According to the spec, WebDriver implementations return only the **displayed** text by default.
+When you filter on a `head` tag (like `title`), the method `text()` returns an empty string. Use the method `html()` to get
 the complete contents of the tag, including the tag itself.
 
 ### Interactive Mode
