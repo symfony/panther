@@ -1,6 +1,19 @@
 CHANGELOG
 =========
 
+0.5.0
+-----
+
+* Add support for [Crawler test assertions](https://symfony.com/doc/current/testing/functional_tests_assertions.html#crawler)
+* Add the `PantherTestCase::createAdditionalPantherClient()` to retrieve additional isolated browsers, useful to test applications using [Mercure](https://mercure.rocks) or [WebSocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API)   
+* Improved support for non-standard web server directories
+* Allow the integrated web server to start even if the homepage doesn't return a 200 HTTP status code
+* Increase default timeouts from 5 seconds to 30 seconds
+* Improve error messages
+* Add compatibility with Symfony 4.3
+* Upgrade ChromeDriver to version 76.0.3809.68
+* Various quality improvements
+
 0.4.1
 -----
 
@@ -22,7 +35,7 @@ CHANGELOG
 * Keep the browser window open on fail, when running in non-headless mode
 * Automatically open Chrome DevTools when running in non-headless mode
 * PHPUnit 8 compatibility
-* Add a PHPUnit extension to keep alive the webserver and the client between tests 
+* Add a PHPUnit extension to keep alive the web server and the client between tests 
 * Change the default port of the web server to `9080` to prevent a conflict with Xdebug
 * Allow to use an external web server instead of the built-in one for testing
 * Allow to use a custom router script
@@ -32,7 +45,7 @@ CHANGELOG
 -----
 
 * Add JS execution capabilities to `Client`
-* Allow keeping the webserver and client active even after test teardown
+* Allow keeping the web server and client active even after test teardown
 * Add a method to refresh the crawler (`Client::refreshCrawler()`)
 * Add options to configure the web server and ChromeDriver
 * PHP 7.1 compatibility
