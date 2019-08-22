@@ -177,8 +177,9 @@ class ChatTest extends PantherTestCase
         $client1->request('GET', '/chat'); 
  
         // Connect a 2nd user using an isolated browser and say hi!
-        $crawler2 = self::createAdditionalPantherClient()->request('GET', '/chat');
-        $crawler2->submitForm('Post message', ['message' => 'Hi folks 👋😻']);
+        $client2 = self::createAdditionalPantherClient();
+        $client2->request('GET', '/chat');
+        $client2->submitForm('Post message', ['message' => 'Hi folks 👋😻']);
 
         // Wait for the message to be received by the first client
         $client1->waitFor('.message');
