@@ -215,6 +215,12 @@ class E2eTest extends PantherTestCase
 }
 ```
 
+### Using a Proxy 
+
+To use a proxy server, override the `--proxy-server` option passed to the Chrome binary by using the `PANTHER_CHROME_ARGUMENTS` environment variable.
+
+Example: `PANTHER_CHROME_ARGUMENTS="--proxy-server=socks://127.0.0.1:9050"`
+
 ### Hidden Text
 
 Webdriver returns only the displayed text. When you filter on a head tag (like `title`), the method `text()` returns an
