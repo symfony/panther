@@ -215,17 +215,11 @@ class E2eTest extends PantherTestCase
 }
 ```
 
-### Using a proxy 
+### Using a Proxy 
 
-You need to override default arguments passed to the Chrome binary in order to use a proxy:
+To use a proxy server, override the `--proxy-server` option passed to the Chrome binary by using the `PANTHER_CHROME_ARGUMENTS` environment variable.
 
-```php
-$client = Client::createChromeClient(null, [
-             '--proxy-server=socks://127.0.0.1:9050',
-             '--headless',
-             "--disable-gpu",
-        ]);
-```
+Example: `PANTHER_CHROME_ARGUMENTS="--proxy-server=socks://127.0.0.1:9050"`
 
 ### Hidden Text
 
