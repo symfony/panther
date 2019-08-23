@@ -17,6 +17,7 @@ use Facebook\WebDriver\Exception\NoSuchElementException;
 use Facebook\WebDriver\WebDriver;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverElement;
+use Symfony\Component\CssSelector\CssSelectorConverter;
 use Symfony\Component\DomCrawler\Crawler as BaseCrawler;
 use Symfony\Component\Panther\ExceptionThrower;
 
@@ -154,9 +155,15 @@ final class Crawler extends BaseCrawler implements WebDriverElement
     /**
      * @see https://github.com/symfony/symfony/issues/26432
      */
-    public function children()
+    public function children(string $selector = null)
     {
-        return $this->createSubCrawlerFromXpath('child::*');
+        $xpath = 'child::*';
+        if (null !== $selector) {
+            $converter = $this->createCssSelectorConverter();
+            $xpath = $converter->toXPath($selector, 'child::');
+        }
+
+        return $this->createSubCrawlerFromXpath($xpath);
     }
 
     public function attr($attribute): string
@@ -174,16 +181,32 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         return $this->getElementOrThrow()->getTagName();
     }
 
-    public function text(): string
+    public function text($default = null): string
     {
-        return $this->getElementOrThrow()->getText();
+        try {
+            return $this->getElementOrThrow()->getText();
+        } catch (\InvalidArgumentException $e) {
+            if (null === $default) {
+                throw $e;
+            }
+
+            return (string) $default;
+        }
     }
 
-    public function html(): string
+    public function html($default = null): string
     {
-        $this->getElementOrThrow();
+        try {
+            $this->getElementOrThrow();
 
-        return $this->attr('outerHTML');
+            return $this->attr('outerHTML');
+        } catch (\InvalidArgumentException $e) {
+            if (null === $default) {
+                throw $e;
+            }
+
+            return (string) $default;
+        }
     }
 
     public function evaluate($xpath): self
@@ -452,5 +475,17 @@ final class Crawler extends BaseCrawler implements WebDriverElement
     public function findElements(WebDriverBy $locator)
     {
         return $this->getElementOrThrow()->findElements($locator);
+    }
+
+    /**
+     * @throws \LogicException If the CssSelector Component is not available
+     */
+    private function createCssSelectorConverter(): CssSelectorConverter
+    {
+        if (!class_exists(CssSelectorConverter::class)) {
+            throw new \LogicException('To filter with a CSS selector, install the CssSelector component ("composer require symfony/css-selector"). Or use filterXpath instead.');
+        }
+
+        return new CssSelectorConverter();
     }
 }
