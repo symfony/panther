@@ -7,6 +7,7 @@ CHANGELOG
 * Allow to override the `APP_ENV` environment variable passed to the web server by setting `PANTHER_APP_ENV`
 * Fix using assertions with a client created through `PantherTestCase::createClient()`
 * Don't call `PantherTestCase::getClient()` if this method isn't `static`
+* Fix remaining deprecations
 
 0.5.0
 -----
