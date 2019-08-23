@@ -14,9 +14,12 @@ declare(strict_types=1);
 namespace Symfony\Component\Panther;
 
 use PHPUnit\Framework\TestCase;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Bundle\FrameworkBundle\Test\ForwardCompatTestTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestAssertionsTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\BrowserKit\AbstractBrowser;
+use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symfony\Component\Panther\Client as PantherClient;
 
 if (\class_exists(WebTestCase::class)) {
@@ -31,6 +34,7 @@ if (\class_exists(WebTestCase::class)) {
     if ($canUseAssertions) {
         abstract class PantherTestCase extends WebTestCase
         {
+            use ForwardCompatTestTrait;
             use PantherTestCaseTrait;
             use WebTestAssertionsTrait {
                 assertPageTitleSame as private baseAssertPageTitleSame;
@@ -59,6 +63,43 @@ if (\class_exists(WebTestCase::class)) {
                 }
 
                 self::baseAssertPageTitleContains($expectedTitle, $message);
+            }
+
+            private function doTearDown()
+            {
+                parent::tearDown();
+                self::getClient(null);
+            }
+
+            // Copied from WebTestCase to allow assertions to work with createClient
+
+            /**
+             * Creates a KernelBrowser.
+             *
+             * @param array $options An array of options to pass to the createKernel method
+             * @param array $server  An array of server parameters
+             *
+             * @return KernelBrowser A KernelBrowser instance
+             */
+            protected static function createClient(array $options = [], array $server = [])
+            {
+                $kernel = static::bootKernel($options);
+
+                try {
+                    /**
+                     * @var KernelBrowser
+                     */
+                    $client = $kernel->getContainer()->get('test.client');
+                } catch (ServiceNotFoundException $e) {
+                    if (class_exists(KernelBrowser::class)) {
+                        throw new \LogicException('You cannot create the client used in functional tests if the "framework.test" config is not set to true.');
+                    }
+                    throw new \LogicException('You cannot create the client used in functional tests if the BrowserKit component is not available. Try running "composer require symfony/browser-kit"');
+                }
+
+                $client->setServerParameters($server);
+
+                return self::getClient($client);
             }
         }
     } else {
