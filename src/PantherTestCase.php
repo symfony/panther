@@ -57,7 +57,13 @@ if (\class_exists(WebTestCase::class)) {
             {
                 $client = self::getClient();
                 if ($client instanceof PantherClient) {
-                    self::assertStringContainsString($expectedTitle, $client->getTitle());
+                    if (method_exists(self::class, 'assertStringContainsString')) {
+                        self::assertStringContainsString($expectedTitle, $client->getTitle());
+
+                        return;
+                    }
+
+                    self::assertContains($expectedTitle, $client->getTitle());
 
                     return;
                 }

@@ -199,6 +199,23 @@ class CrawlerTest extends TestCase
 
     /**
      * @dataProvider clientFactoryProvider
+     *
+     * @param mixed $clientFactory
+     */
+    public function testChildrenFilter($clientFactory): void
+    {
+        $crawler = $this->request($clientFactory, '/basic.html');
+
+        $names = [];
+        $crawler->filter('body')->children('p')->each(function (Crawler $c, int $i) use (&$names) {
+            $names[$i] = $c->nodeName();
+        });
+
+        $this->assertSame(['p', 'p'], $names);
+    }
+
+    /**
+     * @dataProvider clientFactoryProvider
      */
     public function testParents(callable $clientFactory): void
     {
@@ -278,5 +295,23 @@ class CrawlerTest extends TestCase
 
         $this->assertSame('GET', $image->getMethod());
         $this->assertSame('https://api-platform.com/logo-250x250.png', $image->getUri());
+    }
+
+    /**
+     * @dataProvider clientFactoryProvider
+     */
+    public function testTextDefault(callable $clientFactory): void
+    {
+        $crawler = $this->request($clientFactory, '/basic.html');
+        $this->assertSame('default', $crawler->filter('header')->text('default'));
+    }
+
+    /**
+     * @dataProvider clientFactoryProvider
+     */
+    public function testHtmlDefault(callable $clientFactory): void
+    {
+        $crawler = $this->request($clientFactory, '/basic.html');
+        $this->assertSame('default', $crawler->filter('header')->html('default'));
     }
 }
