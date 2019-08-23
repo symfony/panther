@@ -158,7 +158,7 @@ trait PantherTestCaseTrait
             static::bootKernel($kernelOptions);
         }
 
-        if (\is_callable([self::class, 'getClient'])) {
+        if (\is_callable([self::class, 'getClient']) && (new \ReflectionMethod(self::class, 'getClient'))->isStatic()) {
             return self::getClient(self::$pantherClient);
         }
 
