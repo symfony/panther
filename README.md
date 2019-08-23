@@ -211,6 +211,7 @@ The following environment variables can be set to change some Panther's behaviou
 * `PANTHER_WEB_SERVER_ROUTER`:  to use a web server router script which is run at the start of each HTTP request
 * `PANTHER_EXTERNAL_BASE_URI`: to use an external web server (the PHP built-in web server will not be started)
 * `PANTHER_CHROME_BINARY`: to use another `google-chrome` binary
+* `PANTHER_APP_ENV`: to override the `APP_ENV` variable passed to the web server running the PHP app
 
 ### Accessing To Hidden Text
 

@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+0.5.1
+-----
+
+* Allow to override the `APP_ENV` environment variable passed to the web server by setting `PANTHER_APP_ENV`
+
 0.5.0
 -----
 
