@@ -159,7 +159,10 @@ trait PantherTestCaseTrait
         }
 
         if (\is_callable([self::class, 'getClient'])) {
-            return self::getClient(self::$pantherClient);
+            $rm = new \ReflectionMethod(self::class, 'getClient');
+            if ($rm->isStatic()) {
+                return self::getClient(self::$pantherClient);
+            }
         }
 
         return self::$pantherClient;
