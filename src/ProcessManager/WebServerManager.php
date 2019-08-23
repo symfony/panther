@@ -46,6 +46,11 @@ final class WebServerManager
             throw new \RuntimeException('Unable to find the PHP binary.');
         }
 
+        $env = null;
+        if (isset($_SERVER['PANTHER_APP_ENV'])) {
+            $env = ['APP_ENV' => $_SERVER['PANTHER_APP_ENV']];
+        }
+
         $this->process = new Process(
             array_filter(array_merge(
                 [$binary],
@@ -60,7 +65,7 @@ final class WebServerManager
                 ]
             )),
             $documentRoot,
-            null,
+            $env,
             null,
             null
         );
