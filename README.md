@@ -47,6 +47,36 @@ Use [Composer](https://getcomposer.org/) to install Panther in your project. You
 **Warning:** On \*nix systems, the `unzip` command must be installed or you will encounter an error similar to `RuntimeException: sh: 1: exec: /app/vendor/symfony/panther/src/ProcessManager/../../chromedriver-bin/chromedriver_linux64: Permission denied` (or `chromedriver_linux64: not found`).
 The underlying reason is that PHP's `ZipArchive` doesn't preserve UNIX executable permissions.
 
+#### Registering the PHPUnit Extension
+
+If you intend to use Panther to test your application, we strongly recommended to register the Panther PHPUnit extension.
+While not strictly mandatory, this extension dramatically improves the testing experience by boosting the performance and
+allowing to use the [interactive debugging mode](#interactive-mode).
+
+To register the Panther extension, add the following lines to `phpunit.xml.dist`:
+
+```xml
+<!-- phpunit.xml.dist -->
+    <extensions>
+        <extension class="Symfony\Component\Panther\ServerExtension" />
+    </extensions>
+```
+
+Without the extension, the web server used by Panther to serve the application under test is started on demand and
+stopped when called `tearDownAfterClass()` is called.
+On the other hand, when the extension is registered, the web server will be stopped only after the very last test.
+
+To use the Panther extension, PHPUnit 7.3+ is required. Nonetheless, a listener is provided for older versions:
+
+```xml
+<!-- phpunit.xml.dist -->
+    <listeners>
+        <listener class="Symfony\Component\Panther\ServerListener" />
+    </listeners>
+```
+
+This listener will start the web server on demand like previously, but it will stop it after each test suite.
+
 ### Basic Usage
 
 ```php
@@ -233,35 +263,7 @@ For enabling this mode, you need the `--debug` PHPUnit option without the headle
     
     Press enter to continue...
 
-
-### Using a Persistent Web Server to Improve Performance
-
-When you use the Panther client, the web server running in the background will be started on demand at the first call to
-`createPantherClient()`, `createGoutteClient()` or `startWebServer()` and it will be stopped at `tearDownAfterClass()`.
-
-If you want to improve performances, you can hook to PHPUnit in your `phpunit.xml.dist` configuration file with the
-Panther's server extension:
-
-```xml
-<!-- phpunit.xml.dist -->
-    <extensions>
-        <extension class="Symfony\Component\Panther\ServerExtension" />
-    </extensions>
-```
-
-This extension will start the web server on demand like previously, but it will stop it after the very last test.
-
-It should be noted that the Panther's extension only works with PHPUnit `>= 7.3`. Nonetheless, if you are using an
-anterior PHPUnit version, you can also hook to PHPUnit with the Panther's server listener:
-
-```xml
-<!-- phpunit.xml.dist -->
-    <listeners>
-        <listener class="Symfony\Component\Panther\ServerListener" />
-    </listeners>
-```
-
-This listener will start the web server on demand like previously, but it will stop it after each test suite.
+To use the interactive mode, the [PHPUnit extension](#registering-the-phpunit-extension) **must** be registered.
 
 ### Using an External Web Server
 
