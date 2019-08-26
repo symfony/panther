@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+0.5.2
+-----
+
+* Fix a bug occurring when using a non-fresh client
+
 0.5.1
 -----
 
