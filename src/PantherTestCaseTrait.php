@@ -146,8 +146,9 @@ trait PantherTestCaseTrait
      */
     protected static function createPantherClient(array $options = [], array $kernelOptions = []): PantherClient
     {
+        $callGetClient = \is_callable([self::class, 'getClient']) && (new \ReflectionMethod(self::class, 'getClient'))->isStatic();
         if (null !== self::$pantherClient) {
-            return self::$pantherClient;
+            return $callGetClient ? self::getClient(self::$pantherClient) : self::$pantherClient;
         }
 
         self::startWebServer($options);
@@ -158,11 +159,7 @@ trait PantherTestCaseTrait
             static::bootKernel($kernelOptions);
         }
 
-        if (\is_callable([self::class, 'getClient']) && (new \ReflectionMethod(self::class, 'getClient'))->isStatic()) {
-            return self::getClient(self::$pantherClient);
-        }
-
-        return self::$pantherClient;
+        return $callGetClient ? self::getClient(self::$pantherClient) : self::$pantherClient;
     }
 
     /**
