@@ -18,7 +18,7 @@ use Symfony\Component\BrowserKit\AbstractBrowser;
 
 class AssertionsTest extends TestCase
 {
-    public function testDomCrawlerAssertions(): void
+    protected function setUp(): void
     {
         try {
             if (AbstractBrowser::class !== (new \ReflectionMethod(WebTestCase::class, 'getClient'))->getReturnType()->getName()) {
@@ -27,7 +27,10 @@ class AssertionsTest extends TestCase
         } catch (\ReflectionException $e) {
             $this->markTestSkipped('Old version of WebTestCase');
         }
+    }
 
+    public function testDomCrawlerAssertions(): void
+    {
         self::createPantherClient()->request('GET', '/basic.html');
         $this->assertSelectorExists('.p-1');
         $this->assertSelectorNotExists('#notexist');
@@ -38,5 +41,11 @@ class AssertionsTest extends TestCase
         $this->assertPageTitleContains('A basic');
         $this->assertInputValueNotSame('in', '');
         $this->assertInputValueSame('in', 'test');
+    }
+
+    public function testAssertionsWorkEvenWhenTheClientIsNotFresh(): void
+    {
+        self::createPantherClient()->request('GET', '/basic.html');
+        $this->assertSelectorExists('.p-1');
     }
 }

@@ -10,7 +10,9 @@ parameters:
 		- '#KernelBrowser#'
 		# False positive
 		- '#Else branch is unreachable because ternary operator condition is always true\.#'
-		- '#Call to private static method getClient\(\) of class Symfony\\Bundle\\FrameworkBundle\\Test\\WebTestCase\.#'
+		- '#getClient#'
+		- '#Result of && is always false\.#'
+		- '#Ternary operator condition is always false\.#'
 		- '#Call to an undefined static method Symfony\\Component\\Panther\\PantherTestCase::baseAssertPageTitleContains\(\)\.#'
 		- '#Call to an undefined static method Symfony\\Component\\Panther\\PantherTestCase::baseAssertPageTitleSame\(\)\.#'
 		- '#Call to function method_exists\(\) with #'
