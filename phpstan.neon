@@ -9,16 +9,14 @@ parameters:
 		# https://github.com/symfony/symfony/pull/33278
 		- '#KernelBrowser#'
 		# False positive
-		- '#Else branch is unreachable because ternary operator condition is always true\.#'
 		- '#getClient#'
 		- '#Result of && is always false\.#'
 		- '#Ternary operator condition is always false\.#'
-		- '#Call to an undefined static method Symfony\\Component\\Panther\\PantherTestCase::baseAssertPageTitleContains\(\)\.#'
-		- '#Call to an undefined static method Symfony\\Component\\Panther\\PantherTestCase::baseAssertPageTitleSame\(\)\.#'
 		- '#Call to function method_exists\(\) with #'
 		- '#Call to an undefined static method Symfony\\Component\\Panther\\PantherTestCase::assertStringContainsString\(\)\.#'
 		# To fix in PHP WebDriver
 		- '#Parameter \#2 \$desired_capabilities of static method Facebook\\WebDriver\\Remote\\RemoteWebDriver::create\(\) expects array\|Facebook\\WebDriver\\Remote\\DesiredCapabilities\|null, Facebook\\WebDriver\\WebDriverCapabilities given\.#'
 		# Require a redesign of the underlying Symfony components
+		- '#Call to an undefined method DOMNode::getTagName\(\)\.#'
 		- '#Panther\\[a-zA-Z\\]+::__construct\(\) does not call parent constructor from Symfony\\Component\\(BrowserKit|DomCrawler)\\[a-zA-Z]+\.#'
 		- '#Return type \(void\) of method Symfony\\Component\\Panther\\DomCrawler\\Crawler::clear\(\) should be compatible with return type \(Facebook\\WebDriver\\WebDriverElement\) of method Facebook\\WebDriver\\WebDriverElement::clear\(\)#'
