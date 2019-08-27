@@ -18,20 +18,11 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\ForwardCompatTestTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestAssertionsTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\BrowserKit\AbstractBrowser;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symfony\Component\Panther\Client as PantherClient;
 
 if (\class_exists(WebTestCase::class)) {
-    // Compatibility with buggy 4.3 versions, see https://github.com/symfony/symfony/pull/33278
-    $canUseAssertions = false;
-    try {
-        $canUseAssertions = AbstractBrowser::class === (new \ReflectionMethod(WebTestCase::class, 'getClient'))->getReturnType()->getName();
-    } catch (\ReflectionException $e) {
-        // Old version of WebTestCase
-    }
-
-    if ($canUseAssertions) {
+    if (trait_exists('Symfony\Bundle\FrameworkBundle\Test\WebTestAssertionsTrait') && trait_exists('Symfony\Bundle\FrameworkBundle\Test\ForwardCompatTestTrait')) {
         abstract class PantherTestCase extends WebTestCase
         {
             use ForwardCompatTestTrait;
