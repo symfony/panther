@@ -39,6 +39,9 @@
   "config": {
     "sort-packages": true
   },
+  "conflict": {
+    "symfony/framework-bundle": ">=4.3 <4.3.4"
+  },
   "require-dev": {
     "fabpot/goutte": "^3.2.3",
     "guzzlehttp/guzzle": "^6.3",
