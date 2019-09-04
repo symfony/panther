@@ -166,7 +166,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         return $this->createSubCrawlerFromXpath($xpath);
     }
 
-    public function attr($attribute): string
+    public function attr($attribute): ?string
     {
         $element = $this->getElementOrThrow();
         if ('_text' === $attribute) {
