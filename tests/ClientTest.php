@@ -39,13 +39,28 @@ class ClientTest extends TestCase
         $this->assertInstanceOf(KernelInterface::class, self::$kernel);
     }
 
-    public function testWaitFor()
+    /**
+     * @dataProvider waitForDataProvider
+     */
+    public function testWaitFor(string $locator)
     {
         $client = self::createPantherClient();
         $crawler = $client->request('GET', '/waitfor.html');
-        $c = $client->waitFor('#hello');
+        $c = $client->waitFor($locator);
         $this->assertInstanceOf(Crawler::class, $c);
         $this->assertSame('Hello', $crawler->filter('#hello')->text());
+    }
+
+    public function waitForDataProvider(): array
+    {
+        return [
+            'css selector' => [
+                'locator' => '#hello',
+            ],
+            'xpath expression' => [
+                'locator' => '//*[@id="hello"]',
+            ],
+        ];
     }
 
     public function testExecuteScript()
