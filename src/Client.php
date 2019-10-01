@@ -266,7 +266,11 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
      */
     public function waitFor(string $locator, int $timeoutInSecond = 30, int $intervalInMillisecond = 250)
     {
-        $by = '/' === $locator[0] ? WebDriverBy::xpath($locator) : WebDriverBy::cssSelector($locator);
+        $locator = trim($locator);
+
+        $by = '' === $locator || '/' !== $locator[0]
+            ? WebDriverBy::cssSelector($locator)
+            : WebDriverBy::xpath($locator);
 
         $this->wait($timeoutInSecond, $intervalInMillisecond)->until(
             WebDriverExpectedCondition::visibilityOfElementLocated($by)
