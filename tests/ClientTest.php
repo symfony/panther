@@ -45,10 +45,8 @@ class ClientTest extends TestCase
         $this->expectException(InvalidSelectorException::class);
 
         $client = self::createPantherClient();
-        $crawler = $client->request('GET', '/waitfor.html');
-        $c = $client->waitFor('');
-        $this->assertInstanceOf(Crawler::class, $c);
-        $this->assertSame('Hello', $crawler->filter('#hello')->text());
+        $client->request('GET', '/waitfor.html');
+        $client->waitFor('');
     }
 
     /**
