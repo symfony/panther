@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\Tests;
 
+use Facebook\WebDriver\Exception\InvalidSelectorException;
 use Facebook\WebDriver\JavaScriptExecutor;
 use Facebook\WebDriver\WebDriver;
 use Facebook\WebDriver\WebDriverExpectedCondition;
@@ -39,13 +40,37 @@ class ClientTest extends TestCase
         $this->assertInstanceOf(KernelInterface::class, self::$kernel);
     }
 
-    public function testWaitFor()
+    public function testWaitForEmptyLocator()
+    {
+        $this->expectException(InvalidSelectorException::class);
+
+        $client = self::createPantherClient();
+        $client->request('GET', '/waitfor.html');
+        $client->waitFor('');
+    }
+
+    /**
+     * @dataProvider waitForDataProvider
+     */
+    public function testWaitFor(string $locator)
     {
         $client = self::createPantherClient();
         $crawler = $client->request('GET', '/waitfor.html');
-        $c = $client->waitFor('#hello');
+        $c = $client->waitFor($locator);
         $this->assertInstanceOf(Crawler::class, $c);
         $this->assertSame('Hello', $crawler->filter('#hello')->text());
+    }
+
+    public function waitForDataProvider(): array
+    {
+        return [
+            'css selector' => [
+                'locator' => '#hello',
+            ],
+            'xpath expression' => [
+                'locator' => '//*[@id="hello"]',
+            ],
+        ];
     }
 
     public function testExecuteScript()
