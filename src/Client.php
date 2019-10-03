@@ -259,15 +259,25 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
     }
 
     /**
+     * @param string $locator               The path to an element to be waited for. Can be a CSS selector or Xpath expression.
+     * @param int    $timeoutInSecond
+     * @param int    $intervalInMillisecond
+     *
      * @throws NoSuchElementException
      * @throws TimeOutException
      *
      * @return Crawler
      */
-    public function waitFor(string $cssSelector, int $timeoutInSecond = 30, int $intervalInMillisecond = 250)
+    public function waitFor(string $locator, int $timeoutInSecond = 30, int $intervalInMillisecond = 250)
     {
+        $locator = trim($locator);
+
+        $by = '' === $locator || '/' !== $locator[0]
+            ? WebDriverBy::cssSelector($locator)
+            : WebDriverBy::xpath($locator);
+
         $this->wait($timeoutInSecond, $intervalInMillisecond)->until(
-            WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::cssSelector($cssSelector))
+            WebDriverExpectedCondition::visibilityOfElementLocated($by)
         );
 
         return $this->crawler = $this->createCrawler();
