@@ -277,7 +277,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
             : WebDriverBy::xpath($locator);
 
         $this->wait($timeoutInSecond, $intervalInMillisecond)->until(
-            WebDriverExpectedCondition::visibilityOfElementLocated($by)
+            WebDriverExpectedCondition::presenceOfElementLocated($by)
         );
 
         return $this->crawler = $this->createCrawler();

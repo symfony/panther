@@ -73,6 +73,15 @@ class ClientTest extends TestCase
         ];
     }
 
+    public function testWaitForInvisibleElement(): void
+    {
+        $client = self::createPantherClient();
+        $crawler = $client->request('GET', '/waitfor-invisible.html');
+        $c = $client->waitFor('#hello');
+        $this->assertInstanceOf(Crawler::class, $c);
+        $this->assertSame('Hello', $crawler->filter('#hello')->getAttribute('value'));
+    }
+
     public function testExecuteScript()
     {
         $client = self::createPantherClient();
