@@ -30,11 +30,26 @@ final class ChromeManager implements BrowserManagerInterface
     private $arguments;
     private $options;
 
+    private $extensions = [];
+
     public function __construct(?string $chromeDriverBinary = null, ?array $arguments = null, array $options = [])
     {
         $this->options = array_merge($this->getDefaultOptions(), $options);
         $this->process = new Process([$chromeDriverBinary ?: $this->findChromeDriverBinary(), '--port='.$this->options['port']], null, null, null, null);
         $this->arguments = $arguments ?? $this->getDefaultArguments();
+    }
+
+    /**
+     * @param string[] $extensions Paths to packed Chrome extensions
+     */
+    public function setExtensions(array $extensions)
+    {
+        foreach ($extensions as $path) {
+            if (!file_exists($path)) {
+                throw new \InvalidArgumentException(\sprintf('The Chrome extension "%s" does not exist.', $path));
+            }
+        }
+        $this->extensions = $extensions;
     }
 
     /**
@@ -62,6 +77,7 @@ final class ChromeManager implements BrowserManagerInterface
             if (isset($_SERVER['PANTHER_CHROME_BINARY'])) {
                 $chromeOptions->setBinary($_SERVER['PANTHER_CHROME_BINARY']);
             }
+            $chromeOptions->addExtensions($this->extensions);
         }
 
         return RemoteWebDriver::create($url, $capabilities, $this->options['connection_timeout_in_ms'] ?? null, $this->options['request_timeout_in_ms'] ?? null);
