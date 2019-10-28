@@ -61,12 +61,6 @@ trait WebTestAssertionsTrait
         self::baseAssertPageTitleContains($expectedTitle, $message);
     }
 
-    private function doTearDown()
-    {
-        parent::tearDown();
-        self::getClient(null);
-    }
-
     // Copied from WebTestCase to allow assertions to work with createClient
 
     /**

@@ -25,12 +25,24 @@ if (\class_exists(WebTestCase::class)) {
             {
                 use ForwardCompatTestTrait;
                 use WebTestAssertionsTrait;
+
+                private function doTearDown()
+                {
+                    parent::tearDown();
+                    self::getClient(null);
+                }
             }
         } else {
             // Symfony 5
             abstract class PantherTestCase extends WebTestCase
             {
                 use WebTestAssertionsTrait;
+
+                protected function tearDown(): void
+                {
+                    parent::tearDown();
+                    self::getClient(null);
+                }
             }
         }
     } else {

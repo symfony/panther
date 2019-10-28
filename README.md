@@ -4,7 +4,7 @@
 
 [![Build Status](https://travis-ci.org/symfony/panther.svg?branch=master)](https://travis-ci.org/symfony/panther)
 [![Build status](https://ci.appveyor.com/api/projects/status/bunoc4ufud4oie45?svg=true)](https://ci.appveyor.com/project/fabpot/panther)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/9ea7e78c-998a-4489-9815-7449ce8291ef/mini.png)](https://insight.sensiolabs.com/projects/9ea7e78c-998a-4489-9815-7449ce8291ef)
+[![SymfonyInsight](https://insight.symfony.com/projects/9ea7e78c-998a-4489-9815-7449ce8291ef/mini.png)](https://insight.symfony.com/projects/9ea7e78c-998a-4489-9815-7449ce8291ef)
 
 *Panther* is a convenient standalone library to scrape websites and to run end-to-end tests **using real browsers**.
 
