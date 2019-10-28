@@ -188,9 +188,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         }
 
         try {
-            $text = $this->getElementOrThrow()->getText();
-
-            return $text;
+            return $this->getElementOrThrow()->getText();
         } catch (\InvalidArgumentException $e) {
             if (null === $default) {
                 throw $e;
