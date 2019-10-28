@@ -1,22 +1,12 @@
----------ChromeDriver 76.0.3809.68 (2019-07-16)---------
-Supports Chrome version 76
-Resolved issue 2995: javascript error: circular reference with ChromeDriver 76.0.3809.25 [Pri-1]
-Resolved issue 3007: ChromeDriver 75 - Running Javascript kills driver [Pri-1]
-Resolved issue 2943: goog:chromeOptions.w3c=false doesn't work for POST request with empty body [Pri-1]
-Resolved issue 2947: No W3C compliant endpoints for retrieving logs [Pri-2]
-Resolved issue 1897: Implement Actions API [Pri-1]
-Resolved issue 3011: Perform Actions cannot move pointer to elements in shadow DOM [Pri-2]
-Resolved issue 2975: Webdriver Actions for keys (CONTROL, SHIFT etc..) not working in ChromeDriver 75.0.3770.8 [Pri-2]
-Resolved issue 2981: Chromedriver in W3C mode loses mouse state between Actions API calls [Pri-2]
-Resolved issue 2992: Error "Cannot call non W3C standard command while in W3C mode" should be recorded in log file [Pri-2]
-Resolved issue 2556: Script timeout handling is not spec compliant [Pri-2]
-Resolved issue 2745: Improve cyclic data structure detection in Execute Script command [Pri-2]
-Resolved issue 1071: Incorrect serialization in webdriver command response. [Pri-2]
-Resolved issue 2264: moveToElement() scrolls the top left corner of the element into view [Pri-2]
-Resolved issue 2852: Do not scroll partially visible elements [Pri-2]
-Resolved issue 2840: Element Send Keys: Codepoint "U+E001" not supported [Pri-2]
-Resolved issue 2869: ChromeDriver should return user prompt (or alert) text in unhandled alert error response [Pri-2]
-Resolved issue 1062: <details> children are always considered displayed [Pri-2]
-Resolved issue 2555: Script result serialization is not spec compliant [Pri-3]
-Resolved issue 2892: excludeSwitches option should allow leading dashes in switch names [Pri-3]
-
+---------ChromeDriver 78.0.3904.70 (2019-10-21)---------
+Supports Chrome version 78
+Resolved issue 907: PageLoadTimeout ignored when setting Url [Pri-2]
+Resolved issue 2212: Implement Permissions Automation
+Resolved issue 3044: Unable to interact with dropdown options using Action in ChromeDriver 76 [Pri-2]
+Resolved issue 3047: No matching capabilities found if ChromeOptions() is used [Pri-2]
+Resolved issue 3074: Adding function to Object.prototype causes difficulties in JavaScript deserialization [Pri-1]
+Resolved issue 3078: ChromeDriver 77.0.3865.19 and later does not work with Android [Pri-1]
+Resolved issue 3084: Find Elements not working properly in ChromeDriver 76 when prototype.js 1.6.1 is used [Pri-2]
+Resolved issue 3103: ChromeDriver 77.0.3865.40 is returning the result of a Java Script Execution wrong (Coming null instead of complete) [Pri-1]
+Resolved issue 3106: Download in headless mode does not honor download.default_directory
+Resolved issue 3136: Unable to take a screenshot when page is zoomed out to 25%.
