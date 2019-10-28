@@ -28,7 +28,7 @@ abstract class TestCase extends PantherTestCase
     protected static $webServerDir = __DIR__.'/fixtures';
 
     /**
-     * Compatibility layer with PHPUnit 7
+     * Compatibility layer with PHPUnit 7.
      */
     public static function assertStringContainsString(string $needle, string $haystack, string $message = ''): void
     {

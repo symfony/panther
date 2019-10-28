@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\Tests\ProcessManager;
 
-use PHPUnit\Framework\TestCase;
 use Symfony\Component\Panther\ProcessManager\WebServerManager;
+use Symfony\Component\Panther\Tests\TestCase;
 
 /**
  * @author Kévin Dunglas <dunglas@gmail.com>
