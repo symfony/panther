@@ -19,6 +19,11 @@ use PHPUnit\Framework\TestListener;
 use PHPUnit\Framework\TestListenerDefaultImplementation;
 use PHPUnit\Framework\TestSuite;
 
+@trigger_error(sprintf('The "%s" class is deprecated since Panther 0.5.3, use "%s" instead.', ServerListener::class, ServerExtension::class), E_USER_DEPRECATED);
+
+/**
+ * @deprecated since Panther 0.5.3, use Symfony\Component\Panther\ServerExtension instead.
+ */
 final class ServerListener implements TestListener
 {
     use TestListenerDefaultImplementation;

@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\Tests\WebDriver;
 
+use Facebook\WebDriver\Exception\NoSuchElementException;
+use Facebook\WebDriver\Exception\UnsupportedOperationException;
 use Symfony\Component\Panther\Tests\TestCase;
 use Symfony\Component\Panther\WebDriver\WebDriverCheckbox;
 
@@ -102,11 +104,10 @@ class WebDriverCheckBoxTest extends TestCase
         ];
     }
 
-    /**
-     * @expectedException \Facebook\WebDriver\Exception\NoSuchElementException
-     */
     public function testWebDriverCheckboxSelectByValueInvalid()
     {
+        $this->expectException(NoSuchElementException::class);
+
         $crawler = self::createPantherClient()->request('GET', self::$baseUri.'/form.html');
         $element = $crawler->filterXPath('//input[@type="checkbox"]')->getElement(0);
 
@@ -142,11 +143,10 @@ class WebDriverCheckBoxTest extends TestCase
         ];
     }
 
-    /**
-     * @expectedException \Facebook\WebDriver\Exception\NoSuchElementException
-     */
     public function testWebDriverCheckboxSelectByIndexInvalid()
     {
+        $this->expectException(NoSuchElementException::class);
+
         $crawler = self::createPantherClient()->request('GET', self::$baseUri.'/form.html');
         $element = $crawler->filterXPath('//input[@type="checkbox"]')->getElement(0);
 
@@ -260,55 +260,50 @@ class WebDriverCheckBoxTest extends TestCase
         $this->assertEmpty($c->getAllSelectedOptions());
     }
 
-    /**
-     * @expectedException \Facebook\WebDriver\Exception\UnsupportedOperationException
-     */
     public function testWebDriverCheckboxDeselectAllRadio()
     {
+        $this->expectException(UnsupportedOperationException::class);
+
         $crawler = self::createPantherClient()->request('GET', self::$baseUri.'/form.html');
         $element = $crawler->filterXPath('//input[@type="radio"]')->getElement(0);
         $c = new WebDriverCheckbox($element);
         $c->deselectAll();
     }
 
-    /**
-     * @expectedException \Facebook\WebDriver\Exception\UnsupportedOperationException
-     */
     public function testWebDriverCheckboxDeselectByIndexRadio()
     {
+        $this->expectException(UnsupportedOperationException::class);
+
         $crawler = self::createPantherClient()->request('GET', self::$baseUri.'/form.html');
         $element = $crawler->filterXPath('//input[@type="radio"]')->getElement(0);
         $c = new WebDriverCheckbox($element);
         $c->deselectByIndex(0);
     }
 
-    /**
-     * @expectedException \Facebook\WebDriver\Exception\UnsupportedOperationException
-     */
     public function testWebDriverCheckboxDeselectByValueRadio()
     {
+        $this->expectException(UnsupportedOperationException::class);
+
         $crawler = self::createPantherClient()->request('GET', self::$baseUri.'/form.html');
         $element = $crawler->filterXPath('//input[@type="radio"]')->getElement(0);
         $c = new WebDriverCheckbox($element);
         $c->deselectByValue('val');
     }
 
-    /**
-     * @expectedException \Facebook\WebDriver\Exception\UnsupportedOperationException
-     */
     public function testWebDriverCheckboxDeselectByVisibleTextRadio()
     {
+        $this->expectException(UnsupportedOperationException::class);
+
         $crawler = self::createPantherClient()->request('GET', self::$baseUri.'/form.html');
         $element = $crawler->filterXPath('//input[@type="radio"]')->getElement(0);
         $c = new WebDriverCheckbox($element);
         $c->deselectByVisibleText('AB');
     }
 
-    /**
-     * @expectedException \Facebook\WebDriver\Exception\UnsupportedOperationException
-     */
     public function testWebDriverCheckboxDeselectByVisiblePartialTextRadio()
     {
+        $this->expectException(UnsupportedOperationException::class);
+
         $crawler = self::createPantherClient()->request('GET', self::$baseUri.'/form.html');
         $element = $crawler->filterXPath('//input[@type="radio"]')->getElement(0);
         $c = new WebDriverCheckbox($element);

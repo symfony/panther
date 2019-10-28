@@ -29,12 +29,11 @@ class ChromeManagerTest extends TestCase
         $manager->quit();
     }
 
-    /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage The port 9515 is already in use.
-     */
     public function testAlreadyRunning()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('The port 9515 is already in use.');
+
         $driver1 = new ChromeManager();
         $driver1->start();
 
