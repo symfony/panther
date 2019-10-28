@@ -1,6 +1,18 @@
 CHANGELOG
 =========
 
+0.6.0
+-----
+
+* Add compatibility with Symfony 5
+* Allow to use `Client::waitFor()` to wait for invisible elements
+* Add support to pass XPath expressions as parameters of `Client::waitFor()`
+* Fix `Crawler::attr()` signature (it can return `null`)
+* Deprecate `ServerListener` (use `ServerExtension` instead)
+* Upgrade ChromeDriver to version 78.0.3904.70
+* New logo
+* Various docs fixes and improvements
+
 0.5.2
 -----
 
