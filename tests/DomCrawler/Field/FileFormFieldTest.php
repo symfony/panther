@@ -23,6 +23,17 @@ class FileFormFieldTest extends TestCase
 {
     private static $invalidUploadFileName = 'narf.txt';
 
+    private function assertValueContains($needle, $haystack): void
+    {
+        if (\is_string($haystack)) {
+            $this->assertStringContainsString($needle, $haystack);
+
+            return;
+        }
+
+        $this->assertContains($needle, $haystack);
+    }
+
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -36,7 +47,7 @@ class FileFormFieldTest extends TestCase
         $this->assertInstanceOf(FileFormField::class, $fileFormField);
         $fileFormField->upload($this->getUploadFilePath(self::$uploadFileName));
 
-        $this->assertContains(self::$uploadFileName, $form['file_upload']->getValue());
+        $this->assertValueContains(self::$uploadFileName, $form['file_upload']->getValue());
     }
 
     /**
@@ -52,13 +63,15 @@ class FileFormFieldTest extends TestCase
         $this->assertInstanceOf(FileFormField::class, $fileFormField);
         $fileFormField->setValue($this->getUploadFilePath(self::$uploadFileName));
 
-        $this->assertContains(self::$uploadFileName, $form['file_upload']->getValue());
+        $this->assertValueContains(self::$uploadFileName, $form['file_upload']->getValue());
     }
 
     /**
      * @dataProvider clientFactoryProvider
+     *
+     * @param mixed $class
      */
-    public function testFileUploadWithSetFilePath(callable $clientFactory)
+    public function testFileUploadWithSetFilePath(callable $clientFactory, $class)
     {
         $crawler = $this->request($clientFactory, '/file-form-field.html');
         $form = $crawler->filter('form')->form();
@@ -68,10 +81,10 @@ class FileFormFieldTest extends TestCase
         $this->assertInstanceOf(FileFormField::class, $fileFormField);
 
         $fileFormField->setFilePath($this->getUploadFilePath(self::$uploadFileName));
-        $this->assertContains(self::$uploadFileName, $form['file_upload']->getValue());
+        $this->assertValueContains(self::$uploadFileName, $form['file_upload']->getValue());
 
         $fileFormField->setFilePath($this->getUploadFilePath(self::$anotherUploadFileName));
-        $this->assertContains(self::$anotherUploadFileName, $form['file_upload']->getValue());
+        $this->assertValueContains(self::$anotherUploadFileName, $form['file_upload']->getValue());
     }
 
     /**

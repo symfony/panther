@@ -19,6 +19,9 @@ use PHPUnit\Framework\TestSuite;
 use Symfony\Component\Panther\PantherTestCase;
 use Symfony\Component\Panther\ServerListener;
 
+/**
+ * @group legacy
+ */
 class ServerListenerTest extends TestCase
 {
     public static function tearDownAfterClass(): void

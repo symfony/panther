@@ -181,16 +181,22 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         return $this->getElementOrThrow()->getTagName();
     }
 
-    public function text($default = null): string
+    public function text(string $default = null, bool $normalizeWhitespace = true): string
     {
+        if (!$normalizeWhitespace) {
+            throw new \InvalidArgumentException('Panther only supports getting normalized text.');
+        }
+
         try {
-            return $this->getElementOrThrow()->getText();
+            $text = $this->getElementOrThrow()->getText();
+
+            return $text;
         } catch (\InvalidArgumentException $e) {
             if (null === $default) {
                 throw $e;
             }
 
-            return (string) $default;
+            return $default;
         }
     }
 
