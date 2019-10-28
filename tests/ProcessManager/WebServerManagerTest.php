@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\Tests\ProcessManager;
 
-use PHPUnit\Framework\TestCase;
 use Symfony\Component\Panther\ProcessManager\WebServerManager;
+use Symfony\Component\Panther\Tests\TestCase;
 
 /**
  * @author Kévin Dunglas <dunglas@gmail.com>
@@ -25,17 +25,16 @@ class WebServerManagerTest extends TestCase
     {
         $server = new WebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234);
         $server->start();
-        $this->assertContains('Hello', file_get_contents('http://127.0.0.1:1234/basic.html'));
+        $this->assertStringContainsString('Hello', (string) file_get_contents('http://127.0.0.1:1234/basic.html'));
 
         $server->quit();
     }
 
-    /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage The port 1234 is already in use.
-     */
     public function testAlreadyRunning()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('The port 1234 is already in use.');
+
         $server1 = new WebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234);
         $server1->start();
 

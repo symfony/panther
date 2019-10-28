@@ -16,6 +16,7 @@ namespace Symfony\Component\Panther\Tests\DomCrawler;
 use Facebook\WebDriver\WebDriverElement;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Panther\Client;
+use Symfony\Component\Panther\Client as PantherClient;
 use Symfony\Component\Panther\DomCrawler\Image;
 use Symfony\Component\Panther\DomCrawler\Link;
 use Symfony\Component\Panther\Tests\TestCase;
@@ -47,7 +48,7 @@ class CrawlerTest extends TestCase
     public function testHtml(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/basic.html');
-        $this->assertContains('<title>A basic page</title>', $crawler->html());
+        $this->assertStringContainsString('<title>A basic page</title>', $crawler->html());
     }
 
     /**
@@ -313,5 +314,25 @@ class CrawlerTest extends TestCase
     {
         $crawler = $this->request($clientFactory, '/basic.html');
         $this->assertSame('default', $crawler->filter('header')->html('default'));
+    }
+
+    /**
+     * @dataProvider clientFactoryProvider
+     */
+    public function testNormalizeText(callable $clientFactory, string $clientClass): void
+    {
+        if (PantherClient::class !== $clientClass) {
+            $this->markTestSkipped('Need https://github.com/symfony/symfony/pull/34151');
+        }
+
+        $crawler = $this->request($clientFactory, '/normalize.html');
+        $this->assertSame('Foo Bar Baz', $crawler->filter('#normalize')->text());
+    }
+
+    public function testDoNotNormalizeText()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        self::createPantherClient()->request('GET', self::$baseUri.'/normalize.html')->filter('#normalize')->text(null, false);
     }
 }

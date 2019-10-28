@@ -14,98 +14,46 @@ declare(strict_types=1);
 namespace Symfony\Component\Panther;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\ForwardCompatTestTrait;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestAssertionsTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
-use Symfony\Component\Panther\Client as PantherClient;
 
 if (\class_exists(WebTestCase::class)) {
-    if (trait_exists('Symfony\Bundle\FrameworkBundle\Test\WebTestAssertionsTrait') && trait_exists('Symfony\Bundle\FrameworkBundle\Test\ForwardCompatTestTrait')) {
-        abstract class PantherTestCase extends WebTestCase
-        {
-            use ForwardCompatTestTrait;
-            use PantherTestCaseTrait;
-            use WebTestAssertionsTrait {
-                assertPageTitleSame as private baseAssertPageTitleSame;
-                assertPageTitleContains as private baseAssertPageTitleContains;
-            }
-
-            public static function assertPageTitleSame(string $expectedTitle, string $message = ''): void
+    if (trait_exists('Symfony\Bundle\FrameworkBundle\Test\WebTestAssertionsTrait')) {
+        if (trait_exists('Symfony\Bundle\FrameworkBundle\Test\ForwardCompatTestTrait')) {
+            // Symfony 4.3
+            abstract class PantherTestCase extends WebTestCase
             {
-                $client = self::getClient();
-                if ($client instanceof PantherClient) {
-                    self::assertSame($expectedTitle, $client->getTitle());
+                use ForwardCompatTestTrait;
+                use WebTestAssertionsTrait;
 
-                    return;
+                private function doTearDown()
+                {
+                    parent::tearDown();
+                    self::getClient(null);
                 }
-
-                self::baseAssertPageTitleSame($expectedTitle, $message);
             }
-
-            public static function assertPageTitleContains(string $expectedTitle, string $message = ''): void
+        } else {
+            // Symfony 5
+            abstract class PantherTestCase extends WebTestCase
             {
-                $client = self::getClient();
-                if ($client instanceof PantherClient) {
-                    if (method_exists(self::class, 'assertStringContainsString')) {
-                        self::assertStringContainsString($expectedTitle, $client->getTitle());
+                use WebTestAssertionsTrait;
 
-                        return;
-                    }
-
-                    self::assertContains($expectedTitle, $client->getTitle());
-
-                    return;
+                protected function tearDown(): void
+                {
+                    parent::tearDown();
+                    self::getClient(null);
                 }
-
-                self::baseAssertPageTitleContains($expectedTitle, $message);
-            }
-
-            private function doTearDown()
-            {
-                parent::tearDown();
-                self::getClient(null);
-            }
-
-            // Copied from WebTestCase to allow assertions to work with createClient
-
-            /**
-             * Creates a KernelBrowser.
-             *
-             * @param array $options An array of options to pass to the createKernel method
-             * @param array $server  An array of server parameters
-             *
-             * @return KernelBrowser A KernelBrowser instance
-             */
-            protected static function createClient(array $options = [], array $server = [])
-            {
-                $kernel = static::bootKernel($options);
-
-                try {
-                    /**
-                     * @var KernelBrowser
-                     */
-                    $client = $kernel->getContainer()->get('test.client');
-                } catch (ServiceNotFoundException $e) {
-                    if (class_exists(KernelBrowser::class)) {
-                        throw new \LogicException('You cannot create the client used in functional tests if the "framework.test" config is not set to true.');
-                    }
-                    throw new \LogicException('You cannot create the client used in functional tests if the BrowserKit component is not available. Try running "composer require symfony/browser-kit"');
-                }
-
-                $client->setServerParameters($server);
-
-                return self::getClient($client);
             }
         }
     } else {
+        // Symfony 4.3 and inferior
         abstract class PantherTestCase extends WebTestCase
         {
             use PantherTestCaseTrait;
         }
     }
 } else {
+    // Without Symfony
     abstract class PantherTestCase extends TestCase
     {
         use PantherTestCaseTrait;
