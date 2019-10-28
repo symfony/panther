@@ -2,6 +2,7 @@ parameters:
 	autoload_files:
 		- vendor/bin/.phpunit/phpunit-7.4/vendor/autoload.php
 	inferPrivatePropertyTypeFromConstructor: true
+	reportUnmatchedIgnoredErrors: false
 	ignoreErrors:
 		# https://github.com/symfony/symfony/pull/33289
 		- '#Parameter \#1 \$value of method Symfony\\Component\\Panther\\DomCrawler\\Field\\FileFormField::setValue\(\) expects string, null given\.#'
