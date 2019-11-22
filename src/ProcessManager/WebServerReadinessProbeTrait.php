@@ -47,7 +47,7 @@ trait WebServerReadinessProbeTrait
         while (true) {
             $status = $process->getStatus();
             if (Process::STATUS_STARTED !== $status) {
-                if (microtime(true) - $start >= $timeout) {
+                if (Process::STATUS_TERMINATED === $status || microtime(true) - $start >= $timeout) {
                     throw new \RuntimeException("Could not start $service (or it crashed) after $timeout seconds.");
                 }
 
