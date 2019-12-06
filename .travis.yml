@@ -10,6 +10,8 @@ jobs:
       env: lint=1
     - php: '7.3'
       env: deps=low
+    - php: '7.4'
+      env: deps=low
 
 cache:
   directories:
