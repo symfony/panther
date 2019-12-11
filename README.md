@@ -63,7 +63,7 @@ To register the Panther extension, add the following lines to `phpunit.xml.dist`
 ```
 
 Without the extension, the web server used by Panther to serve the application under test is started on demand and
-stopped when called `tearDownAfterClass()` is called.
+stopped when `tearDownAfterClass()` is called.
 On the other hand, when the extension is registered, the web server will be stopped only after the very last test.
 
 To use the Panther extension, PHPUnit 7.3+ is required. Nonetheless, a listener is provided for older versions:
