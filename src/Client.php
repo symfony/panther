@@ -420,7 +420,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
     public function executeScript($script, array $arguments = [])
     {
         if (!$this->webDriver instanceof JavaScriptExecutor) {
-            throw new \RuntimeException(sprintf('"%s" does not implement "%s".', \get_class($this->webDriver), JavaScriptExecutor::class));
+            $this->throwException(JavaScriptExecutor::class);
         }
 
         return $this->webDriver->executeScript($script, $arguments);
@@ -429,7 +429,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
     public function executeAsyncScript($script, array $arguments = [])
     {
         if (!$this->webDriver instanceof JavaScriptExecutor) {
-            throw new \RuntimeException(sprintf('"%s" does not implement "%s".', \get_class($this->webDriver), JavaScriptExecutor::class));
+            $this->throwException(JavaScriptExecutor::class);
         }
 
         return $this->webDriver->executeAsyncScript($script, $arguments);
@@ -438,7 +438,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
     public function getKeyboard()
     {
         if (!$this->webDriver instanceof WebDriverHasInputDevices) {
-            throw new \RuntimeException(sprintf('"%s" does not implement "%s".', \get_class($this->webDriver), WebDriverHasInputDevices::class));
+            $this->throwException(WebDriverHasInputDevices::class);
         }
 
         return $this->webDriver->getKeyboard();
@@ -447,9 +447,17 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
     public function getMouse(): WebDriverMouse
     {
         if (!$this->webDriver instanceof WebDriverHasInputDevices) {
-            throw new \RuntimeException(sprintf('"%s" does not implement "%s".', \get_class($this->webDriver), WebDriverHasInputDevices::class));
+            $this->throwException(WebDriverHasInputDevices::class);
         }
 
         return new WebDriverMouse($this->webDriver->getMouse(), $this);
+    }
+
+    private function throwException(string $implementableClass): void
+    {
+        if (null === $this->webDriver) {
+            throw new \LogicException(sprintf('WebDriver not started yet. Call method `start()` first before calling any `%s` method.', $implementableClass));
+        }
+        throw new \RuntimeException(sprintf('"%s" does not implement "%s".', \get_class($this->webDriver), $implementableClass));
     }
 }
