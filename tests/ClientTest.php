@@ -97,6 +97,13 @@ class ClientTest extends TestCase
         $this->assertSame('P1', $innerText);
     }
 
+    public function testExecuteScriptLogicExceptionWhenDriverIsNotStartedYet()
+    {
+        $this->expectException(\LogicException::class);
+        $client = Client::createChromeClient();
+        $client->executeScript('return document.querySelector(arguments[0]).innerText;', ['.p-1']);
+    }
+
     public function testExecuteAsyncScript()
     {
         $client = self::createPantherClient();
