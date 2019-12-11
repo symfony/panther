@@ -17,8 +17,7 @@ use Facebook\WebDriver\Exception\InvalidSelectorException;
 use Facebook\WebDriver\JavaScriptExecutor;
 use Facebook\WebDriver\WebDriver;
 use Facebook\WebDriver\WebDriverExpectedCondition;
-use LogicException;
-use Symfony\Component\BrowserKit\Client as BrowserKitClient;
+use Symfony\Component\BrowserKit\AbstractBrowser as BrowserKitClient;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\BrowserKit\CookieJar as BrowserKitCookieJar;
 use Symfony\Component\DomCrawler\Crawler as DomCrawlerCrawler;
@@ -93,7 +92,7 @@ class ClientTest extends TestCase
 
     public function testExecuteScriptLogicExceptionWhenDriverIsNotStartedYet()
     {
-        $this->expectException(LogicException::class);
+        $this->expectException(\LogicException::class);
         $client = Client::createChromeClient();
         $client->executeScript('return document.querySelector(arguments[0]).innerText;', ['.p-1']);
     }
