@@ -167,7 +167,7 @@ class E2eTest extends PantherTestCase
     {
         $symfonyClient = static::createClient(); // A cute kitty: Symfony's functional test tool
         $goutteClient = static::createGoutteClient(); // An agile lynx: Goutte
-        $pantherClient = static::createPantherClient(); // A majestic Panther
+        $pantherClient = static::createPantherClient(); // A majestic Panther (defaults to a Chrome client)
         // Both Goutte and Panther benefits from the built-in HTTP server
 
         $customChromeClient = Client::createChromeClient(null, null, [], 'https://example.com'); // Create a custom Chrome client
