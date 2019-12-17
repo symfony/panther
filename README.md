@@ -63,7 +63,7 @@ To register the Panther extension, add the following lines to `phpunit.xml.dist`
 ```
 
 Without the extension, the web server used by Panther to serve the application under test is started on demand and
-stopped when called `tearDownAfterClass()` is called.
+stopped when `tearDownAfterClass()` is called.
 On the other hand, when the extension is registered, the web server will be stopped only after the very last test.
 
 To use the Panther extension, PHPUnit 7.3+ is required. Nonetheless, a listener is provided for older versions:
@@ -99,7 +99,7 @@ $client->takeScreenshot('screen.png'); // Yeah, screenshot!
 
 The `PantherTestCase` class allows you to easily write E2E tests. It automatically starts your app using the built-in PHP
 web server and let you crawl it using Panther.
-To provides all of the testing tools you're used to, it extends [PHPUnit](https://phpunit.de/)'s `TestCase`.
+To provide all of the testing tools you're used to, it extends [PHPUnit](https://phpunit.de/)'s `TestCase`.
 
 If you are testing a Symfony application, `PantherTestCase` automatically extends [the `WebTestCase` class](https://symfony.com/doc/current/testing.html#functional-tests).
 It means you can easily create functional tests, which can directly execute the kernel of your application and access all
