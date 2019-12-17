@@ -1,4 +1,8 @@
 parameters:
+	level: 6
+    paths:
+        - src
+        - tests
 	autoload_files:
 		- vendor/bin/.phpunit/phpunit-7.4/vendor/autoload.php
 	inferPrivatePropertyTypeFromConstructor: true

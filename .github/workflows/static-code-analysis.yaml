@@ -1,0 +1,13 @@
+name: Static code analysis
+
+on: [pull_request]
+
+jobs:
+    static-code-analysis:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@master
+            - name: Run PHPStan
+              uses: docker://jakzal/phpqa:alpine
+              with:
+                  args: phpstan analyze
