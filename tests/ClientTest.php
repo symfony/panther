@@ -17,7 +17,7 @@ use Facebook\WebDriver\Exception\InvalidSelectorException;
 use Facebook\WebDriver\JavaScriptExecutor;
 use Facebook\WebDriver\WebDriver;
 use Facebook\WebDriver\WebDriverExpectedCondition;
-use Symfony\Component\BrowserKit\Client as BrowserKitClient;
+use Symfony\Component\BrowserKit\AbstractBrowser;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\BrowserKit\CookieJar as BrowserKitCookieJar;
 use Symfony\Component\DomCrawler\Crawler as DomCrawlerCrawler;
@@ -34,7 +34,7 @@ class ClientTest extends TestCase
     public function testCreateClient()
     {
         $client = self::createPantherClient();
-        $this->assertInstanceOf(BrowserKitClient::class, $client);
+        $this->assertInstanceOf(AbstractBrowser::class, $client);
         $this->assertInstanceOf(WebDriver::class, $client);
         $this->assertInstanceOf(JavaScriptExecutor::class, $client);
         $this->assertInstanceOf(KernelInterface::class, self::$kernel);
@@ -143,7 +143,7 @@ JS
     public function testFollowLink(callable $clientFactory, string $type): void
     {
         /**
-         * @var \Symfony\Component\BrowserKit\Client
+         * @var AbstractBrowser
          */
         $client = $clientFactory();
         $crawler = $client->request('GET', static::$baseUri.'/link.html');
@@ -163,7 +163,7 @@ JS
     public function testSubmitForm(callable $clientFactory, string $type): void
     {
         /**
-         * @var \Symfony\Component\BrowserKit\Client
+         * @var AbstractBrowser
          */
         $client = $clientFactory();
         $crawler = $client->request('GET', static::$baseUri.'/form.html');
@@ -195,7 +195,7 @@ JS
     public function testSubmitFormWithValues(callable $clientFactory, string $type): void
     {
         /**
-         * @var \Symfony\Component\BrowserKit\Client
+         * @var AbstractBrowser
          */
         $client = $clientFactory();
         $crawler = $client->request('GET', static::$baseUri.'/form.html');
@@ -218,7 +218,7 @@ JS
     public function testHistory(callable $clientFactory)
     {
         /**
-         * @var \Symfony\Component\BrowserKit\Client
+         * @var AbstractBrowser
          */
         $client = $clientFactory();
         $crawler = $client->request('GET', self::$baseUri.'/link.html');
@@ -247,7 +247,7 @@ JS
     public function testCookie(callable $clientFactory, string $type)
     {
         /**
-         * @var \Symfony\Component\BrowserKit\Client
+         * @var AbstractBrowser
          */
         $client = $clientFactory();
         $crawler = $client->request('GET', self::$baseUri.'/cookie.php');
