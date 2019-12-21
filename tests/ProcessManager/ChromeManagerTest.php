@@ -67,4 +67,17 @@ class ChromeManagerTest extends TestCase
         $driver1->quit();
         $driver2->quit();
     }
+
+    public function testSetExperimentalOptions()
+    {
+        $manager = new ChromeManager();
+        $manager->setExperimentalOptions([
+            'mobileEmulation' => [
+                'deviceName' => 'Pixel 2',
+            ],
+        ]);
+        $client = $manager->start();
+        $this->assertTrue($client->getCapabilities()->getCapability('mobileEmulationEnabled'));
+        $manager->quit();
+    }
 }

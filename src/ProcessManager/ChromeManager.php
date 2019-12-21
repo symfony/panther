@@ -30,11 +30,18 @@ final class ChromeManager implements BrowserManagerInterface
     private $arguments;
     private $options;
 
+    private $experimentalOptions = [];
+
     public function __construct(?string $chromeDriverBinary = null, ?array $arguments = null, array $options = [])
     {
         $this->options = array_merge($this->getDefaultOptions(), $options);
         $this->process = new Process([$chromeDriverBinary ?: $this->findChromeDriverBinary(), '--port='.$this->options['port']], null, null, null, null);
         $this->arguments = $arguments ?? $this->getDefaultArguments();
+    }
+
+    public function setExperimentalOptions(array $experimentalOptions)
+    {
+        $this->experimentalOptions = $experimentalOptions;
     }
 
     /**
@@ -56,6 +63,9 @@ final class ChromeManager implements BrowserManagerInterface
             $capabilities->setCapability(ChromeOptions::CAPABILITY, $chromeOptions);
             if (isset($_SERVER['PANTHER_CHROME_BINARY'])) {
                 $chromeOptions->setBinary($_SERVER['PANTHER_CHROME_BINARY']);
+            }
+            foreach ($this->experimentalOptions as $name => $value) {
+                $chromeOptions->setExperimentalOption($name, $value);
             }
         }
 
