@@ -59,7 +59,7 @@ final class ChromeManager implements BrowserManagerInterface
             }
         }
 
-        return RemoteWebDriver::create($url, $capabilities);
+        return RemoteWebDriver::create($url, $capabilities, $this->options['connection_timeout_in_ms'] ?? null, $this->options['request_timeout_in_ms'] ?? null);
     }
 
     public function quit(): void
