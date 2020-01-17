@@ -225,7 +225,7 @@ Since Panther implements the API of popular libraries, it already has extensive 
 
 * For the `Client` class, read [the BrowserKit documentation](https://symfony.com/doc/current/components/browser_kit.html)
 * For the `Crawler` class, read [the DomCrawler documentation](https://symfony.com/doc/current/components/dom_crawler.html)
-* For WebDriver, read [the Facebook PHP WebDriver documentation](https://github.com/facebook/php-webdriver)
+* For WebDriver, read [the PHP WebDriver documentation](https://github.com/php-webdriver/php-webdriver)
 
 ### Environment Variables
 
@@ -461,4 +461,4 @@ If you like this software, help save the (real) panthers by [donating to the Pan
 
 Created by [Kévin Dunglas](https://dunglas.fr). Sponsored by [Les-Tilleuls.coop](https://les-tilleuls.coop).
 
-Panther is built on top of [PHP WebDriver](https://github.com/facebook/php-webdriver) and [several other FOSS libraries](https://symfony.com/blog/introducing-symfony-panther-a-browser-testing-and-web-scrapping-library-for-php#thank-you-open-source). It has been inspired by [Nightwatch.js](http://nightwatchjs.org/), a WebDriver-based testing tool for JavaScript.
+Panther is built on top of [PHP WebDriver](https://github.com/php-webdriver/php-webdriver) and [several other FOSS libraries](https://symfony.com/blog/introducing-symfony-panther-a-browser-testing-and-web-scrapping-library-for-php#thank-you-open-source). It has been inspired by [Nightwatch.js](http://nightwatchjs.org/), a WebDriver-based testing tool for JavaScript.
