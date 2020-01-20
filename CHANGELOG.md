@@ -5,6 +5,7 @@ CHANGELOG
 -----
 
 * Upgrade ChromeDriver to version 79.0.3945.36
+* Allow to pass custom timeouts as options of `ChromeManager` (`connection_timeout_in_ms` and `request_timeout_in_ms`)
 
 0.6.0
 -----
