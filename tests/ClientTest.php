@@ -17,6 +17,7 @@ use Facebook\WebDriver\Exception\InvalidSelectorException;
 use Facebook\WebDriver\JavaScriptExecutor;
 use Facebook\WebDriver\WebDriver;
 use Facebook\WebDriver\WebDriverExpectedCondition;
+use Symfony\Component\BrowserKit\AbstractBrowser;
 use Symfony\Component\BrowserKit\Client as BrowserKitClient;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\BrowserKit\CookieJar as BrowserKitCookieJar;
@@ -34,7 +35,7 @@ class ClientTest extends TestCase
     public function testCreateClient()
     {
         $client = self::createPantherClient();
-        $this->assertInstanceOf(BrowserKitClient::class, $client);
+        $this->assertInstanceOf(class_exists(AbstractBrowser::class) ? AbstractBrowser::class : BrowserKitClient::class, $client);
         $this->assertInstanceOf(WebDriver::class, $client);
         $this->assertInstanceOf(JavaScriptExecutor::class, $client);
         $this->assertInstanceOf(KernelInterface::class, self::$kernel);
