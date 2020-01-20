@@ -1,12 +1,10 @@
----------ChromeDriver 78.0.3904.70 (2019-10-21)---------
-Supports Chrome version 78
-Resolved issue 907: PageLoadTimeout ignored when setting Url [Pri-2]
-Resolved issue 2212: Implement Permissions Automation
-Resolved issue 3044: Unable to interact with dropdown options using Action in ChromeDriver 76 [Pri-2]
-Resolved issue 3047: No matching capabilities found if ChromeOptions() is used [Pri-2]
-Resolved issue 3074: Adding function to Object.prototype causes difficulties in JavaScript deserialization [Pri-1]
-Resolved issue 3078: ChromeDriver 77.0.3865.19 and later does not work with Android [Pri-1]
-Resolved issue 3084: Find Elements not working properly in ChromeDriver 76 when prototype.js 1.6.1 is used [Pri-2]
-Resolved issue 3103: ChromeDriver 77.0.3865.40 is returning the result of a Java Script Execution wrong (Coming null instead of complete) [Pri-1]
-Resolved issue 3106: Download in headless mode does not honor download.default_directory
-Resolved issue 3136: Unable to take a screenshot when page is zoomed out to 25%.
+---------ChromeDriver 79.0.3945.36 (2019-11-18)---------
+Supports Chrome version 79
+Resolved issue 2117: Chromedriver locks when an alert()(js) is raised while taking a screenshot [Pri-2]
+Resolved issue 2435: Chrome driver reports platform and platformName as XP on Win10 machine [Pri-2]
+Resolved issue 2487: "Element is not clickable" when using headless [Pri-]
+Resolved issue 3005: WPT test in element_clear "test_not_editable_inputs[hidden]" does not pass [Pri-3]
+Resolved issue 3073: Alerts coming from backend response cause ChromeDriver in W3C mode disconnect from browser - unable to interact with Chrome anymore - java.net.ConnectException: Failed to connect to localhost/0:0:0:0:0:0:0:1:38699 [Pri-2]
+Resolved issue 3133: window.navigator.webdriver is undefined when "enable-automation" is excluded in non-headless mode (should be true) [Pri-2]
+Resolved issue 3148: ChromeDriver always ignores certificate errors [Pri-2]
+Resolved issue 3205: Chrome driver 78 moveToElement action sometimes moves to wrong y coordinate [Pri-1]
