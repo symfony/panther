@@ -25,13 +25,13 @@ use Facebook\WebDriver\WebDriverSelectInterface;
 /**
  * Provides helper methods for checkboxes and radio buttons.
  *
- * This class has been proposed to facebook/php-webdriver and will be deleted from this project when it will me merged.
+ * This class has been proposed to php-webdriver/php-webdriver and will be deleted from this project when it will me merged.
  *
  * @author Kévin Dunglas <dunglas@gmail.com>
  *
  * @internal
  *
- * @see https://github.com/facebook/php-webdriver/pull/545
+ * @see https://github.com/php-webdriver/php-webdriver/pull/545
  */
 class WebDriverCheckbox implements WebDriverSelectInterface
 {
