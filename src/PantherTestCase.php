@@ -40,6 +40,11 @@ if (\class_exists(WebTestCase::class)) {
 
                 protected function tearDown(): void
                 {
+                    $this->doTearDown();
+                }
+
+                private function doTearDown(): void
+                {
                     parent::tearDown();
                     self::getClient(null);
                 }
