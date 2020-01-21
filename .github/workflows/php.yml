@@ -27,4 +27,4 @@ jobs:
       run: composer install --prefer-dist --no-progress --no-suggest
     
     - name: Test with phpunit
-      run: vendor/bin/phpunit --coverage-text
+      run: phpunit --coverage-text
