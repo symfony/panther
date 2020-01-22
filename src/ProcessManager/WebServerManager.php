@@ -71,6 +71,11 @@ final class WebServerManager
             null,
             null
         );
+
+        // Symfony Process 3.4 BC: In newer versions env variables always inherit
+        if(is_callable([$this->process, 'inheritEnvironmentVariables'])) {
+            $this->process->inheritEnvironmentVariables(true);
+        }
     }
 
     public function start(): void
