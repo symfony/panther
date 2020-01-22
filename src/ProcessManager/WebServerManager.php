@@ -35,7 +35,7 @@ final class WebServerManager
     /**
      * @throws \RuntimeException
      */
-    public function __construct(string $documentRoot, string $hostname, int $port, string $router = '', string $readinessPath = '')
+    public function __construct(string $documentRoot, string $hostname, int $port, string $router = '', string $readinessPath = '', $env = null)
     {
         $this->hostname = $hostname;
         $this->port = $port;
@@ -46,9 +46,11 @@ final class WebServerManager
             throw new \RuntimeException('Unable to find the PHP binary.');
         }
 
-        $env = null;
         if (isset($_SERVER['PANTHER_APP_ENV'])) {
-            $env = ['APP_ENV' => $_SERVER['PANTHER_APP_ENV']];
+            if($env === null) {
+                $env = [];
+            }
+            $env['APP_ENV'] = $_SERVER['PANTHER_APP_ENV'];
         }
 
         $this->process = new Process(
