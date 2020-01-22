@@ -35,7 +35,7 @@ final class WebServerManager
     /**
      * @throws \RuntimeException
      */
-    public function __construct(string $documentRoot, string $hostname, int $port, string $router = '', string $readinessPath = '', $env = null)
+    public function __construct(string $documentRoot, string $hostname, int $port, string $router = '', string $readinessPath = '', array $env = null)
     {
         $this->hostname = $hostname;
         $this->port = $port;
@@ -47,7 +47,7 @@ final class WebServerManager
         }
 
         if (isset($_SERVER['PANTHER_APP_ENV'])) {
-            if($env === null) {
+            if (null === $env) {
                 $env = [];
             }
             $env['APP_ENV'] = $_SERVER['PANTHER_APP_ENV'];

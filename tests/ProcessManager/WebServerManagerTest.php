@@ -57,7 +57,7 @@ class WebServerManagerTest extends TestCase
 
     public function testPassPantherAppEnv()
     {
-        $value = isset($_SERVER['PANTHER_APP_ENV']) ? $_SERVER['PANTHER_APP_ENV'] : null; // store app env
+        $value = $_SERVER['PANTHER_APP_ENV'] ?? null; // store app env
 
         $_SERVER['PANTHER_APP_ENV'] = 'dev';
         $server = new WebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234);
@@ -67,8 +67,9 @@ class WebServerManagerTest extends TestCase
         $server->quit();
 
         // restore app env
-        if($value === null) {
+        if (null === $value) {
             unset($_SERVER['PANTHER_APP_ENV']);
+
             return;
         }
         $_SERVER['PANTHER_APP_ENV'] = $value;
