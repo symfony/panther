@@ -16,6 +16,8 @@ namespace Symfony\Component\Panther;
 use Goutte\Client as GoutteClient;
 use GuzzleHttp\Client as GuzzleClient;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\BrowserKit\HttpBrowser as HttpBrowserClient;
+use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\Panther\Client as PantherClient;
 use Symfony\Component\Panther\ProcessManager\WebServerManager;
 
@@ -48,8 +50,15 @@ trait PantherTestCaseTrait
 
     /**
      * @var GoutteClient|null
+     *
+     * @deprecated since Panther 0.7
      */
     protected static $goutteClient;
+
+    /**
+     * @var HttpBrowserClient|null
+     */
+    protected static $httpBrowserClient;
 
     /**
      * @var PantherClient|null The primary Panther client instance created
@@ -100,6 +109,10 @@ trait PantherTestCaseTrait
 
         if (null !== self::$goutteClient) {
             self::$goutteClient = null;
+        }
+
+        if (null !== self::$httpBrowserClient) {
+            self::$httpBrowserClient = null;
         }
 
         self::$baseUri = null;
@@ -177,6 +190,8 @@ trait PantherTestCaseTrait
     /**
      * @param array $options       see {@see $defaultOptions}
      * @param array $kernelOptions
+     *
+     * @deprecated since Panther 0.7, use createHttpBrowserClient instead
      */
     protected static function createGoutteClient(array $options = [], array $kernelOptions = []): GoutteClient
     {
@@ -198,6 +213,26 @@ trait PantherTestCaseTrait
 
         // It's not possible to use assertions with Goutte yet, https://github.com/FriendsOfPHP/Goutte/pull/382 needed
         return self::$goutteClient;
+    }
+
+    /**
+     * @param array $options see {@see $defaultOptions}
+     */
+    protected static function createHttpBrowserClient(array $options = [], array $kernelOptions = []): HttpBrowserClient
+    {
+        self::startWebServer($options);
+
+        if (null === self::$httpBrowserClient) {
+            // The ScopingHttpClient cant't be used cause the HttpBrowser only supports absolute URLs,
+            // https://github.com/symfony/symfony/pull/35177
+            self::$httpBrowserClient = new HttpBrowserClient(HttpClient::create());
+        }
+
+        if (\is_a(self::class, KernelTestCase::class, true)) {
+            static::bootKernel($kernelOptions);
+        }
+
+        return self::$httpBrowserClient;
     }
 
     private static function getWebServerDir(array $options)
