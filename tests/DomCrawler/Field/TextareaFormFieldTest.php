@@ -29,7 +29,7 @@ class TextareaFormFieldTest extends TestCase
         $crawler = $this->request($clientFactory, '/textarea-form-field.html');
         $form = $crawler->filter('form')->form();
 
-        /** @var TextareaFormField */
+        /** @var TextareaFormField $field */
         $field = $form['textarea_with_some_value'];
         $this->assertInstanceOf(TextareaFormField::class, $field);
         $this->assertSame('some_value', $field->getValue());
@@ -43,7 +43,7 @@ class TextareaFormFieldTest extends TestCase
         $crawler = $this->request($clientFactory, '/textarea-form-field.html');
         $form = $crawler->filter('form')->form();
 
-        /** @var TextareaFormField */
+        /** @var TextareaFormField $field */
         $field = $form['textarea_with_no_value'];
         $this->assertInstanceOf(TextareaFormField::class, $field);
         $this->assertSame('', $field->getValue());
@@ -57,7 +57,7 @@ class TextareaFormFieldTest extends TestCase
         $crawler = $this->request($clientFactory, '/textarea-form-field.html');
         $form = $crawler->filter('form')->form();
 
-        /** @var TextareaFormField */
+        /** @var TextareaFormField $field */
         $field = $form['textarea_with_no_value'];
         $this->assertInstanceOf(TextareaFormField::class, $field);
 

@@ -79,18 +79,14 @@ class FormTest extends TestCase
 
         $form = $crawler->filter('#another-form')->form();
 
-        /**
-         * @var ChoiceFormField
-         */
+        /** @var ChoiceFormField $j3 */
         $j3 = $form['j3'];
         $j3->select('j3a');
 
         $originalValues = $form->getValues();
         unset($originalValues['single-cb']);
 
-        /**
-         * @var ChoiceFormField
-         */
+        /** @var ChoiceFormField $singleCb */
         $singleCb = $form['single-cb'];
         $singleCb->tick();
         $this->assertSame($originalValues + ['single-cb' => 'hello'], $form->getValues());
@@ -111,15 +107,11 @@ class FormTest extends TestCase
         $form['i2']->setValue('Бакунин');
         $form['i3']->setValue('Ferrer');
 
-        /**
-         * @var ChoiceFormField
-         */
+        /** @var ChoiceFormField $i4 */
         $i4 = $form['i4'];
         $i4->select('i4b');
 
-        /**
-         * @var ChoiceFormField
-         */
+        /** @var ChoiceFormField $i5 */
         $i5 = $form['i5'];
         $i5->select(['i5b', 'i5c']);
 

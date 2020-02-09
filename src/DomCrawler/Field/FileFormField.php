@@ -22,7 +22,9 @@ final class FileFormField extends BaseFileFormField
 {
     use FormFieldTrait;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $value;
 
     public function getValue()
