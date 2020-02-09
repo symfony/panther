@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\Tests\DomCrawler\Field;
 
-use Goutte\Client;
 use Symfony\Component\DomCrawler\Field\ChoiceFormField;
+use Symfony\Component\Panther\Client as PantherClient;
 use Symfony\Component\Panther\Tests\TestCase;
 
 /**
@@ -145,9 +145,9 @@ class ChoiceFormFieldTest extends TestCase
         /** @var ChoiceFormField $field */
         $field = $form['checkbox_multiple_checked'];
         $this->assertInstanceOf(ChoiceFormField::class, $field);
-        // we need this one! but it's not working in goutte
-        if (Client::class === $type) {
-            $this->markTestSkipped('Goutte client only returns one value. Maybe a bug in goutte?');
+        // https://github.com/symfony/symfony/issues/26827
+        if (PantherClient::class !== $type) {
+            $this->markTestSkipped('The DomCrawler component doesn\'t support multiple fields with the same name');
         }
         $this->assertSame(['checked_one', 'checked_two'], $field->getValue());
     }
