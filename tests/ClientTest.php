@@ -142,9 +142,7 @@ JS
      */
     public function testFollowLink(callable $clientFactory, string $type): void
     {
-        /**
-         * @var AbstractBrowser
-         */
+        /** @var AbstractBrowser $client */
         $client = $clientFactory();
         $crawler = $client->request('GET', static::$baseUri.'/link.html');
         $link = $crawler->filter('#d2')->selectLink('E1')->link();
@@ -162,9 +160,7 @@ JS
      */
     public function testSubmitForm(callable $clientFactory, string $type): void
     {
-        /**
-         * @var AbstractBrowser
-         */
+        /** @var AbstractBrowser $client */
         $client = $clientFactory();
         $crawler = $client->request('GET', static::$baseUri.'/form.html');
         $form = $crawler->filter('form')->eq(0)->selectButton('OK')->form([
@@ -194,9 +190,7 @@ JS
      */
     public function testSubmitFormWithValues(callable $clientFactory, string $type): void
     {
-        /**
-         * @var AbstractBrowser
-         */
+        /** @var AbstractBrowser $client */
         $client = $clientFactory();
         $crawler = $client->request('GET', static::$baseUri.'/form.html');
         $form = $crawler->filter('form')->eq(0)->selectButton('OK')->form();
@@ -217,9 +211,7 @@ JS
      */
     public function testHistory(callable $clientFactory)
     {
-        /**
-         * @var AbstractBrowser
-         */
+        /** @var AbstractBrowser $client */
         $client = $clientFactory();
         $crawler = $client->request('GET', self::$baseUri.'/link.html');
         $this->assertSame(self::$baseUri.'/link.html', $crawler->getUri());
@@ -246,9 +238,7 @@ JS
      */
     public function testCookie(callable $clientFactory, string $type)
     {
-        /**
-         * @var AbstractBrowser
-         */
+        /** @var AbstractBrowser $client */
         $client = $clientFactory();
         $crawler = $client->request('GET', self::$baseUri.'/cookie.php');
         $this->assertSame('0', $crawler->filter('#barcelona')->text());

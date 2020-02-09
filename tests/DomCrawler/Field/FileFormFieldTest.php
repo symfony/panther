@@ -42,7 +42,7 @@ class FileFormFieldTest extends TestCase
         $crawler = $this->request($clientFactory, '/file-form-field.html');
         $form = $crawler->filter('form')->form();
 
-        /** @var FileFormField */
+        /** @var FileFormField $fileFormField */
         $fileFormField = $form['file_upload'];
         $this->assertInstanceOf(FileFormField::class, $fileFormField);
         $fileFormField->upload($this->getUploadFilePath(self::$uploadFileName));
@@ -58,7 +58,7 @@ class FileFormFieldTest extends TestCase
         $crawler = $this->request($clientFactory, '/file-form-field.html');
         $form = $crawler->filter('form')->form();
 
-        /** @var FileFormField */
+        /** @var FileFormField $fileFormField */
         $fileFormField = $form['file_upload'];
         $this->assertInstanceOf(FileFormField::class, $fileFormField);
         $fileFormField->setValue($this->getUploadFilePath(self::$uploadFileName));
@@ -76,7 +76,7 @@ class FileFormFieldTest extends TestCase
         $crawler = $this->request($clientFactory, '/file-form-field.html');
         $form = $crawler->filter('form')->form();
 
-        /** @var FileFormField */
+        /** @var FileFormField $fileFormField */
         $fileFormField = $form['file_upload'];
         $this->assertInstanceOf(FileFormField::class, $fileFormField);
 
@@ -95,7 +95,7 @@ class FileFormFieldTest extends TestCase
         $crawler = $this->request($clientFactory, '/file-form-field.html');
         $form = $crawler->filter('form')->form();
 
-        /** @var FileFormField */
+        /** @var FileFormField $fileFormField */
         $fileFormField = $form['file_upload'];
         $this->assertInstanceOf(FileFormField::class, $fileFormField);
 
@@ -120,7 +120,7 @@ class FileFormFieldTest extends TestCase
         $crawler = $this->request($clientFactory, '/file-form-field.html');
         $form = $crawler->filter('form')->form();
 
-        /** @var FileFormField */
+        /** @var FileFormField $fileFormField */
         $fileFormField = $form['file_upload'];
         $this->assertInstanceOf(FileFormField::class, $fileFormField);
 
