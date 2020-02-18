@@ -29,7 +29,7 @@ class InputFormFieldTest extends TestCase
         $crawler = $this->request($clientFactory, '/input-form-field.html');
         $form = $crawler->filter('form')->form();
 
-        /** @var InputFormField */
+        /** @var InputFormField $field */
         $field = $form['text_input_with_some_value'];
         $this->assertInstanceOf(InputFormField::class, $field);
         $this->assertSame('some_value', $field->getValue());
@@ -43,7 +43,7 @@ class InputFormFieldTest extends TestCase
         $crawler = $this->request($clientFactory, '/input-form-field.html');
         $form = $crawler->filter('form')->form();
 
-        /** @var InputFormField */
+        /** @var InputFormField $field */
         $field = $form['text_input_with_no_value'];
         $this->assertInstanceOf(InputFormField::class, $field);
         $this->assertSame('', $field->getValue());
@@ -57,7 +57,7 @@ class InputFormFieldTest extends TestCase
         $crawler = $this->request($clientFactory, '/input-form-field.html');
         $form = $crawler->filter('form')->form();
 
-        /** @var InputFormField */
+        /** @var InputFormField $field */
         $field = $form['text_input_with_no_value'];
         $this->assertInstanceOf(InputFormField::class, $field);
 

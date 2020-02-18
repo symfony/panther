@@ -76,9 +76,7 @@ trait WebTestAssertionsTrait
         $kernel = static::bootKernel($options);
 
         try {
-            /**
-             * @var KernelBrowser
-             */
+            /** @var KernelBrowser $client */
             $client = $kernel->getContainer()->get('test.client');
         } catch (ServiceNotFoundException $e) {
             if (class_exists(KernelBrowser::class)) {
