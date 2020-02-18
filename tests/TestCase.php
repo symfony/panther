@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Symfony\Component\Panther\Tests;
 
 use Goutte\Client as GoutteClient;
+use Symfony\Component\BrowserKit\HttpBrowser as HttpBrowserClient;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Panther\Client as PantherClient;
 use Symfony\Component\Panther\PantherTestCase;
@@ -45,14 +46,15 @@ abstract class TestCase extends PantherTestCase
     {
         // Tests must pass with both Panther and Goutte
         return [
-            [[static::class, 'createGoutteClient'], GoutteClient::class],
-            [[static::class, 'createPantherClient'], PantherClient::class],
+            'Goutte' => [[static::class, 'createGoutteClient'], GoutteClient::class],
+            'HttpBrowser' => [[static::class, 'createHttpBrowserClient'], HttpBrowserClient::class],
+            'Panther' => [[static::class, 'createPantherClient'], PantherClient::class],
         ];
     }
 
     protected function request(callable $clientFactory, string $path): Crawler
     {
-        return $clientFactory()->request('GET', $path);
+        return $clientFactory()->request('GET', self::$baseUri.$path);
     }
 
     protected function getUploadFilePath(string $fileName): string

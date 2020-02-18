@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\Tests\DomCrawler\Field;
 
-use Goutte\Client;
 use Symfony\Component\DomCrawler\Field\ChoiceFormField;
+use Symfony\Component\Panther\Client as PantherClient;
 use Symfony\Component\Panther\Tests\TestCase;
 
 /**
@@ -30,7 +30,7 @@ class ChoiceFormFieldTest extends TestCase
         $crawler = $this->request($clientFactory, '/choice-form-field.html');
         $form = $crawler->filter('form')->form();
 
-        /** @var ChoiceFormField */
+        /** @var ChoiceFormField $field */
         $field = $form['select_selected_one'];
         $this->assertInstanceOf(ChoiceFormField::class, $field);
         $this->assertSame('20', $field->getValue());
@@ -44,7 +44,7 @@ class ChoiceFormFieldTest extends TestCase
         $crawler = $this->request($clientFactory, '/choice-form-field.html');
         $form = $crawler->filter('form')->form();
 
-        /** @var ChoiceFormField */
+        /** @var ChoiceFormField $field */
         $field = $form['select_selected_none'];
         $this->assertInstanceOf(ChoiceFormField::class, $field);
         $this->assertSame('', $field->getValue());
@@ -58,7 +58,7 @@ class ChoiceFormFieldTest extends TestCase
         $crawler = $this->request($clientFactory, '/choice-form-field.html');
         $form = $crawler->filter('form')->form();
 
-        /** @var ChoiceFormField */
+        /** @var ChoiceFormField $field */
         $field = $form['select_multiple_selected_one'];
         $this->assertInstanceOf(ChoiceFormField::class, $field);
         $this->assertSame(['20'], $field->getValue());
@@ -72,7 +72,7 @@ class ChoiceFormFieldTest extends TestCase
         $crawler = $this->request($clientFactory, '/choice-form-field.html');
         $form = $crawler->filter('form')->form();
 
-        /** @var ChoiceFormField */
+        /** @var ChoiceFormField $field */
         $field = $form['select_multiple_selected_multiple'];
         $this->assertInstanceOf(ChoiceFormField::class, $field);
         $this->assertSame(['20', '30'], $field->getValue());
@@ -86,7 +86,7 @@ class ChoiceFormFieldTest extends TestCase
         $crawler = $this->request($clientFactory, '/choice-form-field.html');
         $form = $crawler->filter('form')->form();
 
-        /** @var ChoiceFormField */
+        /** @var ChoiceFormField $field */
         $field = $form['select_multiple_selected_none'];
         $this->assertInstanceOf(ChoiceFormField::class, $field);
         $this->assertSame([], $field->getValue());
@@ -100,7 +100,7 @@ class ChoiceFormFieldTest extends TestCase
         $crawler = $this->request($clientFactory, '/choice-form-field.html');
         $form = $crawler->filter('form')->form();
 
-        /** @var ChoiceFormField */
+        /** @var ChoiceFormField $field */
         $field = $form['radio_checked'];
         $this->assertInstanceOf(ChoiceFormField::class, $field);
         $this->assertSame('i_am_checked', $field->getValue());
@@ -114,7 +114,7 @@ class ChoiceFormFieldTest extends TestCase
         $crawler = $this->request($clientFactory, '/choice-form-field.html');
         $form = $crawler->filter('form')->form();
 
-        /** @var ChoiceFormField */
+        /** @var ChoiceFormField $field */
         $field = $form['radio_non_checked'];
         $this->assertInstanceOf(ChoiceFormField::class, $field);
         $this->assertNull($field->getValue());
@@ -128,7 +128,7 @@ class ChoiceFormFieldTest extends TestCase
         $crawler = $this->request($clientFactory, '/choice-form-field.html');
         $form = $crawler->filter('form')->form();
 
-        /** @var ChoiceFormField */
+        /** @var ChoiceFormField $field */
         $field = $form['checkbox_checked'];
         $this->assertInstanceOf(ChoiceFormField::class, $field);
         $this->assertSame('i_am_checked', $field->getValue());
@@ -142,12 +142,12 @@ class ChoiceFormFieldTest extends TestCase
         $crawler = $this->request($clientFactory, '/choice-form-field.html');
         $form = $crawler->filter('form')->form();
 
-        /** @var ChoiceFormField */
+        /** @var ChoiceFormField $field */
         $field = $form['checkbox_multiple_checked'];
         $this->assertInstanceOf(ChoiceFormField::class, $field);
-        // we need this one! but it's not working in goutte
-        if (Client::class === $type) {
-            $this->markTestSkipped('Goutte client only returns one value. Maybe a bug in goutte?');
+        // https://github.com/symfony/symfony/issues/26827
+        if (PantherClient::class !== $type) {
+            $this->markTestSkipped('The DomCrawler component doesn\'t support multiple fields with the same name');
         }
         $this->assertSame(['checked_one', 'checked_two'], $field->getValue());
     }
@@ -160,7 +160,7 @@ class ChoiceFormFieldTest extends TestCase
         $crawler = $this->request($clientFactory, '/choice-form-field.html');
         $form = $crawler->filter('form')->form();
 
-        /** @var ChoiceFormField */
+        /** @var ChoiceFormField $field */
         $field = $form['checkbox_non_checked'];
         $this->assertInstanceOf(ChoiceFormField::class, $field);
         $this->assertNull($field->getValue());

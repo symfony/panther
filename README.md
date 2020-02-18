@@ -141,10 +141,11 @@ Two alternative clients are available:
 
 * The first directly manipulates the Symfony kernel provided by `WebTestCase`. It is the fastest client available,
   but it is only available for Symfony apps.
-* The second leverages the [Goutte](https://github.com/FriendsOfPHP/Goutte) web scraping library.
-  It is an intermediate between Symfony's and Panther's test clients. Goutte sends real HTTP requests. 
+* The second leverages Symfony's [HttpBrowser](https://symfony.com/doc/4.4/components/browser_kit.html#making-external-http-requests).
+  It is an intermediate between Symfony's kernel and Panther's test clients. HttpBrowser sends real HTTP requests using
+  Symfony's [HttpClient](https://symfony.com/doc/current/components/http_client.html) component.
   It is fast and is able to browse any webpage, not only the ones of the application under test.
-  However, Goutte doesn't support JavaScript and other advanced features because it is entirely written in PHP.
+  However, HttpBrowser doesn't support JavaScript and other advanced features because it is entirely written in PHP.
   This one is available even for non-Symfony apps!
 
 The fun part is that the 3 clients implement the exact same API, so you can switch from one to another just by calling
