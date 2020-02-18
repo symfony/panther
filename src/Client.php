@@ -60,9 +60,9 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
         return new self(new ChromeManager($chromeDriverBinary, $arguments, $options), $baseUri);
     }
 
-    public static function createSeleniumClient(?string $host = null, ?WebDriverCapabilities $capabilities = null, ?string $baseUri = null): self
+    public static function createSeleniumClient(?string $host = null, ?WebDriverCapabilities $capabilities = null, ?string $baseUri = null, array $options = []): self
     {
-        return new self(new SeleniumManager($host, $capabilities), $baseUri);
+        return new self(new SeleniumManager($host, $capabilities, $options), $baseUri);
     }
 
     public function __construct(BrowserManagerInterface $browserManager, ?string $baseUri = null)

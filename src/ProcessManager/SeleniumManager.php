@@ -25,20 +25,24 @@ final class SeleniumManager implements BrowserManagerInterface
 {
     private $host;
     private $capabilities;
+    private $options;
 
     public function __construct(
         ?string $host = 'http://127.0.0.1:4444/wd/hub',
-        ?WebDriverCapabilities $capabilities = null
+        ?WebDriverCapabilities $capabilities = null,
+        ?array $options = []
     ) {
         $this->host = $host;
         $this->capabilities = $capabilities ?? DesiredCapabilities::chrome();
+        $this->options = $options;
     }
 
     public function start(): WebDriver
     {
         return RemoteWebDriver::create(
             $this->host,
-            $this->capabilities
+            $this->capabilities,
+            $this->options['connection_timeout_in_ms'] ?? null, $this->options['request_timeout_in_ms'] ?? null
         );
     }
 
