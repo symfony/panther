@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+0.7.0
+-----
+
+* Upgrade ChromeDriver to version 80.0.3987.106
+
 0.6.1
 -----
 

@@ -1,10 +1,14 @@
----------ChromeDriver 79.0.3945.36 (2019-11-18)---------
-Supports Chrome version 79
-Resolved issue 2117: Chromedriver locks when an alert()(js) is raised while taking a screenshot [Pri-2]
-Resolved issue 2435: Chrome driver reports platform and platformName as XP on Win10 machine [Pri-2]
-Resolved issue 2487: "Element is not clickable" when using headless [Pri-]
-Resolved issue 3005: WPT test in element_clear "test_not_editable_inputs[hidden]" does not pass [Pri-3]
-Resolved issue 3073: Alerts coming from backend response cause ChromeDriver in W3C mode disconnect from browser - unable to interact with Chrome anymore - java.net.ConnectException: Failed to connect to localhost/0:0:0:0:0:0:0:1:38699 [Pri-2]
-Resolved issue 3133: window.navigator.webdriver is undefined when "enable-automation" is excluded in non-headless mode (should be true) [Pri-2]
-Resolved issue 3148: ChromeDriver always ignores certificate errors [Pri-2]
-Resolved issue 3205: Chrome driver 78 moveToElement action sometimes moves to wrong y coordinate [Pri-1]
+---------ChromeDriver 80.0.3987.106 (2020-02-13)---------
+Supports Chrome version 80
+Resolved issue 3155: Load page was aborted when using a proxy (v.77/78). [Pri-2]
+Resolved issue 3164: Chromedriver version 77 doesn`t wait for page to fully load before interacting with an element [Pri-2]
+Resolved issue 3179: ChromeDriver log should include the port used by the driver [Pri-2]
+Resolved issue 3180: Enable SetGeoLocation for w3c mode [Pri-]
+Resolved issue 3184: UnexpectedAlertOpen status should always include Alert text [Pri-3]
+Resolved issue 3188: Improve message when CRX2 Extension is loaded  [Pri-2]
+Resolved issue 3196: ChromeDriver 78 race condition in ExecuteGetPageSource may result in JavascriptException [Pri-2]
+Resolved issue 3226: add --ignore-certificate-errors flag when acceptInsecureCerts true [Pri-2]
+Resolved issue 3230: Update error message and return status for no such execution context [Pri-2]
+Resolved issue 3239: ChromeDriver may block indefinitely while waiting for pending navigation [Pri-2]
+Resolved issue 3264: Allow setting SameSite cookie attribute [Pri-]
+Resolved issue 3336: WebDriver 80.0.3987.16 can't open Chrome on Linux [Pri-1]
