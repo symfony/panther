@@ -35,7 +35,7 @@ final class WebServerManager
     /**
      * @throws \RuntimeException
      */
-    public function __construct(string $documentRoot, string $hostname, int $port, string $router = '', string $readinessPath = '')
+    public function __construct(string $documentRoot, string $hostname, int $port, string $router = '', string $readinessPath = '', array $env = null)
     {
         $this->hostname = $hostname;
         $this->port = $port;
@@ -46,9 +46,11 @@ final class WebServerManager
             throw new \RuntimeException('Unable to find the PHP binary.');
         }
 
-        $env = null;
         if (isset($_SERVER['PANTHER_APP_ENV'])) {
-            $env = ['APP_ENV' => $_SERVER['PANTHER_APP_ENV']];
+            if (null === $env) {
+                $env = [];
+            }
+            $env['APP_ENV'] = $_SERVER['PANTHER_APP_ENV'];
         }
 
         $this->process = new Process(
@@ -69,6 +71,12 @@ final class WebServerManager
             null,
             null
         );
+
+        // Symfony Process 3.4 BC: In newer versions env variables always inherit,
+        // but in 4.4 inheritEnvironmentVariables is deprecated, but setOptions was removed
+        if (\is_callable([$this->process, 'inheritEnvironmentVariables']) && \is_callable([$this->process, 'setOptions'])) {
+            $this->process->inheritEnvironmentVariables(true);
+        }
     }
 
     public function start(): void

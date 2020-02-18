@@ -45,4 +45,33 @@ class WebServerManagerTest extends TestCase
             $server1->quit();
         }
     }
+
+    public function testPassEnv()
+    {
+        $server = new WebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234, '', '', ['FOO' => 'bar']);
+        $server->start();
+        $this->assertStringContainsString('bar', (string) file_get_contents('http://127.0.0.1:1234/env.php?name=FOO'));
+
+        $server->quit();
+    }
+
+    public function testPassPantherAppEnv()
+    {
+        $value = $_SERVER['PANTHER_APP_ENV'] ?? null; // store app env
+
+        $_SERVER['PANTHER_APP_ENV'] = 'dev';
+        $server = new WebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234);
+        $server->start();
+        $this->assertStringContainsString('dev', (string) file_get_contents('http://127.0.0.1:1234/env.php?name=APP_ENV'));
+
+        $server->quit();
+
+        // restore app env
+        if (null === $value) {
+            unset($_SERVER['PANTHER_APP_ENV']);
+
+            return;
+        }
+        $_SERVER['PANTHER_APP_ENV'] = $value;
+    }
 }
