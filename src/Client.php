@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Symfony\Component\Panther;
 
 use Facebook\WebDriver\Exception\NoSuchElementException;
-use Facebook\WebDriver\Exception\TimeOutException;
+use Facebook\WebDriver\Exception\TimeoutException;
 use Facebook\WebDriver\JavaScriptExecutor;
 use Facebook\WebDriver\WebDriver;
 use Facebook\WebDriver\WebDriverBy;
@@ -264,7 +264,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
      * @param int    $intervalInMillisecond
      *
      * @throws NoSuchElementException
-     * @throws TimeOutException
+     * @throws TimeoutException
      *
      * @return Crawler
      */
