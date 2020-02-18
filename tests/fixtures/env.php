@@ -11,4 +11,8 @@
 
 declare(strict_types=1);
 
-echo $_ENV[$_GET['name']];
+if ('APP_ENV' === $_GET['name'] ?? null): ?>
+    <?=$_ENV['APP_ENV']; ?>
+<?php else: ?>
+    <?=$_ENV['FOO']; ?>
+<?php endif; ?>
