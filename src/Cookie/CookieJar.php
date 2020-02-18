@@ -136,10 +136,12 @@ final class CookieJar extends BaseCookieJar
     private function getWebDriverCookie(string $name, string $path = '/', ?string $domain = null)
     {
         try {
-            if (null === $cookie = $this->webDriver->manage()->getCookieNamed($name)) {
-                return null;
-            }
+            $cookie = $this->webDriver->manage()->getCookieNamed($name);
         } catch (NoSuchCookieException $e) {
+            return null;
+        }
+
+        if (null === $cookie) {
             return null;
         }
 
