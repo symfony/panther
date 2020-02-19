@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Panthère project.
+ * This file is part of the Panther project.
  *
  * (c) Kévin Dunglas <dunglas@gmail.com>
  *
@@ -78,10 +78,8 @@ final class FirefoxManager implements BrowserManagerInterface
         switch (PHP_OS_FAMILY) {
             case 'Windows':
                 return __DIR__.'/../../geckodriver-bin/geckodriver.exe';
-
             case 'Darwin':
                 return __DIR__.'/../../geckodriver-bin/geckodriver-macos';
-
             default:
                 return __DIR__.'/../../geckodriver-bin/geckodriver-linux64';
         }

@@ -22,8 +22,6 @@ use Facebook\WebDriver\WebDriverCapabilities;
 use Facebook\WebDriver\WebDriverExpectedCondition;
 use Facebook\WebDriver\WebDriverHasInputDevices;
 use Symfony\Component\BrowserKit\AbstractBrowser;
-use Symfony\Component\Panther\ProcessManager\FirefoxManager;
-use Symfony\Component\BrowserKit\Client as BaseClient;
 use Symfony\Component\BrowserKit\Request;
 use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\DomCrawler\Form;
@@ -34,6 +32,7 @@ use Symfony\Component\Panther\DomCrawler\Form as PantherForm;
 use Symfony\Component\Panther\DomCrawler\Link as PantherLink;
 use Symfony\Component\Panther\ProcessManager\BrowserManagerInterface;
 use Symfony\Component\Panther\ProcessManager\ChromeManager;
+use Symfony\Component\Panther\ProcessManager\FirefoxManager;
 use Symfony\Component\Panther\ProcessManager\SeleniumManager;
 use Symfony\Component\Panther\WebDriver\WebDriverMouse;
 
