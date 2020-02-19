@@ -90,7 +90,7 @@ final class FirefoxManager implements BrowserManagerInterface
         // Enable the headless mode unless PANTHER_NO_HEADLESS is defined
         $args = ($_SERVER['PANTHER_NO_HEADLESS'] ?? false) ? ['--devtools'] : ['--headless', '--window-size=1200,1100'];
 
-        // Add custom arguments with PANTHER_CHROME_ARGUMENTS
+        // Add custom arguments with PANTHER_FIREFOX_ARGUMENTS
         if ($_SERVER['PANTHER_FIREFOX_ARGUMENTS'] ?? false) {
             $arguments = explode(' ', $_SERVER['PANTHER_FIREFOX_ARGUMENTS']);
             $args = array_merge($args, $arguments);

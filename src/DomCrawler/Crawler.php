@@ -211,7 +211,6 @@ final class Crawler extends BaseCrawler implements WebDriverElement
 
             return (string) $default;
         }
-        //return $this->webDriver->getPageSource();
     }
 
     public function evaluate($xpath): self

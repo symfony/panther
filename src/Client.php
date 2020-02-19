@@ -305,9 +305,8 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
 
         $this->internalRequest = new Request($uri, 'GET');
         $this->webDriver->get($uri);
-        //$this->internalResponse = new Response($this->webDriver->getPageSource());
+        $this->internalResponse = new Response($this->webDriver->getPageSource());
 
-        $this->response = $this->internalResponse = new Response($this->webDriver->getPageSource());
         $this->crawler = $this->createCrawler();
 
         return $this;

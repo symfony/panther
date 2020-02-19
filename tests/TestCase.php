@@ -42,19 +42,18 @@ abstract class TestCase extends PantherTestCase
         parent::assertStringContainsString($needle, $haystack, $message);
     }
 
-    public function clientFactoryProvider(): array
+    public function clientFactoryProvider(): iterable
     {
+        // Tests must pass with both Panther and HttpBrowser
+        yield 'Goutte' => [[static::class, 'createGoutteClient'], GoutteClient::class];
+        yield 'HttpBrowser' => [[static::class, 'createHttpBrowserClient'], HttpBrowserClient::class];
+        yield 'Panther' => [[static::class, 'createPantherClient'], PantherClient::class];
+
         $firefoxFactory = function (): PantherClient {
             return self::createPantherClient(['browser' => self::FIREFOX]);
         };
 
-        // Tests must pass with both Panther and HttpBrowser
-        return [
-            'Goutte' => [[static::class, 'createGoutteClient'], GoutteClient::class],
-            'HttpBrowser' => [[static::class, 'createHttpBrowserClient'], HttpBrowserClient::class],
-            'Panther' => [[static::class, 'createPantherClient'], PantherClient::class],
-            'PantherFirefox' => [$firefoxFactory, PantherClient::class],
-        ];
+        yield 'PantherFirefox' => [$firefoxFactory, PantherClient::class];
     }
 
     protected function request(callable $clientFactory, string $path): Crawler
