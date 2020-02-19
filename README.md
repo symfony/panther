@@ -170,10 +170,10 @@ class E2eTest extends PantherTestCase
     public function testMyApp()
     {
         $symfonyClient = static::createClient(); // A cute kitty: Symfony's functional test tool
-        $goutteClient = static::createGoutteClient(); // An agile lynx: Goutte
+        $httpBrowserClient = static::createHttpBrowserClient(); // An agile lynx: HttpBrowser
         $pantherClient = static::createPantherClient(); // A majestic Panther
         $firefoxClient = static::createPantherClient(['browser' => static::FIREFOX]); // A splendid Firefox
-        // Both Goutte and Panther benefits from the built-in HTTP server
+        // Both HttpBrowser and Panther benefits from the built-in HTTP server
 
         $customChromeClient = Client::createChromeClient(null, null, [], 'https://example.com'); // Create a custom Chrome client
         $customFirefoxClient = Client::createFirefoxClient(null, null, [], 'https://example.com'); // Create a custom Firefox client
