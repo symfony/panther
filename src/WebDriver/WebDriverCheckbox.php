@@ -176,9 +176,7 @@ class WebDriverCheckbox implements WebDriverSelectInterface
         }
 
         if (!$matched) {
-            throw new NoSuchElementException(
-                \sprintf('Cannot locate option with value: %s', $value)
-            );
+            throw new NoSuchElementException(\sprintf('Cannot locate option with value: %s', $value));
         }
     }
 
