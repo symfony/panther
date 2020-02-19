@@ -188,8 +188,7 @@ trait PantherTestCaseTrait
     }
 
     /**
-     * @param array $options       see {@see $defaultOptions}
-     * @param array $kernelOptions
+     * @param array $options see {@see $defaultOptions}
      *
      * @deprecated since Panther 0.7, use createHttpBrowserClient instead
      */
