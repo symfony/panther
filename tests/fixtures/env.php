@@ -11,6 +11,8 @@
 
 declare(strict_types=1);
 
+require __DIR__.'/security-check.php';
+
 if ('APP_ENV' === $_GET['name'] ?? null): ?>
     <?=$_ENV['APP_ENV']; ?>
 <?php else: ?>

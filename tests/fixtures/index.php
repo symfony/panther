@@ -11,5 +11,7 @@
 
 declare(strict_types=1);
 
+require __DIR__.'/security-check.php';
+
 http_response_code(500); // The web server must start even in case of error
 echo 'ready';
