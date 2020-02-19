@@ -37,8 +37,6 @@ final class FirefoxManager implements BrowserManagerInterface
     }
 
     /**
-     * @param string[]|null $arguments
-     *
      * @throws \RuntimeException
      */
     public function start(): WebDriver

@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Symfony\Component\Panther\DomCrawler;
 
 use Facebook\WebDriver\Exception\NoSuchElementException;
+use Facebook\WebDriver\JavaScriptExecutor;
 use Facebook\WebDriver\Support\XPathEscaper;
 use Facebook\WebDriver\WebDriver;
 use Facebook\WebDriver\WebDriverBy;
@@ -312,6 +313,10 @@ final class Form extends BaseForm
     private function getValue(WebDriverElement $element)
     {
         if (null === $webDriverSelect = $this->getWebDriverSelect($element)) {
+            if (!$this->webDriver instanceof JavaScriptExecutor) {
+                throw new \RuntimeException('To retrieve this value, the browser must support JavaScript.');
+            }
+
             return $this->webDriver->executeScript('return arguments[0].value', [$element]);
         }
 
