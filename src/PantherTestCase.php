@@ -23,6 +23,9 @@ if (\class_exists(WebTestCase::class)) {
             // Symfony 4.3
             abstract class PantherTestCase extends WebTestCase
             {
+                public const CHROME = 'chrome';
+                public const FIREFOX = 'firefox';
+
                 use ForwardCompatTestTrait;
                 use WebTestAssertionsTrait;
 
@@ -36,6 +39,9 @@ if (\class_exists(WebTestCase::class)) {
             // Symfony 5
             abstract class PantherTestCase extends WebTestCase
             {
+                public const CHROME = 'chrome';
+                public const FIREFOX = 'firefox';
+
                 use WebTestAssertionsTrait;
 
                 protected function tearDown(): void
@@ -54,6 +60,9 @@ if (\class_exists(WebTestCase::class)) {
         // Symfony 4.3 and inferior
         abstract class PantherTestCase extends WebTestCase
         {
+            public const CHROME = 'chrome';
+            public const FIREFOX = 'firefox';
+
             use PantherTestCaseTrait;
         }
     }
@@ -61,6 +70,9 @@ if (\class_exists(WebTestCase::class)) {
     // Without Symfony
     abstract class PantherTestCase extends TestCase
     {
+        public const CHROME = 'chrome';
+        public const FIREFOX = 'firefox';
+
         use PantherTestCaseTrait;
     }
 }

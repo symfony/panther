@@ -4,6 +4,7 @@ CHANGELOG
 0.7.0
 -----
 
+* Add built-in support for Firefox (using GeckoDriver)
 * Upgrade ChromeDriver to version 80.0.3987.106
 
 0.6.1
