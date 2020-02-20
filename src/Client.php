@@ -32,6 +32,7 @@ use Symfony\Component\Panther\DomCrawler\Form as PantherForm;
 use Symfony\Component\Panther\DomCrawler\Link as PantherLink;
 use Symfony\Component\Panther\ProcessManager\BrowserManagerInterface;
 use Symfony\Component\Panther\ProcessManager\ChromeManager;
+use Symfony\Component\Panther\ProcessManager\FirefoxManager;
 use Symfony\Component\Panther\ProcessManager\SeleniumManager;
 use Symfony\Component\Panther\WebDriver\WebDriverMouse;
 
@@ -58,6 +59,11 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
     public static function createChromeClient(?string $chromeDriverBinary = null, ?array $arguments = null, array $options = [], ?string $baseUri = null): self
     {
         return new self(new ChromeManager($chromeDriverBinary, $arguments, $options), $baseUri);
+    }
+
+    public static function createFirefoxClient(?string $geckodriverBinary = null, ?array $arguments = null, array $options = [], ?string $baseUri = null): self
+    {
+        return new self(new FirefoxManager($geckodriverBinary, $arguments, $options), $baseUri);
     }
 
     public static function createSeleniumClient(?string $host = null, ?WebDriverCapabilities $capabilities = null, ?string $baseUri = null, array $options = []): self
@@ -300,6 +306,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
         $this->internalRequest = new Request($uri, 'GET');
         $this->webDriver->get($uri);
         $this->internalResponse = new Response($this->webDriver->getPageSource());
+
         $this->crawler = $this->createCrawler();
 
         return $this;

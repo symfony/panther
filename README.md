@@ -16,7 +16,7 @@ all the features you need to test your apps. It will sound familiar if you have 
 as the API is exactly the same!
 Keep in mind that Panther can be used in every PHP project, as it is a standalone library.
 
-Panther automatically finds your local installation of Chrome and launches it (thanks to [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/)),
+Panther automatically finds your local installation of Chrome or Firefox and launches them (thanks to [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/) and [GeckoDriver](https://github.com/mozilla/geckodriver)),
 so you don't need to install anything on your computer, neither Selenium server nor any other obscure driver.
 
 In test mode, Panther automatically starts your application using [the PHP built-in web-server](http://php.net/manual/en/features.commandline.webserver.php).
@@ -85,6 +85,9 @@ This listener will start the web server on demand like previously, but it will s
 require __DIR__.'/vendor/autoload.php'; // Composer's autoloader
 
 $client = \Symfony\Component\Panther\Client::createChromeClient();
+// Or, if you care about the open web and prefer to use Firefox
+$client = \Symfony\Component\Panther\Client::createFirefoxClient();
+
 $client->request('GET', 'https://api-platform.com'); // Yes, this website is 100% written in JavaScript
 $client->clickLink('Support');
 
@@ -169,9 +172,11 @@ class E2eTest extends PantherTestCase
         $symfonyClient = static::createClient(); // A cute kitty: Symfony's functional test tool
         $goutteClient = static::createGoutteClient(); // An agile lynx: Goutte
         $pantherClient = static::createPantherClient(); // A majestic Panther
+        $firefoxClient = static::createPantherClient(['browser' => static::FIREFOX]); // A splendid Firefox
         // Both Goutte and Panther benefits from the built-in HTTP server
 
         $customChromeClient = Client::createChromeClient(null, null, [], 'https://example.com'); // Create a custom Chrome client
+        $customFirefoxClient = Client::createFirefoxClient(null, null, [], 'https://example.com'); // Create a custom Firefox client
         $customSeleniumClient = Client::createSeleniumClient('http://127.0.0.1:4444/wd/hub', null, 'https://example.com'); // Create a custom Selenium client
         // When initializing a custom client, the integrated web server IS NOT started automatically.
         // Use PantherTestCase::startWebServer() or WebServerManager if you want to start it manually.
@@ -233,15 +238,24 @@ Since Panther implements the API of popular libraries, it already has extensive 
 The following environment variables can be set to change some Panther's behaviour:
 
 * `PANTHER_NO_HEADLESS`: to disable browser's headless mode (will display the testing window, useful to debug)
-* `PANTHER_NO_SANDBOX`: to disable [Chrome's sandboxing](https://chromium.googlesource.com/chromium/src/+/b4730a0c2773d8f6728946013eb812c6d3975bec/docs/design/sandbox.md) (unsafe, but allows to use Panther in containers)
 * `PANTHER_WEB_SERVER_DIR`: to change the project's document root (default to `public/`)
-* `PANTHER_CHROME_DRIVER_BINARY`: to use another `chromedriver` binary, instead of relying on the ones already provided by Panther
-* `PANTHER_CHROME_ARGUMENTS`: to customize `chromedriver` arguments. You need to set `PANTHER_NO_HEADLESS` to fully customize.
 * `PANTHER_WEB_SERVER_PORT`: to change the web server's port (default to `9080`)
 * `PANTHER_WEB_SERVER_ROUTER`:  to use a web server router script which is run at the start of each HTTP request
 * `PANTHER_EXTERNAL_BASE_URI`: to use an external web server (the PHP built-in web server will not be started)
-* `PANTHER_CHROME_BINARY`: to use another `google-chrome` binary
 * `PANTHER_APP_ENV`: to override the `APP_ENV` variable passed to the web server running the PHP app
+
+#### Chrome-specific Environment Variables
+
+* `PANTHER_NO_SANDBOX`: to disable [Chrome's sandboxing](https://chromium.googlesource.com/chromium/src/+/b4730a0c2773d8f6728946013eb812c6d3975bec/docs/design/sandbox.md) (unsafe, but allows to use Panther in containers)
+* `PANTHER_CHROME_DRIVER_BINARY`: to use another `chromedriver` binary, instead of relying on the ones already provided by Panther
+* `PANTHER_CHROME_ARGUMENTS`: to customize Chrome arguments. You need to set `PANTHER_NO_HEADLESS` to fully customize.
+* `PANTHER_CHROME_BINARY`: to use another `google-chrome` binary
+
+#### Firefox-specific Environment Variables
+
+* `PANTHER_FIREFOX_DRIVER_BINARY`: to use another `geckodriver` binary, instead of relying on the ones already provided by Panther
+* `PANTHER_FIREFOX_ARGUMENTS`: to customize Firefox arguments. You need to set `PANTHER_NO_HEADLESS` to fully customize.
+* `PANTHER_FIREFOX_BINARY`: to use another `firefox` binary
 
 ### Accessing To Hidden Text
 
@@ -327,11 +341,12 @@ Panther tests:
 ```yaml
 language: php
 addons:
+  # If you don't use Chrome, or Firefox, remove the corresponding line
   chrome: stable
+  firefox: latest
 
 php:
-  - 7.1
-  - 7.2
+  - 7.4
 
 script:
   - phpunit
@@ -379,7 +394,6 @@ test:
   script:
     - vendor/bin/simple-phpunit tests/Controller/E2eTest.php
 ```
-
 
 ### AppVeyor Integration
 

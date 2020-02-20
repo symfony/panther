@@ -240,10 +240,12 @@ JS
     {
         /** @var AbstractBrowser $client */
         $client = $clientFactory();
+        $cookieJar = $client->getCookieJar();
+        $cookieJar->clear(); // Firefox keeps the existing context by default, be sure to clear existing cookies
+
         $crawler = $client->request('GET', self::$baseUri.'/cookie.php');
         $this->assertSame('0', $crawler->filter('#barcelona')->text());
 
-        $cookieJar = $client->getCookieJar();
         $this->assertInstanceOf(BrowserKitCookieJar::class, $cookieJar);
         if (Client::class === $type) {
             $this->assertInstanceOf(CookieJar::class, $cookieJar);
