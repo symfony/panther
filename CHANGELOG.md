@@ -5,7 +5,13 @@ CHANGELOG
 -----
 
 * Add built-in support for Firefox (using GeckoDriver)
+* Add support for Symfony HttpBrowser
+* Deprecate Goutte support (use HttpBrowser instead)
+* Allow to configure RemoteWebDriver timeouts to when using Selenium
+* Allow to pass custom environment variables to the built-in web server
+* Fix some compatibility issues with PHP WebDriver 1.8
 * Upgrade ChromeDriver to version 80.0.3987.106
+* Prevent access to fixture files even if the web server is misconfigured
 
 0.6.1
 -----
