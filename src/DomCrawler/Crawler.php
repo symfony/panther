@@ -173,7 +173,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
             return $this->text();
         }
 
-        return $element->getAttribute($attribute) ?? '';
+        return (string) $element->getAttribute($attribute);
     }
 
     public function nodeName(): string

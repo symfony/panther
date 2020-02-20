@@ -252,7 +252,7 @@ final class Form extends BaseForm
             return $this->button->getAttribute('formaction');
         }
 
-        return $this->element->getAttribute('action') ?? '';
+        return (string) $this->element->getAttribute('action');
     }
 
     /**

@@ -45,7 +45,7 @@ final class InputFormField extends BaseInputFormField
             throw new \LogicException(\sprintf('An InputFormField can only be created from an input or button tag (%s given).', $tagName));
         }
 
-        $type = \strtolower($this->element->getAttribute('type') ?? '');
+        $type = \strtolower((string) $this->element->getAttribute('type'));
         if ('checkbox' === $type) {
             throw new \LogicException('Checkboxes should be instances of ChoiceFormField.');
         }

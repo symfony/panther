@@ -55,6 +55,6 @@ final class Link extends BaseLink
 
     protected function getRawUri()
     {
-        return $this->element->getAttribute('href') ?? '';
+        return (string) $this->element->getAttribute('href');
     }
 }
