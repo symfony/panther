@@ -52,6 +52,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
     private $webDriver;
     private $browserManager;
     private $baseUri;
+    private $isFirefox = false;
 
     /**
      * @param string[]|null $arguments
@@ -89,9 +90,30 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
 
     public function start()
     {
-        if (null === $this->webDriver) {
-            $this->webDriver = $this->browserManager->start();
+        if (null !== $this->webDriver) {
+            return;
         }
+
+        $this->webDriver = $this->browserManager->start();
+        if ($this->browserManager instanceof FirefoxManager) {
+            $this->isFirefox = true;
+
+            return;
+        }
+
+        if ($this->browserManager instanceof ChromeManager) {
+            $this->isFirefox = false;
+
+            return;
+        }
+
+        if (method_exists($this->webDriver, 'getCapabilities')) {
+            $this->isFirefox = 'firefox' === $this->webDriver->getCapabilities()->getBrowserName();
+
+            return;
+        }
+
+        $this->isFirefox = false;
     }
 
     public function getRequest()
@@ -169,7 +191,25 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
             }
 
             $button = $form->getButton();
-            null === $button ? $form->getElement()->submit() : $button->click();
+
+            if ($this->isFirefox) {
+                // For Firefox, we have to wait for the page to reload
+                // https://github.com/SeleniumHQ/selenium/issues/4570#issuecomment-327473270
+                $selector = WebDriverBy::cssSelector('html');
+                $previousId = $this->webDriver->findElement($selector)->getID();
+
+                null === $button ? $form->getElement()->submit() : $button->click();
+
+                try {
+                    $this->webDriver->wait(5)->until(function () use ($previousId, $selector) {
+                        $previousId !== $this->webDriver->findElement($selector)->getID();
+                    });
+                } catch (TimeoutException $e) {
+                    // Probably a form using AJAX, do nothing.
+                }
+            } else {
+                null === $button ? $form->getElement()->submit() : $button->click();
+            }
 
             return $this->crawler = $this->createCrawler();
         }

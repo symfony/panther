@@ -19,6 +19,8 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\BrowserKit\HttpBrowser as HttpBrowserClient;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\Panther\Client as PantherClient;
+use Symfony\Component\Panther\ProcessManager\ChromeManager;
+use Symfony\Component\Panther\ProcessManager\FirefoxManager;
 use Symfony\Component\Panther\ProcessManager\WebServerManager;
 
 /**
@@ -160,14 +162,21 @@ trait PantherTestCaseTrait
      */
     protected static function createPantherClient(array $options = [], array $kernelOptions = []): PantherClient
     {
+        $browser = ($options['browser'] ?? self::$defaultOptions['browser'] ?? self::CHROME);
         $callGetClient = \is_callable([self::class, 'getClient']) && (new \ReflectionMethod(self::class, 'getClient'))->isStatic();
         if (null !== self::$pantherClient) {
-            return $callGetClient ? self::getClient(self::$pantherClient) : self::$pantherClient;
+            $browserManager = self::$pantherClient->getBrowserManager();
+            if (
+                (self::CHROME === $browser && $browserManager instanceof ChromeManager) ||
+                (self::FIREFOX === $browser && $browserManager instanceof FirefoxManager)
+            ) {
+                return $callGetClient ? self::getClient(self::$pantherClient) : self::$pantherClient;
+            }
         }
 
         self::startWebServer($options);
 
-        if (PantherTestCase::CHROME === ($options['browser'] ?? self::$defaultOptions['browser'] ?? PantherTestCase::CHROME)) {
+        if (self::CHROME === $browser) {
             self::$pantherClients[0] = self::$pantherClient = Client::createChromeClient(null, null, [], self::$baseUri);
         } else {
             self::$pantherClients[0] = self::$pantherClient = Client::createFirefoxClient(null, null, [], self::$baseUri);
