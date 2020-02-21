@@ -21,6 +21,8 @@ use Symfony\Component\Process\Process;
 
 /**
  * @author Kévin Dunglas <dunglas@gmail.com>
+ *
+ * @see https://chromedriver.chromium.org/capabilities
  */
 final class ChromeManager implements BrowserManagerInterface
 {
@@ -29,12 +31,30 @@ final class ChromeManager implements BrowserManagerInterface
     private $process;
     private $arguments;
     private $options;
+    private $extensions = [];
+    private $capabilities = [];
+    private $experimentalOptions = [];
 
     public function __construct(?string $chromeDriverBinary = null, ?array $arguments = null, array $options = [])
     {
         $this->options = array_merge($this->getDefaultOptions(), $options);
         $this->process = new Process([$chromeDriverBinary ?: $this->findChromeDriverBinary(), '--port='.$this->options['port']], null, null, null, null);
         $this->arguments = $arguments ?? $this->getDefaultArguments();
+    }
+
+    public function setExtensions(array $extensions): void
+    {
+        $this->extensions = $extensions;
+    }
+
+    public function setCapabilities(array $capabilities): void
+    {
+        $this->capabilities = $capabilities;
+    }
+
+    public function setExperimentalOptions(array $experimentalOptions): void
+    {
+        $this->experimentalOptions = $experimentalOptions;
     }
 
     /**
@@ -53,6 +73,15 @@ final class ChromeManager implements BrowserManagerInterface
         if ($this->arguments) {
             $chromeOptions = new ChromeOptions();
             $chromeOptions->addArguments($this->arguments);
+            $chromeOptions->addExtensions($this->extensions);
+            foreach ($this->experimentalOptions as $optionName => $optionValue) {
+                $chromeOptions->setExperimentalOption($optionName, $optionValue);
+            }
+            if (!empty($this->capabilities)) {
+                foreach ($this->capabilities as $key => $value) {
+                    $capabilities->setCapability($key, $value);
+                }
+            }
             $capabilities->setCapability(ChromeOptions::CAPABILITY, $chromeOptions);
             if (isset($_SERVER['PANTHER_CHROME_BINARY'])) {
                 $chromeOptions->setBinary($_SERVER['PANTHER_CHROME_BINARY']);
