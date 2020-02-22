@@ -201,11 +201,16 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
                 null === $button ? $form->getElement()->submit() : $button->click();
 
                 try {
-                    $this->webDriver->wait(5)->until(function () use ($previousId, $selector) {
-                        $previousId !== $this->webDriver->findElement($selector)->getID();
+                    $this->webDriver->wait(5)->until(static function (WebDriver $driver) use ($previousId, $selector) {
+                        try {
+                            return $previousId !== $driver->findElement($selector)->getID();
+                        } catch (NoSuchElementException $e) {
+                            // The html element isn't already available
+                            return false;
+                        }
                     });
                 } catch (TimeoutException $e) {
-                    // Probably a form using AJAX, do nothing.
+                    // Probably a form using AJAX, do nothing
                 }
             } else {
                 null === $button ? $form->getElement()->submit() : $button->click();
