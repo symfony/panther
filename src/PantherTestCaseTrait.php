@@ -80,7 +80,7 @@ trait PantherTestCaseTrait
         'router' => '',
         'external_base_uri' => null,
         'readinessPath' => '',
-        'browser' => self::CHROME,
+        'browser' => PantherTestCase::CHROME,
     ];
 
     public static function tearDownAfterClass(): void
@@ -167,7 +167,7 @@ trait PantherTestCaseTrait
 
         self::startWebServer($options);
 
-        if (self::CHROME === ($options['browser'] ?? self::$defaultOptions['browser'] ?? self::CHROME)) {
+        if (PantherTestCase::CHROME === ($options['browser'] ?? self::$defaultOptions['browser'] ?? PantherTestCase::CHROME)) {
             self::$pantherClients[0] = self::$pantherClient = Client::createChromeClient(null, null, [], self::$baseUri);
         } else {
             self::$pantherClients[0] = self::$pantherClient = Client::createFirefoxClient(null, null, [], self::$baseUri);
