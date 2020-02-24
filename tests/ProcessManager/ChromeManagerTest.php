@@ -132,24 +132,4 @@ class ChromeManagerTest extends TestCase
             $this->assertArrayHasKey('timestamp', $log);
         }
     }
-
-    public function testExtensions()
-    {
-        $arguments = [
-            // Headless mode doesn't currently support extensions.
-            // See https://bugs.chromium.org/p/chromium/issues/detail?id=706008
-        ];
-        $driver = new ChromeManager(null, $arguments, [
-            'port' => 9517,
-            'extensions' => [
-                __DIR__.'/../fixtures/hello-world.crx',
-            ],
-        ]);
-        $webDriver = $driver->start();
-        $webDriver->get('chrome://extensions/?id=lkihgibmkalpkacicpnkpneenbdaoogp');
-        $title = $webDriver->getTitle();
-        $webDriver->quit();
-
-        $this->assertSame($title, 'Extensions - Hello World');
-    }
 }
