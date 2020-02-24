@@ -25,6 +25,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Panther\Client;
 use Symfony\Component\Panther\Cookie\CookieJar;
 use Symfony\Component\Panther\DomCrawler\Crawler;
+use Symfony\Component\Panther\ProcessManager\ChromeManager;
 
 /**
  * @author Kévin Dunglas <dunglas@gmail.com>
@@ -61,16 +62,10 @@ class ClientTest extends TestCase
         $this->assertSame('Hello', $crawler->filter('#hello')->text());
     }
 
-    public function waitForDataProvider(): array
+    public function waitForDataProvider(): iterable
     {
-        return [
-            'css selector' => [
-                'locator' => '#hello',
-            ],
-            'xpath expression' => [
-                'locator' => '//*[@id="hello"]',
-            ],
-        ];
+        yield 'css selector' => ['locator' => '#hello'];
+        yield 'xpath expression' => ['locator' => '//*[@id="hello"]'];
     }
 
     public function testWaitForInvisibleElement(): void
@@ -158,7 +153,7 @@ JS
     /**
      * @dataProvider clientFactoryProvider
      */
-    public function testSubmitForm(callable $clientFactory, string $type): void
+    public function testSubmitForm(callable $clientFactory): void
     {
         /** @var AbstractBrowser $client */
         $client = $clientFactory();
@@ -169,7 +164,7 @@ JS
 
         $crawler = $client->submit($form);
         $this->assertInstanceOf(DomCrawlerCrawler::class, $crawler);
-        if (Client::class === $type) {
+        if ($client instanceof Client) {
             $this->assertInstanceOf(Crawler::class, $crawler);
         }
         $this->assertSame(self::$baseUri.'/form-handle.php', $crawler->getUri());
@@ -293,5 +288,19 @@ JS
         $expectedPort = $_SERVER['PANTHER_WEB_SERVER_PORT'] ?? '9080';
         $clientFactory();
         $this->assertEquals($expectedPort, \mb_substr(self::$baseUri, -4));
+    }
+
+    /**
+     * @dataProvider clientFactoryProvider
+     */
+    public function testBrowserProvider(callable $clientFactory): void
+    {
+        $client = $clientFactory();
+        if (!$client instanceof Client) {
+            $this->markTestSkipped();
+        }
+
+        $client->request('GET', self::$baseUri.'/ua.php');
+        $this->assertStringContainsString($client->getBrowserManager() instanceof ChromeManager ? 'Chrome' : 'Firefox', $client->getPageSource());
     }
 }

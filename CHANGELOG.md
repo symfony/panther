@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+0.7.1
+-----
+
+* Fix some inconsistencies between Chrome and Firefox 
+
 0.7.0
 -----
 

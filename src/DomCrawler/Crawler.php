@@ -201,7 +201,11 @@ final class Crawler extends BaseCrawler implements WebDriverElement
     public function html($default = null): string
     {
         try {
-            $this->getElementOrThrow();
+            $element = $this->getElementOrThrow();
+
+            if ('html' === $element->getTagName()) {
+                return $this->webDriver->getPageSource();
+            }
 
             return $this->attr('outerHTML');
         } catch (\InvalidArgumentException $e) {
@@ -227,7 +231,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         foreach ($this->elements as $element) {
             $elements = [];
             foreach ($attributes as $attribute) {
-                $elements[] = '_text' === $attribute ? $element->getText() : $element->getAttribute($attribute);
+                $elements[] = '_text' === $attribute ? $element->getText() : (string) $element->getAttribute($attribute);
             }
 
             $data[] = 1 === $count ? $elements[0] : $elements;
@@ -385,7 +389,10 @@ final class Crawler extends BaseCrawler implements WebDriverElement
     {
         $subElements = [];
         foreach ($this->elements as $element) {
-            $subElements = \array_merge($subElements, $element->findElements($selector));
+            $subElements = \array_merge(
+                $subElements,
+                $element->findElements($selector)
+            );
         }
 
         return $this->createSubCrawler($subElements);
