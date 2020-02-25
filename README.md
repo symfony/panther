@@ -317,7 +317,18 @@ Here is a minimal Docker image that can run Panther:
 ```
 FROM php:latest
 
-RUN apt-get update && apt-get install -y libzip-dev zlib1g-dev chromium && docker-php-ext-install zip
+# Install PHP zip extension, a dependency for symfony/panther library
+RUN docker-php-ext-install zip
+
+# Install chrome, required for the symfony/panther library
+RUN wget https://dl.google.com/dl/linux/direct/google-chrome-stable_current_amd64.deb  -O /tmp/google-chrome-stable_current_amd64.deb
+RUN dpkg -i /tmp/google-chrome-stable_current_amd64.deb || apt-get install -yf
+RUN rm /tmp/google-chrome-stable_current_amd64.deb
+
+# Ensure that latest chrome driver is in place - the panther package comes with bash file that updates the driver so we 
+# just need to run the back file after either copying the vendor forlder into the container or running composer install during the build
+RUN {path-to-vendor-folder}/symfony/panther/chromedriver-bin/update.sh
+
 ENV PANTHER_NO_SANDBOX 1
 ```
 
