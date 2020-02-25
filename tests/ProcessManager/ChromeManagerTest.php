@@ -94,8 +94,8 @@ class ChromeManagerTest extends TestCase
             'port' => 9516,
             'experimentalOptions' => $experimentalOptions,
         ]);
-        $crawler = $client->request('GET', 'http://127.0.0.1:1234/user-agent.php');
-        $expectedUserAgent = $crawler->filter('body')->getText();
+        $crawler = $client->request('GET', 'http://127.0.0.1:1234/ua.php');
+        $expectedUserAgent = $crawler->getText();
         $client->quit();
 
         $server->quit();
