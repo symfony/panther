@@ -240,7 +240,7 @@ class CrawlerTest extends TestCase
         $this->assertSame([['', 'Sibling'], ['foo', 'Sibling 2'], ['', 'Sibling 3']], $crawler->filter('main > p')->extract(['class', '_text']));
 
         // Uncomment when https://github.com/symfony/symfony/pull/26433 will be merged
-        //$this->assertSame([[], [], []], $crawler->filter('main > p')->extract([]));
+        $this->assertSame([[], [], []], $crawler->filter('main > p')->extract([]));
     }
 
     /**
