@@ -32,7 +32,12 @@ final class FirefoxManager implements BrowserManagerInterface
     public function __construct(?string $geckodriverBinary = null, ?array $arguments = null, array $options = [])
     {
         $this->options = array_merge($this->getDefaultOptions(), $options);
-        $this->process = new Process([$geckodriverBinary ?: $this->findGeckodriverBinary(), '--port='.$this->options['port']], null, null, null, null);
+
+        $geckodriverBinary = $geckodriverBinary ?: $this->findGeckodriverBinary();
+
+        $this->checkWebDriverBinary($geckodriverBinary, 'firefox');
+
+        $this->process = new Process([$geckodriverBinary, '--port='.$this->options['port']], null, null, null, null);
         $this->arguments = $arguments ?? $this->getDefaultArguments();
     }
 

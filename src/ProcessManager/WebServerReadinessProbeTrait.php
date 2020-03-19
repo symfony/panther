@@ -38,6 +38,16 @@ trait WebServerReadinessProbeTrait
         }
     }
 
+    /**
+     * @throws \RuntimeException
+     */
+    private function checkWebDriverBinary(string $webDriverBinary, string $service): void
+    {
+        if (!is_executable($webDriverBinary)) {
+            throw new \RuntimeException("Could not start $service, web driver binary $webDriverBinary is not executable.");
+        }
+    }
+
     public function waitUntilReady(Process $process, string $url, string $service, bool $allowNotOkStatusCode = false, int $timeout = 30): void
     {
         $client = HttpClient::create(['timeout' => $timeout]);
