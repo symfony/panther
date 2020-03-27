@@ -168,7 +168,7 @@ trait PantherTestCaseTrait
             $browserManager = self::$pantherClient->getBrowserManager();
             if (
                 (static::CHROME === $browser && $browserManager instanceof ChromeManager) ||
-                (self::FIREFOX === $browser && $browserManager instanceof FirefoxManager)
+                (static::FIREFOX === $browser && $browserManager instanceof FirefoxManager)
             ) {
                 return $callGetClient ? self::getClient(self::$pantherClient) : self::$pantherClient;
             }
