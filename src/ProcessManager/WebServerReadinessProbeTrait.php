@@ -46,6 +46,16 @@ trait WebServerReadinessProbeTrait
 
         while (true) {
             $status = $process->getStatus();
+            if ($status === Process::STATUS_TERMINATED) {
+                throw new \RuntimeException(sprintf(
+                    'Could not start %s. Exit code: %d (%s). Error output: %s',
+                    $service,
+                    $process->getExitCode(),
+                    $process->getExitCodeText(),
+                    $process->getErrorOutput()
+                ));
+            }
+
             if (Process::STATUS_STARTED !== $status) {
                 if (microtime(true) - $start >= $timeout) {
                     throw new \RuntimeException("Could not start $service (or it crashed) after $timeout seconds.");
