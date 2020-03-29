@@ -43,47 +43,47 @@ final class Crawler extends BaseCrawler implements WebDriverElement
 
     public function clear(): void
     {
-        $this->throwNotSupported(__METHOD__);
+        throw $this->createNotSupportedException(__METHOD__);
     }
 
     public function add($node): void
     {
-        $this->throwNotSupported(__METHOD__);
+        throw $this->createNotSupportedException(__METHOD__);
     }
 
     public function addContent($content, $type = null): void
     {
-        $this->throwNotSupported(__METHOD__);
+        throw $this->createNotSupportedException(__METHOD__);
     }
 
     public function addHtmlContent($content, $charset = 'UTF-8'): void
     {
-        $this->throwNotSupported(__METHOD__);
+        throw $this->createNotSupportedException(__METHOD__);
     }
 
     public function addXmlContent($content, $charset = 'UTF-8', $options = LIBXML_NONET): void
     {
-        $this->throwNotSupported(__METHOD__);
+        throw $this->createNotSupportedException(__METHOD__);
     }
 
     public function addDocument(\DOMDocument $dom): void
     {
-        $this->throwNotSupported(__METHOD__);
+        throw $this->createNotSupportedException(__METHOD__);
     }
 
     public function addNodeList(\DOMNodeList $nodes): void
     {
-        $this->throwNotSupported(__METHOD__);
+        throw $this->createNotSupportedException(__METHOD__);
     }
 
     public function addNodes(array $nodes): void
     {
-        $this->throwNotSupported(__METHOD__);
+        throw $this->createNotSupportedException(__METHOD__);
     }
 
     public function addNode(\DOMNode $node): void
     {
-        $this->throwNotSupported(__METHOD__);
+        throw $this->createNotSupportedException(__METHOD__);
     }
 
     public function eq($position): self
@@ -120,11 +120,6 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         }
 
         return $this->createSubCrawler($elements);
-    }
-
-    public function first()
-    {
-        return $this->eq(0);
     }
 
     public function last()
@@ -219,7 +214,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
 
     public function evaluate($xpath): self
     {
-        $this->throwNotSupported(__METHOD__);
+        throw $this->createNotSupportedException(__METHOD__);
     }
 
     public function extract($attributes)
@@ -321,12 +316,12 @@ final class Crawler extends BaseCrawler implements WebDriverElement
 
     public function setDefaultNamespacePrefix($prefix)
     {
-        $this->throwNotSupported(__METHOD__);
+        throw $this->createNotSupportedException(__METHOD__);
     }
 
     public function registerNamespace($prefix, $namespace)
     {
-        $this->throwNotSupported(__METHOD__);
+        throw $this->createNotSupportedException(__METHOD__);
     }
 
     public function getNode($position): ?\DOMElement
@@ -351,7 +346,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
 
     protected function sibling($node, $siblingDir = 'nextSibling')
     {
-        $this->throwNotSupported(__METHOD__);
+        throw $this->createNotSupportedException(__METHOD__);
     }
 
     private function selectFromXpath(string $xpath): self

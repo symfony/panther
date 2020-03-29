@@ -140,7 +140,7 @@ final class ChoiceFormField extends BaseChoiceFormField
 
     public function addChoice(\DOMElement $node)
     {
-        $this->throwNotSupported(__METHOD__);
+        throw $this->createNotSupportedException(__METHOD__);
     }
 
     /**
@@ -186,7 +186,7 @@ final class ChoiceFormField extends BaseChoiceFormField
      */
     public function disableValidation()
     {
-        $this->throwNotSupported(__METHOD__);
+        throw $this->createNotSupportedException(__METHOD__);
     }
 
     /**
