@@ -167,7 +167,7 @@ use Symfony\Component\Panther\Client;
 
 class E2eTest extends PantherTestCase
 {
-    public function testMyApp()
+    public function testMyApp(): void
     {
         $symfonyClient = static::createClient(); // A cute kitty: Symfony's functional test tool
         $httpBrowserClient = static::createHttpBrowserClient(); // An agile lynx: HttpBrowser
@@ -293,7 +293,7 @@ use Symfony\Component\Panther\PantherTestCase;
 
 class E2eTest extends PantherTestCase
 {
-    public function testMyApp()
+    public function testMyApp(): void
     {
         $pantherClient = static::createPantherClient(['external_base_uri' => 'https://localhost']);
         // the PHP integrated web server will not be started
@@ -333,10 +333,35 @@ RUN apk add --no-cache \
 ENV PANTHER_CHROME_DRIVER_BINARY /usr/lib/chromium/chromedriver
 ```
 
+### GitHub Actions Integration
+
+Panther works out of the box with [GitHub Actions](https://help.github.com/en/actions).
+Here is a minimal `.github/workflows/panther.yml` file to run Panther tests:
+
+```yaml
+name: Run Panther tests
+
+on: [ push, pull_request ]
+
+jobs:
+  tests:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
+
+      - name: Run test suite
+        run: vendor/bin/phpunit
+```
+
 ### Travis CI Integration
 
-Panther will work out of the box with Travis if you add the Chrome addon. Here is a minimal `.travis.yml` file to run
-Panther tests:
+Panther will work out of the box with [Travis CI](https://travis-ci.com/) if you add the Chrome addon.
+Here is a minimal `.travis.yml` file to run Panther tests:
 
 ```yaml
 language: php
@@ -354,7 +379,7 @@ script:
 
 ### Gitlab CI Integration
 
-Here is a minimal `.gitlab-ci.yml` file to run:
+Here is a minimal `.gitlab-ci.yml` file to run Panther tests with [Gitlab CI](https://docs.gitlab.com/ee/ci/):
 
 ```yaml
 image: ubuntu:bionic
@@ -397,8 +422,8 @@ test:
 
 ### AppVeyor Integration
 
-Panther will work out of the box with AppVeyor as long as Google Chrome is installed. Here is a minimal `appveyor.yml`
-file to run Panther tests:
+Panther will work out of the box with [AppVeyor](https://www.appveyor.com/) as long as Google Chrome is installed.
+Here is a minimal `appveyor.yml` file to run Panther tests:
 
 ```yaml
 build: false
@@ -412,7 +437,7 @@ install:
   - ps: Set-Service wuauserv -StartupType Manual
   - cinst -y php composer googlechrome
   - refreshenv
-  - cd c:\tools\php73
+  - cd c:\tools\php74
   - copy php.ini-production php.ini /Y
   - echo date.timezone="UTC" >> php.ini
   - echo extension_dir=ext >> php.ini
@@ -438,14 +463,13 @@ If you want to use Panther with other testing tools like [LiipFunctionalTestBund
 namespace App\Tests\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Panther\PantherTestCaseTrait;
 
 class DefaultControllerTest extends WebTestCase
 {
     use PantherTestCaseTrait; // this is the magic. Panther is now available.
 
-    public function testWithFixtures()
+    public function testWithFixtures(): void
     {
         $this->loadFixtures([]); // load your fixtures
         $client = self::createPantherClient(); // create your panther client
