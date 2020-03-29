@@ -36,7 +36,7 @@ trait FormFieldTrait
 
     public function getLabel()
     {
-        $this->throwNotSupported(__METHOD__);
+        throw $this->createNotSupportedException(__METHOD__);
     }
 
     public function getName()

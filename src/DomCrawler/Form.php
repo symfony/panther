@@ -100,7 +100,7 @@ final class Form extends BaseForm
 
     public function getFormNode()
     {
-        $this->throwNotSupported(__METHOD__);
+        throw $this->createNotSupportedException(__METHOD__);
     }
 
     public function setValues(array $values)
@@ -108,6 +108,8 @@ final class Form extends BaseForm
         foreach ($values as $name => $value) {
             $this->setValue($name, $value);
         }
+
+        return $this;
     }
 
     /**
@@ -202,7 +204,7 @@ final class Form extends BaseForm
 
     public function remove($name)
     {
-        $this->throwNotSupported(__METHOD__);
+        throw $this->createNotSupportedException(__METHOD__);
     }
 
     public function set(FormField $field)
@@ -242,7 +244,7 @@ final class Form extends BaseForm
 
     public function offsetUnset($name)
     {
-        $this->throwNotSupported(__METHOD__);
+        throw $this->createNotSupportedException(__METHOD__);
     }
 
     protected function getRawUri()
