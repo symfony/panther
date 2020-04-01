@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\Tests;
 
-use PHPUnit\Framework\Assert;
-
 class LoadTest extends TestCase
 {
     public function testLoad(): void
@@ -25,13 +23,12 @@ class LoadTest extends TestCase
         $toTest = 500;
 
         try {
-            for ($i = 0; $i < $toTest+1; $i++) {
+            for ($i = 0; $i < $toTest + 1; ++$i) {
                 $lastResult = $client->request('GET', '/cookie.php')->filter('#barcelona')->text();
             }
         } catch (\Exception $ex) {
-
         }
 
-        $this->assertSame((string)($toTest), $lastResult);
+        $this->assertSame((string) $toTest, $lastResult);
     }
 }
