@@ -24,7 +24,7 @@ final class InputFormField extends BaseInputFormField
 
     public function setValue($value)
     {
-        if (\in_array($this->element->getAttribute('type'), ['text'], true)) {
+        if (\in_array($this->element->getAttribute('type'), ['text', 'email'], true)) {
             $this->setTextValue($value);
         } elseif (\is_bool($value)) {
             $this->element->click();
