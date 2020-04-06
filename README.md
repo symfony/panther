@@ -98,6 +98,20 @@ echo $crawler->filter('.support')->text();
 $client->takeScreenshot('screen.png'); // Yeah, screenshot!
 ```
 
+### Options Reference
+```php
+<?php
+static::createPantherClient([
+    'webServerDir' => '/custom/path/to/dir/public',
+    'hostname' => 'custom.host.com',
+    'port' => 1234,
+    'router' => '/custom/path/to/router.php',
+    'external_base_uri' => 'https://github.com/symfony/panther', // overrides above configs
+    'readinessPath' => '/custom/path/for/server/readiness/detection',
+    'browser' => 'chrome', // 'chrome' or 'firefox'
+]);
+```
+
 ### Testing Usage
 
 The `PantherTestCase` class allows you to easily write E2E tests. It automatically starts your app using the built-in PHP
