@@ -13,52 +13,59 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther;
 
-use PHPUnit\Framework\TestCase;
-use Symfony\Bundle\FrameworkBundle\Test\ForwardCompatTestTrait;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-
-if (\class_exists(WebTestCase::class)) {
-    if (trait_exists('Symfony\Bundle\FrameworkBundle\Test\WebTestAssertionsTrait')) {
-        if (trait_exists('Symfony\Bundle\FrameworkBundle\Test\ForwardCompatTestTrait')) {
-            // Symfony 4.3
-            abstract class PantherTestCase extends WebTestCase
-            {
-                public const CHROME = 'chrome';
-                public const FIREFOX = 'firefox';
-
-                use ForwardCompatTestTrait;
-                use WebTestAssertionsTrait;
-
-                private function doTearDown()
+if (\class_exists('PHPUnit\Framework\TestCase')) {
+    if (\class_exists('Symfony\Bundle\FrameworkBundle\Test\WebTestCase')) {
+        if (trait_exists('Symfony\Bundle\FrameworkBundle\Test\WebTestAssertionsTrait')) {
+            if (trait_exists('Symfony\Bundle\FrameworkBundle\Test\ForwardCompatTestTrait')) {
+                // Symfony 4.3
+                abstract class PantherTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
                 {
-                    parent::tearDown();
-                    self::getClient(null);
+                    public const CHROME = 'chrome';
+                    public const FIREFOX = 'firefox';
+
+                    use \Symfony\Bundle\FrameworkBundle\Test\ForwardCompatTestTrait;
+                    use WebTestAssertionsTrait;
+
+                    private function doTearDown()
+                    {
+                        parent::tearDown();
+                        self::getClient(null);
+                    }
+                }
+            } else {
+                // Symfony 5
+                abstract class PantherTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
+                {
+                    public const CHROME = 'chrome';
+                    public const FIREFOX = 'firefox';
+
+                    use WebTestAssertionsTrait;
+
+                    protected function tearDown(): void
+                    {
+                        $this->doTearDown();
+                    }
+
+                    private function doTearDown(): void
+                    {
+                        parent::tearDown();
+                        self::getClient(null);
+                    }
                 }
             }
         } else {
-            // Symfony 5
-            abstract class PantherTestCase extends WebTestCase
+            // Symfony 4.3 and inferior
+            abstract class PantherTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
             {
                 public const CHROME = 'chrome';
                 public const FIREFOX = 'firefox';
 
-                use WebTestAssertionsTrait;
-
-                protected function tearDown(): void
-                {
-                    $this->doTearDown();
-                }
-
-                private function doTearDown(): void
-                {
-                    parent::tearDown();
-                    self::getClient(null);
-                }
+                use PantherTestCaseTrait;
             }
         }
     } else {
-        // Symfony 4.3 and inferior
-        abstract class PantherTestCase extends WebTestCase
+        // Without Symfony with PHPUnit
+        abstract class PantherTestCase extends \PHPUnit\Framework\TestCase
         {
             public const CHROME = 'chrome';
             public const FIREFOX = 'firefox';
@@ -67,8 +74,8 @@ if (\class_exists(WebTestCase::class)) {
         }
     }
 } else {
-    // Without Symfony
-    abstract class PantherTestCase extends TestCase
+    // Without Symfony without PHPUnit
+    abstract class PantherTestCase
     {
         public const CHROME = 'chrome';
         public const FIREFOX = 'firefox';
