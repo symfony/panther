@@ -142,6 +142,7 @@ trait PantherTestCaseTrait
             'port' => (int) ($options['port'] ?? $_SERVER['PANTHER_WEB_SERVER_PORT'] ?? self::$defaultOptions['port']),
             'router' => $options['router'] ?? $_SERVER['PANTHER_WEB_SERVER_ROUTER'] ?? self::$defaultOptions['router'],
             'readinessPath' => $options['readinessPath'] ?? $_SERVER['PANTHER_READINESS_PATH'] ?? self::$defaultOptions['readinessPath'],
+            'environmentVariables' => (array) ($options['environmentVariables'] ?? []),
         ];
 
         self::$webServerManager = new WebServerManager(...array_values($options));
