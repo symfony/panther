@@ -106,9 +106,10 @@ static::createPantherClient([
     'hostname' => 'custom.host.com',
     'port' => 1234,
     'router' => '/custom/path/to/router.php',
-    'external_base_uri' => 'https://github.com/symfony/panther', // overrides above configs
     'readinessPath' => '/custom/path/for/server/readiness/detection',
-    'browser' => 'chrome', // 'chrome' or 'firefox'
+    'environmentVariables' => ['CUSTOM_ENV' => 'foo'],
+    'browser' => 'chrome', // 'chrome' or 'firefox',
+    'external_base_uri' => 'https://github.com/symfony/panther', // overrides above configs
 ]);
 ```
 
