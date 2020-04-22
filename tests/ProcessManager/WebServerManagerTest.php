@@ -74,4 +74,17 @@ class WebServerManagerTest extends TestCase
         }
         $_SERVER['PANTHER_APP_ENV'] = $value;
     }
+
+    public function testInvalidDocumentRoot(): void
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessageRegExp('#/not-exists#');
+
+        try {
+            $server = new WebServerManager('/not-exists', '127.0.0.1', 1234);
+            $server->start();
+        } finally {
+            $server->quit();
+        }
+    }
 }

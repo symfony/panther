@@ -238,7 +238,7 @@ Since Panther implements the API of popular libraries, it already has extensive 
 The following environment variables can be set to change some Panther's behaviour:
 
 * `PANTHER_NO_HEADLESS`: to disable browser's headless mode (will display the testing window, useful to debug)
-* `PANTHER_WEB_SERVER_DIR`: to change the project's document root (default to `public/`)
+* `PANTHER_WEB_SERVER_DIR`: to change the project's document root (default to `./public/`, relative paths **must start** by `./`)
 * `PANTHER_WEB_SERVER_PORT`: to change the web server's port (default to `9080`)
 * `PANTHER_WEB_SERVER_ROUTER`:  to use a web server router script which is run at the start of each HTTP request
 * `PANTHER_EXTERNAL_BASE_URI`: to use an external web server (the PHP built-in web server will not be started)
