@@ -1,14 +1,13 @@
----------ChromeDriver 80.0.3987.106 (2020-02-13)---------
-Supports Chrome version 80
-Resolved issue 3155: Load page was aborted when using a proxy (v.77/78). [Pri-2]
-Resolved issue 3164: Chromedriver version 77 doesn`t wait for page to fully load before interacting with an element [Pri-2]
-Resolved issue 3179: ChromeDriver log should include the port used by the driver [Pri-2]
-Resolved issue 3180: Enable SetGeoLocation for w3c mode [Pri-]
-Resolved issue 3184: UnexpectedAlertOpen status should always include Alert text [Pri-3]
-Resolved issue 3188: Improve message when CRX2 Extension is loaded  [Pri-2]
-Resolved issue 3196: ChromeDriver 78 race condition in ExecuteGetPageSource may result in JavascriptException [Pri-2]
-Resolved issue 3226: add --ignore-certificate-errors flag when acceptInsecureCerts true [Pri-2]
-Resolved issue 3230: Update error message and return status for no such execution context [Pri-2]
-Resolved issue 3239: ChromeDriver may block indefinitely while waiting for pending navigation [Pri-2]
-Resolved issue 3264: Allow setting SameSite cookie attribute [Pri-]
+---------ChromeDriver 81.0.4044.69 (2020-03-17)---------
+Supports Chrome version 81
+Resolved issue 1049: Attempting to move mouse to corner of page in Chrome 41 throws WebDriverException: unknown error: Failed to execute 'getComputedStyle' on 'Window': parameter 1 is not of type 'Element' [Pri-2]
+Resolved issue 3153: ChromeDriver doesn't return iframe cookies [Pri-3]
+Resolved issue 3237: Returned value cannot be converted to Boolean: {} on isDisplayed() method. ChromeDriver 78 [Pri-]
+Resolved issue 3252: Getting org.openqa.selenium.WebDriverException: unknown error: cannot determine loading status [Pri-]
+Resolved issue 3291: Chromedriver is not returning spec compliant error code for timeouts [Pri-2]
+Resolved issue 3301: ChromeDriver Unexpected Slow response time on NewSession Command [Pri-2]
+Resolved issue 3312: Fail to set page load timeout time [Pri-2]
+Resolved issue 3316: ChromeDriver unable to connect to DevTools due to IPv4 vs IPv6 mismatch [Pri-2]
 Resolved issue 3336: WebDriver 80.0.3987.16 can't open Chrome on Linux [Pri-1]
+Resolved issue 3375: Chromedriver v80 hangs on getPageSource on some sites [Pri-1]
+Resolved issue 3383: ChromeDriver 80+ on Windows seems to exit or stall on certain element or click commands [Pri-1]
