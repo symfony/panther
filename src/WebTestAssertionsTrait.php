@@ -15,6 +15,7 @@ namespace Symfony\Component\Panther;
 
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestAssertionsTrait as BaseWebTestAssertionsTrait;
+use Symfony\Component\BrowserKit\AbstractBrowser;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symfony\Component\Panther\Client as PantherClient;
 
@@ -69,7 +70,7 @@ trait WebTestAssertionsTrait
      * @param array $options An array of options to pass to the createKernel method
      * @param array $server  An array of server parameters
      *
-     * @return KernelBrowser A KernelBrowser instance
+     * @return AbstractBrowser A browser instance
      */
     protected static function createClient(array $options = [], array $server = [])
     {

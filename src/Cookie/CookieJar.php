@@ -63,12 +63,12 @@ final class CookieJar extends BaseCookieJar
 
     public function updateFromSetCookie(array $setCookies, $uri = null)
     {
-        $this->throwNotSupported(__METHOD__);
+        throw $this->createNotSupportedException(__METHOD__);
     }
 
     public function updateFromResponse(Response $response, $uri = null)
     {
-        $this->throwNotSupported(__METHOD__);
+        throw $this->createNotSupportedException(__METHOD__);
     }
 
     public function all()
@@ -83,17 +83,17 @@ final class CookieJar extends BaseCookieJar
 
     public function allValues($uri, $returnsRawValue = false)
     {
-        $this->throwNotSupported(__METHOD__);
+        throw $this->createNotSupportedException(__METHOD__);
     }
 
     public function allRawValues($uri)
     {
-        $this->throwNotSupported(__METHOD__);
+        throw $this->createNotSupportedException(__METHOD__);
     }
 
     public function flushExpiredCookies()
     {
-        $this->throwNotSupported(__METHOD__);
+        throw $this->createNotSupportedException(__METHOD__);
     }
 
     private function symfonyToWebDriver(Cookie $cookie): WebDriverCookie

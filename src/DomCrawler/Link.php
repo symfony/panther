@@ -45,12 +45,12 @@ final class Link extends BaseLink
 
     public function getNode()
     {
-        $this->throwNotSupported(__METHOD__);
+        throw $this->createNotSupportedException(__METHOD__);
     }
 
     protected function setNode(\DOMElement $node)
     {
-        $this->throwNotSupported(__METHOD__);
+        throw $this->createNotSupportedException(__METHOD__);
     }
 
     protected function getRawUri()

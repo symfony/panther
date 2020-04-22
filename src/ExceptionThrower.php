@@ -20,11 +20,8 @@ namespace Symfony\Component\Panther;
  */
 trait ExceptionThrower
 {
-    /**
-     * @throws \InvalidArgumentException
-     */
-    private function throwNotSupported(string $method)
+    private function createNotSupportedException(string $method): \InvalidArgumentException
     {
-        throw new \InvalidArgumentException(\sprintf('The "%s" method is not supported when using WebDriver.', $method));
+        return new \InvalidArgumentException(\sprintf('The "%s" method is not supported when using WebDriver.', $method));
     }
 }
