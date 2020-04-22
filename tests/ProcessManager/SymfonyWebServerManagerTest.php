@@ -13,17 +13,17 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\Tests\ProcessManager;
 
-use Symfony\Component\Panther\ProcessManager\WebServerManager;
+use Symfony\Component\Panther\ProcessManager\SymfonyWebServerManager;
 use Symfony\Component\Panther\Tests\TestCase;
 
 /**
- * @author Kévin Dunglas <dunglas@gmail.com>
+ * @author Dominik Pfaffenbauer <dominik@pfaffenbauer.at>
  */
-class WebServerManagerTest extends TestCase
+class SymfonyWebServerManagerTest extends TestCase
 {
     public function testRun()
     {
-        $server = new WebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234);
+        $server = new SymfonyWebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234);
         $server->start();
         $this->assertStringContainsString('Hello', (string) file_get_contents('http://127.0.0.1:1234/basic.html'));
 
@@ -35,10 +35,10 @@ class WebServerManagerTest extends TestCase
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('The port 1234 is already in use.');
 
-        $server1 = new WebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234);
+        $server1 = new SymfonyWebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234);
         $server1->start();
 
-        $server2 = new WebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234);
+        $server2 = new SymfonyWebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234);
         try {
             $server2->start();
         } finally {
@@ -48,7 +48,7 @@ class WebServerManagerTest extends TestCase
 
     public function testPassEnv()
     {
-        $server = new WebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234, '', '', ['FOO' => 'bar']);
+        $server = new SymfonyWebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234, [], '', ['FOO' => 'bar']);
         $server->start();
         $this->assertStringContainsString('bar', (string) file_get_contents('http://127.0.0.1:1234/env.php?name=FOO'));
 
@@ -60,7 +60,7 @@ class WebServerManagerTest extends TestCase
         $value = $_SERVER['PANTHER_APP_ENV'] ?? null; // store app env
 
         $_SERVER['PANTHER_APP_ENV'] = 'dev';
-        $server = new WebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234);
+        $server = new SymfonyWebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234);
         $server->start();
         $this->assertStringContainsString('dev', (string) file_get_contents('http://127.0.0.1:1234/env.php?name=APP_ENV'));
 
@@ -73,18 +73,5 @@ class WebServerManagerTest extends TestCase
             return;
         }
         $_SERVER['PANTHER_APP_ENV'] = $value;
-    }
-
-    public function testInvalidDocumentRoot(): void
-    {
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessageRegExp('#/not-exists#');
-
-        try {
-            $server = new WebServerManager('/not-exists', '127.0.0.1', 1234);
-            $server->start();
-        } finally {
-            $server->quit();
-        }
     }
 }

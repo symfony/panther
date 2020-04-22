@@ -19,27 +19,14 @@ use Symfony\Component\Process\Process;
 /**
  * @author Kévin Dunglas <dunglas@gmail.com>
  */
-final class WebServerManager
+final class PHPWebServerManager extends AbstractProcessWebServer
 {
-    use WebServerReadinessProbeTrait;
-
-    private $hostname;
-    private $port;
-    private $readinessPath;
-
-    /**
-     * @var Process
-     */
-    private $process;
-
     /**
      * @throws \RuntimeException
      */
-    public function __construct(string $documentRoot, string $hostname, int $port, string $router = '', string $readinessPath = '', array $env = null)
+    public function __construct(string $documentRoot, string $hostname, int $port, array $params = [], string $readinessPath = '', array $env = null)
     {
-        $this->hostname = $hostname;
-        $this->port = $port;
-        $this->readinessPath = $readinessPath;
+        parent::__construct($hostname, $port, $readinessPath);
 
         $finder = new PhpExecutableFinder();
         if (false === $binary = $finder->find(false)) {
@@ -63,7 +50,7 @@ final class WebServerManager
                     sprintf('%s:%d', $this->hostname, $this->port),
                     '-t',
                     $documentRoot,
-                    $router,
+                    $params['router'] ?? '',
                 ]
             )),
             $documentRoot,
@@ -77,32 +64,5 @@ final class WebServerManager
         if (\is_callable([$this->process, 'inheritEnvironmentVariables']) && \is_callable([$this->process, 'setOptions'])) {
             $this->process->inheritEnvironmentVariables(true);
         }
-    }
-
-    public function start(): void
-    {
-        $this->checkPortAvailable($this->hostname, $this->port);
-        $this->process->start();
-
-        $url = "http://$this->hostname:$this->port";
-
-        if ($this->readinessPath) {
-            $url .= $this->readinessPath;
-        }
-
-        $this->waitUntilReady($this->process, $url, 'web server', true);
-    }
-
-    /**
-     * @throws \RuntimeException
-     */
-    public function quit(): void
-    {
-        $this->process->stop();
-    }
-
-    public function isStarted()
-    {
-        return $this->process->isStarted();
     }
 }

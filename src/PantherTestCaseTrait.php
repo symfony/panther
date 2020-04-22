@@ -21,7 +21,8 @@ use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\Panther\Client as PantherClient;
 use Symfony\Component\Panther\ProcessManager\ChromeManager;
 use Symfony\Component\Panther\ProcessManager\FirefoxManager;
-use Symfony\Component\Panther\ProcessManager\WebServerManager;
+use Symfony\Component\Panther\ProcessManager\PHPWebServerManager;
+use Symfony\Component\Panther\ProcessManager\WebServerManagerInterface;
 
 /**
  * Eases conditional class definition.
@@ -41,7 +42,7 @@ trait PantherTestCaseTrait
     protected static $webServerDir;
 
     /**
-     * @var WebServerManager|null
+     * @var WebServerManagerInterface|null
      */
     protected static $webServerManager;
 
@@ -83,6 +84,7 @@ trait PantherTestCaseTrait
         'external_base_uri' => null,
         'readinessPath' => '',
         'browser' => PantherTestCase::CHROME,
+        'webServer' => PHPWebServerManager::class
     ];
 
     public static function tearDownAfterClass(): void
@@ -140,11 +142,23 @@ trait PantherTestCaseTrait
             'webServerDir' => self::getWebServerDir($options),
             'hostname' => $options['hostname'] ?? self::$defaultOptions['hostname'],
             'port' => (int) ($options['port'] ?? $_SERVER['PANTHER_WEB_SERVER_PORT'] ?? self::$defaultOptions['port']),
-            'router' => $options['router'] ?? $_SERVER['PANTHER_WEB_SERVER_ROUTER'] ?? self::$defaultOptions['router'],
+            'params' => [
+                'router' => $options['router'] ?? $_SERVER['PANTHER_WEB_SERVER_ROUTER'] ?? self::$defaultOptions['router'],
+            ],
             'readinessPath' => $options['readinessPath'] ?? $_SERVER['PANTHER_READINESS_PATH'] ?? self::$defaultOptions['readinessPath'],
         ];
 
-        self::$webServerManager = new WebServerManager(...array_values($options));
+        $webServer = $options['webServer'] ?? $_SERVER['PANTHER_WEB_SERVER'] ?? self::$defaultOptions['webServer'];
+
+        if (!class_exists($webServer)) {
+            throw new \RuntimeException(sprintf('Web Server "%s" does not exist', $webServer));
+        }
+
+        if (!is_subclass_of($webServer, WebServerManagerInterface::class)) {
+            throw new \RuntimeException(sprintf('Web Server "%s" is not a WebServerManagerInterface', $webServer));
+        }
+
+        self::$webServerManager = new $webServer(...array_values($options));
         self::$webServerManager->start();
 
         self::$baseUri = sprintf('http://%s:%s', $options['hostname'], $options['port']);
