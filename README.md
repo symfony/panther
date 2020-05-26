@@ -253,7 +253,7 @@ The following environment variables can be set to change some Panther's behaviou
 
 #### Firefox-specific Environment Variables
 
-* `PANTHER_FIREFOX_DRIVER_BINARY`: to use another `geckodriver` binary, instead of relying on the ones already provided by Panther
+* `PANTHER_GECKO_DRIVER_BINARY`: to use another `geckodriver` binary, instead of relying on the ones already provided by Panther
 * `PANTHER_FIREFOX_ARGUMENTS`: to customize Firefox arguments. You need to set `PANTHER_NO_HEADLESS` to fully customize.
 * `PANTHER_FIREFOX_BINARY`: to use another `firefox` binary
 
