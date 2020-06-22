@@ -1,8 +1,15 @@
 #!/usr/bin/env bash
 # Author: Kévin Dunglas <dunglas@gmail.com>
-# Download the last version of ChromeDriver binaries
+# Download the last compatible version of ChromeDriver binaries, falling back to last version
 
-latest=$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE)
+current=$(chromium --product-version)
+if [[ ${current} == *"."* ]]; then
+   current="_$( cut -d '.' -f 1 <<< "$current" )";
+else
+  current=''
+fi
+
+latest=$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE${current})
 
 echo "Downloading ChromeDriver version ${latest}..."
 
