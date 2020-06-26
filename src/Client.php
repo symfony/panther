@@ -22,6 +22,7 @@ use Facebook\WebDriver\WebDriverCapabilities;
 use Facebook\WebDriver\WebDriverExpectedCondition;
 use Facebook\WebDriver\WebDriverHasInputDevices;
 use Symfony\Component\BrowserKit\AbstractBrowser;
+use Symfony\Component\BrowserKit\History;
 use Symfony\Component\BrowserKit\Request;
 use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\DomCrawler\Form;
@@ -76,6 +77,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
     {
         $this->browserManager = $browserManager;
         $this->baseUri = $baseUri;
+        $this->history = new History();
     }
 
     public function getBrowserManager(): BrowserManagerInterface
