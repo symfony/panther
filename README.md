@@ -248,12 +248,14 @@ The following environment variables can be set to change some Panther's behaviou
 
 * `PANTHER_NO_SANDBOX`: to disable [Chrome's sandboxing](https://chromium.googlesource.com/chromium/src/+/b4730a0c2773d8f6728946013eb812c6d3975bec/docs/design/sandbox.md) (unsafe, but allows to use Panther in containers)
 * `PANTHER_CHROME_DRIVER_BINARY`: to use another `chromedriver` binary, instead of relying on the ones already provided by Panther
+* `PANTHER_CHROME_DRIVER_ARGUMENTS`: to customize `chromedriver` arguments.
 * `PANTHER_CHROME_ARGUMENTS`: to customize Chrome arguments. You need to set `PANTHER_NO_HEADLESS` to fully customize.
 * `PANTHER_CHROME_BINARY`: to use another `google-chrome` binary
 
 #### Firefox-specific Environment Variables
 
 * `PANTHER_GECKO_DRIVER_BINARY`: to use another `geckodriver` binary, instead of relying on the ones already provided by Panther
+* `PANTHER_GECKO_DRIVER_ARGUMENTS`: to customize `geckodriver` arguments.
 * `PANTHER_FIREFOX_ARGUMENTS`: to customize Firefox arguments. You need to set `PANTHER_NO_HEADLESS` to fully customize.
 * `PANTHER_FIREFOX_BINARY`: to use another `firefox` binary
 

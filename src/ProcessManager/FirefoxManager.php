@@ -32,7 +32,16 @@ final class FirefoxManager implements BrowserManagerInterface
     public function __construct(?string $geckodriverBinary = null, ?array $arguments = null, array $options = [])
     {
         $this->options = array_merge($this->getDefaultOptions(), $options);
-        $this->process = new Process([$geckodriverBinary ?: $this->findGeckodriverBinary(), '--port='.$this->options['port']], null, null, null, null);
+        $this->process = new Process(
+            array_merge(
+                [$geckodriverBinary ?: $this->findGeckodriverBinary()],
+                $this->getGeckodriverArguments()
+            ),
+            null,
+            null,
+            null,
+            null
+        );
         $this->arguments = $arguments ?? $this->getDefaultArguments();
     }
 
@@ -81,6 +90,19 @@ final class FirefoxManager implements BrowserManagerInterface
             default:
                 return __DIR__.'/../../geckodriver-bin/geckodriver-linux64';
         }
+    }
+
+    private function getGeckodriverArguments(): array
+    {
+        $args = ['--port='.$this->options['port']];
+
+        // Add custom arguments with PANTHER_GECKO_DRIVER_ARGUMENTS
+        if ($_SERVER['PANTHER_GECKO_DRIVER_ARGUMENTS'] ?? false) {
+            $arguments = explode(' ', $_SERVER['PANTHER_GECKO_DRIVER_ARGUMENTS']);
+            $args = array_merge($args, $arguments);
+        }
+
+        return $args;
     }
 
     private function getDefaultArguments(): array
