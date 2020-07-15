@@ -172,6 +172,11 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
         throw new \InvalidArgumentException('Server parameters cannot be retrieved when using WebDriver.');
     }
 
+    public function getHistory()
+    {
+        throw new \LogicException('History is not available when using WebDriver.');
+    }
+
     public function click(Link $link)
     {
         if ($link instanceof PantherLink) {

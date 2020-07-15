@@ -303,4 +303,12 @@ JS
         $client->request('GET', self::$baseUri.'/ua.php');
         $this->assertStringContainsString($client->getBrowserManager() instanceof ChromeManager ? 'Chrome' : 'Firefox', $client->getPageSource());
     }
+
+    public function testGetHistory(): void
+    {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('History is not available when using WebDriver.');
+
+        self::createPantherClient()->getHistory();
+    }
 }
