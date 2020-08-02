@@ -33,6 +33,9 @@ use const PHP_OS_FAMILY;
 
 final class InstallChromeDriverCommand extends Command
 {
+    public const SUCCESS = 0;
+    public const FAILURE = 1;
+
     private const DRIVER_VERSION = 'driver-version';
     private const CHROME_BINARY = 'chrome-binary';
     private const DEFAULT_CHROME_BINARY = 'google-chrome';
