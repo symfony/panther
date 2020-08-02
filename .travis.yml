@@ -20,6 +20,7 @@ cache:
 before_install:
   - if [[ $lint = '1' ]]; then wget https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v2.16.1/php-cs-fixer.phar; fi
   - if [[ $lint = '1' ]]; then wget https://github.com/phpstan/phpstan/releases/download/0.12.8/phpstan.phar; fi
+  - php install chromedriver
 
 before_script:
   - phpenv config-rm xdebug.ini
