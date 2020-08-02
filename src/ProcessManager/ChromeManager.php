@@ -17,7 +17,9 @@ use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriver;
+use RuntimeException;
 use Symfony\Component\Process\Process;
+use function file_exists;
 
 /**
  * @author Kévin Dunglas <dunglas@gmail.com>
@@ -73,14 +75,13 @@ final class ChromeManager implements BrowserManagerInterface
             return $binary;
         }
 
-        switch (PHP_OS_FAMILY) {
-            case 'Windows':
-                return __DIR__.'/../../chromedriver-bin/chromedriver.exe';
-            case 'Darwin':
-                return __DIR__.'/../../chromedriver-bin/chromedriver_mac64';
-            default:
-                return __DIR__.'/../../chromedriver-bin/chromedriver_linux64';
+        $binary = __DIR__ . '/../../bin/chromedriver';
+
+        if(!file_exists($binary)) {
+            throw new RuntimeException('No chrome driver binary found. Use "php vendor/symfony/panther/install chromedriver" to install it.');
         }
+
+        return $binary;
     }
 
     private function getDefaultArguments(): array
