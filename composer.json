@@ -18,12 +18,9 @@
   ],
   "require": {
     "php": ">=7.1",
-    "ext-zip": "*",
     "php-webdriver/webdriver": "^1.8.1",
     "symfony/browser-kit": "^4.3 || ^5.0",
-    "symfony/console": "^4.3 || ^5.0",
     "symfony/dom-crawler": "^4.3 || ^5.0",
-    "symfony/filesystem": "^4.3 || ^5.0",
     "symfony/http-client": "^4.3 || ^5.0",
     "symfony/polyfill-php72": "^1.9",
     "symfony/process": "^3.4 || ^4.0 || ^5.0"
@@ -46,9 +43,12 @@
     "symfony/framework-bundle": ">=4.3 <4.3.4"
   },
   "require-dev": {
+    "ext-zip": "*",
     "fabpot/goutte": "^3.2.3",
     "guzzlehttp/guzzle": "^6.3",
+    "symfony/console": "^4.3 || ^5.0",
     "symfony/css-selector": "^3.4 || ^4.0 || ^5.0",
+    "symfony/filesystem": "^4.3 || ^5.0",
     "symfony/framework-bundle": "^3.4 || ^4.0 || ^5.0",
     "symfony/mime": "^4.3 || ^5.0",
     "symfony/phpunit-bridge": "^4.3.3 || ^5.0"

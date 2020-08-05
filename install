@@ -5,11 +5,38 @@ declare(strict_types=1);
 
 require __DIR__ . '/vendor/autoload.php';
 
-use Symfony\Component\Console\Application;
-use Symfony\Component\Panther\Command\InstallChromeDriverCommand;
+$dependencies = [
+    '\Symfony\Component\Console\Application',
+    '\Symfony\Component\HttpClient\NativeHttpClient',
+    '\Symfony\Component\Filesystem\Filesystem',
+];
+\array_walk(
+    $dependencies,
+    static function (string $className) : void {
+        if (!\class_exists($className)) {
+            echo \sprintf(
+                'Missing the required class "%s" to use this command. Try composer install with dev dependencies.%s',
+                $className,
+                PHP_EOL
+            );
+            exit(1);
+        }
+    }
+);
 
-$application = new Application();
+if (!\class_exists('\ZipArchive')) {
+    echo 'Missing the required php extension "ext-zip" to use this command. Make sure it is installed.' . PHP_EOL;
+    exit(1);
+}
 
-$application->add(new InstallChromeDriverCommand('chromedriver'));
+
+$application = new \Symfony\Component\Console\Application();
+
+$application->add(new \Symfony\Component\Panther\Command\InstallChromeDriverCommand(
+        'chromedriver',
+    new \Symfony\Component\HttpClient\NativeHttpClient(),
+    new \Symfony\Component\Filesystem\Filesystem(),
+    new \ZipArchive()
+));
 
 $application->run();

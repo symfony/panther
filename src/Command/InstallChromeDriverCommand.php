@@ -71,18 +71,13 @@ final class InstallChromeDriverCommand extends Command
      */
     private $zip;
 
-    public function __construct(
-        string $name,
-        ?HttpClientInterface $httpClient = null,
-        ?Filesystem $filesystem = null,
-        ?ZipArchive $zip = null
-    )
+    public function __construct(string $name, HttpClientInterface $httpClient, Filesystem $filesystem, ZipArchive $zip)
     {
         parent::__construct($name);
 
-        $this->httpClient = $httpClient ?? new NativeHttpClient();
-        $this->filesystem = $filesystem ?? new Filesystem();
-        $this->zip = $zip ?? new ZipArchive();
+        $this->httpClient = $httpClient;
+        $this->filesystem = $filesystem;
+        $this->zip = $zip;
     }
 
     protected function configure() : void
