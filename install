@@ -6,12 +6,10 @@ declare(strict_types=1);
 require __DIR__ . '/vendor/autoload.php';
 
 use Symfony\Component\Console\Application;
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\HttpClient\NativeHttpClient;
 use Symfony\Component\Panther\Command\InstallChromeDriverCommand;
 
 $application = new Application();
 
-$application->add(new InstallChromeDriverCommand('chromedriver', new NativeHttpClient(), new Filesystem(), new ZipArchive()));
+$application->add(new InstallChromeDriverCommand('chromedriver'));
 
 $application->run();

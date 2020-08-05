@@ -12,6 +12,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpClient\NativeHttpClient;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
@@ -70,13 +71,18 @@ final class InstallChromeDriverCommand extends Command
      */
     private $zip;
 
-    public function __construct(string $name, HttpClientInterface $httpClient, Filesystem $filesystem, ZipArchive $zip)
+    public function __construct(
+        string $name,
+        ?HttpClientInterface $httpClient = null,
+        ?Filesystem $filesystem = null,
+        ?ZipArchive $zip = null
+    )
     {
         parent::__construct($name);
 
-        $this->httpClient = $httpClient;
-        $this->filesystem = $filesystem;
-        $this->zip = $zip;
+        $this->httpClient = $httpClient ?? new NativeHttpClient();
+        $this->filesystem = $filesystem ?? new Filesystem();
+        $this->zip = $zip ?? new ZipArchive();
     }
 
     protected function configure() : void
