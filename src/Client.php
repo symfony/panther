@@ -337,6 +337,26 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
         return $this->crawler = $this->createCrawler();
     }
 
+    /**
+     * @param string $locator
+     * @param int $timeoutInSecond
+     * @param int $intervalInMillisecond
+     * @throws NoSuchElementException
+     * @throws TimeoutException
+     */
+    public function waitForVisibility(string $locator, int $timeoutInSecond = 30, int $intervalInMillisecond = 250)
+    {
+        $locator = trim($locator);
+
+        $by = '' === $locator || '/' !== $locator[0]
+            ? WebDriverBy::cssSelector($locator)
+            : WebDriverBy::xpath($locator);
+
+        $this->wait($timeoutInSecond, $intervalInMillisecond)->until(
+            WebDriverExpectedCondition::visibilityOfElementLocated($by)
+        );
+    }
+
     public function getWebDriver(): WebDriver
     {
         $this->start();
