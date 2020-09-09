@@ -89,12 +89,12 @@ $client = \Symfony\Component\Panther\Client::createChromeClient();
 $client = \Symfony\Component\Panther\Client::createFirefoxClient();
 
 $client->request('GET', 'https://api-platform.com'); // Yes, this website is 100% written in JavaScript
-$client->clickLink('Support');
+$client->clickLink('Get started');
 
 // Wait for an element to be rendered
-$crawler = $client->waitFor('.support');
+$crawler = $client->waitFor('#installing-the-framework');
 
-echo $crawler->filter('.support')->text();
+echo $crawler->filter('#installing-the-framework')->text();
 $client->takeScreenshot('screen.png'); // Yeah, screenshot!
 ```
 
