@@ -71,6 +71,8 @@ final class WebServerManager
             null,
             null
         );
+        // Stop Operation timed out after 30001 milliseconds with 0 bytes received errors
+        $this->process->disableOutput();
 
         // Symfony Process 3.4 BC: In newer versions env variables always inherit,
         // but in 4.4 inheritEnvironmentVariables is deprecated, but setOptions was removed
