@@ -75,7 +75,7 @@ class ClientTest extends TestCase
     {
         $client = self::createPantherClient();
         $crawler = $client->request('GET', '/waitfor-element-to-be-visible.html');
-        $c = $client->waitFor($locator, 30, 250, true);
+        $c = $client->waitForVisibility($locator);
         $this->assertInstanceOf(Crawler::class, $c);
         $this->assertSame('Hello', $crawler->filter('#hello')->text());
     }
