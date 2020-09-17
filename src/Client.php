@@ -316,42 +316,22 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
 
     /**
      * @param string $locator The path to an element to be waited for. Can be a CSS selector or Xpath expression.
+     * @param bool $checkVisibility If true means checking that an element is present on the DOM of a page and visible.
      *
      * @throws NoSuchElementException
      * @throws TimeoutException
      *
      * @return Crawler
      */
-    public function waitFor(string $locator, int $timeoutInSecond = 30, int $intervalInMillisecond = 250)
+    public function waitFor(string $locator, int $timeoutInSecond = 30, int $intervalInMillisecond = 250, bool $checkVisibility = false)
     {
         $locator = trim($locator);
 
         $by = $this->createWebDriverByFromLocator($locator);
 
-        $this->wait($timeoutInSecond, $intervalInMillisecond)->until(
-            WebDriverExpectedCondition::presenceOfElementLocated($by)
-        );
-
-        return $this->crawler = $this->createCrawler();
-    }
-
-    /**
-     * @param string $locator The path to an element to be waited for. Can be a CSS selector or Xpath expression.
-     *
-     * @throws NoSuchElementException
-     * @throws TimeoutException
-     *
-     * @return Crawler
-     */
-    public function waitForVisibility(string $locator, int $timeoutInSecond = 30, int $intervalInMillisecond = 250)
-    {
-        $locator = trim($locator);
-
-        $by = $this->createWebDriverByFromLocator($locator);
-
-        $this->wait($timeoutInSecond, $intervalInMillisecond)->until(
-            WebDriverExpectedCondition::visibilityOfElementLocated($by)
-        );
+            $this->wait($timeoutInSecond, $intervalInMillisecond)->until(
+                $checkVisibility ? WebDriverExpectedCondition::visibilityOfElementLocated($by) : WebDriverExpectedCondition::presenceOfElementLocated($by)
+            );
 
         return $this->crawler = $this->createCrawler();
     }
