@@ -116,7 +116,7 @@ final class CookieJar extends BaseCookieJar
             $webDriverCookie->setHttpOnly(true);
         }
 
-        if ($webDriverCookie->isSecure()) {
+        if ($cookie->isSecure()) {
             $webDriverCookie->setSecure(true);
         }
 
