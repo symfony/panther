@@ -324,8 +324,6 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
      */
     public function waitFor(string $locator, int $timeoutInSecond = 30, int $intervalInMillisecond = 250)
     {
-        $locator = trim($locator);
-
         $by = $this->createWebDriverByFromLocator($locator);
 
         $this->wait($timeoutInSecond, $intervalInMillisecond)->until(
@@ -345,8 +343,6 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
      */
     public function waitForVisibility(string $locator, int $timeoutInSecond = 30, int $intervalInMillisecond = 250)
     {
-        $locator = trim($locator);
-
         $by = $this->createWebDriverByFromLocator($locator);
 
         $this->wait($timeoutInSecond, $intervalInMillisecond)->until(
