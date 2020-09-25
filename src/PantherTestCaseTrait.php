@@ -160,7 +160,7 @@ trait PantherTestCaseTrait
      *
      * @param array $options see {@see $defaultOptions}
      */
-    protected static function createPantherClient(array $options = [], array $kernelOptions = []): PantherClient
+    protected static function createPantherClient(array $options = [], array $kernelOptions = [], array $managerOptions = []): PantherClient
     {
         $browser = ($options['browser'] ?? self::$defaultOptions['browser'] ?? self::CHROME);
         $callGetClient = \is_callable([self::class, 'getClient']) && (new \ReflectionMethod(self::class, 'getClient'))->isStatic();
@@ -177,9 +177,9 @@ trait PantherTestCaseTrait
         self::startWebServer($options);
 
         if (self::CHROME === $browser) {
-            self::$pantherClients[0] = self::$pantherClient = Client::createChromeClient(null, null, [], self::$baseUri);
+            self::$pantherClients[0] = self::$pantherClient = Client::createChromeClient(null, null, $managerOptions, self::$baseUri);
         } else {
-            self::$pantherClients[0] = self::$pantherClient = Client::createFirefoxClient(null, null, [], self::$baseUri);
+            self::$pantherClients[0] = self::$pantherClient = Client::createFirefoxClient(null, null, $managerOptions, self::$baseUri);
         }
 
         if (\is_a(self::class, KernelTestCase::class, true)) {
