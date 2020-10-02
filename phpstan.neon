@@ -1,6 +1,10 @@
 parameters:
-	autoload_files:
-		- vendor/bin/.phpunit/phpunit-8.3-0/vendor/autoload.php
+	level: 5
+	paths:
+		- src
+		- tests
+	bootstrapFiles:
+		- vendor/bin/.phpunit/phpunit/vendor/autoload.php
 	inferPrivatePropertyTypeFromConstructor: true
 	ignoreErrors:
 		- message: '#.+#'
