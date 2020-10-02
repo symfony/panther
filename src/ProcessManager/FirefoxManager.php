@@ -59,6 +59,10 @@ final class FirefoxManager implements BrowserManagerInterface
         $capabilities = DesiredCapabilities::firefox();
         $capabilities->setCapability('moz:firefoxOptions', $firefoxOptions);
 
+        foreach ($this->options['capabilities'] as $capability => $value) {
+            $capabilities->setCapability($capability, $value);
+        }
+
         return RemoteWebDriver::create($url, $capabilities, $this->options['connection_timeout_in_ms'] ?? null, $this->options['request_timeout_in_ms'] ?? null);
     }
 
@@ -104,6 +108,7 @@ final class FirefoxManager implements BrowserManagerInterface
             'host' => '127.0.0.1',
             'port' => 4444,
             'path' => '/status',
+            'capabilities' => [],
         ];
     }
 }
