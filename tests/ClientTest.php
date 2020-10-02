@@ -68,6 +68,18 @@ class ClientTest extends TestCase
         yield 'xpath expression' => ['locator' => '//*[@id="hello"]'];
     }
 
+    /**
+     * @dataProvider waitForDataProvider
+     */
+    public function testWaitForVisibility(string $locator)
+    {
+        $client = self::createPantherClient();
+        $crawler = $client->request('GET', '/waitfor-element-to-be-visible.html');
+        $c = $client->waitForVisibility($locator);
+        $this->assertInstanceOf(Crawler::class, $c);
+        $this->assertSame('Hello', $crawler->filter('#hello')->text());
+    }
+
     public function testWaitForInvisibleElement(): void
     {
         $client = self::createPantherClient();
