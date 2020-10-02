@@ -162,13 +162,13 @@ trait PantherTestCaseTrait
      */
     protected static function createPantherClient(array $options = [], array $kernelOptions = [], array $managerOptions = []): PantherClient
     {
-        $browser = ($options['browser'] ?? self::$defaultOptions['browser'] ?? self::CHROME);
+        $browser = ($options['browser'] ?? self::$defaultOptions['browser'] ?? static::CHROME);
         $callGetClient = \is_callable([self::class, 'getClient']) && (new \ReflectionMethod(self::class, 'getClient'))->isStatic();
         if (null !== self::$pantherClient) {
             $browserManager = self::$pantherClient->getBrowserManager();
             if (
-                (self::CHROME === $browser && $browserManager instanceof ChromeManager) ||
-                (self::FIREFOX === $browser && $browserManager instanceof FirefoxManager)
+                (static::CHROME === $browser && $browserManager instanceof ChromeManager) ||
+                (static::FIREFOX === $browser && $browserManager instanceof FirefoxManager)
             ) {
                 return $callGetClient ? self::getClient(self::$pantherClient) : self::$pantherClient;
             }
@@ -176,7 +176,7 @@ trait PantherTestCaseTrait
 
         self::startWebServer($options);
 
-        if (self::CHROME === $browser) {
+        if (static::CHROME === $browser) {
             self::$pantherClients[0] = self::$pantherClient = Client::createChromeClient(null, null, $managerOptions, self::$baseUri);
         } else {
             self::$pantherClients[0] = self::$pantherClient = Client::createFirefoxClient(null, null, $managerOptions, self::$baseUri);
