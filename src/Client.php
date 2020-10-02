@@ -16,6 +16,7 @@ namespace Symfony\Component\Panther;
 use Facebook\WebDriver\Exception\NoSuchElementException;
 use Facebook\WebDriver\Exception\TimeoutException;
 use Facebook\WebDriver\JavaScriptExecutor;
+use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriver;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverCapabilities;
@@ -530,5 +531,49 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
         return '' === $locator || '/' !== $locator[0]
             ? WebDriverBy::cssSelector($locator)
             : WebDriverBy::xpath($locator);
+    }
+
+    /**
+     * Checks the web driver connection (and logs "pong" into the DevTools console).
+     *
+     * @param int $timeout sets the connection/request timeout in ms
+     *
+     * @return bool true if connected, false otherwise
+     */
+    public function ping(int $timeout = 1000): bool
+    {
+        if (null === $this->webDriver) {
+            return false;
+        }
+
+        if ($this->webDriver instanceof RemoteWebDriver) {
+            $this
+                ->webDriver
+                ->getCommandExecutor()
+                ->setConnectionTimeout($timeout)
+                ->setRequestTimeout($timeout)
+            ;
+        }
+
+        try {
+            if ($this->webDriver instanceof JavaScriptExecutor) {
+                $this->webDriver->executeScript('console.log("pong");');
+            } else {
+                $this->webDriver->findElement(WebDriverBy::tagName('html'));
+            }
+        } catch (\Exception $e) {
+            return false;
+        } finally {
+            if ($this->webDriver instanceof RemoteWebDriver) {
+                $this
+                    ->webDriver
+                    ->getCommandExecutor()
+                    ->setConnectionTimeout(0)
+                    ->setRequestTimeout(0)
+                ;
+            }
+        }
+
+        return true;
     }
 }
