@@ -2,6 +2,8 @@
 # Author: Kévin Dunglas <dunglas@gmail.com>
 # Download the last version of ChromeDriver binaries
 
+cd "$(dirname "$0")"
+
 latest=$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE)
 
 echo "Downloading ChromeDriver version ${latest}..."

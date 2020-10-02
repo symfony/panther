@@ -2,6 +2,8 @@
 # Author: Kévin Dunglas <dunglas@gmail.com>
 # Download the last version of geckodriver binaries
 
+cd "$(dirname "$0")"
+
 latest=$(curl -s https://api.github.com/repos/mozilla/geckodriver/releases/latest | jq -r '.tag_name')
 
 echo "Downloading geckodriver version ${latest}..."
