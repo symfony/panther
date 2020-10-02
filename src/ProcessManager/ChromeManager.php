@@ -30,26 +30,11 @@ final class ChromeManager implements BrowserManagerInterface
     private $arguments;
     private $options;
 
-    private $extensions = [];
-
     public function __construct(?string $chromeDriverBinary = null, ?array $arguments = null, array $options = [])
     {
         $this->options = array_merge($this->getDefaultOptions(), $options);
         $this->process = new Process([$chromeDriverBinary ?: $this->findChromeDriverBinary(), '--port='.$this->options['port']], null, null, null, null);
         $this->arguments = $arguments ?? $this->getDefaultArguments();
-    }
-
-    /**
-     * @param string[] $extensions Paths to packed Chrome extensions
-     */
-    public function setExtensions(array $extensions)
-    {
-        foreach ($extensions as $path) {
-            if (!file_exists($path)) {
-                throw new \InvalidArgumentException(\sprintf('The Chrome extension "%s" does not exist.', $path));
-            }
-        }
-        $this->extensions = $extensions;
     }
 
     /**
@@ -70,14 +55,33 @@ final class ChromeManager implements BrowserManagerInterface
             $capabilities->setCapability($capability, $value);
         }
 
-        if ($this->arguments) {
+        $extensions = $this->options['extensions'] ?? [];
+        $chromeBinary = $_SERVER['PANTHER_CHROME_BINARY'] ?? '';
+        if ($this->arguments || $extensions || '' !== $chromeBinary) {
             $chromeOptions = new ChromeOptions();
-            $chromeOptions->addArguments($this->arguments);
-            $capabilities->setCapability(ChromeOptions::CAPABILITY, $chromeOptions);
-            if (isset($_SERVER['PANTHER_CHROME_BINARY'])) {
+
+            if ($this->arguments) {
+                $chromeOptions->addArguments($this->arguments);
+            }
+            if ('' !== $chromeBinary) {
                 $chromeOptions->setBinary($_SERVER['PANTHER_CHROME_BINARY']);
             }
-            $chromeOptions->addExtensions($this->extensions);
+
+            if ($extensions) {
+                if ('' === ($_SERVER['PANTHER_NO_HEADLESS'] ?? '')) {
+                    // Chrome headless mode does not support extensions, so this test case is not fully tested.
+                    // See https://bugs.chromium.org/p/chromium/issues/detail?id=706008#c5.
+                    throw new \InvalidArgumentException('Extensions are only supported in non-headless mode.');
+                }
+
+                foreach ($extensions as $path) {
+                    if (!file_exists($path)) {
+                        throw new \InvalidArgumentException(sprintf('The Chrome extension "%s" does not exist.', $path));
+                    }
+                }
+            }
+
+            $capabilities->setCapability(ChromeOptions::CAPABILITY, $chromeOptions);
         }
 
         return RemoteWebDriver::create($url, $capabilities, $this->options['connection_timeout_in_ms'] ?? null, $this->options['request_timeout_in_ms'] ?? null);

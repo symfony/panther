@@ -68,22 +68,20 @@ class ChromeManagerTest extends TestCase
         $driver2->quit();
     }
 
-    /**
-     * Chrome headless mode does not support extensions, so this test case is
-     * not fully tested.
-     * @see https://bugs.chromium.org/p/chromium/issues/detail?id=706008#c5
-     */
     public function testSetExtensions()
     {
-        $manager = new ChromeManager();
-        $manager->setExtensions([
-            __DIR__.'/../fixtures/chrome/extension.crx',
-        ]);
+        if ('' === ($_SERVER['PANTHER_NO_HEADLESS'] ?? '')) {
+            // Chrome headless mode does not support extensions, so this test case is not fully tested.
+            // See https://bugs.chromium.org/p/chromium/issues/detail?id=706008#c5.
+            $this->markTestSkipped('Extensions are only supported in non-headless mode.');
+        }
+
+        $manager = new ChromeManager(null, null, ['extensions' => [__DIR__.'/../fixtures/chrome/extension.crx']]);
 
         $client = $manager->start();
         $client->get('chrome-extension://bkkidjjhlndbkocoaphmdmmdgglimihb/manifest.json');
 
-        //$this->assertStringContainsString('Getting Started Example', $client->getPageSource());
+        $this->assertStringContainsString('Getting Started Example', $client->getPageSource());
         $this->assertNotEmpty($client->getCurrentURL());
 
         $manager->quit();
@@ -92,10 +90,7 @@ class ChromeManagerTest extends TestCase
     public function testSetInvalidExtensions()
     {
         $this->expectException(\InvalidArgumentException::class);
-
-        $manager = new ChromeManager();
-        $manager->setExtensions([
-            __DIR__.'/../fixtures/chrome/invalid-extension.crx',
-        ]);
+        $m = new ChromeManager(null, null, ['extensions' => [__DIR__.'/../fixtures/chrome/invalid-extension.crx']]);
+        $m->start();
     }
 }
