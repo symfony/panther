@@ -1,13 +1,11 @@
----------ChromeDriver 81.0.4044.69 (2020-03-17)---------
-Supports Chrome version 81
-Resolved issue 1049: Attempting to move mouse to corner of page in Chrome 41 throws WebDriverException: unknown error: Failed to execute 'getComputedStyle' on 'Window': parameter 1 is not of type 'Element' [Pri-2]
-Resolved issue 3153: ChromeDriver doesn't return iframe cookies [Pri-3]
-Resolved issue 3237: Returned value cannot be converted to Boolean: {} on isDisplayed() method. ChromeDriver 78 [Pri-]
-Resolved issue 3252: Getting org.openqa.selenium.WebDriverException: unknown error: cannot determine loading status [Pri-]
-Resolved issue 3291: Chromedriver is not returning spec compliant error code for timeouts [Pri-2]
-Resolved issue 3301: ChromeDriver Unexpected Slow response time on NewSession Command [Pri-2]
-Resolved issue 3312: Fail to set page load timeout time [Pri-2]
-Resolved issue 3316: ChromeDriver unable to connect to DevTools due to IPv4 vs IPv6 mismatch [Pri-2]
-Resolved issue 3336: WebDriver 80.0.3987.16 can't open Chrome on Linux [Pri-1]
-Resolved issue 3375: Chromedriver v80 hangs on getPageSource on some sites [Pri-1]
-Resolved issue 3383: ChromeDriver 80+ on Windows seems to exit or stall on certain element or click commands [Pri-1]
+---------ChromeDriver 85.0.4183.87 (2020-08-27)---------
+Supports Chrome version 85
+Resolved issue 3214: Chromedriver78: Sendkeys resets text selection with contenteditable [Pri-3]
+Resolved issue 3376: Remove LaunchApp command from ChromeDriver [Pri-2]
+Resolved issue 3432: Sometimes NavigationTracker fails to detect when the page has finished loading. [Pri-2]
+Resolved issue 3481: New Print endpoint according to w3c spec [Pri-2]
+Resolved issue 3488: driver.get doesn't throw error when proxy is wrong configured [Pri-2]
+Resolved issue 3502: Use document.hasFocus() to check if element is focused [Pri-2]
+Resolved issue 3515: selenium.common.exceptions.WebDriverException: Message: unknown error: bad inspector message [Pri-3]
+Resolved issue 3577: Chromedriver 85 does not detect changed Chrome directory (C:\Program Files) [Pri-1]
+Resolved issue 3578: Chrome 85 no longer allows graceful interaction with windows when an alert dialog is open [Pri-]

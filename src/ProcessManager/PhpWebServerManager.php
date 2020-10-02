@@ -58,5 +58,7 @@ final class PhpWebServerManager extends AbstractProcessWebServer
             null,
             null
         );
+
+        $this->process->disableOutput();
     }
 }

@@ -89,12 +89,12 @@ $client = \Symfony\Component\Panther\Client::createChromeClient();
 $client = \Symfony\Component\Panther\Client::createFirefoxClient();
 
 $client->request('GET', 'https://api-platform.com'); // Yes, this website is 100% written in JavaScript
-$client->clickLink('Support');
+$client->clickLink('Get started');
 
 // Wait for an element to be rendered
-$crawler = $client->waitFor('.support');
+$crawler = $client->waitFor('#installing-the-framework');
 
-echo $crawler->filter('.support')->text();
+echo $crawler->filter('#installing-the-framework')->text();
 $client->takeScreenshot('screen.png'); // Yeah, screenshot!
 ```
 
@@ -253,7 +253,7 @@ The following environment variables can be set to change some Panther's behaviou
 
 #### Firefox-specific Environment Variables
 
-* `PANTHER_FIREFOX_DRIVER_BINARY`: to use another `geckodriver` binary, instead of relying on the ones already provided by Panther
+* `PANTHER_GECKO_DRIVER_BINARY`: to use another `geckodriver` binary, instead of relying on the ones already provided by Panther
 * `PANTHER_FIREFOX_ARGUMENTS`: to customize Firefox arguments. You need to set `PANTHER_NO_HEADLESS` to fully customize.
 * `PANTHER_FIREFOX_BINARY`: to use another `firefox` binary
 

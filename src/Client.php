@@ -172,6 +172,11 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
         throw new \InvalidArgumentException('Server parameters cannot be retrieved when using WebDriver.');
     }
 
+    public function getHistory()
+    {
+        throw new \LogicException('History is not available when using WebDriver.');
+    }
+
     public function click(Link $link)
     {
         if ($link instanceof PantherLink) {
@@ -319,14 +324,29 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
      */
     public function waitFor(string $locator, int $timeoutInSecond = 30, int $intervalInMillisecond = 250)
     {
-        $locator = trim($locator);
-
-        $by = '' === $locator || '/' !== $locator[0]
-            ? WebDriverBy::cssSelector($locator)
-            : WebDriverBy::xpath($locator);
+        $by = $this->createWebDriverByFromLocator($locator);
 
         $this->wait($timeoutInSecond, $intervalInMillisecond)->until(
             WebDriverExpectedCondition::presenceOfElementLocated($by)
+        );
+
+        return $this->crawler = $this->createCrawler();
+    }
+
+    /**
+     * @param string $locator The path to an element to be waited for. Can be a CSS selector or Xpath expression.
+     *
+     * @throws NoSuchElementException
+     * @throws TimeoutException
+     *
+     * @return Crawler
+     */
+    public function waitForVisibility(string $locator, int $timeoutInSecond = 30, int $intervalInMillisecond = 250)
+    {
+        $by = $this->createWebDriverByFromLocator($locator);
+
+        $this->wait($timeoutInSecond, $intervalInMillisecond)->until(
+            WebDriverExpectedCondition::visibilityOfElementLocated($by)
         );
 
         return $this->crawler = $this->createCrawler();
@@ -501,5 +521,14 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
         }
 
         return new WebDriverMouse($this->webDriver->getMouse(), $this);
+    }
+
+    private function createWebDriverByFromLocator(string $locator): WebDriverBy
+    {
+        $locator = trim($locator);
+
+        return '' === $locator || '/' !== $locator[0]
+            ? WebDriverBy::cssSelector($locator)
+            : WebDriverBy::xpath($locator);
     }
 }
