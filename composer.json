@@ -45,9 +45,9 @@
   "require-dev": {
     "fabpot/goutte": "^3.2.3",
     "guzzlehttp/guzzle": "^6.3",
-    "symfony/css-selector": "^3.4 || ^4.0 || ^5.0",
-    "symfony/framework-bundle": "^3.4 || ^4.0 || ^5.0",
-    "symfony/mime": "^4.3 || ^5.0",
-    "symfony/phpunit-bridge": "^4.3.3 || ^5.0"
+    "symfony/css-selector": "^4.4 || ^5.0",
+    "symfony/framework-bundle": "^4.4 || ^5.0",
+    "symfony/mime": "^4.4 || ^5.0",
+    "symfony/phpunit-bridge": "dev-master"
   }
 }

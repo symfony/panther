@@ -49,11 +49,13 @@ abstract class TestCase extends PantherTestCase
         yield 'HttpBrowser' => [[static::class, 'createHttpBrowserClient'], HttpBrowserClient::class];
         yield 'Panther' => [[static::class, 'createPantherClient'], PantherClient::class];
 
-        $firefoxFactory = function (): PantherClient {
-            return self::createPantherClient(['browser' => self::FIREFOX]);
-        };
+        if ('' === ($_SERVER['SKIP_FIREFOX'] ?? '')) {
+            $firefoxFactory = static function (): PantherClient {
+                return self::createPantherClient(['browser' => self::FIREFOX]);
+            };
 
-        yield 'PantherFirefox' => [$firefoxFactory, PantherClient::class];
+            yield 'PantherFirefox' => [$firefoxFactory, PantherClient::class];
+        }
     }
 
     protected function request(callable $clientFactory, string $path): Crawler
