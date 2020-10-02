@@ -324,7 +324,7 @@ JS
         self::createPantherClient()->getHistory();
     }
 
-    public function testPing()
+    public function testPing(): void
     {
         $client = self::createPantherClient();
         $client->request('GET', '/basic.html');

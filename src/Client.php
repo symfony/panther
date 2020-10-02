@@ -540,14 +540,16 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
      *
      * @return bool true if connected, false otherwise
      */
-    public function ping(int $timeout = 1000)
+    public function ping(int $timeout = 1000): bool
     {
         if (null === $this->webDriver) {
             return false;
         }
 
         if ($this->webDriver instanceof RemoteWebDriver) {
-            $this->webDriver->getCommandExecutor()
+            $this
+                ->webDriver
+                ->getCommandExecutor()
                 ->setConnectionTimeout($timeout)
                 ->setRequestTimeout($timeout)
             ;
@@ -559,13 +561,15 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
             } else {
                 $this->webDriver->findElement(WebDriverBy::tagName('html'));
             }
-        } catch (\Throwable $t) {
+        } catch (\Exception $e) {
             return false;
         } finally {
             if ($this->webDriver instanceof RemoteWebDriver) {
-                $this->webDriver->getCommandExecutor()
-                    ->setConnectionTimeout(30000)
-                    ->setRequestTimeout(30000)
+                $this
+                    ->webDriver
+                    ->getCommandExecutor()
+                    ->setConnectionTimeout(0)
+                    ->setRequestTimeout(0)
                 ;
             }
         }
