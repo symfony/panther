@@ -50,6 +50,11 @@ final class ChromeManager implements BrowserManagerInterface
         }
 
         $capabilities = DesiredCapabilities::chrome();
+
+        foreach ($this->options['capabilities'] as $capability => $value) {
+            $capabilities->setCapability($capability, $value);
+        }
+
         if ($this->arguments) {
             $chromeOptions = new ChromeOptions();
             $chromeOptions->addArguments($this->arguments);
@@ -110,6 +115,7 @@ final class ChromeManager implements BrowserManagerInterface
             'host' => '127.0.0.1',
             'port' => 9515,
             'path' => '/status',
+            'capabilities' => [],
         ];
     }
 }
