@@ -183,7 +183,7 @@ trait PantherTestCaseTrait
         }
 
         if (\is_a(self::class, KernelTestCase::class, true)) {
-            static::bootKernel($kernelOptions);
+            static::bootKernel($kernelOptions); // @phpstan-ignore-line
         }
 
         return $callGetClient ? self::getClient(self::$pantherClient) : self::$pantherClient;
@@ -221,7 +221,7 @@ trait PantherTestCaseTrait
         }
 
         if (\is_a(self::class, KernelTestCase::class, true)) {
-            static::bootKernel($kernelOptions);
+            static::bootKernel($kernelOptions); // @phpstan-ignore-line
         }
 
         // It's not possible to use assertions with Goutte yet, https://github.com/FriendsOfPHP/Goutte/pull/382 needed
@@ -242,7 +242,7 @@ trait PantherTestCaseTrait
         }
 
         if (\is_a(self::class, KernelTestCase::class, true)) {
-            static::bootKernel($kernelOptions);
+            static::bootKernel($kernelOptions); // @phpstan-ignore-line
         }
 
         return self::$httpBrowserClient;
