@@ -21,7 +21,9 @@ use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\Panther\Client as PantherClient;
 use Symfony\Component\Panther\ProcessManager\ChromeManager;
 use Symfony\Component\Panther\ProcessManager\FirefoxManager;
-use Symfony\Component\Panther\ProcessManager\PHPWebServerManager;
+use Symfony\Component\Panther\ProcessManager\PhpWebServerFactory;
+use Symfony\Component\Panther\ProcessManager\SymfonyWebServerFactory;
+use Symfony\Component\Panther\ProcessManager\WebServerFactoryInterface;
 use Symfony\Component\Panther\ProcessManager\WebServerManagerInterface;
 
 /**
@@ -74,6 +76,11 @@ trait PantherTestCaseTrait
     protected static $pantherClients = [];
 
     /**
+     * @var WebServerFactoryInterface[] WebServerFactoryInterface Mapping
+     */
+    protected static $webServerFactories = [];
+
+    /**
      * @var array
      */
     protected static $defaultOptions = [
@@ -84,8 +91,13 @@ trait PantherTestCaseTrait
         'external_base_uri' => null,
         'readinessPath' => '',
         'browser' => PantherTestCase::CHROME,
-        'webServer' => PHPWebServerManager::class
+        'webServer' => 'php'
     ];
+
+    public static function addWebServerFactory(string $type, WebServerFactoryInterface $factory): void
+    {
+        self::$webServerFactories[$type] = $factory;
+    }
 
     public static function tearDownAfterClass(): void
     {
@@ -142,23 +154,15 @@ trait PantherTestCaseTrait
             'webServerDir' => self::getWebServerDir($options),
             'hostname' => $options['hostname'] ?? self::$defaultOptions['hostname'],
             'port' => (int) ($options['port'] ?? $_SERVER['PANTHER_WEB_SERVER_PORT'] ?? self::$defaultOptions['port']),
-            'params' => [
-                'router' => $options['router'] ?? $_SERVER['PANTHER_WEB_SERVER_ROUTER'] ?? self::$defaultOptions['router'],
-            ],
+            'router' => $options['router'] ?? $_SERVER['PANTHER_WEB_SERVER_ROUTER'] ?? self::$defaultOptions['router'],
             'readinessPath' => $options['readinessPath'] ?? $_SERVER['PANTHER_READINESS_PATH'] ?? self::$defaultOptions['readinessPath'],
         ];
 
         $webServer = $options['webServer'] ?? $_SERVER['PANTHER_WEB_SERVER'] ?? self::$defaultOptions['webServer'];
 
-        if (!class_exists($webServer)) {
-            throw new \RuntimeException(sprintf('Web Server "%s" does not exist', $webServer));
-        }
+        $factory = self::getWebServerFactory($webServer);
 
-        if (!is_subclass_of($webServer, WebServerManagerInterface::class)) {
-            throw new \RuntimeException(sprintf('Web Server "%s" is not a WebServerManagerInterface', $webServer));
-        }
-
-        self::$webServerManager = new $webServer(...array_values($options));
+        self::$webServerManager = $factory->createNew($options);
         self::$webServerManager->start();
 
         self::$baseUri = sprintf('http://%s:%s', $options['hostname'], $options['port']);
@@ -281,5 +285,21 @@ trait PantherTestCaseTrait
         }
 
         return $_SERVER['PANTHER_WEB_SERVER_DIR'];
+    }
+
+    private static function getWebServerFactory(string $type): WebServerFactoryInterface
+    {
+        switch ($type) {
+            case 'php':
+                return new PhpWebServerFactory();
+            case 'symfony':
+                return new SymfonyWebServerFactory();
+            default:
+                if (array_key_exists($type, self::$webServerFactories)) {
+                    return self::$webServerFactories[$type];
+                }
+        }
+
+        throw new \RuntimeException(sprintf('Factory for WebServer of type "%s" not found in mapping, try adding it with self::addWebServerFactory', $type));
     }
 }

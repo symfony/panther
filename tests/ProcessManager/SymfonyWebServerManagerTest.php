@@ -48,7 +48,7 @@ class SymfonyWebServerManagerTest extends TestCase
 
     public function testPassEnv()
     {
-        $server = new SymfonyWebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234, [], '', ['FOO' => 'bar']);
+        $server = new SymfonyWebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234, '', '', ['FOO' => 'bar']);
         $server->start();
         $this->assertStringContainsString('bar', (string) file_get_contents('http://127.0.0.1:1234/env.php?name=FOO'));
 

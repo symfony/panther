@@ -19,12 +19,12 @@ use Symfony\Component\Process\Process;
 /**
  * @author Kévin Dunglas <dunglas@gmail.com>
  */
-final class PHPWebServerManager extends AbstractProcessWebServer
+final class PhpWebServerManager extends AbstractProcessWebServer
 {
     /**
      * @throws \RuntimeException
      */
-    public function __construct(string $documentRoot, string $hostname, int $port, array $params = [], string $readinessPath = '', array $env = null)
+    public function __construct(string $documentRoot, string $hostname, int $port, string $router = '', string $readinessPath = '', array $env = null)
     {
         parent::__construct($hostname, $port, $readinessPath);
 
@@ -50,7 +50,7 @@ final class PHPWebServerManager extends AbstractProcessWebServer
                     sprintf('%s:%d', $this->hostname, $this->port),
                     '-t',
                     $documentRoot,
-                    $params['router'] ?? '',
+                    $router,
                 ]
             )),
             $documentRoot,
@@ -58,11 +58,5 @@ final class PHPWebServerManager extends AbstractProcessWebServer
             null,
             null
         );
-
-        // Symfony Process 3.4 BC: In newer versions env variables always inherit,
-        // but in 4.4 inheritEnvironmentVariables is deprecated, but setOptions was removed
-        if (\is_callable([$this->process, 'inheritEnvironmentVariables']) && \is_callable([$this->process, 'setOptions'])) {
-            $this->process->inheritEnvironmentVariables(true);
-        }
     }
 }

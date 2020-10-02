@@ -15,6 +15,7 @@ if (
     isset($_SERVER['HTTP_CLIENT_IP'])
     || isset($_SERVER['HTTP_X_FORWARDED_FOR'])
     || '127.0.0.1' !== $_SERVER['REMOTE_ADDR']
+    || (PHP_SAPI !== 'cli-server' && strpos($_SERVER['SERVER_SOFTWARE'], 'Symfony Local Server') !== 0)
 ) {
     header('HTTP/1.0 403 Forbidden');
     exit('You are not allowed to access this file. Check "tests/fixtures/security-check.php" for more information.');

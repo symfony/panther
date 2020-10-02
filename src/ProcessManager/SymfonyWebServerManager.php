@@ -24,7 +24,16 @@ final class SymfonyWebServerManager extends AbstractProcessWebServer
     /**
      * @throws \RuntimeException
      */
-    public function __construct(string $documentRoot, string $hostname, int $port, array $params = [], string $readinessPath = '', array $env = null)
+    public function __construct(
+        string $documentRoot,
+        string $hostname,
+        int $port,
+        string $router = '',
+        string $readinessPath = '',
+        array $env = null,
+        bool $allowHttp = false,
+        bool $tls = true
+    )
     {
         parent::__construct($hostname, $port, $readinessPath);
 
@@ -40,27 +49,33 @@ final class SymfonyWebServerManager extends AbstractProcessWebServer
             $env['APP_ENV'] = $_SERVER['PANTHER_APP_ENV'];
         }
 
+        $processParams = [
+             'server:start',
+            '--document-root=' . $documentRoot,
+            '--port=' . $port
+        ];
+
+        if (!$tls) {
+            $processParams[] = '--no-tls';
+        }
+
+        if ($allowHttp) {
+            $processParams[] = '--allow-http';
+        }
+
+        if ('' !== $router) {
+            $processParams[] = '--passthru ' . $router;
+        }
+
         $this->process = new Process(
             array_merge(
                 [$binary],
-                [
-                    'server:start',
-                    '--allow-http',
-                    '--document-root=' . $documentRoot,
-                    '--port=' . $port,
-                    '--no-tls'
-                ]
+                $processParams
             ),
             $documentRoot,
             $env,
             null,
             null
         );
-
-        // Symfony Process 3.4 BC: In newer versions env variables always inherit,
-        // but in 4.4 inheritEnvironmentVariables is deprecated, but setOptions was removed
-        if (\is_callable([$this->process, 'inheritEnvironmentVariables']) && \is_callable([$this->process, 'setOptions'])) {
-            $this->process->inheritEnvironmentVariables(true);
-        }
     }
 }

@@ -13,17 +13,17 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\Tests\ProcessManager;
 
-use Symfony\Component\Panther\ProcessManager\PHPWebServerManager;
+use Symfony\Component\Panther\ProcessManager\PhpWebServerManager;
 use Symfony\Component\Panther\Tests\TestCase;
 
 /**
  * @author Kévin Dunglas <dunglas@gmail.com>
  */
-class PHPWebServerManagerTest extends TestCase
+class PhpWebServerManagerTest extends TestCase
 {
     public function testRun()
     {
-        $server = new PHPWebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234);
+        $server = new PhpWebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234);
         $server->start();
         $this->assertStringContainsString('Hello', (string) file_get_contents('http://127.0.0.1:1234/basic.html'));
 
@@ -35,10 +35,10 @@ class PHPWebServerManagerTest extends TestCase
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('The port 1234 is already in use.');
 
-        $server1 = new PHPWebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234);
+        $server1 = new PhpWebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234);
         $server1->start();
 
-        $server2 = new PHPWebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234);
+        $server2 = new PhpWebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234);
         try {
             $server2->start();
         } finally {
@@ -49,7 +49,7 @@ class PHPWebServerManagerTest extends TestCase
 
     public function testPassEnv()
     {
-        $server = new PHPWebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234, [], '', ['FOO' => 'bar']);
+        $server = new PhpWebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234, '', '', ['FOO' => 'bar']);
         $server->start();
         $this->assertStringContainsString('bar', (string) file_get_contents('http://127.0.0.1:1234/env.php?name=FOO'));
 
@@ -61,7 +61,7 @@ class PHPWebServerManagerTest extends TestCase
         $value = $_SERVER['PANTHER_APP_ENV'] ?? null; // store app env
 
         $_SERVER['PANTHER_APP_ENV'] = 'dev';
-        $server = new PHPWebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234);
+        $server = new PhpWebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234);
         $server->start();
         $this->assertStringContainsString('dev', (string) file_get_contents('http://127.0.0.1:1234/env.php?name=APP_ENV'));
 
@@ -82,7 +82,7 @@ class PHPWebServerManagerTest extends TestCase
         $this->expectExceptionMessageRegExp('#/not-exists#');
 
         try {
-            $server = new WebServerManager('/not-exists', '127.0.0.1', 1234);
+            $server = new PhpWebServerManager('/not-exists', '127.0.0.1', 1234);
             $server->start();
         } finally {
             $server->quit();
