@@ -32,7 +32,7 @@ jobs:
               uses: shivammathur/setup-php@v2
               with:
                   php-version: '7.4'
-                  tools: phpstan, cs2pr
+                  tools: phpstan
 
             - name: Get composer cache directory
               id: composercache
@@ -52,13 +52,14 @@ jobs:
               run: vendor/bin/simple-phpunit --version
 
             - name: PHPStan
-              run: phpstan analyse --no-progress --error-format=checkstyle | cs2pr
+              run: phpstan analyse --no-progress
 
     phpunit:
         runs-on: ubuntu-latest
         strategy:
             matrix:
                 php-versions: ['7.1', '7.2', '7.3', '7.4']
+            fail-fast: false
         name: PHP ${{ matrix.php-versions }} Test on ubuntu-latest
         steps:
             - name: Checkout
