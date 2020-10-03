@@ -1,6 +1,23 @@
 CHANGELOG
 =========
 
+0.8.0
+-----
+
+* Upgrade ChromeDriver to version 85.0.4183.87
+* Upgrade geckodriver to version 0.27.0
+* Add a `Client::waitForVisibility()` method to wait for an element to appear
+* Allow passing options to the browser manager from `PantherTestCase::createPantherClient()`
+* Add a `Client::ping()` method to check if the WebDriver connection is still active
+* Fix setting a new value to an input field when there is an existing value
+* Improve the error message when the web server crashes
+* Throw an explanative `LogicException` when driver is not started yet
+* Prevent timeouts caused by the integrated web server
+* Fix the value of cookie secure flags
+* Throw an exception when getting history (unsupported feature)
+* Add docs to use Panther with GitHub Actions
+* Various bug fixes and documentation improvements
+
 0.7.1
 -----
 
