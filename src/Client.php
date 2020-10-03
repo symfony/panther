@@ -491,7 +491,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
     public function executeScript($script, array $arguments = [])
     {
         if (!$this->webDriver instanceof JavaScriptExecutor) {
-            $this->throwException(JavaScriptExecutor::class);
+            throw $this->createException(JavaScriptExecutor::class);
         }
 
         return $this->webDriver->executeScript($script, $arguments);
@@ -500,7 +500,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
     public function executeAsyncScript($script, array $arguments = [])
     {
         if (!$this->webDriver instanceof JavaScriptExecutor) {
-            $this->throwException(JavaScriptExecutor::class);
+            throw $this->createException(JavaScriptExecutor::class);
         }
 
         return $this->webDriver->executeAsyncScript($script, $arguments);
@@ -509,7 +509,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
     public function getKeyboard()
     {
         if (!$this->webDriver instanceof WebDriverHasInputDevices) {
-            $this->throwException(WebDriverHasInputDevices::class);
+            throw $this->createException(WebDriverHasInputDevices::class);
         }
 
         return $this->webDriver->getKeyboard();
@@ -518,7 +518,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
     public function getMouse(): WebDriverMouse
     {
         if (!$this->webDriver instanceof WebDriverHasInputDevices) {
-            $this->throwException(WebDriverHasInputDevices::class);
+            throw $this->createException(WebDriverHasInputDevices::class);
         }
 
         return new WebDriverMouse($this->webDriver->getMouse(), $this);
@@ -575,11 +575,15 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
         return true;
     }
 
-    private function throwException(string $implementableClass): void
+    /**
+     * @return \LogicException|\RuntimeException
+     */
+    private function createException(string $implementableClass): \Exception
     {
         if (null === $this->webDriver) {
-            throw new \LogicException(sprintf('WebDriver not started yet. Call method `start()` first before calling any `%s` method.', $implementableClass));
+            return new \LogicException(sprintf('WebDriver not started yet. Call method `start()` first before calling any `%s` method.', $implementableClass));
         }
-        throw new \RuntimeException(sprintf('"%s" does not implement "%s".', \get_class($this->webDriver), $implementableClass));
+
+        return new \RuntimeException(sprintf('"%s" does not implement "%s".', \get_class($this->webDriver), $implementableClass));
     }
 }
