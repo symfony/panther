@@ -491,7 +491,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
     public function executeScript($script, array $arguments = [])
     {
         if (!$this->webDriver instanceof JavaScriptExecutor) {
-            throw new \RuntimeException(sprintf('"%s" does not implement "%s".', \get_class($this->webDriver), JavaScriptExecutor::class));
+            throw $this->createException(JavaScriptExecutor::class);
         }
 
         return $this->webDriver->executeScript($script, $arguments);
@@ -500,7 +500,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
     public function executeAsyncScript($script, array $arguments = [])
     {
         if (!$this->webDriver instanceof JavaScriptExecutor) {
-            throw new \RuntimeException(sprintf('"%s" does not implement "%s".', \get_class($this->webDriver), JavaScriptExecutor::class));
+            throw $this->createException(JavaScriptExecutor::class);
         }
 
         return $this->webDriver->executeAsyncScript($script, $arguments);
@@ -509,7 +509,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
     public function getKeyboard()
     {
         if (!$this->webDriver instanceof WebDriverHasInputDevices) {
-            throw new \RuntimeException(sprintf('"%s" does not implement "%s".', \get_class($this->webDriver), WebDriverHasInputDevices::class));
+            throw $this->createException(WebDriverHasInputDevices::class);
         }
 
         return $this->webDriver->getKeyboard();
@@ -518,7 +518,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
     public function getMouse(): WebDriverMouse
     {
         if (!$this->webDriver instanceof WebDriverHasInputDevices) {
-            throw new \RuntimeException(sprintf('"%s" does not implement "%s".', \get_class($this->webDriver), WebDriverHasInputDevices::class));
+            throw $this->createException(WebDriverHasInputDevices::class);
         }
 
         return new WebDriverMouse($this->webDriver->getMouse(), $this);
@@ -551,8 +551,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
                 ->webDriver
                 ->getCommandExecutor()
                 ->setConnectionTimeout($timeout)
-                ->setRequestTimeout($timeout)
-            ;
+                ->setRequestTimeout($timeout);
         }
 
         try {
@@ -569,11 +568,22 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
                     ->webDriver
                     ->getCommandExecutor()
                     ->setConnectionTimeout(0)
-                    ->setRequestTimeout(0)
-                ;
+                    ->setRequestTimeout(0);
             }
         }
 
         return true;
+    }
+
+    /**
+     * @return \LogicException|\RuntimeException
+     */
+    private function createException(string $implementableClass): \Exception
+    {
+        if (null === $this->webDriver) {
+            return new \LogicException(sprintf('WebDriver not started yet. Call method `start()` first before calling any `%s` method.', $implementableClass));
+        }
+
+        return new \RuntimeException(sprintf('"%s" does not implement "%s".', \get_class($this->webDriver), $implementableClass));
     }
 }
