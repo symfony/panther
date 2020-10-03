@@ -90,8 +90,10 @@ $client = \Symfony\Component\Panther\Client::createFirefoxClient();
 $client->request('GET', 'https://api-platform.com'); // Yes, this website is 100% written in JavaScript
 $client->clickLink('Get started');
 
-// Wait for an element to be rendered
+// Wait for an element to be present in the DOM (even if hidden)
 $crawler = $client->waitFor('#installing-the-framework');
+// Alternatively, wait for an element to be visible
+$crawler = $client->waitForVisibility('#installing-the-framework');
 
 echo $crawler->filter('#installing-the-framework')->text();
 $client->takeScreenshot('screen.png'); // Yeah, screenshot!
@@ -223,6 +225,10 @@ class ChatTest extends PantherTestCase
     }
 }
 ```
+
+### Checking the State of the WebDriver Connection
+
+Use the `Client::ping()` method to check if the WebDriver connection is still active (useful for long running tasks).
 
 ## Additional Documentation
 
