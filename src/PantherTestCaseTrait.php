@@ -245,6 +245,12 @@ trait PantherTestCaseTrait
             static::bootKernel($kernelOptions); // @phpstan-ignore-line
         }
 
+        $urlComponents = parse_url(self::$baseUri);
+        self::$httpBrowserClient->setServerParameter('HTTP_HOST', sprintf('%s:%s', $urlComponents['host'], $urlComponents['port']));
+        if ('https' === $urlComponents['scheme']) {
+            self::$httpBrowserClient->setServerParameter('HTTPS', 'true');
+        }
+
         return self::$httpBrowserClient;
     }
 
