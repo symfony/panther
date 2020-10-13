@@ -48,6 +48,6 @@
     "symfony/css-selector": "^4.4 || ^5.0",
     "symfony/framework-bundle": "^4.4 || ^5.0",
     "symfony/mime": "^4.4 || ^5.0",
-    "symfony/phpunit-bridge": "dev-master"
+    "symfony/phpunit-bridge": "5.x-dev"
   }
 }
