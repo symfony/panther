@@ -35,10 +35,10 @@ class ClientTest extends TestCase
     public function testCreateClient()
     {
         $client = self::createPantherClient();
-        $this->assertInstanceOf(AbstractBrowser::class, $client);
-        $this->assertInstanceOf(WebDriver::class, $client);
-        $this->assertInstanceOf(JavaScriptExecutor::class, $client);
-        $this->assertInstanceOf(KernelInterface::class, self::$kernel);
+        self::assertInstanceOf(AbstractBrowser::class, $client);
+        self::assertInstanceOf(WebDriver::class, $client);
+        self::assertInstanceOf(JavaScriptExecutor::class, $client);
+        self::assertInstanceOf(KernelInterface::class, self::$kernel);
     }
 
     public function testWaitForEmptyLocator()
@@ -58,8 +58,17 @@ class ClientTest extends TestCase
         $client = self::createPantherClient();
         $crawler = $client->request('GET', '/waitfor.html');
         $c = $client->waitFor($locator);
-        $this->assertInstanceOf(Crawler::class, $c);
-        $this->assertSame('Hello', $crawler->filter('#hello')->text());
+        self::assertInstanceOf(Crawler::class, $c);
+        self::assertSame('Hello', $crawler->filter('#hello')->text());
+    }
+
+    public function testWaitForHiddenInputElement(): void
+    {
+        $client = self::createPantherClient();
+        $crawler = $client->request('GET', '/waitfor-hidden-input.html');
+        $c = $client->waitFor('#hello');
+        self::assertInstanceOf(Crawler::class, $c);
+        self::assertSame('Hello', $crawler->filter('#hello')->getAttribute('value'));
     }
 
     public function waitForDataProvider(): iterable
@@ -76,17 +85,55 @@ class ClientTest extends TestCase
         $client = self::createPantherClient();
         $crawler = $client->request('GET', '/waitfor-element-to-be-visible.html');
         $c = $client->waitForVisibility($locator);
-        $this->assertInstanceOf(Crawler::class, $c);
-        $this->assertSame('Hello', $crawler->filter('#hello')->text());
+        self::assertInstanceOf(Crawler::class, $c);
+        self::assertSame('Hello', $crawler->filter('#hello')->text());
     }
 
-    public function testWaitForInvisibleElement(): void
+    /**
+     * @dataProvider waitForDataProvider
+     */
+    public function testWaitForInvisibility(string $locator)
     {
         $client = self::createPantherClient();
-        $crawler = $client->request('GET', '/waitfor-invisible.html');
-        $c = $client->waitFor('#hello');
-        $this->assertInstanceOf(Crawler::class, $c);
-        $this->assertSame('Hello', $crawler->filter('#hello')->getAttribute('value'));
+        $crawler = $client->request('GET', '/waitfor-element-to-be-invisible.html');
+        $c = $client->waitForInvisibility($locator);
+        self::assertInstanceOf(Crawler::class, $c);
+        self::assertSame('', $crawler->filter('#hello')->text());
+    }
+
+    /**
+     * @dataProvider waitForDataProvider
+     */
+    public function testWaitForElementToContain(string $locator)
+    {
+        $client = self::createPantherClient();
+        $crawler = $client->request('GET', '/waitfor-element-to-contain.html');
+        $c = $client->waitForElementToContain($locator, 'new content');
+        self::assertInstanceOf(Crawler::class, $c);
+        self::assertSame('Hello new content', $crawler->filter('#hello')->text());
+    }
+
+    /**
+     * @dataProvider waitForDataProvider
+     */
+    public function testWaitForElementToNotContain(string $locator)
+    {
+        $client = self::createPantherClient();
+        $crawler = $client->request('GET', '/waitfor-element-to-not-contain.html');
+        $c = $client->waitForElementToNotContain($locator, 'removed content');
+        self::assertInstanceOf(Crawler::class, $c);
+        self::assertSame('Hello', $crawler->filter('#hello')->text());
+    }
+
+    /**
+     * @dataProvider waitForDataProvider
+     */
+    public function testWaitForStalenessElement(string $locator): void
+    {
+        $client = self::createPantherClient();
+        $client->request('GET', '/waitfor-staleness.html');
+        $crawler = $client->waitForStaleness($locator);
+        self::assertInstanceOf(Crawler::class, $crawler);
     }
 
     public function testExecuteScript()
@@ -94,7 +141,7 @@ class ClientTest extends TestCase
         $client = self::createPantherClient();
         $client->request('GET', '/basic.html');
         $innerText = $client->executeScript('return document.querySelector(arguments[0]).innerText;', ['.p-1']);
-        $this->assertSame('P1', $innerText);
+        self::assertSame('P1', $innerText);
     }
 
     public function testExecuteScriptLogicExceptionWhenDriverIsNotStartedYet()
@@ -117,7 +164,7 @@ setTimeout(function (parentArgs) {
 JS
             , ['.p-1']);
 
-        $this->assertSame('P1', $innerText);
+        self::assertSame('P1', $innerText);
     }
 
     /**
@@ -126,9 +173,9 @@ JS
     public function testGetCrawler(callable $clientFactory, string $type): void
     {
         $crawler = $this->request($clientFactory, '/basic.html');
-        $this->assertInstanceOf(DomCrawlerCrawler::class, $crawler);
+        self::assertInstanceOf(DomCrawlerCrawler::class, $crawler);
         if (Client::class === $type) {
-            $this->assertInstanceOf(Crawler::class, $crawler);
+            self::assertInstanceOf(Crawler::class, $crawler);
         }
     }
 
@@ -139,16 +186,16 @@ JS
         $crawler = $client->request('GET', '/js-redirect.html');
         $linkCrawler = $crawler->selectLink('Redirect Link');
 
-        $this->assertSame('Redirect Link', $linkCrawler->text());
+        self::assertSame('Redirect Link', $linkCrawler->text());
 
         $client->click($linkCrawler->link());
         $client->wait(5)->until(WebDriverExpectedCondition::titleIs('A basic page'));
 
         $refreshedCrawler = $client->refreshCrawler();
 
-        $this->assertInstanceOf(Crawler::class, $refreshedCrawler);
-        $this->assertSame(self::$baseUri.'/basic.html', $refreshedCrawler->getUri());
-        $this->assertSame('Hello', $refreshedCrawler->filter('h1')->text());
+        self::assertInstanceOf(Crawler::class, $refreshedCrawler);
+        self::assertSame(self::$baseUri.'/basic.html', $refreshedCrawler->getUri());
+        self::assertSame('Hello', $refreshedCrawler->filter('h1')->text());
     }
 
     /**
@@ -162,11 +209,11 @@ JS
         $link = $crawler->filter('#d2')->selectLink('E1')->link();
 
         $crawler = $client->click($link);
-        $this->assertInstanceOf(DomCrawlerCrawler::class, $crawler);
+        self::assertInstanceOf(DomCrawlerCrawler::class, $crawler);
         if (Client::class === $type) {
-            $this->assertInstanceOf(Crawler::class, $crawler);
+            self::assertInstanceOf(Crawler::class, $crawler);
         }
-        $this->assertSame(self::$baseUri.'/basic.html#e12', $crawler->getUri());
+        self::assertSame(self::$baseUri.'/basic.html#e12', $crawler->getUri());
     }
 
     /**
@@ -182,12 +229,12 @@ JS
         ]);
 
         $crawler = $client->submit($form);
-        $this->assertInstanceOf(DomCrawlerCrawler::class, $crawler);
+        self::assertInstanceOf(DomCrawlerCrawler::class, $crawler);
         if ($client instanceof Client) {
-            $this->assertInstanceOf(Crawler::class, $crawler);
+            self::assertInstanceOf(Crawler::class, $crawler);
         }
-        $this->assertSame(self::$baseUri.'/form-handle.php', $crawler->getUri());
-        $this->assertSame('I1: Reclus', $crawler->filter('#result')->text());
+        self::assertSame(self::$baseUri.'/form-handle.php', $crawler->getUri());
+        self::assertSame('I1: Reclus', $crawler->filter('#result')->text());
 
         $crawler = $client->back();
         $form = $crawler->filter('form')->eq(0)->form([
@@ -195,8 +242,8 @@ JS
         ]);
 
         $crawler = $client->submit($form);
-        $this->assertSame('I1: n/a', $crawler->filter('#result')->text());
-        $this->assertSame(self::$baseUri.'/form-handle.php?i1=Michel&i2=&i3=&i4=i4a', $crawler->getUri());
+        self::assertSame('I1: n/a', $crawler->filter('#result')->text());
+        self::assertSame(self::$baseUri.'/form-handle.php?i1=Michel&i2=&i3=&i4=i4a', $crawler->getUri());
     }
 
     /**
@@ -212,12 +259,12 @@ JS
         $crawler = $client->submit($form, [
             'i1' => 'Reclus',
         ]);
-        $this->assertInstanceOf(DomCrawlerCrawler::class, $crawler);
+        self::assertInstanceOf(DomCrawlerCrawler::class, $crawler);
         if (Client::class === $type) {
-            $this->assertInstanceOf(Crawler::class, $crawler);
+            self::assertInstanceOf(Crawler::class, $crawler);
         }
-        $this->assertSame(self::$baseUri.'/form-handle.php', $crawler->getUri());
-        $this->assertSame('I1: Reclus', $crawler->filter('#result')->text());
+        self::assertSame(self::$baseUri.'/form-handle.php', $crawler->getUri());
+        self::assertSame('I1: Reclus', $crawler->filter('#result')->text());
     }
 
     /**
@@ -228,23 +275,23 @@ JS
         /** @var AbstractBrowser $client */
         $client = $clientFactory();
         $crawler = $client->request('GET', self::$baseUri.'/link.html');
-        $this->assertSame(self::$baseUri.'/link.html', $crawler->getUri());
+        self::assertSame(self::$baseUri.'/link.html', $crawler->getUri());
 
         $crawler = $client->click($crawler->selectLink('E2')->link());
-        $this->assertSame(self::$baseUri.'/basic.html#e2', $crawler->getUri());
+        self::assertSame(self::$baseUri.'/basic.html#e2', $crawler->getUri());
 
         $crawler = $client->back();
-        $this->assertSame(self::$baseUri.'/link.html', $crawler->getUri());
+        self::assertSame(self::$baseUri.'/link.html', $crawler->getUri());
 
         $crawler = $client->forward();
-        $this->assertSame(self::$baseUri.'/basic.html#e2', $crawler->getUri());
+        self::assertSame(self::$baseUri.'/basic.html#e2', $crawler->getUri());
 
         $crawler = $client->reload();
-        $this->assertSame(self::$baseUri.'/basic.html#e2', $crawler->getUri());
+        self::assertSame(self::$baseUri.'/basic.html#e2', $crawler->getUri());
 
         $client->restart();
         $crawler = $client->request('GET', self::$baseUri.'/link.html');
-        $this->assertSame(self::$baseUri.'/link.html', $crawler->getUri());
+        self::assertSame(self::$baseUri.'/link.html', $crawler->getUri());
     }
 
     /**
@@ -258,45 +305,45 @@ JS
         $cookieJar->clear(); // Firefox keeps the existing context by default, be sure to clear existing cookies
 
         $crawler = $client->request('GET', self::$baseUri.'/cookie.php');
-        $this->assertSame('0', $crawler->filter('#barcelona')->text());
+        self::assertSame('0', $crawler->filter('#barcelona')->text());
 
-        $this->assertInstanceOf(BrowserKitCookieJar::class, $cookieJar);
+        self::assertInstanceOf(BrowserKitCookieJar::class, $cookieJar);
         if (Client::class === $type) {
-            $this->assertInstanceOf(CookieJar::class, $cookieJar);
+            self::assertInstanceOf(CookieJar::class, $cookieJar);
         }
 
-        $this->assertCount(1, $client->getCookieJar()->all());
+        self::assertCount(1, $client->getCookieJar()->all());
         $cookie = $cookieJar->get('barcelona', '/cookie.php', '127.0.0.1');
-        $this->assertInstanceOf(Cookie::class, $cookie);
-        $this->assertSame('barcelona', $cookie->getName());
-        $this->assertSame('1', $cookie->getValue());
-        $this->assertNull($cookie->getExpiresTime());
-        $this->assertSame('/cookie.php', $cookie->getPath());
-        $this->assertSame('127.0.0.1', $cookie->getDomain());
-        $this->assertFalse($cookie->isSecure());
-        $this->assertTrue($cookie->isHttpOnly());
+        self::assertInstanceOf(Cookie::class, $cookie);
+        self::assertSame('barcelona', $cookie->getName());
+        self::assertSame('1', $cookie->getValue());
+        self::assertNull($cookie->getExpiresTime());
+        self::assertSame('/cookie.php', $cookie->getPath());
+        self::assertSame('127.0.0.1', $cookie->getDomain());
+        self::assertFalse($cookie->isSecure());
+        self::assertTrue($cookie->isHttpOnly());
 
-        $this->assertNull($cookieJar->get('barcelona', '/cookies.php', '127.0.0.1'));
-        $this->assertNull($cookieJar->get('barcelona', '/cookie.php', 'example.com'));
-        $this->assertNull($cookieJar->get('barcelona', '/', '127.0.0.1'));
-        $this->assertNotNull($cookieJar->get('barcelona', '/cookie.php'));
-        $this->assertNotNull($cookieJar->get('barcelona', '/cookie.php/bar', '127.0.0.1'));
+        self::assertNull($cookieJar->get('barcelona', '/cookies.php', '127.0.0.1'));
+        self::assertNull($cookieJar->get('barcelona', '/cookie.php', 'example.com'));
+        self::assertNull($cookieJar->get('barcelona', '/', '127.0.0.1'));
+        self::assertNotNull($cookieJar->get('barcelona', '/cookie.php'));
+        self::assertNotNull($cookieJar->get('barcelona', '/cookie.php/bar', '127.0.0.1'));
 
         $crawler = $client->reload();
-        $this->assertSame('1', $crawler->filter('#barcelona')->text());
+        self::assertSame('1', $crawler->filter('#barcelona')->text());
 
-        $this->assertNotEmpty($cookieJar->all());
+        self::assertNotEmpty($cookieJar->all());
         $cookieJar->clear();
-        $this->assertEmpty($cookieJar->all());
+        self::assertEmpty($cookieJar->all());
 
         $cookieJar->set(new Cookie('foo', 'bar'));
         $crawler = $client->reload();
-        $this->assertSame('bar', $cookieJar->get('foo')->getValue());
-        $this->assertSame('0', $crawler->filter('#barcelona')->text());
-        $this->assertSame('bar', $crawler->filter('#foo')->text());
+        self::assertSame('bar', $cookieJar->get('foo')->getValue());
+        self::assertSame('0', $crawler->filter('#barcelona')->text());
+        self::assertSame('bar', $crawler->filter('#foo')->text());
 
         $cookieJar->expire('foo');
-        $this->assertNull($cookieJar->get('foo'));
+        self::assertNull($cookieJar->get('foo'));
     }
 
     /**
@@ -306,7 +353,7 @@ JS
     {
         $expectedPort = $_SERVER['PANTHER_WEB_SERVER_PORT'] ?? '9080';
         $clientFactory();
-        $this->assertEquals($expectedPort, \mb_substr(self::$baseUri, -4));
+        self::assertEquals($expectedPort, \mb_substr(self::$baseUri, -4));
     }
 
     /**
@@ -320,7 +367,7 @@ JS
         }
 
         $client->request('GET', self::$baseUri.'/ua.php');
-        $this->assertStringContainsString($client->getBrowserManager() instanceof ChromeManager ? 'Chrome' : 'Firefox', $client->getPageSource());
+        self::assertStringContainsString($client->getBrowserManager() instanceof ChromeManager ? 'Chrome' : 'Firefox', $client->getPageSource());
     }
 
     public function testGetHistory(): void
@@ -336,9 +383,9 @@ JS
         $client = self::createPantherClient();
         $client->request('GET', '/basic.html');
 
-        $this->assertTrue($client->ping());
+        self::assertTrue($client->ping());
 
         self::stopWebServer();
-        $this->assertFalse($client->ping());
+        self::assertFalse($client->ping());
     }
 }

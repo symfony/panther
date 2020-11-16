@@ -125,8 +125,23 @@ class E2eTest extends PantherTestCase
         $client->request('GET', '/mypage');
 
         // Use any PHPUnit assertion, including the ones provided by Symfony
-        $this->assertPageTitleContains('My Title');
-        $this->assertSelectorTextContains('#main', 'My body');
+        self::assertPageTitleContains('My Title');
+        self::assertSelectorTextContains('#main', 'My body');
+        
+        // Or the one provided by Panther
+        self::assertSelectorIsEnabled('.search');
+        self::assertSelectorIsDisabled('[type="submit"]');
+        self::assertSelectorIsVisible('.errors');
+        self::assertSelectorIsNotVisible('.loading');
+
+        // Use waitForX methods to wait until some asynchronous process finish
+        $client->waitFor('.popin'); // element is attached to the DOM
+        $client->waitForStaleness('.popin'); // element is removed from the DOM
+        $client->testWaitForVisibility('.loader'); // element of the DOM becomes visible
+        $client->testWaitForInvisibility('.loader'); // element of the DOM becomes hidden
+        $client->waitForElementToContain('.total', '25 €'); // text is inserted in the element content
+        $client->waitForElementToNotContain('.promotion', '5%'); // text is removed from the element content
+
     }
 }
 ```
@@ -221,7 +236,7 @@ class ChatTest extends PantherTestCase
         $client1->waitFor('.message');
 
         // Symfony Assertions are always executed in the **primary** browser
-        $this->assertSelectorTextContains('.message', 'Hi folks 👋😻');
+        self::assertSelectorTextContains('.message', 'Hi folks 👋😻');
     }
 }
 ```
