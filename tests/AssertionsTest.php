@@ -32,26 +32,26 @@ class AssertionsTest extends TestCase
     public function testDomCrawlerAssertions(): void
     {
         self::createPantherClient()->request('GET', '/basic.html');
-        self::assertSelectorExists('.p-1');
-        self::assertSelectorNotExists('#notexist');
-        self::assertSelectorTextContains('body', 'P1');
-        self::assertSelectorTextSame('.p-1', 'P1');
-        self::assertSelectorTextNotContains('.p-1', 'not contained');
-        self::assertPageTitleSame('A basic page');
-        self::assertPageTitleContains('A basic');
-        self::assertInputValueNotSame('in', '');
-        self::assertInputValueSame('in', 'test');
-        self::assertSelectorIsVisible('.p-1');
-        self::assertSelectorIsEnabled('[name="in"]');
+        $this->assertSelectorExists('.p-1');
+        $this->assertSelectorNotExists('#notexist');
+        $this->assertSelectorTextContains('body', 'P1');
+        $this->assertSelectorTextSame('.p-1', 'P1');
+        $this->assertSelectorTextNotContains('.p-1', 'not contained');
+        $this->assertPageTitleSame('A basic page');
+        $this->assertPageTitleContains('A basic');
+        $this->assertInputValueNotSame('in', '');
+        $this->assertInputValueSame('in', 'test');
+        $this->assertSelectorIsVisible('.p-1');
+        $this->assertSelectorIsEnabled('[name="in"]');
         self::createPantherClient()->request('GET', '/input-disabled.html');
-        self::assertSelectorIsDisabled('[name="in-disabled"]');
+        $this->assertSelectorIsDisabled('[name="in-disabled"]');
         self::createPantherClient()->request('GET', '/text-hidden.html');
-        self::assertSelectorIsNotVisible('.p-hidden');
+        $this->assertSelectorIsNotVisible('.p-hidden');
     }
 
     public function testAssertionsWorkEvenWhenTheClientIsNotFresh(): void
     {
         self::createPantherClient()->request('GET', '/basic.html');
-        self::assertSelectorExists('.p-1');
+        $this->assertSelectorExists('.p-1');
     }
 }

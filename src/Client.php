@@ -20,6 +20,7 @@ use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriver;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverCapabilities;
+use Facebook\WebDriver\WebDriverExpectedCondition;
 use Facebook\WebDriver\WebDriverHasInputDevices;
 use Symfony\Component\BrowserKit\AbstractBrowser;
 use Symfony\Component\BrowserKit\Request;
@@ -34,7 +35,7 @@ use Symfony\Component\Panther\ProcessManager\BrowserManagerInterface;
 use Symfony\Component\Panther\ProcessManager\ChromeManager;
 use Symfony\Component\Panther\ProcessManager\FirefoxManager;
 use Symfony\Component\Panther\ProcessManager\SeleniumManager;
-use Symfony\Component\Panther\WebDriver\WebDriverExpectedCondition;
+use Symfony\Component\Panther\WebDriver\PantherWebDriverExpectedCondition;
 use Symfony\Component\Panther\WebDriver\WebDriverMouse;
 
 /**
@@ -409,7 +410,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
         $by = self::createWebDriverByFromLocator($locator);
 
         $this->wait($timeoutInSecond, $intervalInMillisecond)->until(
-            WebDriverExpectedCondition::elementTextNotContains($by, $text)
+            PantherWebDriverExpectedCondition::elementTextNotContains($by, $text)
         );
 
         return $this->crawler = $this->createCrawler();
@@ -586,6 +587,9 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
         return new WebDriverMouse($this->webDriver->getMouse(), $this);
     }
 
+    /**
+     * @internal
+     */
     public static function createWebDriverByFromLocator(string $locator): WebDriverBy
     {
         $locator = trim($locator);
