@@ -29,7 +29,10 @@ trait WebServerReadinessProbeTrait
      */
     private function checkPortAvailable(string $hostname, int $port, bool $throw = true): void
     {
-        $resource = @fsockopen($hostname, $port);
+        $current_state = error_reporting();
+        error_reporting(0);
+        $resource = fsockopen($hostname, $port);
+        error_reporting($current_state);
         if (\is_resource($resource)) {
             fclose($resource);
             if ($throw) {
