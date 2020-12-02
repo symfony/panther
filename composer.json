@@ -48,6 +48,20 @@
     "symfony/css-selector": "^4.4 || ^5.0",
     "symfony/framework-bundle": "^4.4 || ^5.0",
     "symfony/mime": "^4.4 || ^5.0",
-    "symfony/phpunit-bridge": "^5.1"
+    "symfony/phpunit-bridge": "^5.1",
+    "dbrekelmans/bdi": "^0.2"
+  },
+  "scripts": {
+    "update-drivers": [
+      "vendor/bin/bdi driver:chromedriver chromedriver-bin --os=windows",
+      "vendor/bin/bdi driver:chromedriver chromedriver-bin --os=macos && mv chromedriver-bin/chromedriver chromedriver-bin/chromedriver_mac64",
+      "vendor/bin/bdi driver:chromedriver chromedriver-bin --os=linux && mv chromedriver-bin/chromedriver chromedriver-bin/chromedriver_linux64",
+      "vendor/bin/bdi driver:geckodriver geckodriver-bin --os=windows",
+      "vendor/bin/bdi driver:geckodriver geckodriver-bin --os=macos && mv geckodriver-bin/geckodriver geckodriver-bin/geckodriver_mac64",
+      "vendor/bin/bdi driver:geckodriver geckodriver-bin --os=linux && mv geckodriver-bin/geckodriver geckodriver-bin/geckodriver_linux64"
+    ]
+  },
+  "suggest": {
+    "dbrekelmans/bdi": "Installs compatible drivers for your browsers."
   }
 }
