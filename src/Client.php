@@ -553,6 +553,10 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
     {
         $this->start();
 
+        if ($saveAs && ($dir = $_SERVER['PANTHER_SCREENSHOT_DIR'] ?? false)) {
+            $saveAs = "{$dir}/{$saveAs}";
+        }
+
         return $this->webDriver->takeScreenshot($saveAs);
     }
 
