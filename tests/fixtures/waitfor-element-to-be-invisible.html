@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WaitFor - Present element in DOM to be invisible</title>
+    <style>
+        @keyframes fadeInUp {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+            }
+        }
+
+        #hello {
+            opacity: 1;
+            animation: fadeInUp 1s ease-in-out 0s forwards;
+            animation-delay: 1s;
+        }
+    </style>
+</head>
+<body>
+    <p id="hello">Hello</p>
+</body>
+</html>

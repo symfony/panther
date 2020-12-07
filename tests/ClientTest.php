@@ -62,6 +62,15 @@ class ClientTest extends TestCase
         $this->assertSame('Hello', $crawler->filter('#hello')->text());
     }
 
+    public function testWaitForHiddenInputElement(): void
+    {
+        $client = self::createPantherClient();
+        $crawler = $client->request('GET', '/waitfor-hidden-input.html');
+        $c = $client->waitFor('#hello');
+        $this->assertInstanceOf(Crawler::class, $c);
+        $this->assertSame('Hello', $crawler->filter('#hello')->getAttribute('value'));
+    }
+
     public function waitForDataProvider(): iterable
     {
         yield 'css selector' => ['locator' => '#hello'];
@@ -80,13 +89,51 @@ class ClientTest extends TestCase
         $this->assertSame('Hello', $crawler->filter('#hello')->text());
     }
 
-    public function testWaitForInvisibleElement(): void
+    /**
+     * @dataProvider waitForDataProvider
+     */
+    public function testWaitForInvisibility(string $locator)
     {
         $client = self::createPantherClient();
-        $crawler = $client->request('GET', '/waitfor-invisible.html');
-        $c = $client->waitFor('#hello');
+        $crawler = $client->request('GET', '/waitfor-element-to-be-invisible.html');
+        $c = $client->waitForInvisibility($locator);
         $this->assertInstanceOf(Crawler::class, $c);
-        $this->assertSame('Hello', $crawler->filter('#hello')->getAttribute('value'));
+        $this->assertSame('', $crawler->filter('#hello')->text());
+    }
+
+    /**
+     * @dataProvider waitForDataProvider
+     */
+    public function testWaitForElementToContain(string $locator)
+    {
+        $client = self::createPantherClient();
+        $crawler = $client->request('GET', '/waitfor-element-to-contain.html');
+        $c = $client->waitForElementToContain($locator, 'new content');
+        $this->assertInstanceOf(Crawler::class, $c);
+        $this->assertSame('Hello new content', $crawler->filter('#hello')->text());
+    }
+
+    /**
+     * @dataProvider waitForDataProvider
+     */
+    public function testWaitForElementToNotContain(string $locator)
+    {
+        $client = self::createPantherClient();
+        $crawler = $client->request('GET', '/waitfor-element-to-not-contain.html');
+        $c = $client->waitForElementToNotContain($locator, 'removed content');
+        $this->assertInstanceOf(Crawler::class, $c);
+        $this->assertSame('Hello', $crawler->filter('#hello')->text());
+    }
+
+    /**
+     * @dataProvider waitForDataProvider
+     */
+    public function testWaitForStalenessElement(string $locator): void
+    {
+        $client = self::createPantherClient();
+        $client->request('GET', '/waitfor-staleness.html');
+        $crawler = $client->waitForStaleness($locator);
+        $this->assertInstanceOf(Crawler::class, $crawler);
     }
 
     public function testExecuteScript()

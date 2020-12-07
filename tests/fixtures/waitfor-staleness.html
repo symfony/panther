@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WaitFor - Staleness of an element</title>
+</head>
+<body>
+    <p id="hello">Hello</p>
+
+<script>
+  window.setTimeout(function () {
+    document.getElementById('hello').remove();
+  }, 1000);
+</script>
+</body>
+</html>

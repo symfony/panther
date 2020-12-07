@@ -35,6 +35,7 @@ use Symfony\Component\Panther\ProcessManager\BrowserManagerInterface;
 use Symfony\Component\Panther\ProcessManager\ChromeManager;
 use Symfony\Component\Panther\ProcessManager\FirefoxManager;
 use Symfony\Component\Panther\ProcessManager\SeleniumManager;
+use Symfony\Component\Panther\WebDriver\PantherWebDriverExpectedCondition;
 use Symfony\Component\Panther\WebDriver\WebDriverMouse;
 
 /**
@@ -325,10 +326,31 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
      */
     public function waitFor(string $locator, int $timeoutInSecond = 30, int $intervalInMillisecond = 250)
     {
-        $by = $this->createWebDriverByFromLocator($locator);
+        $by = self::createWebDriverByFromLocator($locator);
 
         $this->wait($timeoutInSecond, $intervalInMillisecond)->until(
             WebDriverExpectedCondition::presenceOfElementLocated($by)
+        );
+
+        return $this->crawler = $this->createCrawler();
+    }
+
+    /**
+     * @param string $locator The path to an element that will be removed from the DOM.
+     *                        Can be a CSS selector or Xpath expression.
+     *
+     * @throws NoSuchElementException
+     * @throws TimeoutException
+     *
+     * @return Crawler
+     */
+    public function waitForStaleness(string $locator, int $timeoutInSecond = 30, int $intervalInMillisecond = 250)
+    {
+        $by = self::createWebDriverByFromLocator($locator);
+        $element = $this->findElement($by);
+
+        $this->wait($timeoutInSecond, $intervalInMillisecond)->until(
+            WebDriverExpectedCondition::stalenessOf($element)
         );
 
         return $this->crawler = $this->createCrawler();
@@ -344,10 +366,51 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
      */
     public function waitForVisibility(string $locator, int $timeoutInSecond = 30, int $intervalInMillisecond = 250)
     {
-        $by = $this->createWebDriverByFromLocator($locator);
+        $by = self::createWebDriverByFromLocator($locator);
 
         $this->wait($timeoutInSecond, $intervalInMillisecond)->until(
             WebDriverExpectedCondition::visibilityOfElementLocated($by)
+        );
+
+        return $this->crawler = $this->createCrawler();
+    }
+
+    /**
+     * @param string $locator The path to an element waited to be invisible. Can be a CSS selector or Xpath expression.
+     *
+     * @throws NoSuchElementException
+     * @throws TimeoutException
+     *
+     * @return Crawler
+     */
+    public function waitForInvisibility(string $locator, int $timeoutInSecond = 30, int $intervalInMillisecond = 250)
+    {
+        $by = self::createWebDriverByFromLocator($locator);
+
+        $this->wait($timeoutInSecond, $intervalInMillisecond)->until(
+            WebDriverExpectedCondition::invisibilityOfElementLocated($by)
+        );
+
+        return $this->crawler = $this->createCrawler();
+    }
+
+    public function waitForElementToContain(string $locator, string $text, int $timeoutInSecond = 30, int $intervalInMillisecond = 250)
+    {
+        $by = self::createWebDriverByFromLocator($locator);
+
+        $this->wait($timeoutInSecond, $intervalInMillisecond)->until(
+            WebDriverExpectedCondition::elementTextContains($by, $text)
+        );
+
+        return $this->crawler = $this->createCrawler();
+    }
+
+    public function waitForElementToNotContain(string $locator, string $text, int $timeoutInSecond = 30, int $intervalInMillisecond = 250)
+    {
+        $by = self::createWebDriverByFromLocator($locator);
+
+        $this->wait($timeoutInSecond, $intervalInMillisecond)->until(
+            PantherWebDriverExpectedCondition::elementTextNotContains($by, $text)
         );
 
         return $this->crawler = $this->createCrawler();
@@ -524,7 +587,10 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
         return new WebDriverMouse($this->webDriver->getMouse(), $this);
     }
 
-    private function createWebDriverByFromLocator(string $locator): WebDriverBy
+    /**
+     * @internal
+     */
+    public static function createWebDriverByFromLocator(string $locator): WebDriverBy
     {
         $locator = trim($locator);
 
