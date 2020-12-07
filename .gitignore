@@ -4,4 +4,5 @@
 /composer.phar
 /composer.lock
 /phpunit.xml
+/screenshots/
 /vendor/
