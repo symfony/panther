@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WaitFor - Element to not contain</title>
+</head>
+<body>
+    <p id="hello">Hello removed content</p>
+
+<script>
+  window.setTimeout(function () {
+    document.getElementById('hello').innerText = 'Hello';
+  }, 1000);
+</script>
+</body>
+</html>

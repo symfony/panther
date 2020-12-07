@@ -41,6 +41,12 @@ class AssertionsTest extends TestCase
         $this->assertPageTitleContains('A basic');
         $this->assertInputValueNotSame('in', '');
         $this->assertInputValueSame('in', 'test');
+        $this->assertSelectorIsVisible('.p-1');
+        $this->assertSelectorIsEnabled('[name="in"]');
+        self::createPantherClient()->request('GET', '/input-disabled.html');
+        $this->assertSelectorIsDisabled('[name="in-disabled"]');
+        self::createPantherClient()->request('GET', '/text-hidden.html');
+        $this->assertSelectorIsNotVisible('.p-hidden');
     }
 
     public function testAssertionsWorkEvenWhenTheClientIsNotFresh(): void

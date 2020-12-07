@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther;
 
+use Facebook\WebDriver\WebDriverElement;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestAssertionsTrait as BaseWebTestAssertionsTrait;
 use Symfony\Component\BrowserKit\AbstractBrowser;
@@ -60,6 +61,39 @@ trait WebTestAssertionsTrait
         }
 
         self::baseAssertPageTitleContains($expectedTitle, $message);
+    }
+
+    public static function assertSelectorIsVisible(string $locator): void
+    {
+        $element = self::findElement($locator);
+        self::assertTrue($element->isDisplayed(), 'Failed asserting that element is visible.');
+    }
+
+    public static function assertSelectorIsNotVisible(string $locator): void
+    {
+        $element = self::findElement($locator);
+        self::assertFalse($element->isDisplayed(), 'Failed asserting that element is not visible.');
+    }
+
+    public static function assertSelectorIsEnabled(string $locator): void
+    {
+        $element = self::findElement($locator);
+        self::assertTrue($element->isEnabled(), 'Failed asserting that element is enabled.');
+    }
+
+    public static function assertSelectorIsDisabled(string $locator): void
+    {
+        $element = self::findElement($locator);
+        self::assertFalse($element->isEnabled(), 'Failed asserting that element is disabled.');
+    }
+
+    private static function findElement(string $locator): WebDriverElement
+    {
+        /** @var PantherClient $client */
+        $client = self::getClient();
+        $by = $client::createWebDriverByFromLocator($locator);
+
+        return $client->findElement($by);
     }
 
     // Copied from WebTestCase to allow assertions to work with createClient
