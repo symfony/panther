@@ -4,6 +4,7 @@
 /composer.phar
 /composer.lock
 /phpunit.xml
+/screenshots/
 /vendor/
 /drivers/
 /screen.png
