@@ -76,6 +76,10 @@ If you intend to use Panther to test your application, we strongly recommend reg
 While not strictly mandatory, this extension dramatically improves the testing experience by boosting the performance and
 allowing to use the [interactive debugging mode](#interactive-mode).
 
+When using the extension in conjunction with `PANTHER_SCREENSHOT_DIR` environment variable, test using the Panther
+client that fail or error (after the client is created) will get automatically get a screenshot taken to help
+debug.
+
 To register the Panther extension, add the following lines to `phpunit.xml.dist`:
 
 ```xml

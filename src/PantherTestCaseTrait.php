@@ -92,6 +92,11 @@ trait PantherTestCaseTrait
         }
     }
 
+    public static function getPrimaryPantherClient(): ?PantherClient
+    {
+        return self::$pantherClient;
+    }
+
     public static function stopWebServer()
     {
         if (null !== self::$webServerManager) {

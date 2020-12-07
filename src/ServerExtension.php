@@ -37,11 +37,13 @@ final class ServerExtension implements BeforeFirstTestHook, AfterLastTestHook, A
 
     public function executeAfterTestError(string $test, string $message, float $time): void
     {
+        $this->takeScreenshot('error', $test);
         $this->pause(sprintf('Error: %s', $message));
     }
 
     public function executeAfterTestFailure(string $test, string $message, float $time): void
     {
+        $this->takeScreenshot('failure', $test);
         $this->pause(sprintf('Failure: %s', $message));
     }
 }

@@ -44,4 +44,13 @@ trait ServerTrait
             }
         }
     }
+
+    private function takeScreenshot(string $type, string $test): void
+    {
+        if (!($_SERVER['PANTHER_SCREENSHOT_DIR'] ?? false) || !$client = PantherTestCase::getPrimaryPantherClient()) {
+            return;
+        }
+
+        $client->takeScreenshot(sprintf('%s_%s.png', $type, strtr($test, ['\\' => '-', ':' => '_'])));
+    }
 }
