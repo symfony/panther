@@ -85,7 +85,10 @@ jobs:
               run: composer install --prefer-dist
 
             - name: Install drivers
-              run: composer update-drivers
+              run: |
+                vendor/bin/bdi
+                mv chromedriver chromedriver-bin/chromedriver_linux64
+                mv geckodriver geckodriver-bin/geckodriver_linux64
 
             - name: Run tests
               run: vendor/bin/simple-phpunit
@@ -117,7 +120,10 @@ jobs:
               run: composer update --prefer-dist --prefer-lowest
 
             - name: Install drivers
-              run: composer update-drivers
+              run: |
+                vendor/bin/bdi
+                mv chromedriver chromedriver-bin/chromedriver_linux64
+                mv geckodriver geckodriver-bin/geckodriver_linux64
 
             - name: Run tests
               run: vendor/bin/simple-phpunit
@@ -152,7 +158,8 @@ jobs:
               run: composer install --prefer-dist
 
             - name: Install drivers
-              run: composer update-drivers
+              run: |
+                vendor/bin/bdi
 
             - name: Run tests
               run: vendor/bin/simple-phpunit
@@ -184,7 +191,10 @@ jobs:
               run: composer install --prefer-dist
 
             - name: Install drivers
-              run: composer update-drivers
+              run: |
+                vendor/bin/bdi
+                mv chromedriver chromedriver-bin/chromedriver_mac64
+                mv geckodriver geckodriver-bin/geckodriver_mac64
 
             - name: Run tests
               run: vendor/bin/simple-phpunit
