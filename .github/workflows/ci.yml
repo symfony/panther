@@ -84,6 +84,9 @@ jobs:
             - name: Install dependencies
               run: composer install --prefer-dist
 
+            - name: Install drivers
+              run: composer update-drivers
+
             - name: Run tests
               run: vendor/bin/simple-phpunit
 
@@ -112,6 +115,9 @@ jobs:
 
             - name: Install dependencies
               run: composer update --prefer-dist --prefer-lowest
+
+            - name: Install drivers
+              run: composer update-drivers
 
             - name: Run tests
               run: vendor/bin/simple-phpunit
@@ -145,6 +151,9 @@ jobs:
             - name: Install dependencies
               run: composer install --prefer-dist
 
+            - name: Install drivers
+              run: composer update-drivers
+
             - name: Run tests
               run: vendor/bin/simple-phpunit
 
@@ -173,6 +182,9 @@ jobs:
 
             - name: Install dependencies
               run: composer install --prefer-dist
+
+            - name: Install drivers
+              run: composer update-drivers
 
             - name: Run tests
               run: vendor/bin/simple-phpunit
