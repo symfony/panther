@@ -85,6 +85,16 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
         return $this->browserManager;
     }
 
+    public function __sleep()
+    {
+        throw new \BadMethodCallException('Cannot serialize '.__CLASS__);
+    }
+
+    public function __wakeup()
+    {
+        throw new \BadMethodCallException('Cannot unserialize '.__CLASS__);
+    }
+
     public function __destruct()
     {
         $this->quit();
