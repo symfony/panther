@@ -165,6 +165,6 @@ class FormTest extends TestCase
             $this->markTestSkipped('File upload is currently buggy with Firefox'); // FIXME
         }
 
-        $this->assertContains(self::$uploadFileName, $files['file_upload']['name']);
+        $this->assertContains(self::$uploadFileName, $files['file_upload']);
     }
 }
