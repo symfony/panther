@@ -39,7 +39,7 @@ class WebDriverMouseTest extends TestCase
     public function provide(): iterable
     {
         yield ['clickTo', '#mouse', 'click'];
-        // This error looks related to Chromedriver
+        // Double clicks aren't detected as dblclick events anymore in W3C mode, looks related to https://github.com/w3c/webdriver/issues/1197
         //yield ['doubleClickTo', '#mouse', 'dblclick'];
         yield ['contextClickTo', '#mouse', 'contextmenu'];
         yield ['mouseDownTo', '#mouse', 'mousedown'];
