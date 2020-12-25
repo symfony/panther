@@ -1,11 +1,18 @@
----------ChromeDriver 85.0.4183.87 (2020-08-27)---------
-Supports Chrome version 85
-Resolved issue 3214: Chromedriver78: Sendkeys resets text selection with contenteditable [Pri-3]
-Resolved issue 3376: Remove LaunchApp command from ChromeDriver [Pri-2]
-Resolved issue 3432: Sometimes NavigationTracker fails to detect when the page has finished loading. [Pri-2]
-Resolved issue 3481: New Print endpoint according to w3c spec [Pri-2]
-Resolved issue 3488: driver.get doesn't throw error when proxy is wrong configured [Pri-2]
-Resolved issue 3502: Use document.hasFocus() to check if element is focused [Pri-2]
-Resolved issue 3515: selenium.common.exceptions.WebDriverException: Message: unknown error: bad inspector message [Pri-3]
-Resolved issue 3577: Chromedriver 85 does not detect changed Chrome directory (C:\Program Files) [Pri-1]
-Resolved issue 3578: Chrome 85 no longer allows graceful interaction with windows when an alert dialog is open [Pri-]
+---------ChromeDriver 87.0.4280.88 (2020-12-02)---------
+Supports Chrome version 87
+Resolved issue 2421: Delete old port-forwarding channels on android adb-server
+[Pri-3]
+Resolved issue 3474: Emulated mobile device list needs updating [Pri-3]
+Resolved issue 3507: Implement "get computed role" [Pri-]
+Resolved issue 3508: Implement "get computed label" [Pri-]
+Resolved issue 3584: Rename ChromeDriver command line option --whitelisted-ips
+[Pri-2]
+Resolved issue 3588: Bidi WebSocket connection [Pri-]
+Resolved issue 3594: Navigation completes prematurely if OOPIF loads before main
+page [Pri-2]
+Resolved issue 3598: A command line option for devtools port to be forwarded to
+webview_devtools_remote socket. [Pri-]
+Resolved issue 3608: Chromedriver debuggerAddress does not support ipv6 [Pri-]
+Resolved issue 3641: Page not getting loaded/rendered when browser window is not
+in focus with Chrome Beta v87 and chromedriver v(87/86)
+Resolved issue 3657: Screenshot background browser timed out

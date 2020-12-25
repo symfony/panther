@@ -15,7 +15,7 @@ jobs:
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: '7.4'
+                  php-version: '7.4' # PHP CS Fixer isn't compatible with PHP 8 yet https://github.com/FriendsOfPHP/PHP-CS-Fixer/issues/4702
                   tools: php-cs-fixer, cs2pr
 
             - name: PHP Coding Standards Fixer
@@ -31,7 +31,7 @@ jobs:
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: '7.4'
+                  php-version: '8.0'
                   tools: phpstan
 
             - name: Get composer cache directory
@@ -58,7 +58,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                php-versions: ['7.1', '7.2', '7.3', '7.4']
+                php-versions: ['7.1', '7.2', '7.3', '7.4', '8.0']
             fail-fast: false
         name: PHP ${{ matrix.php-versions }} Test on ubuntu-latest
         steps:
@@ -89,7 +89,7 @@ jobs:
 
     phpunit-lowest:
         runs-on: ubuntu-latest
-        name: PHP 7.4 (lowest) Test on ubuntu-latest
+        name: PHP 8.0 (lowest) Test on ubuntu-latest
         steps:
             - name: Checkout
               uses: actions/checkout@v2
@@ -97,7 +97,7 @@ jobs:
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: '7.4'
+                  php-version: '8.0'
 
             - name: Get composer cache directory
               id: composercache
@@ -118,7 +118,7 @@ jobs:
 
     phpunit-windows:
         runs-on: windows-latest
-        name: PHP 7.4 Test on windows-latest
+        name: PHP 8.0 Test on windows-latest
         env:
             PANTHER_FIREFOX_BINARY: 'C:\Program Files\Mozilla Firefox\firefox.exe'
             SKIP_FIREFOX: 1
@@ -129,7 +129,7 @@ jobs:
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: '7.4'
+                  php-version: '8.0'
 
             - name: Get composer cache directory
               id: composercache
@@ -150,7 +150,7 @@ jobs:
 
     phpunit-macos:
         runs-on: macos-latest
-        name: PHP 7.4 Test on macos-latest
+        name: PHP 8.0 Test on macos-latest
         steps:
             - name: Checkout
               uses: actions/checkout@v2
@@ -158,7 +158,7 @@ jobs:
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: '7.4'
+                  php-version: '8.0'
 
             - name: Get composer cache directory
               id: composercache
