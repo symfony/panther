@@ -105,7 +105,7 @@ class FileFormFieldTest extends TestCase
                 'name' => '',
                 'type' => '',
                 'tmp_name' => '',
-                'error' => \UPLOAD_ERR_NO_FILE,
+                'error' => UPLOAD_ERR_NO_FILE,
                 'size' => 0,
             ],
             $fileFormField->getValue()

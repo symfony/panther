@@ -20,7 +20,7 @@ $val = $_COOKIE['barcelona'] ?? 0;
 <!DOCTYPE html>
 <html lang="en">
 <body>
-    <div id="barcelona"><?=$val; ?></div>
-    <div id="foo"><?=$_COOKIE['foo'] ?? ''; ?></div>
+    <div id="barcelona"><?php echo $val; ?></div>
+    <div id="foo"><?php echo $_COOKIE['foo'] ?? ''; ?></div>
 </body>
 </html>

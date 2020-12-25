@@ -30,13 +30,13 @@ class SeleniumManagerTest extends TestCase
      */
     protected $chromeMockManager;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->chromeMockManager = new ChromeManager();
         $this->chromeMockManager->start();
     }
 
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         $this->chromeMockManager->quit();
     }

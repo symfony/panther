@@ -24,8 +24,8 @@ use PHPUnit\Framework\TestSuite;
  */
 final class ServerListener implements TestListener
 {
-    use TestListenerDefaultImplementation;
     use ServerTrait;
+    use TestListenerDefaultImplementation;
 
     public function __construct()
     {

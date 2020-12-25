@@ -39,7 +39,7 @@ final class FileFormField extends BaseFileFormField
         if (null !== $value && \is_readable($value)) {
             $error = UPLOAD_ERR_OK;
             $size = \filesize($value);
-            $name = \pathinfo($value, \PATHINFO_BASENAME);
+            $name = \pathinfo($value, PATHINFO_BASENAME);
 
             $this->setFilePath($value);
             $value = $this->element->getAttribute('value');
@@ -95,7 +95,7 @@ final class FileFormField extends BaseFileFormField
         // size not determinable
         $size = 0;
         // C:\fakepath\filename.extension
-        $basename = \pathinfo($value, \PATHINFO_BASENAME);
+        $basename = \pathinfo($value, PATHINFO_BASENAME);
         $nameParts = \explode('\\', $basename);
         $name = \end($nameParts);
 
