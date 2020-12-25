@@ -55,7 +55,7 @@ trait WebTestAssertionsTrait
                 return;
             }
 
-            self::assertContains($expectedTitle, $client->getTitle());
+            self::assertStringContainsString($expectedTitle, $client->getTitle());
 
             return;
         }
