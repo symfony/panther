@@ -32,8 +32,7 @@ class FileFormFieldTest extends TestCase
         }
 
         if (4 === $haystack['error'] ?? 0) {
-            $this->markTestSkipped('File upload is currently buggy with Firefox');
-            return;
+            $this->markTestSkipped('File upload is currently buggy with Firefox'); // FIXME
         }
 
         $this->assertContains($needle, $haystack);
