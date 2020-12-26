@@ -28,20 +28,6 @@ abstract class TestCase extends PantherTestCase
     protected static $anotherUploadFileName = 'another-file.txt';
     protected static $webServerDir = __DIR__.'/fixtures';
 
-    /**
-     * Compatibility layer with PHPUnit 7.
-     */
-    public static function assertStringContainsString(string $needle, string $haystack, string $message = ''): void
-    {
-        if (!method_exists(PantherTestCase::class, 'assertStringContainsString')) {
-            self::assertContains($needle, $haystack, $message);
-
-            return;
-        }
-
-        parent::assertStringContainsString($needle, $haystack, $message);
-    }
-
     public function clientFactoryProvider(): iterable
     {
         // Tests must pass with both Panther and HttpBrowser
