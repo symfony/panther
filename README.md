@@ -253,6 +253,17 @@ Since Panther implements the API of popular libraries, it already has extensive 
 * For the `Crawler` class, read [the DomCrawler documentation](https://symfony.com/doc/current/components/dom_crawler.html)
 * For WebDriver, read [the PHP WebDriver documentation](https://github.com/php-webdriver/php-webdriver)
 
+### Environment Variables
+
+The following environment variables can be set to change some Panther's behaviour:
+
+* `PANTHER_NO_HEADLESS`: to disable browser's headless mode (will display the testing window, useful to debug)
+* `PANTHER_WEB_SERVER_DIR`: to change the project's document root (default to `./public/`, relative paths **must start** by `./`)
+* `PANTHER_WEB_SERVER_PORT`: to change the web server's port (default to `9080`)
+* `PANTHER_WEB_SERVER_ROUTER`:  to use a web server router script which is run at the start of each HTTP request
+* `PANTHER_EXTERNAL_BASE_URI`: to use an external web server (the PHP built-in web server will not be started)
+* `PANTHER_APP_ENV`: to override the `APP_ENV` variable passed to the web server running the PHP app
+
 ### Changing the Hostname and Port of the Built-in Web Server
 
 If you want to change the host and/or the port used by the built-in web server, pass the `hostname` and `port` to the `$options` parameter of the `createPantherClient()` method:
@@ -264,17 +275,6 @@ $client = self::createPantherClient([
     'port' => 8080, // Defaults to 9080
 ]);
 ```
-
-### Environment Variables
-
-The following environment variables can be set to change some Panther's behaviour:
-
-* `PANTHER_NO_HEADLESS`: to disable browser's headless mode (will display the testing window, useful to debug)
-* `PANTHER_WEB_SERVER_DIR`: to change the project's document root (default to `./public/`, relative paths **must start** by `./`)
-* `PANTHER_WEB_SERVER_PORT`: to change the web server's port (default to `9080`)
-* `PANTHER_WEB_SERVER_ROUTER`:  to use a web server router script which is run at the start of each HTTP request
-* `PANTHER_EXTERNAL_BASE_URI`: to use an external web server (the PHP built-in web server will not be started)
-* `PANTHER_APP_ENV`: to override the `APP_ENV` variable passed to the web server running the PHP app
 
 #### Chrome-specific Environment Variables
 
