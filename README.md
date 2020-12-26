@@ -260,8 +260,8 @@ If you want to change the host and/or the port used by the built-in web server, 
 // ...
 
 $client = self::createPantherClient([
-    'hostname' => 'localhost',
-    'port' => 8080
+    'hostname' => 'example.com', // Defaults to 127.0.0.1
+    'port' => 8080, // Defaults to 9080
 ]);
 
 // ...
