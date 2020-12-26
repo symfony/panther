@@ -255,7 +255,7 @@ Since Panther implements the API of popular libraries, it already has extensive 
 
 ### Changing a client host and port
 
-If you want to change the host and/or the port, pass the `hostname` and `port` to the `$options` parameter of the `createPantherClient()` method:
+If you want to change the host and/or the port used by the built-in web server, pass the `hostname` and `port` to the `$options` parameter of the `createPantherClient()` method:
 ```php
 // ...
 
