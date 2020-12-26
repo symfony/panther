@@ -53,12 +53,10 @@ class WebDriverCheckBoxTest extends TestCase
         $this->assertSame($options, $values);
     }
 
-    public function getOptionsDataProvider()
+    public function getOptionsDataProvider(): iterable
     {
-        return [
-            ['checkbox', ['j2a', 'j2b', 'j2c']],
-            ['radio', ['j3a', 'j3b', 'j3c']],
-        ];
+        yield ['checkbox', ['j2a', 'j2b', 'j2c']];
+        yield ['radio', ['j3a', 'j3b', 'j3c']];
     }
 
     public function testWebDriverCheckboxGetFirstSelectedOption()
@@ -96,12 +94,10 @@ class WebDriverCheckBoxTest extends TestCase
         $this->assertSame($selectedOptions, $selectedValues);
     }
 
-    public function selectByValueDataProvider()
+    public function selectByValueDataProvider(): iterable
     {
-        return [
-            ['checkbox', ['j2b', 'j2c']],
-            ['radio', ['j3b']],
-        ];
+        yield ['checkbox', ['j2b', 'j2c']];
+        yield ['radio', ['j3b']];
     }
 
     public function testWebDriverCheckboxSelectByValueInvalid()
@@ -167,14 +163,12 @@ class WebDriverCheckBoxTest extends TestCase
         $this->assertSame($value, $c->getFirstSelectedOption()->getAttribute('value'));
     }
 
-    public function selectByVisibleTextDataProvider()
+    public function selectByVisibleTextDataProvider(): iterable
     {
-        return [
-            ['checkbox', 'J2B', 'j2b'],
-            ['checkbox', 'J2C', 'j2c'],
-            ['radio', 'J3B', 'j3b'],
-            ['radio', 'J3C', 'j3c'],
-        ];
+        yield ['checkbox', 'J2B', 'j2b'];
+        yield ['checkbox', 'J2C', 'j2c'];
+        yield ['radio', 'J3B', 'j3b'];
+        yield ['radio', 'J3C', 'j3c'];
     }
 
     /**
@@ -190,14 +184,12 @@ class WebDriverCheckBoxTest extends TestCase
         $this->assertSame($value, $c->getFirstSelectedOption()->getAttribute('value'));
     }
 
-    public function selectByVisiblePartialTextDataProvider()
+    public function selectByVisiblePartialTextDataProvider(): iterable
     {
-        return [
-            ['checkbox', '2B', 'j2b'],
-            ['checkbox', '2C', 'j2c'],
-            ['radio', '3B', 'j3b'],
-            ['radio', '3C', 'j3c'],
-        ];
+        yield ['checkbox', '2B', 'j2b'];
+        yield ['checkbox', '2C', 'j2c'];
+        yield ['radio', '3B', 'j3b'];
+        yield ['radio', '3C', 'j3c'];
     }
 
     public function testWebDriverCheckboxDeselectAll()

@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 require __DIR__.'/security-check.php';
 
-if ('APP_ENV' === $_GET['name'] ?? null): ?>
-    <?=$_ENV['APP_ENV']; ?>
-<?php else: ?>
-    <?=$_ENV['FOO']; ?>
-<?php endif; ?>
+if ('APP_ENV' === $_GET['name'] ?? null) { ?>
+    <?php echo $_ENV['APP_ENV']; ?>
+<?php } else { ?>
+    <?php echo $_ENV['FOO']; ?>
+<?php } ?>

@@ -27,11 +27,11 @@ use Symfony\Component\Panther\Client as PantherClient;
  */
 trait WebTestAssertionsTrait
 {
-    use PantherTestCaseTrait;
     use BaseWebTestAssertionsTrait {
         assertPageTitleSame as private baseAssertPageTitleSame;
         assertPageTitleContains as private baseAssertPageTitleContains;
     }
+    use PantherTestCaseTrait;
 
     public static function assertPageTitleSame(string $expectedTitle, string $message = ''): void
     {
@@ -55,7 +55,7 @@ trait WebTestAssertionsTrait
                 return;
             }
 
-            self::assertContains($expectedTitle, $client->getTitle());
+            self::assertStringContainsString($expectedTitle, $client->getTitle());
 
             return;
         }

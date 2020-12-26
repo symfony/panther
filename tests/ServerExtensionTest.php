@@ -62,11 +62,9 @@ class ServerExtensionTest extends TestCase
         }
     }
 
-    public function provideTestPauseOnFailure()
+    public function provideTestPauseOnFailure(): iterable
     {
-        return [
-            ['executeAfterTestError', "Error: message\n\nPress enter to continue..."],
-            ['executeAfterTestFailure', "Failure: message\n\nPress enter to continue..."],
-        ];
+        yield ['executeAfterTestError', "Error: message\n\nPress enter to continue..."];
+        yield ['executeAfterTestFailure', "Failure: message\n\nPress enter to continue..."];
     }
 }
