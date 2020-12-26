@@ -114,6 +114,8 @@ jobs:
               run: composer update --prefer-dist --prefer-lowest
 
             - name: Run tests
+              env:
+                  SYMFONY_DEPRECATIONS_HELPER: disabled=1
               run: vendor/bin/simple-phpunit
 
     phpunit-windows:
