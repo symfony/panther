@@ -263,8 +263,6 @@ $client = self::createPantherClient([
     'hostname' => 'example.com', // Defaults to 127.0.0.1
     'port' => 8080, // Defaults to 9080
 ]);
-
-// ...
 ```
 
 ### Environment Variables
