@@ -253,7 +253,7 @@ Since Panther implements the API of popular libraries, it already has extensive 
 * For the `Crawler` class, read [the DomCrawler documentation](https://symfony.com/doc/current/components/dom_crawler.html)
 * For WebDriver, read [the PHP WebDriver documentation](https://github.com/php-webdriver/php-webdriver)
 
-### Changing a client host and port
+### Changing the Hostname and Port of the Built-in Web Server
 
 If you want to change the host and/or the port used by the built-in web server, pass the `hostname` and `port` to the `$options` parameter of the `createPantherClient()` method:
 ```php
