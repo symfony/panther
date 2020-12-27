@@ -264,6 +264,18 @@ The following environment variables can be set to change some Panther's behaviou
 * `PANTHER_EXTERNAL_BASE_URI`: to use an external web server (the PHP built-in web server will not be started)
 * `PANTHER_APP_ENV`: to override the `APP_ENV` variable passed to the web server running the PHP app
 
+### Changing the Hostname and Port of the Built-in Web Server
+
+If you want to change the host and/or the port used by the built-in web server, pass the `hostname` and `port` to the `$options` parameter of the `createPantherClient()` method:
+```php
+// ...
+
+$client = self::createPantherClient([
+    'hostname' => 'example.com', // Defaults to 127.0.0.1
+    'port' => 8080, // Defaults to 9080
+]);
+```
+
 #### Chrome-specific Environment Variables
 
 * `PANTHER_NO_SANDBOX`: to disable [Chrome's sandboxing](https://chromium.googlesource.com/chromium/src/+/b4730a0c2773d8f6728946013eb812c6d3975bec/docs/design/sandbox.md) (unsafe, but allows to use Panther in containers)
