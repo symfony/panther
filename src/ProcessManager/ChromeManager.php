@@ -17,6 +17,7 @@ use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriver;
+use Symfony\Component\Process\ExecutableFinder;
 use Symfony\Component\Process\Process;
 
 /**
@@ -30,6 +31,9 @@ final class ChromeManager implements BrowserManagerInterface
     private $arguments;
     private $options;
 
+    /**
+     * @throws \RuntimeException
+     */
     public function __construct(?string $chromeDriverBinary = null, ?array $arguments = null, array $options = [])
     {
         $this->options = array_merge($this->getDefaultOptions(), $options);
@@ -72,20 +76,22 @@ final class ChromeManager implements BrowserManagerInterface
         $this->process->stop();
     }
 
+    /**
+     * @throws \RuntimeException
+     */
     private function findChromeDriverBinary(): string
     {
         if ($binary = $_SERVER['PANTHER_CHROME_DRIVER_BINARY'] ?? null) {
+            @trigger_error('The "PANTHER_CHROME_DRIVER_BINARY" environment variable is deprecated since Panther 0.9, add ChromeDriver to your PATH instead.', E_USER_DEPRECATED);
+
             return $binary;
         }
 
-        switch (PHP_OS_FAMILY) {
-            case 'Windows':
-                return __DIR__.'/../../chromedriver-bin/chromedriver.exe';
-            case 'Darwin':
-                return __DIR__.'/../../chromedriver-bin/chromedriver_mac64';
-            default:
-                return __DIR__.'/../../chromedriver-bin/chromedriver_linux64';
+        if ($binary = (new ExecutableFinder())->find('chromedriver', null, ['./drivers'])) {
+            return $binary;
         }
+
+        throw new \RuntimeException('"chromedriver" binary not found. Install it using the package manager of your operating system or by running "composer require --dev dbrekelmans/bdi && vendor/bin/bdi detect drivers".');
     }
 
     private function getDefaultArguments(): array
