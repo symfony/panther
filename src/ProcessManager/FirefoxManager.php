@@ -16,6 +16,7 @@ namespace Symfony\Component\Panther\ProcessManager;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriver;
+use Symfony\Component\Process\ExecutableFinder;
 use Symfony\Component\Process\Process;
 
 /**
@@ -29,6 +30,9 @@ final class FirefoxManager implements BrowserManagerInterface
     private $arguments;
     private $options;
 
+    /**
+     * @throws \RuntimeException
+     */
     public function __construct(?string $geckodriverBinary = null, ?array $arguments = null, array $options = [])
     {
         $this->options = array_merge($this->getDefaultOptions(), $options);
@@ -71,20 +75,22 @@ final class FirefoxManager implements BrowserManagerInterface
         $this->process->stop();
     }
 
+    /**
+     * @throws \RuntimeException
+     */
     private function findGeckodriverBinary(): string
     {
         if ($binary = $_SERVER['PANTHER_GECKO_DRIVER_BINARY'] ?? null) {
+            @trigger_error('The "PANTHER_GECKO_DRIVER_BINARY" environment variable is deprecated since Panther 0.9, add geckodriver to your PATH instead.', E_USER_DEPRECATED);
+
             return $binary;
         }
 
-        switch (PHP_OS_FAMILY) {
-            case 'Windows':
-                return __DIR__.'/../../geckodriver-bin/geckodriver.exe';
-            case 'Darwin':
-                return __DIR__.'/../../geckodriver-bin/geckodriver-macos';
-            default:
-                return __DIR__.'/../../geckodriver-bin/geckodriver-linux64';
+        if ($binary = (new ExecutableFinder())->find('geckodriver', null, ['./drivers'])) {
+            return $binary;
         }
+
+        throw new \RuntimeException('"geckodriver" binary not found. Install it using the package manager of your operating system or by running "composer require --dev dbrekelmans/bdi && vendor/bin/bdi detect drivers".');
     }
 
     private function getDefaultArguments(): array
