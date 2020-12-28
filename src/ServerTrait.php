@@ -51,6 +51,10 @@ trait ServerTrait
             return;
         }
 
-        $client->takeScreenshot(sprintf('%s_%s.png', $type, strtr($test, ['\\' => '-', ':' => '_'])));
+        $client->takeScreenshot(sprintf('%s_%s_%s.png',
+            (new \DateTime())->format('Y-m-d_H-i-s'),
+            $type,
+            strtr($test, ['\\' => '-', ':' => '_'])
+        ));
     }
 }
