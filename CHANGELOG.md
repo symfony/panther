@@ -1,6 +1,18 @@
 CHANGELOG
 =========
 
+0.9.0
+-----
+
+* **Breaking Change**: ChromeDriver and geckodriver binaries are not included in the archive anymore and must be installed separately, [refer to the documentation](README.md#installing-chromedriver-and-geckodriver)
+* PHP 8 compatibility
+* Add `Client::waitForStaleness()` method to wait for an element to be removed from the DOM
+* Add `Client::waitForInvisibility()` method to wait for an element to be invisible
+* Add `Client::waitForElementToContain()` method to wait for an element containing the given parameter
+* Add `Client::waitForElementToNotContain()` method to wait for an element to not contain the given parameter
+* Add `PantherTestCase::assertSelectorIsVisible()`, `PantherTestCase::assertSelectorIsNotVisible()`, `PantherTestCase::assertSelectorIsEnabled()` and `PantherTestCase::assertSelectorIsDisabled()` assertions
+* Fix `baseUri` not taken into account when using Symfony HttpBrowser
+
 0.8.0
 -----
 
@@ -29,8 +41,8 @@ CHANGELOG
 * Add built-in support for Firefox (using GeckoDriver)
 * Add support for Symfony HttpBrowser
 * Deprecate Goutte support (use HttpBrowser instead)
-* Allow to configure RemoteWebDriver timeouts to when using Selenium
-* Allow to pass custom environment variables to the built-in web server
+* Allow configuring `RemoteWebDriver` timeouts when using Selenium
+* Allow passing custom environment variables to the built-in web server
 * Fix some compatibility issues with PHP WebDriver 1.8
 * Upgrade ChromeDriver to version 80.0.3987.106
 * Prevent access to fixture files even if the web server is misconfigured
@@ -39,13 +51,13 @@ CHANGELOG
 -----
 
 * Upgrade ChromeDriver to version 79.0.3945.36
-* Allow to pass custom timeouts as options of `ChromeManager` (`connection_timeout_in_ms` and `request_timeout_in_ms`)
+* Allow passing custom timeouts as options of `ChromeManager` (`connection_timeout_in_ms` and `request_timeout_in_ms`)
 
 0.6.0
 -----
 
 * Add compatibility with Symfony 5
-* Allow to use `Client::waitFor()` to wait for invisible elements
+* Allow using `Client::waitFor()` to wait for invisible elements
 * Add support to pass XPath expressions as parameters of `Client::waitFor()`
 * Fix `Crawler::attr()` signature (it can return `null`)
 * Deprecate `ServerListener` (use `ServerExtension` instead)
@@ -100,7 +112,7 @@ CHANGELOG
 * Keep the browser window open on fail, when running in non-headless mode
 * Automatically open Chrome DevTools when running in non-headless mode
 * PHPUnit 8 compatibility
-* Add a PHPUnit extension to keep alive the web server and the client between tests 
+* Add a PHPUnit extension to keep alive the web server, and the client between tests 
 * Change the default port of the web server to `9080` to prevent a conflict with Xdebug
 * Allow to use an external web server instead of the built-in one for testing
 * Allow to use a custom router script
