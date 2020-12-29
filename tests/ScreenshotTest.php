@@ -39,6 +39,16 @@ class ScreenshotTest extends TestCase
 
     public function testTakeScreenshot(): void
     {
+        $client = self::createPantherClient();
+        $client->request('GET', '/basic.html');
+
+        $screen = $client->takeScreenshot();
+
+        $this->assertIsString($screen);
+    }
+
+    public function testTakeScreenshotWithAbsoluteFile(): void
+    {
         $this->assertFileDoesNotExist(self::$screenshotFile);
 
         $client = self::createPantherClient();
@@ -48,10 +58,7 @@ class ScreenshotTest extends TestCase
         $this->assertFileExists(self::$screenshotFile);
     }
 
-    /**
-     * @dataProvider screenshotFileProvider
-     */
-    public function testCanDefineScreenshotDirAndTakeScreenshot(string $file): void
+    public function testCanDefineScreenshotDirAndTakeScreenshot(): void
     {
         $_SERVER['PANTHER_SCREENSHOT_DIR'] = self::$screenshotDir;
 
@@ -59,15 +66,12 @@ class ScreenshotTest extends TestCase
 
         $client = self::createPantherClient();
         $client->request('GET', '/basic.html');
-        $client->takeScreenshot($file);
+        $client->takeScreenshot('screenshot.jpg');
 
         $this->assertFileExists(self::$screenshotFile);
     }
 
-    /**
-     * @dataProvider screenshotFileProvider
-     */
-    public function testCanDefineRelativeScreenshotDirAndTakeScreenshot(string $file): void
+    public function testCanDefineRelativeScreenshotDirAndTakeScreenshot(): void
     {
         $_SERVER['PANTHER_SCREENSHOT_DIR'] = './screenshots';
 
@@ -75,14 +79,18 @@ class ScreenshotTest extends TestCase
 
         $client = self::createPantherClient();
         $client->request('GET', '/basic.html');
-        $client->takeScreenshot($file);
+        $client->takeScreenshot('screenshot.jpg');
 
         $this->assertFileExists(self::$screenshotFile);
     }
 
-    public static function screenshotFileProvider(): iterable
+    public function testCannotUseRelativePathWithoutScreenshotDir(): void
     {
-        yield ['screenshot.jpg'];
-        yield ['/screenshot.jpg'];
+        $client = self::createPantherClient();
+        $client->request('GET', '/basic.html');
+
+        $this->expectException(\RuntimeException::class);
+
+        $client->takeScreenshot('screenshot.jpg');
     }
 }

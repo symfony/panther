@@ -27,6 +27,7 @@ use Symfony\Component\BrowserKit\Request;
 use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\DomCrawler\Form;
 use Symfony\Component\DomCrawler\Link;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Panther\Cookie\CookieJar;
 use Symfony\Component\Panther\DomCrawler\Crawler;
 use Symfony\Component\Panther\DomCrawler\Form as PantherForm;
@@ -553,11 +554,15 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
     {
         $this->start();
 
-        if ($saveAs && ($dir = $_SERVER['PANTHER_SCREENSHOT_DIR'] ?? false)) {
-            $saveAs = "{$dir}/{$saveAs}";
+        if (null === $saveAs || (new Filesystem())->isAbsolutePath($saveAs)) {
+            return $this->webDriver->takeScreenshot($saveAs);
         }
 
-        return $this->webDriver->takeScreenshot($saveAs);
+        if (!($dir = $_SERVER['PANTHER_SCREENSHOT_DIR'] ?? false)) {
+            throw new \RuntimeException('$saveAs must be an absolute path if not using the PANTHER_SCREENSHOT_DIR env variable.');
+        }
+
+        return $this->webDriver->takeScreenshot("{$dir}/{$saveAs}");
     }
 
     public function wait($timeoutInSecond = 30, $intervalInMillisecond = 250)
