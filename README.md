@@ -290,14 +290,17 @@ class ConsoleTest extends PantherTestCase
             [],
             [
                 'capabilities' => [
-                    'goog:loggingPrefs' => ['browser' => 'ALL'],
+                    'goog:loggingPrefs' => [
+                        'browser' => 'ALL', // calls to console.* methods
+                        'performance' => 'ALL', // performance data
+                    ],
                 ],
             ]
         );
 
         $client->request('GET', '/');
-        $logs = $client->getWebDriver()->manage()->getLog('browser');
-        // $logs contains the content of the console
+        $consoleLogs = $client->getWebDriver()->manage()->getLog('browser'); // console logs 
+        $performanceLogs = $client->getWebDriver()->manage()->getLog('performance'); // performance logs
     }
 }
 ```
