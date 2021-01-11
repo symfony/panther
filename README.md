@@ -179,7 +179,7 @@ class E2eTest extends PantherTestCase
 
 To run this test:
 
-    phpunit tests/E2eTest.php
+    bin/phpunit tests/E2eTest.php
 
 ### A Polymorphic Feline
 
@@ -272,6 +272,39 @@ class ChatTest extends PantherTestCase
 }
 ```
 
+### Accessing Browser Console Logs
+
+If needed, you can use Panther to access the content of the console:
+
+```php
+<?php
+
+use Symfony\Component\Panther\PantherTestCase;
+
+class ConsoleTest extends PantherTestCase
+{
+    public function testConsole(): void
+    {
+        $client = self::createPantherClient(
+            [],
+            [],
+            [
+                'capabilities' => [
+                    'goog:loggingPrefs' => [
+                        'browser' => 'ALL', // calls to console.* methods
+                        'performance' => 'ALL', // performance data
+                    ],
+                ],
+            ]
+        );
+
+        $client->request('GET', '/');
+        $consoleLogs = $client->getWebDriver()->manage()->getLog('browser'); // console logs 
+        $performanceLogs = $client->getWebDriver()->manage()->getLog('performance'); // performance logs
+    }
+}
+```
+
 ### Checking the State of the WebDriver Connection
 
 Use the `Client::ping()` method to check if the WebDriver connection is still active (useful for long-running tasks).
@@ -330,8 +363,7 @@ Panther can make a pause in your tests suites after a failure.
 It is a break time really appreciated for investigating the problem through the web browser.
 For enabling this mode, you need the `--debug` PHPUnit option without the headless mode:
 
-    $ export PANTHER_NO_HEADLESS=1
-    $ phpunit --debug
+    $ PANTHER_NO_HEADLESS=1 bin/phpunit --debug
     
     Test 'App\AdminTest::testLogin' started
     Error: something is wrong.
@@ -362,7 +394,7 @@ class E2eTest extends PantherTestCase
 }
 ```
 
-### Using a Proxy 
+### Using a Proxy
 
 To use a proxy server, set the following environment variable: `PANTHER_CHROME_ARGUMENTS='--proxy-server=socks://127.0.0.1:9050'`
 
@@ -418,7 +450,7 @@ jobs:
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
       - name: Run test suite
-        run: vendor/bin/phpunit
+        run: bin/phpunit
 ```
 
 ### Travis CI Integration
@@ -437,7 +469,7 @@ php:
   - 8.0
 
 script:
-  - vendor/bin/phpunit
+  - bin/phpunit
 ```
 
 ### Gitlab CI Integration
@@ -461,7 +493,7 @@ before_script:
 
 test:
   script:
-    - vendor/bin/phpunit
+    - bin/phpunit
 ```
 
 ### AppVeyor Integration
@@ -494,7 +526,7 @@ install:
 
 test_script:
   - cd %APPVEYOR_BUILD_FOLDER%
-  - php vendor\phpunit\phpunit\phpunit
+  - php bin\phpunit
 ```
 
 ### Usage with Other Testing Tools
