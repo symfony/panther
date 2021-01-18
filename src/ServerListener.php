@@ -29,7 +29,7 @@ final class ServerListener implements TestListener
 
     public function __construct()
     {
-        @trigger_error(sprintf('The "%s" class is deprecated since Panther 0.6, use "%s" instead.', self::class, ServerExtension::class), E_USER_DEPRECATED);
+        @trigger_error(sprintf('The "%s" class is deprecated since Panther 0.6, use "%s" instead.', self::class, ServerExtension::class), \E_USER_DEPRECATED);
     }
 
     public function startTestSuite(TestSuite $suite): void

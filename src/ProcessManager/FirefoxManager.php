@@ -81,7 +81,7 @@ final class FirefoxManager implements BrowserManagerInterface
     private function findGeckodriverBinary(): string
     {
         if ($binary = $_SERVER['PANTHER_GECKO_DRIVER_BINARY'] ?? null) {
-            @trigger_error('The "PANTHER_GECKO_DRIVER_BINARY" environment variable is deprecated since Panther 0.9, add geckodriver to your PATH instead.', E_USER_DEPRECATED);
+            @trigger_error('The "PANTHER_GECKO_DRIVER_BINARY" environment variable is deprecated since Panther 0.9, add geckodriver to your PATH instead.', \E_USER_DEPRECATED);
 
             return $binary;
         }
