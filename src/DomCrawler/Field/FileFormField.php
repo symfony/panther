@@ -37,14 +37,14 @@ final class FileFormField extends BaseFileFormField
         $value = $this->sanitizeValue($value);
 
         if (null !== $value && \is_readable($value)) {
-            $error = UPLOAD_ERR_OK;
+            $error = \UPLOAD_ERR_OK;
             $size = \filesize($value);
-            $name = \pathinfo($value, PATHINFO_BASENAME);
+            $name = \pathinfo($value, \PATHINFO_BASENAME);
 
             $this->setFilePath($value);
             $value = $this->element->getAttribute('value');
         } else {
-            $error = UPLOAD_ERR_NO_FILE;
+            $error = \UPLOAD_ERR_NO_FILE;
             $size = 0;
             $name = '';
             $value = '';
@@ -91,11 +91,11 @@ final class FileFormField extends BaseFileFormField
     private function setValueFromTmp($tmpValue)
     {
         $value = $tmpValue;
-        $error = UPLOAD_ERR_OK;
+        $error = \UPLOAD_ERR_OK;
         // size not determinable
         $size = 0;
         // C:\fakepath\filename.extension
-        $basename = \pathinfo($value, PATHINFO_BASENAME);
+        $basename = \pathinfo($value, \PATHINFO_BASENAME);
         $nameParts = \explode('\\', $basename);
         $name = \end($nameParts);
 

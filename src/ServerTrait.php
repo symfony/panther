@@ -40,7 +40,7 @@ trait ServerTrait
         ) {
             echo "$message\n\nPress enter to continue...";
             if (!$this->testing) {
-                fgets(STDIN);
+                fgets(\STDIN);
             }
         }
     }

@@ -147,7 +147,7 @@ class WebDriverCheckBoxTest extends TestCase
         $element = $crawler->filterXPath('//input[@type="checkbox"]')->getElement(0);
 
         $c = new WebDriverCheckbox($element);
-        $c->selectByIndex(PHP_INT_MAX);
+        $c->selectByIndex(\PHP_INT_MAX);
     }
 
     /**

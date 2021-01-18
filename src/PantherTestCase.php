@@ -19,10 +19,10 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 if (\class_exists(WebTestCase::class)) {
     abstract class PantherTestCase extends WebTestCase
     {
+        use WebTestAssertionsTrait;
+
         public const CHROME = 'chrome';
         public const FIREFOX = 'firefox';
-
-        use WebTestAssertionsTrait;
 
         protected function tearDown(): void
         {
@@ -39,9 +39,9 @@ if (\class_exists(WebTestCase::class)) {
     // Without Symfony
     abstract class PantherTestCase extends TestCase
     {
+        use PantherTestCaseTrait;
+
         public const CHROME = 'chrome';
         public const FIREFOX = 'firefox';
-
-        use PantherTestCaseTrait;
     }
 }

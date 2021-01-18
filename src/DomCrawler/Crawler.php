@@ -61,7 +61,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         throw $this->createNotSupportedException(__METHOD__);
     }
 
-    public function addXmlContent($content, $charset = 'UTF-8', $options = LIBXML_NONET): void
+    public function addXmlContent($content, $charset = 'UTF-8', $options = \LIBXML_NONET): void
     {
         throw $this->createNotSupportedException(__METHOD__);
     }

@@ -82,7 +82,7 @@ final class ChromeManager implements BrowserManagerInterface
     private function findChromeDriverBinary(): string
     {
         if ($binary = $_SERVER['PANTHER_CHROME_DRIVER_BINARY'] ?? null) {
-            @trigger_error('The "PANTHER_CHROME_DRIVER_BINARY" environment variable is deprecated since Panther 0.9, add ChromeDriver to your PATH instead.', E_USER_DEPRECATED);
+            @trigger_error('The "PANTHER_CHROME_DRIVER_BINARY" environment variable is deprecated since Panther 0.9, add ChromeDriver to your PATH instead.', \E_USER_DEPRECATED);
 
             return $binary;
         }
