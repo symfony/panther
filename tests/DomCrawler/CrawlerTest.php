@@ -76,6 +76,9 @@ class CrawlerTest extends TestCase
                 case 1:
                     $this->assertSame('P2', $crawler->text());
                     break;
+                case 2:
+                    $this->assertSame('36', $crawler->text());
+                    break;
                 default:
                     $this->fail(\sprintf('Unexpected index "%d".', $i));
             }
@@ -195,7 +198,7 @@ class CrawlerTest extends TestCase
             $names[$i] = $c->nodeName();
         });
 
-        $this->assertSame(['h1', 'main', 'p', 'p', 'input'], $names);
+        $this->assertSame(['h1', 'main', 'p', 'p', 'input', 'p'], $names);
     }
 
     /**
@@ -212,7 +215,7 @@ class CrawlerTest extends TestCase
             $names[$i] = $c->nodeName();
         });
 
-        $this->assertSame(['p', 'p'], $names);
+        $this->assertSame(['p', 'p', 'p'], $names);
     }
 
     /**

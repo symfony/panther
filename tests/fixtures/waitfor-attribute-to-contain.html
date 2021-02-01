@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WaitFor - Element to contain</title>
+</head>
+<body>
+    <p id="hello" data-old-price="36">36</p>
+<script>
+  window.setTimeout(function () {
+    document.getElementById('hello').dataset.oldPrice = 42;
+  }, 1000);
+</script>
+</body>
+</html>

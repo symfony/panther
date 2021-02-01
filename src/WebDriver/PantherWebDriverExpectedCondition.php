@@ -23,9 +23,61 @@ final class PantherWebDriverExpectedCondition
     {
         return static function (WebDriver $driver) use ($by, $text) {
             try {
-                $element_text = $driver->findElement($by)->getText();
+                $elementText = $driver->findElement($by)->getText();
 
-                return false === strpos($element_text, $text);
+                return false === strpos($elementText, $text);
+            } catch (StaleElementReferenceException $e) {
+                return null;
+            }
+        }
+        ;
+    }
+
+    public static function elementEnabled(WebDriverBy $by)
+    {
+        return static function (WebDriver $driver) use ($by) {
+            try {
+                return $driver->findElement($by)->isEnabled();
+            } catch (StaleElementReferenceException $e) {
+                return null;
+            }
+        }
+        ;
+    }
+
+    public static function elementDisabled(WebDriverBy $by)
+    {
+        return static function (WebDriver $driver) use ($by) {
+            try {
+                return !$driver->findElement($by)->isEnabled();
+            } catch (StaleElementReferenceException $e) {
+                return null;
+            }
+        }
+            ;
+    }
+
+    public static function elementAttributeContains(WebDriverBy $by, string $attribute, string $text)
+    {
+        return static function (WebDriver $driver) use ($by, $attribute, $text) {
+            try {
+                $attributeValue = $driver->findElement($by)->getAttribute($attribute);
+
+                return null !== $attributeValue && false !== strpos($attributeValue, $text);
+            } catch (StaleElementReferenceException $e) {
+                return null;
+            }
+        }
+        ;
+    }
+
+    public static function elementAttributeNotContains(WebDriverBy $by, string $attribute, string $text)
+    {
+        return static function (WebDriver $driver) use ($by, $attribute, $text) {
+            try {
+                $attributeValue = $driver->findElement($by)->getAttribute($attribute);
+
+                return null !== $attributeValue && false === strpos($attributeValue, $text);
             } catch (StaleElementReferenceException $e) {
                 return null;
             }
