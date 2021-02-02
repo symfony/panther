@@ -170,7 +170,7 @@ trait PantherTestCaseTrait
                 (static::CHROME === $browser && $browserManager instanceof ChromeManager) ||
                 (static::FIREFOX === $browser && $browserManager instanceof FirefoxManager)
             ) {
-                return $callGetClient ? self::getClient(self::$pantherClient) : self::$pantherClient;
+                return $callGetClient ? self::getClient(self::$pantherClient) : self::$pantherClient; // @phpstan-ignore-line
             }
         }
 
@@ -186,7 +186,7 @@ trait PantherTestCaseTrait
             static::bootKernel($kernelOptions); // @phpstan-ignore-line
         }
 
-        return $callGetClient ? self::getClient(self::$pantherClient) : self::$pantherClient;
+        return $callGetClient ? self::getClient(self::$pantherClient) : self::$pantherClient; // @phpstan-ignore-line
     }
 
     /**
