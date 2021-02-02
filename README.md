@@ -179,7 +179,7 @@ class E2eTest extends PantherTestCase
         $this->assertSelectorWillNotExist('.popin'); // element will be removed from the DOM
         $this->assertSelectorWillBeVisible('.loader'); // element will be visible
         $this->assertSelectorWillNotBeVisible('.loader'); // element will be visible
-        $this->assertSelectorWillContain('.total', '25 €'); // text will be inserted in the element content
+        $this->assertSelectorWillContain('.total', '€25'); // text will be inserted in the element content
         $this->assertSelectorWillNotContain('.promotion', '5%'); // text will be removed from the element content
         $this->assertSelectorWillBeEnabled('[type="submit"]'); // button will be enabled 
         $this->assertSelectorWillBeDisabled('[type="submit"]'); // button will be disabled 
