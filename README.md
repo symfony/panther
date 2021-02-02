@@ -174,7 +174,7 @@ class E2eTest extends PantherTestCase
         $client->waitForAttributeToContain('.price', 'data-old-price', '25 €'); // wait for the attribute to contain content
         $client->waitForAttributeToNotContain('.price', 'data-old-price', '25 €'); // wait for the attribute to not contain content
         
-        // Let's predict future
+        // Let's predict the future
         $this->assertSelectorWillExist('.popin'); // element will be attached to the DOM
         $this->assertSelectorWillNotExist('.popin'); // element will be removed from the DOM
         $this->assertSelectorWillBeVisible('.loader'); // element will be visible
