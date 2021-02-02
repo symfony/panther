@@ -159,8 +159,8 @@ class E2eTest extends PantherTestCase
         $this->assertSelectorIsDisabled('[type="submit"]');
         $this->assertSelectorIsVisible('.errors');
         $this->assertSelectorIsNotVisible('.loading');
-        $this->assertSelectorAttributeToContain('.price', 'data-old-price', '42');
-        $this->assertSelectorAttributeToNotContain('.price', 'data-old-price', '36');
+        $this->assertSelectorAttributeContains('.price', 'data-old-price', '42');
+        $this->assertSelectorAttributeNotContains('.price', 'data-old-price', '36');
 
         // Use waitForX methods to wait until some asynchronous process finish
         $client->waitFor('.popin'); // wait for element to be attached to the DOM

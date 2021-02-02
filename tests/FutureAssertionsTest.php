@@ -13,33 +13,29 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\Tests;
 
-use Symfony\Component\Panther\DomCrawler\Crawler;
-
 class FutureAssertionsTest extends TestCase
 {
     /** @dataProvider futureDataProvider */
     public function testFutureExistenceAssertion(string $locator): void
     {
-        self::createPantherClient()->request('GET', '/waitfor.html');
-        $crawler = $this->assertSelectorWillExist($locator);
-        $this->assertInstanceOf(Crawler::class, $crawler);
+        $crawler = self::createPantherClient()->request('GET', '/waitfor.html');
+        $this->assertSelectorWillExist($locator);
         $this->assertSame('Hello', $crawler->filter('#hello')->text());
     }
 
     /** @dataProvider futureDataProvider */
     public function testFutureStalenessAssertion(string $locator): void
     {
-        self::createPantherClient()->request('GET', '/waitfor-staleness.html');
-        $crawler = $this->assertSelectorWillNotExist($locator);
-        $this->assertInstanceOf(Crawler::class, $crawler);
+        $crawler = self::createPantherClient()->request('GET', '/waitfor-staleness.html');
+        $this->assertSelectorWillNotExist($locator);
+        $this->assertSame(0, \count($crawler->filter('body')->children()));
     }
 
     /** @dataProvider futureDataProvider */
     public function testFutureVisibilityAssertion(string $locator): void
     {
-        self::createPantherClient()->request('GET', '/waitfor-element-to-be-visible.html');
-        $crawler = $this->assertSelectorWillBeVisible($locator);
-        $this->assertInstanceOf(Crawler::class, $crawler);
+        $crawler = self::createPantherClient()->request('GET', '/waitfor-element-to-be-visible.html');
+        $this->assertSelectorWillBeVisible($locator);
         $this->assertSame('Hello', $crawler->filter('#hello')->text());
         $this->assertSelectorExists($locator);
     }
@@ -47,40 +43,40 @@ class FutureAssertionsTest extends TestCase
     /** @dataProvider futureDataProvider */
     public function testFutureInvisibilityAssertion(string $locator): void
     {
-        self::createPantherClient()->request('GET', '/waitfor-element-to-be-invisible.html');
-        $crawler = $this->assertSelectorWillNotBeVisible($locator);
+        $crawler = self::createPantherClient()->request('GET', '/waitfor-element-to-be-invisible.html');
+        $this->assertSelectorWillNotBeVisible($locator);
         $this->assertSame('', $crawler->filter('#hello')->text());
     }
 
     /** @dataProvider futureDataProvider */
     public function testFutureContainAssertion(string $locator): void
     {
-        self::createPantherClient()->request('GET', '/waitfor-element-to-contain.html');
-        $crawler = $this->assertSelectorWillContain($locator, 'new content');
+        $crawler = self::createPantherClient()->request('GET', '/waitfor-element-to-contain.html');
+        $this->assertSelectorWillContain($locator, 'new content');
         $this->assertSame('Hello new content', $crawler->filter('#hello')->text());
     }
 
     /** @dataProvider futureDataProvider */
     public function testFutureNotContainAssertion(string $locator): void
     {
-        self::createPantherClient()->request('GET', '/waitfor-element-to-not-contain.html');
-        $crawler = $this->assertSelectorWillNotContain($locator, 'removed content');
+        $crawler = self::createPantherClient()->request('GET', '/waitfor-element-to-not-contain.html');
+        $this->assertSelectorWillNotContain($locator, 'removed content');
         $this->assertSame('Hello', $crawler->filter('#hello')->text());
     }
 
     /** @dataProvider futureDataProvider */
     public function testFutureEnabledAssertion(string $locator): void
     {
-        self::createPantherClient()->request('GET', '/waitfor-input-to-be-enabled.html');
-        $crawler = $this->assertSelectorWillBeEnabled($locator);
+        $crawler = self::createPantherClient()->request('GET', '/waitfor-input-to-be-enabled.html');
+        $this->assertSelectorWillBeEnabled($locator);
         $this->assertNull($crawler->filter('#hello')->getAttribute('disabled'));
     }
 
     /** @dataProvider futureDataProvider */
     public function testFutureDisabledAssertion(string $locator): void
     {
-        self::createPantherClient()->request('GET', '/waitfor-input-to-be-disabled.html');
-        $crawler = $this->assertSelectorWillBeDisabled($locator);
+        $crawler = self::createPantherClient()->request('GET', '/waitfor-input-to-be-disabled.html');
+        $this->assertSelectorWillBeDisabled($locator);
         $this->assertSame('true', $crawler->filter('#hello')->getAttribute('disabled'));
     }
 
@@ -89,8 +85,8 @@ class FutureAssertionsTest extends TestCase
      */
     public function testFutureAttributeContainAssertion(string $locator)
     {
-        self::createPantherClient()->request('GET', '/waitfor-attribute-to-contain.html');
-        $crawler = $this->assertSelectorAttributeWillContain($locator, 'data-old-price', '42');
+        $crawler = self::createPantherClient()->request('GET', '/waitfor-attribute-to-contain.html');
+        $this->assertSelectorAttributeWillContain($locator, 'data-old-price', '42');
         $this->assertSame('42', $crawler->filter('#hello')->getAttribute('data-old-price'));
     }
 
@@ -99,8 +95,8 @@ class FutureAssertionsTest extends TestCase
      */
     public function testFutureAttributeNotContainAssertion(string $locator)
     {
-        self::createPantherClient()->request('GET', '/waitfor-attribute-to-contain.html');
-        $crawler = $this->assertSelectorAttributeWillNotContain($locator, 'data-old-price', '36');
+        $crawler = self::createPantherClient()->request('GET', '/waitfor-attribute-to-contain.html');
+        $this->assertSelectorAttributeWillNotContain($locator, 'data-old-price', '36');
         $this->assertSame('42', $crawler->filter('#hello')->getAttribute('data-old-price'));
     }
 

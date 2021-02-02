@@ -19,7 +19,6 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestAssertionsTrait as BaseWebTestAss
 use Symfony\Component\BrowserKit\AbstractBrowser;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symfony\Component\Panther\Client as PantherClient;
-use Symfony\Component\Panther\DomCrawler\Crawler;
 
 /**
  * Tweaks Symfony's WebTestAssertionsTrait to be compatible with Panther.
@@ -95,24 +94,20 @@ trait WebTestAssertionsTrait
         self::baseAssertPageTitleContains($expectedTitle, $message);
     }
 
-    public static function assertSelectorWillExist(string $locator): Crawler
+    public static function assertSelectorWillExist(string $locator): void
     {
         /** @var PantherClient $client */
         $client = self::getClient();
-        $crawler = $client->waitFor($locator);
+        $client->waitFor($locator);
         self::assertSelectorExists($locator);
-
-        return $crawler;
     }
 
-    public static function assertSelectorWillNotExist(string $locator): Crawler
+    public static function assertSelectorWillNotExist(string $locator): void
     {
         /** @var PantherClient $client */
         $client = self::getClient();
-        $crawler = $client->waitForStaleness($locator);
+        $client->waitForStaleness($locator);
         self::assertSelectorNotExists($locator);
-
-        return $crawler;
     }
 
     public static function assertSelectorIsVisible(string $locator): void
@@ -121,14 +116,12 @@ trait WebTestAssertionsTrait
         self::assertTrue($element->isDisplayed(), 'Failed asserting that element is visible.');
     }
 
-    public static function assertSelectorWillBeVisible(string $locator): Crawler
+    public static function assertSelectorWillBeVisible(string $locator): void
     {
         /** @var PantherClient $client */
         $client = self::getClient();
-        $crawler = $client->waitForVisibility($locator);
+        $client->waitForVisibility($locator);
         self::assertSelectorIsVisible($locator);
-
-        return $crawler;
     }
 
     public static function assertSelectorIsNotVisible(string $locator): void
@@ -137,34 +130,28 @@ trait WebTestAssertionsTrait
         self::assertFalse($element->isDisplayed(), 'Failed asserting that element is not visible.');
     }
 
-    public static function assertSelectorWillNotBeVisible(string $locator): Crawler
+    public static function assertSelectorWillNotBeVisible(string $locator): void
     {
         /** @var PantherClient $client */
         $client = self::getClient();
-        $crawler = $client->waitForInvisibility($locator);
+        $client->waitForInvisibility($locator);
         self::assertSelectorIsNotVisible($locator);
-
-        return $crawler;
     }
 
-    public static function assertSelectorWillContain(string $locator, string $text): Crawler
+    public static function assertSelectorWillContain(string $locator, string $text): void
     {
         /** @var PantherClient $client */
         $client = self::getClient();
-        $crawler = $client->waitForElementToContain($locator, $text);
+        $client->waitForElementToContain($locator, $text);
         self::assertSelectorTextContains($locator, $text);
-
-        return $crawler;
     }
 
-    public static function assertSelectorWillNotContain(string $locator, string $text): Crawler
+    public static function assertSelectorWillNotContain(string $locator, string $text): void
     {
         /** @var PantherClient $client */
         $client = self::getClient();
-        $crawler = $client->waitForElementToNotContain($locator, $text);
+        $client->waitForElementToNotContain($locator, $text);
         self::assertSelectorTextNotContains($locator, $text);
-
-        return $crawler;
     }
 
     public static function assertSelectorIsEnabled(string $locator): void
@@ -173,14 +160,12 @@ trait WebTestAssertionsTrait
         self::assertTrue($element->isEnabled(), 'Failed asserting that element is enabled.');
     }
 
-    public static function assertSelectorWillBeEnabled(string $locator): Crawler
+    public static function assertSelectorWillBeEnabled(string $locator): void
     {
         /** @var PantherClient $client */
         $client = self::getClient();
-        $crawler = $client->waitForEnabled($locator);
-        self::assertSelectorAttributeToContain($locator, 'disabled');
-
-        return $crawler;
+        $client->waitForEnabled($locator);
+        self::assertSelectorAttributeContains($locator, 'disabled');
     }
 
     public static function assertSelectorIsDisabled(string $locator): void
@@ -189,17 +174,15 @@ trait WebTestAssertionsTrait
         self::assertFalse($element->isEnabled(), 'Failed asserting that element is disabled.');
     }
 
-    public static function assertSelectorWillBeDisabled(string $locator): Crawler
+    public static function assertSelectorWillBeDisabled(string $locator): void
     {
         /** @var PantherClient $client */
         $client = self::getClient();
-        $crawler = $client->waitForDisabled($locator);
-        self::assertSelectorAttributeToContain($locator, 'disabled', 'true');
-
-        return $crawler;
+        $client->waitForDisabled($locator);
+        self::assertSelectorAttributeContains($locator, 'disabled', 'true');
     }
 
-    public static function assertSelectorAttributeToContain(string $locator, string $attribute, string $text = null): void
+    public static function assertSelectorAttributeContains(string $locator, string $attribute, string $text = null): void
     {
         $element = self::findElement($locator);
 
@@ -212,35 +195,30 @@ trait WebTestAssertionsTrait
         self::assertStringContainsString($text, $element->getAttribute($attribute));
     }
 
-    public static function assertSelectorAttributeWillContain(string $locator, string $attribute, string $text): Crawler
+    public static function assertSelectorAttributeWillContain(string $locator, string $attribute, string $text): void
     {
         /** @var PantherClient $client */
         $client = self::getClient();
-        $crawler = $client->waitForAttributeToContain($locator, $attribute, $text);
-        self::assertSelectorAttributeToContain($locator, $attribute, $text);
-
-        return $crawler;
+        $client->waitForAttributeToContain($locator, $attribute, $text);
+        self::assertSelectorAttributeContains($locator, $attribute, $text);
     }
 
-    public static function assertSelectorAttributeToNotContain(string $locator, string $attribute, string $text): void
+    public static function assertSelectorAttributeNotContains(string $locator, string $attribute, string $text): void
     {
         $element = self::findElement($locator);
         self::assertStringNotContainsString($text, $element->getAttribute($attribute));
     }
 
-    public static function assertSelectorAttributeWillNotContain(string $locator, string $attribute, string $text): Crawler
+    public static function assertSelectorAttributeWillNotContain(string $locator, string $attribute, string $text): void
     {
         /** @var PantherClient $client */
         $client = self::getClient();
-        $crawler = $client->waitForAttributeToNotContain($locator, $attribute, $text);
-        self::assertSelectorAttributeToNotContain($locator, $attribute, $text);
-
-        return $crawler;
+        $client->waitForAttributeToNotContain($locator, $attribute, $text);
+        self::assertSelectorAttributeNotContains($locator, $attribute, $text);
     }
 
     private static function findElement(string $locator): WebDriverElement
     {
-        /** @var PantherClient $client */
         /** @var PantherClient $client */
         $client = self::getClient();
         $by = $client::createWebDriverByFromLocator($locator);

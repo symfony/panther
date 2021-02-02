@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>WaitFor - Staleness of an element</title>
+    <script>
+      window.setTimeout(function () {
+        document.getElementById('hello').remove();
+      }, 1000);
+    </script>
 </head>
 <body>
     <p id="hello">Hello</p>
-
-<script>
-  window.setTimeout(function () {
-    document.getElementById('hello').remove();
-  }, 1000);
-</script>
 </body>
 </html>
