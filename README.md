@@ -163,8 +163,8 @@ class E2eTest extends PantherTestCase
         // Use waitForX methods to wait until some asynchronous process finish
         $client->waitFor('.popin'); // element is attached to the DOM
         $client->waitForStaleness('.popin'); // element is removed from the DOM
-        $client->testWaitForVisibility('.loader'); // element of the DOM becomes visible
-        $client->testWaitForInvisibility('.loader'); // element of the DOM becomes hidden
+        $client->waitForVisibility('.loader'); // element of the DOM becomes visible
+        $client->waitForInvisibility('.loader'); // element of the DOM becomes hidden
         $client->waitForElementToContain('.total', '25 €'); // text is inserted in the element content
         $client->waitForElementToNotContain('.promotion', '5%'); // text is removed from the element content
 
