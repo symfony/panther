@@ -30,13 +30,6 @@ class ScreenshotTest extends TestCase
         (new Filesystem())->remove(self::$screenshotDir);
     }
 
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-
-        unset($_SERVER['PANTHER_SCREENSHOT_DIR']);
-    }
-
     public function testTakeScreenshot(): void
     {
         $client = self::createPantherClient();
@@ -47,7 +40,7 @@ class ScreenshotTest extends TestCase
         $this->assertIsString($screen);
     }
 
-    public function testTakeScreenshotWithAbsoluteFile(): void
+    public function testTakeScreenshotAndSaveToFile(): void
     {
         $this->assertFileDoesNotExist(self::$screenshotFile);
 
@@ -56,41 +49,5 @@ class ScreenshotTest extends TestCase
         $client->takeScreenshot(self::$screenshotFile);
 
         $this->assertFileExists(self::$screenshotFile);
-    }
-
-    public function testCanDefineScreenshotDirAndTakeScreenshot(): void
-    {
-        $_SERVER['PANTHER_SCREENSHOT_DIR'] = self::$screenshotDir;
-
-        $this->assertFileDoesNotExist(self::$screenshotFile);
-
-        $client = self::createPantherClient();
-        $client->request('GET', '/basic.html');
-        $client->takeScreenshot('screenshot.jpg');
-
-        $this->assertFileExists(self::$screenshotFile);
-    }
-
-    public function testCanDefineRelativeScreenshotDirAndTakeScreenshot(): void
-    {
-        $_SERVER['PANTHER_SCREENSHOT_DIR'] = './screenshots';
-
-        $this->assertFileDoesNotExist(self::$screenshotFile);
-
-        $client = self::createPantherClient();
-        $client->request('GET', '/basic.html');
-        $client->takeScreenshot('screenshot.jpg');
-
-        $this->assertFileExists(self::$screenshotFile);
-    }
-
-    public function testCannotUseRelativePathWithoutScreenshotDir(): void
-    {
-        $client = self::createPantherClient();
-        $client->request('GET', '/basic.html');
-
-        $this->expectException(\RuntimeException::class);
-
-        $client->takeScreenshot('screenshot.jpg');
     }
 }
