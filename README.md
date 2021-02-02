@@ -183,7 +183,7 @@ class E2eTest extends PantherTestCase
         $this->assertSelectorWillNotContain('.promotion', '5%'); // text will be removed from the element content
         $this->assertSelectorWillBeEnabled('[type="submit"]'); // button will be enabled 
         $this->assertSelectorWillBeDisabled('[type="submit"]'); // button will be disabled 
-        $this->assertSelectorAttributeWillContain('.price', 'data-old-price', '25 €'); // attribute will contains content
+        $this->assertSelectorAttributeWillContain('.price', 'data-old-price', '€25'); // attribute will contains content
         $this->assertSelectorAttributeWillNotContain('.price', 'data-old-price', '25 €'); // attribute will not contain content
     }
 }
