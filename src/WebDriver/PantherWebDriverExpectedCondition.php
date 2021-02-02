@@ -54,7 +54,7 @@ final class PantherWebDriverExpectedCondition
                 return null;
             }
         }
-            ;
+        ;
     }
 
     public static function elementAttributeContains(WebDriverBy $by, string $attribute, string $text)
