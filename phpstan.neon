@@ -9,8 +9,6 @@ parameters:
 	ignoreErrors:
 		- message: '#.+#'
 		  path: tests/DummyKernel.php
-		# Expected
-		- '#Method Symfony\\Component\\Panther\\PantherTestCase::createPantherClient\(\) should return Symfony\\Component\\Panther\\Client but returns Symfony\\Component\\BrowserKit\\AbstractBrowser\|null\.#'
 		# False positive
 		- '#Call to an undefined method ReflectionType::getName\(\)\.#'
 		# To fix in PHP WebDriver
