@@ -76,6 +76,10 @@ If you intend to use Panther to test your application, we strongly recommend reg
 While not strictly mandatory, this extension dramatically improves the testing experience by boosting the performance and
 allowing to use the [interactive debugging mode](#interactive-mode).
 
+When using the extension in conjunction with the `PANTHER_ERROR_SCREENSHOT_DIR` environment variable, tests using the
+Panther client that fail or error (after the client is created) will automatically get a screenshot taken to help
+debugging.
+
 To register the Panther extension, add the following lines to `phpunit.xml.dist`:
 
 ```xml
@@ -339,6 +343,7 @@ The following environment variables can be set to change some Panther's behaviou
 * `PANTHER_WEB_SERVER_ROUTER`:  to use a web server router script which is run at the start of each HTTP request
 * `PANTHER_EXTERNAL_BASE_URI`: to use an external web server (the PHP built-in web server will not be started)
 * `PANTHER_APP_ENV`: to override the `APP_ENV` variable passed to the web server running the PHP app
+* `PANTHER_ERROR_SCREENSHOT_DIR`: to set a base directory for your failure/error screenshots (e.g. `./screenshots`)
 
 ### Changing the Hostname and Port of the Built-in Web Server
 

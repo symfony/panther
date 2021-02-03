@@ -186,6 +186,8 @@ trait PantherTestCaseTrait
             static::bootKernel($kernelOptions); // @phpstan-ignore-line
         }
 
+        ServerExtension::registerClient(self::$pantherClient);
+
         return $callGetClient ? self::getClient(self::$pantherClient) : self::$pantherClient; // @phpstan-ignore-line
     }
 
@@ -198,7 +200,11 @@ trait PantherTestCaseTrait
             return self::createPantherClient();
         }
 
-        return self::$pantherClients[] = self::$pantherClient = new PantherClient(self::$pantherClient->getBrowserManager(), self::$baseUri);
+        self::$pantherClients[] = self::$pantherClient = new PantherClient(self::$pantherClient->getBrowserManager(), self::$baseUri);
+
+        ServerExtension::registerClient(self::$pantherClient);
+
+        return self::$pantherClient;
     }
 
     /**
