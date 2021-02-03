@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+1.0.1
+-----
+
+* Fix storing screenshots in the wrong directory when `PANTHER_ERROR_SCREENSHOT_DIR` is enabled
+
 1.0.0
 -----
 

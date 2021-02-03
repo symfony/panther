@@ -80,13 +80,14 @@ final class ServerExtension implements BeforeFirstTestHook, AfterLastTestHook, B
 
     private function takeScreenshots(string $type, string $test): void
     {
-        if (!($_SERVER['PANTHER_SCREENSHOT_DIR'] ?? false)) {
+        if (!($_SERVER['PANTHER_ERROR_SCREENSHOT_DIR'] ?? false)) {
             return;
         }
 
         foreach (self::$registeredClients as $i => $client) {
-            $client->takeScreenshot(sprintf('%s_%s_%s-%d.png',
-                (new \DateTime())->format('Y-m-d_H-i-s'),
+            $client->takeScreenshot(sprintf('%s/%s_%s_%s-%d.png',
+                $_SERVER['PANTHER_ERROR_SCREENSHOT_DIR'],
+                date('Y-m-d_H-i-s'),
                 $type,
                 strtr($test, ['\\' => '-', ':' => '_']),
                 $i
