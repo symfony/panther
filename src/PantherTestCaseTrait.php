@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther;
 
-use Goutte\Client as GoutteClient;
-use GuzzleHttp\Client as GuzzleClient;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\BrowserKit\HttpBrowser as HttpBrowserClient;
 use Symfony\Component\HttpClient\HttpClient;
@@ -49,13 +47,6 @@ trait PantherTestCaseTrait
      * @var string|null
      */
     protected static $baseUri;
-
-    /**
-     * @var GoutteClient|null
-     *
-     * @deprecated since Panther 0.7
-     */
-    protected static $goutteClient;
 
     /**
      * @var HttpBrowserClient|null
@@ -108,10 +99,6 @@ trait PantherTestCaseTrait
             self::$pantherClient->getBrowserManager()->quit();
             self::$pantherClient = null;
             self::$pantherClients = [];
-        }
-
-        if (null !== self::$goutteClient) {
-            self::$goutteClient = null;
         }
 
         if (null !== self::$httpBrowserClient) {
@@ -205,33 +192,6 @@ trait PantherTestCaseTrait
         ServerExtension::registerClient(self::$pantherClient);
 
         return self::$pantherClient;
-    }
-
-    /**
-     * @param array $options see {@see $defaultOptions}
-     *
-     * @deprecated since Panther 0.7, use createHttpBrowserClient instead
-     */
-    protected static function createGoutteClient(array $options = [], array $kernelOptions = []): GoutteClient
-    {
-        if (!\class_exists(GoutteClient::class)) {
-            throw new \RuntimeException('Goutte is not installed. Run "composer req fabpot/goutte".');
-        }
-
-        self::startWebServer($options);
-        if (null === self::$goutteClient) {
-            $goutteClient = new GoutteClient();
-            $goutteClient->setClient(new GuzzleClient(['base_uri' => self::$baseUri]));
-
-            self::$goutteClient = $goutteClient;
-        }
-
-        if (\is_a(self::class, KernelTestCase::class, true)) {
-            static::bootKernel($kernelOptions); // @phpstan-ignore-line
-        }
-
-        // It's not possible to use assertions with Goutte yet, https://github.com/FriendsOfPHP/Goutte/pull/382 needed
-        return self::$goutteClient;
     }
 
     /**

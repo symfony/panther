@@ -72,12 +72,6 @@ final class WebServerManager
             null
         );
         $this->process->disableOutput();
-
-        // Symfony Process 3.4 BC: In newer versions env variables always inherit,
-        // but in 4.4 inheritEnvironmentVariables is deprecated, but setOptions was removed
-        if (\is_callable([$this->process, 'inheritEnvironmentVariables']) && \is_callable([$this->process, 'setOptions'])) {
-            $this->process->inheritEnvironmentVariables(true);
-        }
     }
 
     public function start(): void

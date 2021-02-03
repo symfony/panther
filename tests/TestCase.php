@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\Tests;
 
-use Goutte\Client as GoutteClient;
 use Symfony\Component\BrowserKit\HttpBrowser as HttpBrowserClient;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Panther\Client as PantherClient;
@@ -31,7 +30,6 @@ abstract class TestCase extends PantherTestCase
     public function clientFactoryProvider(): iterable
     {
         // Tests must pass with both Panther and HttpBrowser
-        yield 'Goutte' => [[static::class, 'createGoutteClient'], GoutteClient::class];
         yield 'HttpBrowser' => [[static::class, 'createHttpBrowserClient'], HttpBrowserClient::class];
         yield 'Panther' => [[static::class, 'createPantherClient'], PantherClient::class];
 

@@ -1,6 +1,14 @@
 CHANGELOG
 =========
 
+1.0.0
+-----
+
+* Add type hints
+* Remove the deprecated PHPUnit listener, use the PHPUnit extension instead
+* Remove deprecated support for Goutte, use `HttpBrowser` instead
+* Remove deprecated support for `PANTHER_CHROME_DRIVER_BINARY` and `PANTHER_GECKO_DRIVER_BINARY` environment variables, add the binaries in your `PATH` instead
+
 0.9.0
 -----
 

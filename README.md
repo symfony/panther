@@ -93,17 +93,6 @@ Without the extension, the web server used by Panther to serve the application u
 stopped when `tearDownAfterClass()` is called.
 On the other hand, when the extension is registered, the web server will be stopped only after the very last test.
 
-To use the Panther extension, PHPUnit 7.3+ is required. Nonetheless, a listener is provided for older versions:
-
-```xml
-<!-- phpunit.xml.dist -->
-    <listeners>
-        <listener class="Symfony\Component\Panther\ServerListener" />
-    </listeners>
-```
-
-This listener will start the web server on demand like previously, but it will stop it after each test suite.
-
 ### Basic Usage
 
 ```php
