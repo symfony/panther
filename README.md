@@ -1,3 +1,5 @@
+<h1 align="center"><img src="panther.svg" alt="Panther" width="250" height="250"></h1>
+
 **A browser testing and web scraping library for [PHP](https://php.net) and [Symfony](https://symfony.com)**
 
 ![CI](https://github.com/symfony/panther/workflows/CI/badge.svg)
