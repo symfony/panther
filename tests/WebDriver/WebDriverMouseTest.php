@@ -28,7 +28,7 @@ class WebDriverMouseTest extends TestCase
     /**
      * @dataProvider provide
      */
-    public function test(string $method, string $cssSelector, string $result)
+    public function test(string $method, string $cssSelector, string $result): void
     {
         $client = self::createPantherClient();
 

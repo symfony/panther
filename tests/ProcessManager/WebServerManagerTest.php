@@ -21,7 +21,7 @@ use Symfony\Component\Panther\Tests\TestCase;
  */
 class WebServerManagerTest extends TestCase
 {
-    public function testRun()
+    public function testRun(): void
     {
         $server = new WebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234);
         $server->start();
@@ -30,7 +30,7 @@ class WebServerManagerTest extends TestCase
         $server->quit();
     }
 
-    public function testAlreadyRunning()
+    public function testAlreadyRunning(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('The port 1234 is already in use.');
@@ -46,7 +46,7 @@ class WebServerManagerTest extends TestCase
         }
     }
 
-    public function testPassEnv()
+    public function testPassEnv(): void
     {
         $server = new WebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234, '', '', ['FOO' => 'bar']);
         $server->start();
@@ -55,7 +55,7 @@ class WebServerManagerTest extends TestCase
         $server->quit();
     }
 
-    public function testPassPantherAppEnv()
+    public function testPassPantherAppEnv(): void
     {
         $value = $_SERVER['PANTHER_APP_ENV'] ?? null; // store app env
 

@@ -332,7 +332,7 @@ class CrawlerTest extends TestCase
         $this->assertSame('Foo Bar Baz', $crawler->filter('#normalize')->text());
     }
 
-    public function testDoNotNormalizeText()
+    public function testDoNotNormalizeText(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 

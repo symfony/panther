@@ -28,7 +28,7 @@ class FutureAssertionsTest extends TestCase
     {
         $crawler = self::createPantherClient()->request('GET', '/waitfor-staleness.html');
         $this->assertSelectorWillNotExist($locator);
-        $this->assertSame(0, \count($crawler->filter('body')->children()));
+        $this->assertCount(0, $crawler->filter('body')->children());
     }
 
     /** @dataProvider futureDataProvider */
@@ -83,7 +83,7 @@ class FutureAssertionsTest extends TestCase
     /**
      * @dataProvider futureDataProvider
      */
-    public function testFutureAttributeContainAssertion(string $locator)
+    public function testFutureAttributeContainAssertion(string $locator): void
     {
         $crawler = self::createPantherClient()->request('GET', '/waitfor-attribute-to-contain.html');
         $this->assertSelectorAttributeWillContain($locator, 'data-old-price', '42');
@@ -93,7 +93,7 @@ class FutureAssertionsTest extends TestCase
     /**
      * @dataProvider futureDataProvider
      */
-    public function testFutureAttributeNotContainAssertion(string $locator)
+    public function testFutureAttributeNotContainAssertion(string $locator): void
     {
         $crawler = self::createPantherClient()->request('GET', '/waitfor-attribute-to-contain.html');
         $this->assertSelectorAttributeWillNotContain($locator, 'data-old-price', '36');

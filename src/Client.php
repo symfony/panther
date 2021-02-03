@@ -149,7 +149,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
         throw new \LogicException('HttpFoundation Response object is not available when using WebDriver.');
     }
 
-    public function followRedirects(bool $followRedirects = true): void
+    public function followRedirects($followRedirects = true): void
     {
         if (!$followRedirects) {
             throw new \InvalidArgumentException('Redirects are always followed when using WebDriver.');
@@ -161,7 +161,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
         return true;
     }
 
-    public function setMaxRedirects(int $maxRedirects): void
+    public function setMaxRedirects($maxRedirects): void
     {
         if (-1 !== $maxRedirects) {
             throw new \InvalidArgumentException('There are no max redirects when using WebDriver.');
@@ -173,7 +173,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
         return -1;
     }
 
-    public function insulate(bool $insulated = true): void
+    public function insulate($insulated = true): void
     {
         if (!$insulated) {
             throw new \InvalidArgumentException('Requests are always insulated when using WebDriver.');
@@ -185,12 +185,12 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
         throw new \InvalidArgumentException('Server parameters cannot be set when using WebDriver.');
     }
 
-    public function setServerParameter(string $key, string $value): void
+    public function setServerParameter($key, $value): void
     {
         throw new \InvalidArgumentException('Server parameters cannot be set when using WebDriver.');
     }
 
-    public function getServerParameter(string $key, $default = '')
+    public function getServerParameter($key, $default = '')
     {
         throw new \InvalidArgumentException('Server parameters cannot be retrieved when using WebDriver.');
     }

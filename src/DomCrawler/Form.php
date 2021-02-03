@@ -191,7 +191,7 @@ final class Form extends BaseForm
         return $this->element->getAttribute('method') ? \strtoupper($this->element->getAttribute('method')) : 'GET';
     }
 
-    public function has(string $name): bool
+    public function has($name): bool
     {
         try {
             $this->getFormElement($name);
@@ -202,7 +202,7 @@ final class Form extends BaseForm
         return true;
     }
 
-    public function remove(string $name): void
+    public function remove($name): void
     {
         throw $this->createNotSupportedException(__METHOD__);
     }
@@ -212,7 +212,7 @@ final class Form extends BaseForm
         $this->setValue($field->getName(), $field->getValue());
     }
 
-    public function get(string $name)
+    public function get($name)
     {
         return $this->getFormField($this->getFormElement($name));
     }

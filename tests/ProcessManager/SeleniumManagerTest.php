@@ -41,7 +41,7 @@ class SeleniumManagerTest extends TestCase
         $this->chromeMockManager->quit();
     }
 
-    public function testRun()
+    public function testRun(): void
     {
         $co = new ChromeOptions();
         $co->addArguments(['--headless', '--window-size=1200,1100', '--disable-gpu', '--no-sandbox']);

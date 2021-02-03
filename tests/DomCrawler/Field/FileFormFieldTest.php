@@ -41,7 +41,7 @@ class FileFormFieldTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
-    public function testFileUploadWithUpload(callable $clientFactory)
+    public function testFileUploadWithUpload(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/file-form-field.html');
         $form = $crawler->filter('form')->form();
@@ -57,7 +57,7 @@ class FileFormFieldTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
-    public function testFileUploadWithSetValue(callable $clientFactory)
+    public function testFileUploadWithSetValue(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/file-form-field.html');
         $form = $crawler->filter('form')->form();
@@ -75,7 +75,7 @@ class FileFormFieldTest extends TestCase
      *
      * @param mixed $class
      */
-    public function testFileUploadWithSetFilePath(callable $clientFactory, $class)
+    public function testFileUploadWithSetFilePath(callable $clientFactory, $class): void
     {
         $crawler = $this->request($clientFactory, '/file-form-field.html');
         $form = $crawler->filter('form')->form();
@@ -94,7 +94,7 @@ class FileFormFieldTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
-    public function testFileUploadWithInvalidValue(callable $clientFactory)
+    public function testFileUploadWithInvalidValue(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/file-form-field.html');
         $form = $crawler->filter('form')->form();
@@ -119,7 +119,7 @@ class FileFormFieldTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
-    public function testPreventIsNotCanonicalError(callable $clientFactory)
+    public function testPreventIsNotCanonicalError(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/file-form-field.html');
         $form = $crawler->filter('form')->form();

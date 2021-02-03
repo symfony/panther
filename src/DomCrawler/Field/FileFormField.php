@@ -32,7 +32,7 @@ final class FileFormField extends BaseFileFormField
         return $this->value;
     }
 
-    public function setValue(?string $value): void
+    public function setValue($value): void
     {
         $value = $this->sanitizeValue($value);
 
@@ -58,7 +58,7 @@ final class FileFormField extends BaseFileFormField
      *
      * @param string $path The path to the file
      */
-    public function setFilePath(string $path): void
+    public function setFilePath($path): void
     {
         $this->element->sendKeys($this->sanitizeValue($path));
     }
