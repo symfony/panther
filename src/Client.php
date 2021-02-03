@@ -426,6 +426,50 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
         return $this->crawler = $this->createCrawler();
     }
 
+    public function waitForAttributeToContain(string $locator, string $attribute, string $text, int $timeoutInSecond = 30, int $intervalInMillisecond = 250)
+    {
+        $by = self::createWebDriverByFromLocator($locator);
+
+        $this->wait($timeoutInSecond, $intervalInMillisecond)->until(
+            PantherWebDriverExpectedCondition::elementAttributeContains($by, $attribute, $text)
+        );
+
+        return $this->crawler = $this->createCrawler();
+    }
+
+    public function waitForAttributeToNotContain(string $locator, string $attribute, string $text, int $timeoutInSecond = 30, int $intervalInMillisecond = 250)
+    {
+        $by = self::createWebDriverByFromLocator($locator);
+
+        $this->wait($timeoutInSecond, $intervalInMillisecond)->until(
+            PantherWebDriverExpectedCondition::elementAttributeNotContains($by, $attribute, $text)
+        );
+
+        return $this->crawler = $this->createCrawler();
+    }
+
+    public function waitForEnabled(string $locator, int $timeoutInSecond = 30, int $intervalInMillisecond = 250)
+    {
+        $by = self::createWebDriverByFromLocator($locator);
+
+        $this->wait($timeoutInSecond, $intervalInMillisecond)->until(
+            PantherWebDriverExpectedCondition::elementEnabled($by)
+        );
+
+        return $this->crawler = $this->createCrawler();
+    }
+
+    public function waitForDisabled(string $locator, int $timeoutInSecond = 30, int $intervalInMillisecond = 250)
+    {
+        $by = self::createWebDriverByFromLocator($locator);
+
+        $this->wait($timeoutInSecond, $intervalInMillisecond)->until(
+            PantherWebDriverExpectedCondition::elementDisabled($by)
+        );
+
+        return $this->crawler = $this->createCrawler();
+    }
+
     public function getWebDriver(): WebDriver
     {
         $this->start();

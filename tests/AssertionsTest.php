@@ -43,6 +43,8 @@ class AssertionsTest extends TestCase
         $this->assertInputValueSame('in', 'test');
         $this->assertSelectorIsVisible('.p-1');
         $this->assertSelectorIsEnabled('[name="in"]');
+        $this->assertSelectorAttributeContains('.price', 'data-old-price', '42');
+        $this->assertSelectorAttributeNotContains('.price', 'data-old-price', '36');
         self::createPantherClient()->request('GET', '/input-disabled.html');
         $this->assertSelectorIsDisabled('[name="in-disabled"]');
         self::createPantherClient()->request('GET', '/text-hidden.html');

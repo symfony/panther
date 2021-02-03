@@ -128,6 +128,54 @@ class ClientTest extends TestCase
     /**
      * @dataProvider waitForDataProvider
      */
+    public function testWaitForEnabled(string $locator)
+    {
+        $client = self::createPantherClient();
+        $client->request('GET', '/waitfor-input-to-be-enabled.html');
+        $crawler = $client->waitForEnabled($locator);
+        $this->assertInstanceOf(Crawler::class, $crawler);
+        $this->assertTrue($crawler->filter('#hello')->isEnabled());
+    }
+
+    /**
+     * @dataProvider waitForDataProvider
+     */
+    public function testWaitForDisabled(string $locator)
+    {
+        $client = self::createPantherClient();
+        $client->request('GET', '/waitfor-input-to-be-disabled.html');
+        $crawler = $client->waitForDisabled($locator);
+        $this->assertInstanceOf(Crawler::class, $crawler);
+        $this->assertFalse($crawler->filter('#hello')->isEnabled());
+    }
+
+    /**
+     * @dataProvider waitForDataProvider
+     */
+    public function testWaitForAttributeToContain(string $locator)
+    {
+        $client = self::createPantherClient();
+        $crawler = $client->request('GET', '/waitfor-attribute-to-contain.html');
+        $c = $client->waitForAttributeToContain($locator, 'data-old-price', '42');
+        $this->assertInstanceOf(Crawler::class, $c);
+        $this->assertSame('42', $crawler->filter('#hello')->getAttribute('data-old-price'));
+    }
+
+    /**
+     * @dataProvider waitForDataProvider
+     */
+    public function testWaitForAttributeToNotContain(string $locator)
+    {
+        $client = self::createPantherClient();
+        $client->request('GET', '/waitfor-attribute-to-contain.html');
+        $crawler = $client->waitForAttributeToContain($locator, 'data-old-price', '36');
+        $this->assertInstanceOf(Crawler::class, $crawler);
+        $this->assertSame('36', $crawler->filter('#hello')->getAttribute('data-old-price'));
+    }
+
+    /**
+     * @dataProvider waitForDataProvider
+     */
     public function testWaitForStalenessElement(string $locator): void
     {
         $client = self::createPantherClient();
