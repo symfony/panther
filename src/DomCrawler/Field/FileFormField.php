@@ -32,7 +32,7 @@ final class FileFormField extends BaseFileFormField
         return $this->value;
     }
 
-    public function setValue($value)
+    public function setValue(?string $value): void
     {
         $value = $this->sanitizeValue($value);
 
@@ -58,7 +58,7 @@ final class FileFormField extends BaseFileFormField
      *
      * @param string $path The path to the file
      */
-    public function setFilePath($path)
+    public function setFilePath(string $path): void
     {
         $this->element->sendKeys($this->sanitizeValue($path));
     }
@@ -68,7 +68,7 @@ final class FileFormField extends BaseFileFormField
      *
      * @throws \LogicException When node type is incorrect
      */
-    protected function initialize()
+    protected function initialize(): void
     {
         $tagName = $this->element->getTagName();
         if ('input' !== $tagName) {
@@ -88,7 +88,7 @@ final class FileFormField extends BaseFileFormField
         }
     }
 
-    private function setValueFromTmp($tmpValue)
+    private function setValueFromTmp(string $tmpValue): void
     {
         $value = $tmpValue;
         $error = \UPLOAD_ERR_OK;
@@ -102,7 +102,7 @@ final class FileFormField extends BaseFileFormField
         $this->value = ['name' => $name, 'type' => '', 'tmp_name' => $value, 'error' => $error, 'size' => $size];
     }
 
-    private function sanitizeValue($value)
+    private function sanitizeValue(?string $value): ?string
     {
         $realpathValue = \is_string($value) && $value ? \realpath($value) : false;
         if (\is_string($realpathValue)) {

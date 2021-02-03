@@ -22,7 +22,7 @@ final class TextareaFormField extends BaseTextareaFormField
 {
     use FormFieldTrait;
 
-    public function setValue($value)
+    public function setValue($value): void
     {
         $this->setTextValue($value);
     }
@@ -32,7 +32,7 @@ final class TextareaFormField extends BaseTextareaFormField
      *
      * @throws \LogicException When node type is incorrect
      */
-    protected function initialize()
+    protected function initialize(): void
     {
         $tagName = $this->element->getTagName();
         if ('textarea' !== $tagName) {

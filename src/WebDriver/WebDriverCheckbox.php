@@ -59,17 +59,17 @@ class WebDriverCheckbox implements WebDriverSelectInterface
         $this->name = $name;
     }
 
-    public function isMultiple()
+    public function isMultiple(): bool
     {
         return 'checkbox' === $this->type;
     }
 
-    public function getOptions()
+    public function getOptions(): array
     {
         return $this->getRelatedElements();
     }
 
-    public function getAllSelectedOptions()
+    public function getAllSelectedOptions(): array
     {
         $selectedOptions = [];
         foreach ($this->getRelatedElements() as $element) {
@@ -85,7 +85,7 @@ class WebDriverCheckbox implements WebDriverSelectInterface
         return $selectedOptions;
     }
 
-    public function getFirstSelectedOption()
+    public function getFirstSelectedOption(): WebDriverElement
     {
         foreach ($this->getRelatedElements() as $element) {
             if ($element->isSelected()) {
@@ -96,27 +96,27 @@ class WebDriverCheckbox implements WebDriverSelectInterface
         throw new NoSuchElementException('No options are selected');
     }
 
-    public function selectByIndex($index)
+    public function selectByIndex($index): void
     {
         $this->byIndex($index);
     }
 
-    public function selectByValue($value)
+    public function selectByValue($value): void
     {
         $this->byValue($value);
     }
 
-    public function selectByVisibleText($text)
+    public function selectByVisibleText($text): void
     {
         $this->byVisibleText($text);
     }
 
-    public function selectByVisiblePartialText($text)
+    public function selectByVisiblePartialText($text): void
     {
         $this->byVisibleText($text, true);
     }
 
-    public function deselectAll()
+    public function deselectAll(): void
     {
         if (!$this->isMultiple()) {
             throw new UnsupportedOperationException('You may only deselect all options of checkboxes');
@@ -127,7 +127,7 @@ class WebDriverCheckbox implements WebDriverSelectInterface
         }
     }
 
-    public function deselectByIndex($index)
+    public function deselectByIndex($index): void
     {
         if (!$this->isMultiple()) {
             throw new UnsupportedOperationException('You may only deselect checkboxes');
@@ -136,7 +136,7 @@ class WebDriverCheckbox implements WebDriverSelectInterface
         $this->byIndex($index, false);
     }
 
-    public function deselectByValue($value)
+    public function deselectByValue($value): void
     {
         if (!$this->isMultiple()) {
             throw new UnsupportedOperationException('You may only deselect checkboxes');
@@ -145,7 +145,7 @@ class WebDriverCheckbox implements WebDriverSelectInterface
         $this->byValue($value, false);
     }
 
-    public function deselectByVisibleText($text)
+    public function deselectByVisibleText($text): void
     {
         if (!$this->isMultiple()) {
             throw new UnsupportedOperationException('You may only deselect checkboxes');
@@ -154,7 +154,7 @@ class WebDriverCheckbox implements WebDriverSelectInterface
         $this->byVisibleText($text, false, false);
     }
 
-    public function deselectByVisiblePartialText($text)
+    public function deselectByVisiblePartialText($text): void
     {
         if (!$this->isMultiple()) {
             throw new UnsupportedOperationException('You may only deselect checkboxes');
@@ -163,7 +163,7 @@ class WebDriverCheckbox implements WebDriverSelectInterface
         $this->byVisibleText($text, true, false);
     }
 
-    private function byValue($value, $select = true)
+    private function byValue($value, $select = true): void
     {
         $matched = false;
         foreach ($this->getRelatedElements($value) as $element) {
@@ -180,7 +180,7 @@ class WebDriverCheckbox implements WebDriverSelectInterface
         }
     }
 
-    private function byIndex($index, $select = true)
+    private function byIndex($index, $select = true): void
     {
         $options = $this->getRelatedElements();
         if (!isset($options[$index])) {
@@ -190,7 +190,7 @@ class WebDriverCheckbox implements WebDriverSelectInterface
         $select ? $this->selectOption($options[$index]) : $this->deselectOption($options[$index]);
     }
 
-    private function byVisibleText($text, $partial = false, $select = true)
+    private function byVisibleText($text, $partial = false, $select = true): void
     {
         foreach ($this->getRelatedElements() as $element) {
             $normalizeFilter = \sprintf($partial ? 'contains(normalize-space(.), %s)' : 'normalize-space(.) = %s', XPathEscaper::escapeQuotes($text));
@@ -244,14 +244,14 @@ class WebDriverCheckbox implements WebDriverSelectInterface
         ));
     }
 
-    private function selectOption(WebDriverElement $option)
+    private function selectOption(WebDriverElement $option): void
     {
         if (!$option->isSelected()) {
             $option->click();
         }
     }
 
-    private function deselectOption(WebDriverElement $option)
+    private function deselectOption(WebDriverElement $option): void
     {
         if ($option->isSelected()) {
             $option->click();

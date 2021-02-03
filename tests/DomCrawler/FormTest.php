@@ -73,7 +73,7 @@ class FormTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
-    public function testFormFields(callable $clientFactory)
+    public function testFormFields(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/form.html');
 
@@ -99,7 +99,7 @@ class FormTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
-    public function testSelect(callable $clientFactory)
+    public function testSelect(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/form.html');
         $form = $crawler->filter('form')->form();
@@ -134,7 +134,7 @@ class FormTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
-    public function testGetValuesDoesNotContainFiles(callable $clientFactory)
+    public function testGetValuesDoesNotContainFiles(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/form.html');
         $form = $crawler->filter('#file-form')->form();
@@ -149,7 +149,7 @@ class FormTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
-    public function testGetFilesContainOnlyFiles(callable $clientFactory)
+    public function testGetFilesContainOnlyFiles(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/form.html');
         $form = $crawler->filter('#file-form')->form();

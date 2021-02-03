@@ -36,18 +36,18 @@ final class Image extends BaseImage
         $this->method = 'GET';
     }
 
-    public function getNode()
+    public function getNode(): \DOMElement
     {
         throw $this->createNotSupportedException(__METHOD__);
     }
 
-    protected function setNode(\DOMElement $node)
+    protected function setNode(\DOMElement $node): void
     {
         throw $this->createNotSupportedException(__METHOD__);
     }
 
-    protected function getRawUri()
+    protected function getRawUri(): string
     {
-        return $this->element->getAttribute('src');
+        return (string) $this->element->getAttribute('src');
     }
 }

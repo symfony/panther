@@ -22,15 +22,21 @@ final class InputFormField extends BaseInputFormField
 {
     use FormFieldTrait;
 
-    public function setValue($value)
+    public function setValue($value): void
     {
         if (\in_array($this->element->getAttribute('type'), ['text', 'email', 'number'], true)) {
             $this->setTextValue($value);
-        } elseif (\is_bool($value)) {
-            $this->element->click();
-        } else {
-            $this->element->sendKeys($value);
+
+            return;
         }
+
+        if (\is_bool($value)) {
+            $this->element->click();
+
+            return;
+        }
+
+        $this->element->sendKeys($value);
     }
 
     /**
@@ -38,7 +44,7 @@ final class InputFormField extends BaseInputFormField
      *
      * @throws \LogicException When node type is incorrect
      */
-    protected function initialize()
+    protected function initialize(): void
     {
         $tagName = $this->element->getTagName();
         if ('input' !== $tagName && 'button' !== $tagName) {

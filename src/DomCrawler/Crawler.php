@@ -51,17 +51,17 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         throw $this->createNotSupportedException(__METHOD__);
     }
 
-    public function addContent($content, $type = null): void
+    public function addContent(string $content, string $type = null): void
     {
         throw $this->createNotSupportedException(__METHOD__);
     }
 
-    public function addHtmlContent($content, $charset = 'UTF-8'): void
+    public function addHtmlContent(string $content, string $charset = 'UTF-8'): void
     {
         throw $this->createNotSupportedException(__METHOD__);
     }
 
-    public function addXmlContent($content, $charset = 'UTF-8', $options = \LIBXML_NONET): void
+    public function addXmlContent(string $content, string $charset = 'UTF-8', int $options = \LIBXML_NONET): void
     {
         throw $this->createNotSupportedException(__METHOD__);
     }
@@ -86,7 +86,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         throw $this->createNotSupportedException(__METHOD__);
     }
 
-    public function eq($position): self
+    public function eq(int $position): self
     {
         if (isset($this->elements[$position])) {
             return $this->createSubCrawler([$this->elements[$position]]);
@@ -105,7 +105,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         return $data;
     }
 
-    public function slice($offset = 0, $length = null): self
+    public function slice(int $offset = 0, int $length = null): self
     {
         return $this->createSubCrawler(\array_slice($this->elements, $offset, $length));
     }
@@ -122,27 +122,27 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         return $this->createSubCrawler($elements);
     }
 
-    public function last()
+    public function last(): self
     {
         return $this->eq(\count($this->elements) - 1);
     }
 
-    public function siblings()
+    public function siblings(): self
     {
         return $this->createSubCrawlerFromXpath('(preceding-sibling::* | following-sibling::*)');
     }
 
-    public function nextAll()
+    public function nextAll(): self
     {
         return $this->createSubCrawlerFromXpath('following-sibling::*');
     }
 
-    public function previousAll()
+    public function previousAll(): self
     {
         return $this->createSubCrawlerFromXpath('preceding-sibling::*');
     }
 
-    public function parents()
+    public function parents(): self
     {
         return $this->createSubCrawlerFromXpath('ancestor::*', true);
     }
@@ -150,7 +150,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
     /**
      * @see https://github.com/symfony/symfony/issues/26432
      */
-    public function children(string $selector = null)
+    public function children(string $selector = null): self
     {
         $xpath = 'child::*';
         if (null !== $selector) {
@@ -161,7 +161,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         return $this->createSubCrawlerFromXpath($xpath);
     }
 
-    public function attr($attribute): ?string
+    public function attr(string $attribute): ?string
     {
         $element = $this->getElementOrThrow();
         if ('_text' === $attribute) {
@@ -193,7 +193,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         }
     }
 
-    public function html($default = null): string
+    public function html(string $default = null): string
     {
         try {
             $element = $this->getElementOrThrow();
@@ -212,14 +212,13 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         }
     }
 
-    public function evaluate($xpath): self
+    public function evaluate(string $xpath): self
     {
         throw $this->createNotSupportedException(__METHOD__);
     }
 
-    public function extract($attributes)
+    public function extract(array $attributes): array
     {
-        $attributes = (array) $attributes;
         $count = \count($attributes);
 
         $data = [];
@@ -235,41 +234,41 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         return $data;
     }
 
-    public function filterXPath($xpath): self
+    public function filterXPath(string $xpath): self
     {
         return $this->filterWebDriverBy(WebDriverBy::xpath($xpath));
     }
 
-    public function filter($selector): self
+    public function filter(string $selector): self
     {
         return $this->filterWebDriverBy(WebDriverBy::cssSelector($selector));
     }
 
-    public function selectLink($value)
+    public function selectLink(string $value): self
     {
         return $this->selectFromXpath(
-            \sprintf('descendant-or-self::a[contains(concat(\' \', normalize-space(string(.)), \' \'), %1$s) or ./img[contains(concat(\' \', normalize-space(string(@alt)), \' \'), %1$s)]]', static::xpathLiteral(' '.$value.' '))
+            \sprintf('descendant-or-self::a[contains(concat(\' \', normalize-space(string(.)), \' \'), %1$s) or ./img[contains(concat(\' \', normalize-space(string(@alt)), \' \'), %1$s)]]', self::xpathLiteral(' '.$value.' '))
         );
     }
 
-    public function selectImage($value)
+    public function selectImage(string $value): self
     {
-        return $this->selectFromXpath(\sprintf('descendant-or-self::img[contains(normalize-space(string(@alt)), %s)]', static::xpathLiteral($value)));
+        return $this->selectFromXpath(\sprintf('descendant-or-self::img[contains(normalize-space(string(@alt)), %s)]', self::xpathLiteral($value)));
     }
 
-    public function selectButton($value)
+    public function selectButton(string $value): self
     {
         return $this->selectFromXpath(
             \sprintf(
                 'descendant-or-self::input[((contains(%1$s, "submit") or contains(%1$s, "button")) and contains(concat(\' \', normalize-space(string(@value)), \' \'), %2$s)) or (contains(%1$s, "image") and contains(concat(\' \', normalize-space(string(@alt)), \' \'), %2$s)) or @id=%3$s or @name=%3$s] | descendant-or-self::button[contains(concat(\' \', normalize-space(string(.)), \' \'), %2$s) or @id=%3$s or @name=%3$s]',
                 'translate(@type, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz")',
-                static::xpathLiteral(' '.$value.' '),
-                static::xpathLiteral($value)
+                self::xpathLiteral(' '.$value.' '),
+                self::xpathLiteral($value)
             )
         );
     }
 
-    public function link($method = 'get')
+    public function link(string $method = 'get'): Link
     {
         $element = $this->getElementOrThrow();
         if ('get' !== $method) {
@@ -279,7 +278,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         return new Link($element, $this->webDriver->getCurrentURL());
     }
 
-    public function links()
+    public function links(): array
     {
         $links = [];
         foreach ($this->elements as $element) {
@@ -289,12 +288,12 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         return $links;
     }
 
-    public function image()
+    public function image(): Image
     {
         return new Image($this->getElementOrThrow());
     }
 
-    public function images()
+    public function images(): array
     {
         $images = [];
         foreach ($this->elements as $element) {
@@ -304,7 +303,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         return $images;
     }
 
-    public function form(array $values = null, $method = null)
+    public function form(array $values = null, string $method = null): Form
     {
         $form = new Form($this->getElementOrThrow(), $this->webDriver);
         if (null !== $values) {
@@ -314,17 +313,17 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         return $form;
     }
 
-    public function setDefaultNamespacePrefix($prefix)
+    public function setDefaultNamespacePrefix(string $prefix): void
     {
         throw $this->createNotSupportedException(__METHOD__);
     }
 
-    public function registerNamespace($prefix, $namespace)
+    public function registerNamespace(string $prefix, string $namespace): void
     {
         throw $this->createNotSupportedException(__METHOD__);
     }
 
-    public function getNode($position): ?\DOMElement
+    public function getNode(int $position): ?\DOMElement
     {
         throw new \InvalidArgumentException('The "getNode" method cannot be used in WebDriver mode. Use "getElement" instead.');
     }
@@ -334,7 +333,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         return $this->elements[$position] ?? null;
     }
 
-    public function count()
+    public function count(): int
     {
         return \count($this->elements);
     }
@@ -344,29 +343,29 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         return new \ArrayIterator($this->elements);
     }
 
-    protected function sibling($node, $siblingDir = 'nextSibling')
+    protected function sibling($node, string $siblingDir = 'nextSibling'): array
     {
         throw $this->createNotSupportedException(__METHOD__);
     }
 
     private function selectFromXpath(string $xpath): self
     {
-        $xpath = WebDriverBy::xpath($xpath);
+        $selector = WebDriverBy::xpath($xpath);
 
         $data = [];
         foreach ($this->elements as $element) {
-            $data = \array_merge($data, $element->findElements($xpath));
+            $data[] = $element->findElements($selector);
         }
 
-        return $this->createSubCrawler($data);
+        return $this->createSubCrawler(array_merge([], ...$data));
     }
 
     /**
-     * @param WebDriverElement[]|null $elements
+     * @param WebDriverElement[]|null $nodes
      */
-    private function createSubCrawler(?array $elements = null): self
+    private function createSubCrawler(?array $nodes = null): self
     {
-        return new static($elements ?? [], $this->webDriver, $this->uri);
+        return new self($nodes ?? [], $this->webDriver, $this->uri);
     }
 
     private function createSubCrawlerFromXpath(string $selector, bool $reverse = false): self
@@ -384,13 +383,10 @@ final class Crawler extends BaseCrawler implements WebDriverElement
     {
         $subElements = [];
         foreach ($this->elements as $element) {
-            $subElements = \array_merge(
-                $subElements,
-                $element->findElements($selector)
-            );
+            $subElements[] = $element->findElements($selector);
         }
 
-        return $this->createSubCrawler($subElements);
+        return $this->createSubCrawler(array_merge([], ...$subElements));
     }
 
     private function getElementOrThrow(): WebDriverElement
@@ -403,42 +399,42 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         return $element;
     }
 
-    public function click()
+    public function click(): WebDriverElement
     {
         return $this->getElementOrThrow()->click();
     }
 
-    public function getAttribute($attributeName)
+    public function getAttribute($attributeName): ?string
     {
         return $this->getElementOrThrow()->getAttribute($attributeName);
     }
 
-    public function getCSSValue($cssPropertyName)
+    public function getCSSValue($cssPropertyName): string
     {
         return $this->getElementOrThrow()->getCSSValue($cssPropertyName);
     }
 
-    public function getLocation()
+    public function getLocation(): \Facebook\WebDriver\WebDriverPoint
     {
         return $this->getElementOrThrow()->getLocation();
     }
 
-    public function getLocationOnScreenOnceScrolledIntoView()
+    public function getLocationOnScreenOnceScrolledIntoView(): \Facebook\WebDriver\WebDriverPoint
     {
         return $this->getElementOrThrow()->getLocationOnScreenOnceScrolledIntoView();
     }
 
-    public function getSize()
+    public function getSize(): \Facebook\WebDriver\WebDriverDimension
     {
         return $this->getElementOrThrow()->getSize();
     }
 
-    public function getTagName()
+    public function getTagName(): string
     {
         return $this->getElementOrThrow()->getTagName();
     }
 
-    public function getText()
+    public function getText(): string
     {
         return $this->getElementOrThrow()->getText();
     }
@@ -448,37 +444,37 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         return $this->getElementOrThrow()->isDisplayed();
     }
 
-    public function isEnabled()
+    public function isEnabled(): bool
     {
         return $this->getElementOrThrow()->isEnabled();
     }
 
-    public function isSelected()
+    public function isSelected(): bool
     {
         return $this->getElementOrThrow()->isSelected();
     }
 
-    public function sendKeys($value)
+    public function sendKeys($value): WebDriverElement
     {
         return $this->getElementOrThrow()->sendKeys($value);
     }
 
-    public function submit()
+    public function submit(): WebDriverElement
     {
         return $this->getElementOrThrow()->submit();
     }
 
-    public function getID()
+    public function getID(): string
     {
         return $this->getElementOrThrow()->getID();
     }
 
-    public function findElement(WebDriverBy $locator)
+    public function findElement(WebDriverBy $locator): WebDriverElement
     {
         return $this->getElementOrThrow()->findElement($locator);
     }
 
-    public function findElements(WebDriverBy $locator)
+    public function findElements(WebDriverBy $locator): array
     {
         return $this->getElementOrThrow()->findElements($locator);
     }

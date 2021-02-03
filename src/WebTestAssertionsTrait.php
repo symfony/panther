@@ -236,7 +236,7 @@ trait WebTestAssertionsTrait
      *
      * @return AbstractBrowser A browser instance
      */
-    protected static function createClient(array $options = [], array $server = [])
+    protected static function createClient(array $options = [], array $server = []): AbstractBrowser
     {
         $kernel = static::bootKernel($options);
 

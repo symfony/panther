@@ -53,7 +53,7 @@ final class Link extends BaseLink
         throw $this->createNotSupportedException(__METHOD__);
     }
 
-    protected function getRawUri()
+    protected function getRawUri(): string
     {
         return (string) $this->element->getAttribute('href');
     }

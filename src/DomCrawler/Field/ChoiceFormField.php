@@ -35,7 +35,7 @@ final class ChoiceFormField extends BaseChoiceFormField
      */
     private $selector;
 
-    public function hasValue()
+    public function hasValue(): bool
     {
         if (\count($this->selector->getAllSelectedOptions())) {
             return true;
@@ -44,7 +44,7 @@ final class ChoiceFormField extends BaseChoiceFormField
         return $this->element->isSelected();
     }
 
-    public function select($value)
+    public function select($value): void
     {
         foreach ((array) $value as $v) {
             $this->selector->selectByValue($v);
@@ -56,7 +56,7 @@ final class ChoiceFormField extends BaseChoiceFormField
      *
      * @throws \LogicException When the type provided is not correct
      */
-    public function tick()
+    public function tick(): void
     {
         if ('checkbox' !== $type = $this->element->getAttribute('type')) {
             throw new \LogicException(\sprintf('You cannot tick "%s" as it is not a checkbox (%s).', $this->element->getAttribute('name'), $type));
@@ -70,7 +70,7 @@ final class ChoiceFormField extends BaseChoiceFormField
      *
      * @throws \LogicException When the type provided is not correct
      */
-    public function untick()
+    public function untick(): void
     {
         if ('checkbox' !== $type = $this->element->getAttribute('type')) {
             throw new \LogicException(\sprintf('You cannot tick "%s" as it is not a checkbox (%s).', $this->element->getAttribute('name'), $type));
@@ -101,7 +101,9 @@ final class ChoiceFormField extends BaseChoiceFormField
             }
 
             return $value;
-        } elseif (\count($this->selector->getAllSelectedOptions())) {
+        }
+
+        if (\count($this->selector->getAllSelectedOptions())) {
             return $this->selector->getFirstSelectedOption()->getAttribute('value');
         }
 
@@ -115,7 +117,7 @@ final class ChoiceFormField extends BaseChoiceFormField
      *
      * @throws \InvalidArgumentException When value type provided is not correct
      */
-    public function setValue($value)
+    public function setValue($value): void
     {
         if (\is_bool($value)) {
             if ('checkbox' !== $this->type) {
@@ -138,7 +140,7 @@ final class ChoiceFormField extends BaseChoiceFormField
         }
     }
 
-    public function addChoice(\DOMElement $node)
+    public function addChoice(\DOMElement $node): void
     {
         throw $this->createNotSupportedException(__METHOD__);
     }
@@ -148,7 +150,7 @@ final class ChoiceFormField extends BaseChoiceFormField
      *
      * @return string The type
      */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
@@ -158,17 +160,15 @@ final class ChoiceFormField extends BaseChoiceFormField
      *
      * @return bool true if the field accepts multiple values, false otherwise
      */
-    public function isMultiple()
+    public function isMultiple(): bool
     {
         return $this->selector->isMultiple();
     }
 
     /**
      * Returns list of available field options.
-     *
-     * @return array
      */
-    public function availableOptionValues()
+    public function availableOptionValues(): array
     {
         $options = [];
 
@@ -181,10 +181,8 @@ final class ChoiceFormField extends BaseChoiceFormField
 
     /**
      * Disables the internal validation of the field.
-     *
-     * @return self
      */
-    public function disableValidation()
+    public function disableValidation(): self
     {
         throw $this->createNotSupportedException(__METHOD__);
     }
@@ -194,7 +192,7 @@ final class ChoiceFormField extends BaseChoiceFormField
      *
      * @throws \LogicException When node type is incorrect
      */
-    protected function initialize()
+    protected function initialize(): void
     {
         $tagName = $this->element->getTagName();
         if ('input' !== $tagName && 'select' !== $tagName) {

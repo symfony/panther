@@ -33,7 +33,7 @@ final class PantherWebDriverExpectedCondition
         ;
     }
 
-    public static function elementEnabled(WebDriverBy $by)
+    public static function elementEnabled(WebDriverBy $by): callable
     {
         return static function (WebDriver $driver) use ($by) {
             try {
@@ -45,7 +45,7 @@ final class PantherWebDriverExpectedCondition
         ;
     }
 
-    public static function elementDisabled(WebDriverBy $by)
+    public static function elementDisabled(WebDriverBy $by): callable
     {
         return static function (WebDriver $driver) use ($by) {
             try {
@@ -57,7 +57,7 @@ final class PantherWebDriverExpectedCondition
         ;
     }
 
-    public static function elementAttributeContains(WebDriverBy $by, string $attribute, string $text)
+    public static function elementAttributeContains(WebDriverBy $by, string $attribute, string $text): callable
     {
         return static function (WebDriver $driver) use ($by, $attribute, $text) {
             try {
@@ -71,7 +71,7 @@ final class PantherWebDriverExpectedCondition
         ;
     }
 
-    public static function elementAttributeNotContains(WebDriverBy $by, string $attribute, string $text)
+    public static function elementAttributeNotContains(WebDriverBy $by, string $attribute, string $text): callable
     {
         return static function (WebDriver $driver) use ($by, $attribute, $text) {
             try {

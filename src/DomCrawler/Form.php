@@ -56,7 +56,7 @@ final class Form extends BaseForm
         $this->currentUri = $webDriver->getCurrentURL();
     }
 
-    private function setElement(WebDriverElement $element)
+    private function setElement(WebDriverElement $element): void
     {
         $this->button = $element;
         $tagName = $element->getTagName();
@@ -98,12 +98,12 @@ final class Form extends BaseForm
         return $this->element;
     }
 
-    public function getFormNode()
+    public function getFormNode(): \DOMElement
     {
         throw $this->createNotSupportedException(__METHOD__);
     }
 
-    public function setValues(array $values)
+    public function setValues(array $values): self
     {
         foreach ($values as $name => $value) {
             $this->setValue($name, $value);
@@ -119,7 +119,7 @@ final class Form extends BaseForm
      *
      * @return array An array of field values
      */
-    public function getValues()
+    public function getValues(): array
     {
         $values = [];
         foreach ($this->element->findElements(WebDriverBy::xpath('.//input[@name] | .//textarea[@name] | .//select[@name] | .//button[@name]')) as $element) {
@@ -156,7 +156,7 @@ final class Form extends BaseForm
         return $values;
     }
 
-    public function getFiles()
+    public function getFiles(): array
     {
         if (!\in_array($this->getMethod(), ['POST', 'PUT', 'DELETE', 'PATCH'], true)) {
             return [];
@@ -177,7 +177,7 @@ final class Form extends BaseForm
         return $files;
     }
 
-    public function getMethod()
+    public function getMethod(): string
     {
         if (null !== $this->method) {
             return $this->method;
@@ -191,7 +191,7 @@ final class Form extends BaseForm
         return $this->element->getAttribute('method') ? \strtoupper($this->element->getAttribute('method')) : 'GET';
     }
 
-    public function has($name)
+    public function has(string $name): bool
     {
         try {
             $this->getFormElement($name);
@@ -202,22 +202,22 @@ final class Form extends BaseForm
         return true;
     }
 
-    public function remove($name)
+    public function remove(string $name): void
     {
         throw $this->createNotSupportedException(__METHOD__);
     }
 
-    public function set(FormField $field)
+    public function set(FormField $field): void
     {
         $this->setValue($field->getName(), $field->getValue());
     }
 
-    public function get($name)
+    public function get(string $name)
     {
         return $this->getFormField($this->getFormElement($name));
     }
 
-    public function all()
+    public function all(): array
     {
         $fields = [];
         foreach ($this->getAllElements() as $element) {
@@ -227,7 +227,7 @@ final class Form extends BaseForm
         return $fields;
     }
 
-    public function offsetExists($name)
+    public function offsetExists($name): bool
     {
         return $this->has($name);
     }
@@ -237,17 +237,17 @@ final class Form extends BaseForm
         return $this->get($name);
     }
 
-    public function offsetSet($name, $value)
+    public function offsetSet($name, $value): void
     {
         $this->setValue($name, $value);
     }
 
-    public function offsetUnset($name)
+    public function offsetUnset($name): void
     {
         throw $this->createNotSupportedException(__METHOD__);
     }
 
-    protected function getRawUri()
+    protected function getRawUri(): string
     {
         // If the form was created from a button rather than the form node, check for HTML5 action overrides
         if ($this->element !== $this->button && null !== $this->button->getAttribute('formaction')) {
