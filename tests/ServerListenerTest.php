@@ -69,11 +69,9 @@ class ServerListenerTest extends TestCase
         }
     }
 
-    public function provideTestPauseOnFailure()
+    public function provideTestPauseOnFailure(): iterable
     {
-        return [
-            ['addError', "Error: message\n\nPress enter to continue..."],
-            ['addFailure', "Failure: message\n\nPress enter to continue..."],
-        ];
+        yield ['addError', "Error: message\n\nPress enter to continue..."];
+        yield ['addFailure', "Failure: message\n\nPress enter to continue..."];
     }
 }

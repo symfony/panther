@@ -24,7 +24,7 @@ class InputFormFieldTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
-    public function testGetValueWithSomeValueFromTextInput(callable $clientFactory)
+    public function testGetValueWithSomeValueFromTextInput(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/input-form-field.html');
         $form = $crawler->filter('form')->form();
@@ -38,7 +38,7 @@ class InputFormFieldTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
-    public function testGetValueWithNoValueFromTextInput(callable $clientFactory)
+    public function testGetValueWithNoValueFromTextInput(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/input-form-field.html');
         $form = $crawler->filter('form')->form();
@@ -52,7 +52,7 @@ class InputFormFieldTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
-    public function testSetValueMultipleTimesInTextInput(callable $clientFactory)
+    public function testSetValueMultipleTimesInTextInput(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/input-form-field.html');
         $form = $crawler->filter('form')->form();

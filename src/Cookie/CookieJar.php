@@ -35,12 +35,12 @@ final class CookieJar extends BaseCookieJar
         $this->webDriver = $webDriver;
     }
 
-    public function set(Cookie $cookie)
+    public function set(Cookie $cookie): void
     {
         $this->webDriver->manage()->addCookie($this->symfonyToWebDriver($cookie));
     }
 
-    public function get($name, $path = '/', $domain = null)
+    public function get($name, $path = '/', $domain = null): ?Cookie
     {
         if (null === $cookie = $this->getWebDriverCookie($name, $path, $domain)) {
             return null;
@@ -49,29 +49,29 @@ final class CookieJar extends BaseCookieJar
         return $this->webDriverToSymfony($cookie);
     }
 
-    public function expire($name, $path = '/', $domain = null)
+    public function expire($name, $path = '/', $domain = null): void
     {
         if (null !== $this->getWebDriverCookie($name, $path, $domain)) {
             $this->webDriver->manage()->deleteCookieNamed($name);
         }
     }
 
-    public function clear()
+    public function clear(): void
     {
         $this->webDriver->manage()->deleteAllCookies();
     }
 
-    public function updateFromSetCookie(array $setCookies, $uri = null)
+    public function updateFromSetCookie(array $setCookies, $uri = null): void
     {
         throw $this->createNotSupportedException(__METHOD__);
     }
 
-    public function updateFromResponse(Response $response, $uri = null)
+    public function updateFromResponse(Response $response, $uri = null): void
     {
         throw $this->createNotSupportedException(__METHOD__);
     }
 
-    public function all()
+    public function all(): array
     {
         $cookies = [];
         foreach ($this->webDriver->manage()->getCookies() as $webDriverCookie) {
@@ -81,17 +81,17 @@ final class CookieJar extends BaseCookieJar
         return $cookies;
     }
 
-    public function allValues($uri, $returnsRawValue = false)
+    public function allValues($uri, $returnsRawValue = false): array
     {
         throw $this->createNotSupportedException(__METHOD__);
     }
 
-    public function allRawValues($uri)
+    public function allRawValues($uri): array
     {
         throw $this->createNotSupportedException(__METHOD__);
     }
 
-    public function flushExpiredCookies()
+    public function flushExpiredCookies(): void
     {
         throw $this->createNotSupportedException(__METHOD__);
     }
@@ -133,7 +133,7 @@ final class CookieJar extends BaseCookieJar
         return new Cookie($cookie->getName(), $cookie->getValue(), $expiry, $cookie->getPath(), (string) $cookie->getDomain(), (bool) $cookie->isSecure(), (bool) $cookie->isHttpOnly());
     }
 
-    private function getWebDriverCookie(string $name, string $path = '/', ?string $domain = null)
+    private function getWebDriverCookie(string $name, string $path = '/', ?string $domain = null): ?WebDriverCookie
     {
         try {
             $cookie = $this->webDriver->manage()->getCookieNamed($name);

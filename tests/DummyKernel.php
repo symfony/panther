@@ -23,11 +23,11 @@ use Symfony\Component\HttpKernel\KernelInterface;
  */
 class DummyKernel implements KernelInterface
 {
-    public function serialize()
+    public function serialize(): void
     {
     }
 
-    public function unserialize($serialized)
+    public function unserialize($serialized): void
     {
     }
 
@@ -39,23 +39,23 @@ class DummyKernel implements KernelInterface
     {
     }
 
-    public function registerContainerConfiguration(LoaderInterface $loader)
+    public function registerContainerConfiguration(LoaderInterface $loader): void
     {
     }
 
-    public function boot()
+    public function boot(): void
     {
     }
 
-    public function shutdown()
+    public function shutdown(): void
     {
     }
 
-    public function getBundles()
+    public function getBundles(): array
     {
     }
 
-    public function getBundle($name, $first = true)
+    public function getBundle($name, $first = true): \Symfony\Component\HttpKernel\Bundle\BundleInterface
     {
     }
 
@@ -63,76 +63,76 @@ class DummyKernel implements KernelInterface
     {
     }
 
-    public function getName()
+    public function getName(): string
     {
     }
 
-    public function getEnvironment()
+    public function getEnvironment(): string
     {
     }
 
-    public function isDebug()
+    public function isDebug(): bool
     {
     }
 
-    public function getRootDir()
+    public function getRootDir(): string
     {
     }
 
-    public function getContainer()
+    public function getContainer(): ContainerInterface
     {
         return new class() implements ContainerInterface {
             public function get($id, $invalidBehavior = ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE)
             {
             }
 
-            public function has($id)
+            public function has($id): bool
             {
                 return false;
             }
 
-            public function set($id, $service)
+            public function set($id, $service): void
             {
             }
 
-            public function initialized($id)
+            public function initialized($id): bool
             {
                 return true;
             }
 
-            public function getParameter($name)
+            public function getParameter($name): ?string
             {
                 return null;
             }
 
-            public function hasParameter($name)
+            public function hasParameter($name): bool
             {
                 return false;
             }
 
-            public function setParameter($name, $value)
+            public function setParameter($name, $value): void
             {
             }
         };
     }
 
-    public function getStartTime()
+    public function getStartTime(): float
     {
     }
 
-    public function getCacheDir()
+    public function getCacheDir(): string
     {
     }
 
-    public function getLogDir()
+    public function getLogDir(): string
     {
     }
 
-    public function getCharset()
+    public function getCharset(): string
     {
     }
 
-    public function getProjectDir()
+    public function getProjectDir(): string
     {
     }
 }

@@ -21,7 +21,7 @@ use Symfony\Component\Panther\ProcessManager\ChromeManager;
  */
 class ChromeManagerTest extends TestCase
 {
-    public function testRun()
+    public function testRun(): void
     {
         $manager = new ChromeManager();
         $client = $manager->start();
@@ -29,7 +29,7 @@ class ChromeManagerTest extends TestCase
         $manager->quit();
     }
 
-    public function testAlreadyRunning()
+    public function testAlreadyRunning(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('The port 9515 is already in use.');
@@ -45,7 +45,7 @@ class ChromeManagerTest extends TestCase
         }
     }
 
-    public function testNonDefaultPort()
+    public function testNonDefaultPort(): void
     {
         $manager = new ChromeManager(null, null, ['port' => 9516]);
         $client = $manager->start();
@@ -53,7 +53,7 @@ class ChromeManagerTest extends TestCase
         $manager->quit();
     }
 
-    public function testMultipleInstances()
+    public function testMultipleInstances(): void
     {
         $driver1 = new ChromeManager();
         $client1 = $driver1->start();

@@ -92,7 +92,7 @@ trait PantherTestCaseTrait
         }
     }
 
-    public static function stopWebServer()
+    public static function stopWebServer(): void
     {
         if (null !== self::$webServerManager) {
             self::$webServerManager->quit();
@@ -150,7 +150,7 @@ trait PantherTestCaseTrait
         self::$baseUri = sprintf('http://%s:%s', $options['hostname'], $options['port']);
     }
 
-    public static function isWebServerStarted()
+    public static function isWebServerStarted(): bool
     {
         return self::$webServerManager && self::$webServerManager->isStarted();
     }
@@ -260,7 +260,7 @@ trait PantherTestCaseTrait
         return self::$httpBrowserClient;
     }
 
-    private static function getWebServerDir(array $options)
+    private static function getWebServerDir(array $options): string
     {
         if (isset($options['webServerDir'])) {
             return $options['webServerDir'];

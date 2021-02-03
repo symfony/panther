@@ -17,4 +17,3 @@ parameters:
 		- '#Call to an undefined method DOMNode::getTagName\(\)\.#'
 		- '#Return type \(void\) of method Symfony\\Component\\Panther\\DomCrawler\\Crawler::clear\(\) should be compatible with return type \(Facebook\\WebDriver\\WebDriverElement\) of method Facebook\\WebDriver\\WebDriverElement::clear\(\)#'
 		- '#Method Symfony\\Component\\Panther\\DomCrawler\\Crawler::getIterator\(\) should return ArrayIterator&iterable<DOMNode> but returns ArrayIterator<mixed, Facebook\\WebDriver\\WebDriverElement>\.#'
-		- '#Method Symfony\\Component\\Panther\\DomCrawler\\Crawler::.+\(\) should return static\(Symfony\\Component\\Panther\\DomCrawler\\Crawler\) but returns Symfony\\Component\\Panther\\DomCrawler\\Crawler#'

@@ -102,7 +102,7 @@ final class WebServerManager
         $this->process->stop();
     }
 
-    public function isStarted()
+    public function isStarted(): bool
     {
         return $this->process->isStarted();
     }

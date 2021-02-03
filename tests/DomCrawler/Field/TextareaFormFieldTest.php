@@ -24,7 +24,7 @@ class TextareaFormFieldTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
-    public function testGetValueWithSomeValue(callable $clientFactory)
+    public function testGetValueWithSomeValue(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/textarea-form-field.html');
         $form = $crawler->filter('form')->form();
@@ -38,7 +38,7 @@ class TextareaFormFieldTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
-    public function testGetValueWithNoValue(callable $clientFactory)
+    public function testGetValueWithNoValue(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/textarea-form-field.html');
         $form = $crawler->filter('form')->form();
@@ -52,7 +52,7 @@ class TextareaFormFieldTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
-    public function testSetValueMultipleTimes(callable $clientFactory)
+    public function testSetValueMultipleTimes(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/textarea-form-field.html');
         $form = $crawler->filter('form')->form();

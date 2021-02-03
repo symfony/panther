@@ -23,7 +23,7 @@ use Symfony\Component\Panther\WebDriver\WebDriverCheckbox;
  */
 class WebDriverCheckBoxTest extends TestCase
 {
-    public function testWebDriverCheckboxIsMultiple()
+    public function testWebDriverCheckboxIsMultiple(): void
     {
         $crawler = self::createPantherClient()->request('GET', self::$baseUri.'/form.html');
 
@@ -39,7 +39,7 @@ class WebDriverCheckBoxTest extends TestCase
     /**
      * @dataProvider getOptionsDataProvider
      */
-    public function testWebDriverCheckboxGetOptions(string $type, array $options)
+    public function testWebDriverCheckboxGetOptions(string $type, array $options): void
     {
         $crawler = self::createPantherClient()->request('GET', self::$baseUri.'/form.html');
         $element = $crawler->filterXPath("//input[@type='$type']")->getElement(0);
@@ -59,7 +59,7 @@ class WebDriverCheckBoxTest extends TestCase
         yield ['radio', ['j3a', 'j3b', 'j3c']];
     }
 
-    public function testWebDriverCheckboxGetFirstSelectedOption()
+    public function testWebDriverCheckboxGetFirstSelectedOption(): void
     {
         $crawler = self::createPantherClient()->request('GET', self::$baseUri.'/form.html');
         $checkboxElement = $crawler->filterXPath('//input[@type="checkbox"]')->getElement(0);
@@ -77,7 +77,7 @@ class WebDriverCheckBoxTest extends TestCase
     /**
      * @dataProvider selectByValueDataProvider
      */
-    public function testWebDriverCheckboxSelectByValue(string $type, array $selectedOptions)
+    public function testWebDriverCheckboxSelectByValue(string $type, array $selectedOptions): void
     {
         $crawler = self::createPantherClient()->request('GET', self::$baseUri.'/form.html');
         $element = $crawler->filterXPath("//input[@type='$type']")->getElement(0);
@@ -100,7 +100,7 @@ class WebDriverCheckBoxTest extends TestCase
         yield ['radio', ['j3b']];
     }
 
-    public function testWebDriverCheckboxSelectByValueInvalid()
+    public function testWebDriverCheckboxSelectByValueInvalid(): void
     {
         $this->expectException(NoSuchElementException::class);
 
@@ -114,7 +114,7 @@ class WebDriverCheckBoxTest extends TestCase
     /**
      * @dataProvider selectByIndexDataProvider
      */
-    public function testWebDriverCheckboxSelectByIndex(string $type, array $selectedOptions)
+    public function testWebDriverCheckboxSelectByIndex(string $type, array $selectedOptions): void
     {
         $crawler = self::createPantherClient()->request('GET', self::$baseUri.'/form.html');
         $element = $crawler->filterXPath("//input[@type='$type']")->getElement(0);
@@ -131,15 +131,13 @@ class WebDriverCheckBoxTest extends TestCase
         $this->assertSame(\array_values($selectedOptions), $selectedValues);
     }
 
-    public function selectByIndexDataProvider()
+    public function selectByIndexDataProvider(): iterable
     {
-        return [
-            ['checkbox', [1 => 'j2b', 2 => 'j2c']],
-            ['radio', [1 => 'j3b']],
-        ];
+        yield ['checkbox', [1 => 'j2b', 2 => 'j2c']];
+        yield ['radio', [1 => 'j3b']];
     }
 
-    public function testWebDriverCheckboxSelectByIndexInvalid()
+    public function testWebDriverCheckboxSelectByIndexInvalid(): void
     {
         $this->expectException(NoSuchElementException::class);
 
@@ -153,7 +151,7 @@ class WebDriverCheckBoxTest extends TestCase
     /**
      * @dataProvider selectByVisibleTextDataProvider
      */
-    public function testWebDriverCheckboxSelectByVisibleText(string $type, string $text, string $value)
+    public function testWebDriverCheckboxSelectByVisibleText(string $type, string $text, string $value): void
     {
         $crawler = self::createPantherClient()->request('GET', self::$baseUri.'/form.html');
         $element = $crawler->filterXPath("//input[@type='$type']")->getElement(0);
@@ -174,7 +172,7 @@ class WebDriverCheckBoxTest extends TestCase
     /**
      * @dataProvider selectByVisiblePartialTextDataProvider
      */
-    public function testWebDriverCheckboxSelectByVisiblePartialText(string $type, string $text, string $value)
+    public function testWebDriverCheckboxSelectByVisiblePartialText(string $type, string $text, string $value): void
     {
         $crawler = self::createPantherClient()->request('GET', self::$baseUri.'/form.html');
         $element = $crawler->filterXPath("//input[@type='$type']")->getElement(0);
@@ -192,7 +190,7 @@ class WebDriverCheckBoxTest extends TestCase
         yield ['radio', '3C', 'j3c'];
     }
 
-    public function testWebDriverCheckboxDeselectAll()
+    public function testWebDriverCheckboxDeselectAll(): void
     {
         $crawler = self::createPantherClient()->request('GET', self::$baseUri.'/form.html');
         $element = $crawler->filterXPath('//input[@type="checkbox"]')->getElement(0);
@@ -204,7 +202,7 @@ class WebDriverCheckBoxTest extends TestCase
         $this->assertEmpty($c->getAllSelectedOptions());
     }
 
-    public function testWebDriverCheckboxDeselectByIndex()
+    public function testWebDriverCheckboxDeselectByIndex(): void
     {
         $crawler = self::createPantherClient()->request('GET', self::$baseUri.'/form.html');
         $element = $crawler->filterXPath('//input[@type="checkbox"]')->getElement(0);
@@ -216,7 +214,7 @@ class WebDriverCheckBoxTest extends TestCase
         $this->assertEmpty($c->getAllSelectedOptions());
     }
 
-    public function testWebDriverCheckboxDeselectByValue()
+    public function testWebDriverCheckboxDeselectByValue(): void
     {
         $crawler = self::createPantherClient()->request('GET', self::$baseUri.'/form.html');
         $element = $crawler->filterXPath('//input[@type="checkbox"]')->getElement(0);
@@ -228,7 +226,7 @@ class WebDriverCheckBoxTest extends TestCase
         $this->assertEmpty($c->getAllSelectedOptions());
     }
 
-    public function testWebDriverCheckboxDeselectByVisibleText()
+    public function testWebDriverCheckboxDeselectByVisibleText(): void
     {
         $crawler = self::createPantherClient()->request('GET', self::$baseUri.'/form.html');
         $element = $crawler->filterXPath('//input[@type="checkbox"]')->getElement(0);
@@ -240,7 +238,7 @@ class WebDriverCheckBoxTest extends TestCase
         $this->assertEmpty($c->getAllSelectedOptions());
     }
 
-    public function testWebDriverCheckboxDeselectByVisiblePartialText()
+    public function testWebDriverCheckboxDeselectByVisiblePartialText(): void
     {
         $crawler = self::createPantherClient()->request('GET', self::$baseUri.'/form.html');
         $element = $crawler->filterXPath('//input[@type="checkbox"]')->getElement(0);
@@ -252,7 +250,7 @@ class WebDriverCheckBoxTest extends TestCase
         $this->assertEmpty($c->getAllSelectedOptions());
     }
 
-    public function testWebDriverCheckboxDeselectAllRadio()
+    public function testWebDriverCheckboxDeselectAllRadio(): void
     {
         $this->expectException(UnsupportedOperationException::class);
 
@@ -262,7 +260,7 @@ class WebDriverCheckBoxTest extends TestCase
         $c->deselectAll();
     }
 
-    public function testWebDriverCheckboxDeselectByIndexRadio()
+    public function testWebDriverCheckboxDeselectByIndexRadio(): void
     {
         $this->expectException(UnsupportedOperationException::class);
 
@@ -272,7 +270,7 @@ class WebDriverCheckBoxTest extends TestCase
         $c->deselectByIndex(0);
     }
 
-    public function testWebDriverCheckboxDeselectByValueRadio()
+    public function testWebDriverCheckboxDeselectByValueRadio(): void
     {
         $this->expectException(UnsupportedOperationException::class);
 
@@ -282,7 +280,7 @@ class WebDriverCheckBoxTest extends TestCase
         $c->deselectByValue('val');
     }
 
-    public function testWebDriverCheckboxDeselectByVisibleTextRadio()
+    public function testWebDriverCheckboxDeselectByVisibleTextRadio(): void
     {
         $this->expectException(UnsupportedOperationException::class);
 
@@ -292,7 +290,7 @@ class WebDriverCheckBoxTest extends TestCase
         $c->deselectByVisibleText('AB');
     }
 
-    public function testWebDriverCheckboxDeselectByVisiblePartialTextRadio()
+    public function testWebDriverCheckboxDeselectByVisiblePartialTextRadio(): void
     {
         $this->expectException(UnsupportedOperationException::class);
 

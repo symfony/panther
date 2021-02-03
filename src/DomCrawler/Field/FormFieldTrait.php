@@ -34,24 +34,27 @@ trait FormFieldTrait
         $this->initialize();
     }
 
-    public function getLabel()
+    public function getLabel(): void
     {
         throw $this->createNotSupportedException(__METHOD__);
     }
 
-    public function getName()
+    public function getName(): string
     {
-        return $this->element->getAttribute('name');
+        return $this->element->getAttribute('name') ?? '';
     }
 
+    /**
+     * @return string|array|null
+     */
     public function getValue()
     {
         return $this->element->getAttribute('value');
     }
 
-    public function isDisabled()
+    public function isDisabled(): bool
     {
-        return $this->element->getAttribute('disabled') ?? false;
+        return null === $this->element->getAttribute('disabled') ? false : true;
     }
 
     private function setTextValue($value): void

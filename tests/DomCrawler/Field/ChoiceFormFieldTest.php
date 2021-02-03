@@ -25,7 +25,7 @@ class ChoiceFormFieldTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
-    public function testGetValueFromSelectIfOneIsSelected(callable $clientFactory)
+    public function testGetValueFromSelectIfOneIsSelected(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/choice-form-field.html');
         $form = $crawler->filter('form')->form();
@@ -39,7 +39,7 @@ class ChoiceFormFieldTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
-    public function testGetValueFromSelectIfNoneIsSelected(callable $clientFactory)
+    public function testGetValueFromSelectIfNoneIsSelected(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/choice-form-field.html');
         $form = $crawler->filter('form')->form();
@@ -53,7 +53,7 @@ class ChoiceFormFieldTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
-    public function testGetValueFromSelectMultipleIfOneIsSelected(callable $clientFactory)
+    public function testGetValueFromSelectMultipleIfOneIsSelected(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/choice-form-field.html');
         $form = $crawler->filter('form')->form();
@@ -67,7 +67,7 @@ class ChoiceFormFieldTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
-    public function testGetValueFromSelectMultipleIfMultipleIsSelected(callable $clientFactory)
+    public function testGetValueFromSelectMultipleIfMultipleIsSelected(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/choice-form-field.html');
         $form = $crawler->filter('form')->form();
@@ -81,7 +81,7 @@ class ChoiceFormFieldTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
-    public function testGetValueFromSelectMultipleIfNoneIsSelected(callable $clientFactory)
+    public function testGetValueFromSelectMultipleIfNoneIsSelected(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/choice-form-field.html');
         $form = $crawler->filter('form')->form();
@@ -95,7 +95,7 @@ class ChoiceFormFieldTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
-    public function testGetValueFromRadioIfSelected(callable $clientFactory)
+    public function testGetValueFromRadioIfSelected(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/choice-form-field.html');
         $form = $crawler->filter('form')->form();
@@ -109,7 +109,7 @@ class ChoiceFormFieldTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
-    public function testGetValueFromRadioIfNoneIsChecked(callable $clientFactory)
+    public function testGetValueFromRadioIfNoneIsChecked(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/choice-form-field.html');
         $form = $crawler->filter('form')->form();
@@ -123,7 +123,7 @@ class ChoiceFormFieldTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
-    public function testGetValueFromCheckboxIfChecked(callable $clientFactory)
+    public function testGetValueFromCheckboxIfChecked(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/choice-form-field.html');
         $form = $crawler->filter('form')->form();
@@ -137,7 +137,7 @@ class ChoiceFormFieldTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
-    public function testGetValueFromCheckboxIfMultipleAreChecked(callable $clientFactory, string $type)
+    public function testGetValueFromCheckboxIfMultipleAreChecked(callable $clientFactory, string $type): void
     {
         $crawler = $this->request($clientFactory, '/choice-form-field.html');
         $form = $crawler->filter('form')->form();
@@ -155,7 +155,7 @@ class ChoiceFormFieldTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
-    public function testGetValueFromCheckboxIfNoneIsChecked(callable $clientFactory)
+    public function testGetValueFromCheckboxIfNoneIsChecked(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/choice-form-field.html');
         $form = $crawler->filter('form')->form();
