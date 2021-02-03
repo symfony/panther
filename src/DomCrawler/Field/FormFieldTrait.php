@@ -54,7 +54,7 @@ trait FormFieldTrait
 
     public function isDisabled(): bool
     {
-        return null === $this->element->getAttribute('disabled') ? false : true;
+        return null !== $this->element->getAttribute('disabled');
     }
 
     private function setTextValue($value): void

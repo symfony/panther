@@ -16,6 +16,8 @@ namespace Symfony\Component\Panther\Tests;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
@@ -23,19 +25,11 @@ use Symfony\Component\HttpKernel\KernelInterface;
  */
 class DummyKernel implements KernelInterface
 {
-    public function serialize(): void
+    public function handle(Request $request, $type = self::MASTER_REQUEST, $catch = true): Response
     {
     }
 
-    public function unserialize($serialized): void
-    {
-    }
-
-    public function handle(Request $request, $type = self::MASTER_REQUEST, $catch = true)
-    {
-    }
-
-    public function registerBundles()
+    public function registerBundles(): iterable
     {
     }
 
@@ -55,7 +49,7 @@ class DummyKernel implements KernelInterface
     {
     }
 
-    public function getBundle($name, $first = true): \Symfony\Component\HttpKernel\Bundle\BundleInterface
+    public function getBundle($name, $first = true): BundleInterface
     {
     }
 
