@@ -4,10 +4,18 @@ CHANGELOG
 1.0.0
 -----
 
-* Add type hints
-* Remove the deprecated PHPUnit listener, use the PHPUnit extension instead
-* Remove deprecated support for Goutte, use `HttpBrowser` instead
-* Remove deprecated support for `PANTHER_CHROME_DRIVER_BINARY` and `PANTHER_GECKO_DRIVER_BINARY` environment variables, add the binaries in your `PATH` instead
+* Add `Client::waitForEnabled()`, `Client::waitForDisabled()`, `Client::waitForAttributeToContain()` and  `Client::waitForAttributeToNotContain()` methods
+* Add `PantherTestCase::assertSelectorAttributeContains()`, `PantherTestCase::assertSelectorAttributeNotContains()`, `PantherTestCase::assertSelectorWillExist()`,
+  `PantherTestCase::assertSelectorWillNotExist()`, `PantherTestCase::assertSelectorWillBeVisible()`, `PantherTestCase::assertSelectorWillNotBeVisible()`,
+  `PantherTestCase::assertSelectorWillContain()`, `PantherTestCase::assertSelectorWillNotContain()`, `PantherTestCase::assertSelectorWillBeEnabled()`,
+  `PantherTestCase::assertSelectorWillBeDisabled`, `PantherTestCase::assertSelectorAttributeWillContain()`, and `PantherTestCase::assertSelectorAttributeWillNotContain()`
+  assertions
+* Automatically take a screenshot when a test fail and if the `PANTHER_ERROR_SCREENSHOT_DIR` environment variable is set
+* Add missing return types
+* **Breaking Change**: Remove the deprecated PHPUnit listener, use the PHPUnit extension instead
+* **Breaking Change**: Remove deprecated support for Goutte, use `HttpBrowser` instead
+* **Breaking Change**: Remove deprecated support for `PANTHER_CHROME_DRIVER_BINARY` and `PANTHER_GECKO_DRIVER_BINARY` environment variables, add the binaries in your `PATH` instead
+* Don't allow unserializing classes with a destructor
 
 0.9.0
 -----
