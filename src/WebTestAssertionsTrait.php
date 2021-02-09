@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Symfony\Component\Panther;
 
 use Facebook\WebDriver\WebDriverElement;
+use LogicException;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestAssertionsTrait as BaseWebTestAssertionsTrait;
 use Symfony\Component\BrowserKit\AbstractBrowser;
@@ -36,32 +37,44 @@ trait WebTestAssertionsTrait
     /** @TODO replace this after patching Symfony to allow xpath selectors */
     public static function assertSelectorExists(string $selector, string $message = ''): void
     {
-        $element = self::findElement($selector);
-        self::assertNotNull($element, $message);
+        $client = self::getClient();
+
+        if ($client instanceof PantherClient) {
+            $element = self::findElement($selector);
+            self::assertNotNull($element, $message);
+
+            return;
+        }
+
+        self::assertNotEmpty($client->getCrawler()->filter($selector));
     }
 
     /** @TODO replace this after patching Symfony to allow xpath selectors */
     public static function assertSelectorNotExists(string $selector, string $message = ''): void
     {
-        /** @var PantherClient $client */
         $client = self::getClient();
-        $by = $client::createWebDriverByFromLocator($selector);
-        $elements = $client->findElements($by);
-        self::assertEmpty($elements, $message);
+
+        if ($client instanceof PantherClient) {
+            $by = $client::createWebDriverByFromLocator($selector);
+            $elements = $client->findElements($by);
+            self::assertEmpty($elements, $message);
+
+            return;
+        }
+
+        self::assertEmpty($client->getCrawler()->filter($selector));
     }
 
     /** @TODO replace this after patching Symfony to allow xpath selectors */
     public static function assertSelectorTextContains(string $selector, string $text, string $message = ''): void
     {
-        $element = self::findElement($selector);
-        self::assertStringContainsString($text, $element->getText(), $message);
+        self::assertStringContainsString($text, self::getText($selector), $message);
     }
 
     /** @TODO replace this after patching Symfony to allow xpath selectors */
     public static function assertSelectorTextNotContains(string $selector, string $text, string $message = ''): void
     {
-        $element = self::findElement($selector);
-        self::assertStringNotContainsString($text, $element->getText(), $message);
+        self::assertStringNotContainsString($text, self::getText($selector), $message);
     }
 
     public static function assertPageTitleSame(string $expectedTitle, string $message = ''): void
@@ -184,15 +197,13 @@ trait WebTestAssertionsTrait
 
     public static function assertSelectorAttributeContains(string $locator, string $attribute, string $text = null): void
     {
-        $element = self::findElement($locator);
-
         if (null === $text) {
-            self::assertNull($element->getAttribute($attribute));
+            self::assertNull(self::getAttribute($locator, $attribute));
 
             return;
         }
 
-        self::assertStringContainsString($text, $element->getAttribute($attribute));
+        self::assertStringContainsString($text, self::getAttribute($locator, $attribute));
     }
 
     public static function assertSelectorAttributeWillContain(string $locator, string $attribute, string $text): void
@@ -205,8 +216,7 @@ trait WebTestAssertionsTrait
 
     public static function assertSelectorAttributeNotContains(string $locator, string $attribute, string $text): void
     {
-        $element = self::findElement($locator);
-        self::assertStringNotContainsString($text, $element->getAttribute($attribute));
+        self::assertStringNotContainsString($text, self::getAttribute($locator, $attribute));
     }
 
     public static function assertSelectorAttributeWillNotContain(string $locator, string $attribute, string $text): void
@@ -217,10 +227,33 @@ trait WebTestAssertionsTrait
         self::assertSelectorAttributeNotContains($locator, $attribute, $text);
     }
 
+    private static function getText(string $locator): string
+    {
+        $client = self::getClient();
+        if ($client instanceof PantherClient) {
+            return self::findElement($locator)->getText();
+        }
+
+        return $client->getCrawler()->filter($locator)->text();
+    }
+
+    private static function getAttribute(string $locator, string $attribute): ?string
+    {
+        $client = self::getClient();
+        if ($client instanceof PantherClient) {
+            return self::findElement($locator)->getAttribute($attribute);
+        }
+
+        return $client->getCrawler()->filter($locator)->attr($attribute);
+    }
+
     private static function findElement(string $locator): WebDriverElement
     {
-        /** @var PantherClient $client */
         $client = self::getClient();
+        if (!$client instanceof PantherClient) {
+            throw new LogicException(sprintf('Using a client that is not an instance of "%s" is not supported.', PantherClient::class));
+        }
+
         $by = $client::createWebDriverByFromLocator($locator);
 
         return $client->findElement($by);
