@@ -431,7 +431,9 @@ class FirstDomainTest extends PantherTestCase
      */
     public function testMyApp(): void
     {
-        $pantherClient = static::createPantherClient(['external_base_uri' => 'http://mydomain.localhost:8000']);
+        $pantherClient = static::createPantherClient([
+            'external_base_uri' => 'http://mydomain.localhost:8000',
+        ]);
         
         // Your tests
     }
@@ -451,7 +453,9 @@ class SecondDomainTest extends PantherTestCase
      */
     public function testMyApp(): void
     {
-        $pantherClient = static::createPantherClient(['external_base_uri' => 'http://anotherdomain.localhost:8000']);
+        $pantherClient = static::createPantherClient([
+            'external_base_uri' => 'http://anotherdomain.localhost:8000',
+        ]);
         
         // Your tests
     }
