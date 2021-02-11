@@ -86,9 +86,9 @@ To register the Panther extension, add the following lines to `phpunit.xml.dist`
 
 ```xml
 <!-- phpunit.xml.dist -->
-    <extensions>
-        <extension class="Symfony\Component\Panther\ServerExtension" />
-    </extensions>
+<extensions>
+    <extension class="Symfony\Component\Panther\ServerExtension" />
+</extensions>
 ```
 
 Without the extension, the web server used by Panther to serve the application under test is started on demand and
