@@ -402,7 +402,7 @@ class E2eTest extends PantherTestCase
 }
 ```
 
-### Having a multi-domain application
+### Having a Multi-domain Application
 
 It happens that your PHP/Symfony application might serve several different domain names.
 
@@ -439,6 +439,7 @@ class FirstDomainTest extends PantherTestCase
     }
 }
 ```
+
 ```php
 <?php
 
