@@ -402,6 +402,67 @@ class E2eTest extends PantherTestCase
 }
 ```
 
+### Having a Multi-domain Application
+
+It happens that your PHP/Symfony application might serve several different domain names.
+
+As Panther saves the Client in memory between tests to improve performances, you will have to run your tests in separate
+processes if you write several tests using Panther for different domain names.
+
+To do so, you can use the native `@runInSeparateProcess` PHPUnit annotation.
+
+**ℹ Note:** it is really convenient to use the `external_base_uri` option and start your own webserver in the background,
+because Panther will not have to start and stop your server on each test. [Symfony CLI](https://symfony.com/download) can
+be a quick and easy way to do so. 
+
+Here is an example using the `external_base_uri` option to determine the domain name used by the Client:
+
+```php
+<?php
+
+namespace App\Tests;
+
+use Symfony\Component\Panther\PantherTestCase;
+
+class FirstDomainTest extends PantherTestCase
+{
+    /**
+     * @runInSeparateProcess
+     */
+    public function testMyApp(): void
+    {
+        $pantherClient = static::createPantherClient([
+            'external_base_uri' => 'http://mydomain.localhost:8000',
+        ]);
+        
+        // Your tests
+    }
+}
+```
+
+```php
+<?php
+
+namespace App\Tests;
+
+use Symfony\Component\Panther\PantherTestCase;
+
+class SecondDomainTest extends PantherTestCase
+{
+    /**
+     * @runInSeparateProcess
+     */
+    public function testMyApp(): void
+    {
+        $pantherClient = static::createPantherClient([
+            'external_base_uri' => 'http://anotherdomain.localhost:8000',
+        ]);
+        
+        // Your tests
+    }
+}
+```
+
 ### Using a Proxy
 
 To use a proxy server, set the following environment variable: `PANTHER_CHROME_ARGUMENTS='--proxy-server=socks://127.0.0.1:9050'`
