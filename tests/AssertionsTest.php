@@ -29,9 +29,13 @@ class AssertionsTest extends TestCase
         }
     }
 
-    public function testDomCrawlerAssertions(): void
+    /**
+     * @dataProvider clientFactoryProvider
+     */
+    public function testDomCrawlerAssertions(callable $clientFactory): void
     {
-        self::createPantherClient()->request('GET', '/basic.html');
+        $this->request($clientFactory, '/basic.html');
+
         $this->assertSelectorExists('.p-1');
         $this->assertSelectorNotExists('#notexist');
         $this->assertSelectorTextContains('body', 'P1');
@@ -41,10 +45,16 @@ class AssertionsTest extends TestCase
         $this->assertPageTitleContains('A basic');
         $this->assertInputValueNotSame('in', '');
         $this->assertInputValueSame('in', 'test');
-        $this->assertSelectorIsVisible('.p-1');
-        $this->assertSelectorIsEnabled('[name="in"]');
         $this->assertSelectorAttributeContains('.price', 'data-old-price', '42');
         $this->assertSelectorAttributeNotContains('.price', 'data-old-price', '36');
+    }
+
+    public function testPantherAssertions(): void
+    {
+        self::createPantherClient()->request('GET', '/basic.html');
+        $this->assertSelectorIsVisible('.p-1');
+        $this->assertSelectorIsEnabled('[name="in"]');
+
         self::createPantherClient()->request('GET', '/input-disabled.html');
         $this->assertSelectorIsDisabled('[name="in-disabled"]');
         self::createPantherClient()->request('GET', '/text-hidden.html');
