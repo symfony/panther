@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Symfony\Component\Panther;
 
 use Facebook\WebDriver\WebDriverElement;
-use LogicException;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestAssertionsTrait as BaseWebTestAssertionsTrait;
 use Symfony\Component\BrowserKit\AbstractBrowser;
@@ -227,6 +226,9 @@ trait WebTestAssertionsTrait
         self::assertSelectorAttributeNotContains($locator, $attribute, $text);
     }
 
+    /**
+     * @internal
+     */
     private static function getText(string $locator): string
     {
         $client = self::getClient();
@@ -237,6 +239,9 @@ trait WebTestAssertionsTrait
         return $client->getCrawler()->filter($locator)->text();
     }
 
+    /**
+     * @internal
+     */
     private static function getAttribute(string $locator, string $attribute): ?string
     {
         $client = self::getClient();
@@ -247,11 +252,14 @@ trait WebTestAssertionsTrait
         return $client->getCrawler()->filter($locator)->attr($attribute);
     }
 
+    /**
+     * @internal
+     */
     private static function findElement(string $locator): WebDriverElement
     {
         $client = self::getClient();
         if (!$client instanceof PantherClient) {
-            throw new LogicException(sprintf('Using a client that is not an instance of "%s" is not supported.', PantherClient::class));
+            throw new \LogicException(sprintf('Using a client that is not an instance of "%s" is not supported.', PantherClient::class));
         }
 
         $by = $client::createWebDriverByFromLocator($locator);
