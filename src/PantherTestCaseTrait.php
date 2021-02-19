@@ -217,7 +217,7 @@ trait PantherTestCaseTrait
             self::$httpBrowserClient->setServerParameter('HTTPS', 'true');
         }
 
-        return self::$httpBrowserClient;
+        return \is_callable([self::class, 'getClient']) && (new \ReflectionMethod(self::class, 'getClient'))->isStatic() ? self::getClient(self::$httpBrowserClient) : self::$httpBrowserClient; // @phpstan-ignore-line
     }
 
     private static function getWebServerDir(array $options): string
