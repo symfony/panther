@@ -69,9 +69,7 @@ jobs:
               uses: shivammathur/setup-php@v2
               with:
                   php-version: ${{ matrix.php-versions }}
-
-            - name: Install extra PHP modules
-              run: apt-get install -y php-zip
+                  extensions: zip
 
             - name: Get composer cache directory
               id: composercache
