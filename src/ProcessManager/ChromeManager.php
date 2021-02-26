@@ -110,19 +110,10 @@ final class ChromeManager implements BrowserManagerInterface
 
     private function createProcess(string $chromeDriverBinary): Process
     {
-        $command = [$chromeDriverBinary, '--port='.$this->options['port']];
-
-        if (null !== $this->options['log_path']) {
-            $command[] = '--log-path='.$this->options['log_path'];
-        }
-
-        if (null !== $this->options['log_level']) {
-            $command[] = '--log-level='.$this->options['log_level'];
-        }
-
-        if ($this->options['append_log']) {
-            $command[] = '--append-log';
-        }
+        $command = array_merge(
+            [$chromeDriverBinary, '--port=' . $this->options['port']],
+            $this->options['chromedriver_arguments']
+        );
 
         return new Process($command, null, null, null, null);
     }
@@ -134,9 +125,7 @@ final class ChromeManager implements BrowserManagerInterface
             'host' => '127.0.0.1',
             'port' => 9515,
             'path' => '/status',
-            'log_path' => null,
-            'log_level' => null,
-            'append_log' => false,
+            'chromedriver_arguments' => [],
             'capabilities' => [],
         ];
     }
