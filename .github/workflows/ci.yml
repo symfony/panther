@@ -70,6 +70,9 @@ jobs:
               with:
                   php-version: ${{ matrix.php-versions }}
 
+            - name: Install extra PHP modules
+              run: apt-get install -y php-zip
+
             - name: Get composer cache directory
               id: composercache
               run: echo "::set-output name=dir::$(composer config cache-files-dir)"
