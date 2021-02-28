@@ -312,6 +312,35 @@ class ConsoleTest extends PantherTestCase
 }
 ```
 
+### Configuring Chrome Manager Options
+
+If needed, you can configure arguments passed to the chrome manager binary:
+
+```php
+<?php
+
+use Symfony\Component\Panther\PantherTestCase;
+
+class ConsoleTest extends PantherTestCase
+{
+    public function testLogging(): void
+    {
+        $client = self::createPantherClient(
+            [],
+            [],
+            [
+                'chromedriver_arguments' => [
+                    '--log-path=target.log',
+                    '--log-level=DEBUG'
+                ],
+            ]
+        );
+
+        $client->request('GET', '/');
+    }
+}
+```
+
 ### Checking the State of the WebDriver Connection
 
 Use the `Client::ping()` method to check if the WebDriver connection is still active (useful for long-running tasks).
