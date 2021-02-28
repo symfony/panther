@@ -111,7 +111,7 @@ final class ChromeManager implements BrowserManagerInterface
     private function createProcess(string $chromeDriverBinary): Process
     {
         $command = array_merge(
-            [$chromeDriverBinary, '--port=' . $this->options['port']],
+            [$chromeDriverBinary, '--port='.$this->options['port']],
             $this->options['chromedriver_arguments']
         );
 
