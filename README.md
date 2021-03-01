@@ -312,16 +312,16 @@ class ConsoleTest extends PantherTestCase
 }
 ```
 
-### Configuring Chrome Manager Options
+### Passing Arguments to ChromeDriver
 
-If needed, you can configure arguments passed to the chrome manager binary:
+If needed, you can configure [the arguments to pass to the `chromedriver` binary](https://chromedriver.chromium.org/logging#TOC-All-languages):
 
 ```php
 <?php
 
 use Symfony\Component\Panther\PantherTestCase;
 
-class ConsoleTest extends PantherTestCase
+class MyTest extends PantherTestCase
 {
     public function testLogging(): void
     {
@@ -330,7 +330,7 @@ class ConsoleTest extends PantherTestCase
             [],
             [
                 'chromedriver_arguments' => [
-                    '--log-path=target.log',
+                    '--log-path=myfile.log',
                     '--log-level=DEBUG'
                 ],
             ]
