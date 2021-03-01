@@ -312,6 +312,35 @@ class ConsoleTest extends PantherTestCase
 }
 ```
 
+### Passing Arguments to ChromeDriver
+
+If needed, you can configure [the arguments to pass to the `chromedriver` binary](https://chromedriver.chromium.org/logging#TOC-All-languages):
+
+```php
+<?php
+
+use Symfony\Component\Panther\PantherTestCase;
+
+class MyTest extends PantherTestCase
+{
+    public function testLogging(): void
+    {
+        $client = self::createPantherClient(
+            [],
+            [],
+            [
+                'chromedriver_arguments' => [
+                    '--log-path=myfile.log',
+                    '--log-level=DEBUG'
+                ],
+            ]
+        );
+
+        $client->request('GET', '/');
+    }
+}
+```
+
 ### Checking the State of the WebDriver Connection
 
 Use the `Client::ping()` method to check if the WebDriver connection is still active (useful for long-running tasks).

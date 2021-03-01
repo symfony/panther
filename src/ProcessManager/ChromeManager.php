@@ -37,7 +37,7 @@ final class ChromeManager implements BrowserManagerInterface
     public function __construct(?string $chromeDriverBinary = null, ?array $arguments = null, array $options = [])
     {
         $this->options = array_merge($this->getDefaultOptions(), $options);
-        $this->process = new Process([$chromeDriverBinary ?: $this->findChromeDriverBinary(), '--port='.$this->options['port']], null, null, null, null);
+        $this->process = $this->createProcess($chromeDriverBinary ?: $this->findChromeDriverBinary());
         $this->arguments = $arguments ?? $this->getDefaultArguments();
     }
 
@@ -108,6 +108,16 @@ final class ChromeManager implements BrowserManagerInterface
         return $args;
     }
 
+    private function createProcess(string $chromeDriverBinary): Process
+    {
+        $command = array_merge(
+            [$chromeDriverBinary, '--port='.$this->options['port']],
+            $this->options['chromedriver_arguments']
+        );
+
+        return new Process($command, null, null, null, null);
+    }
+
     private function getDefaultOptions(): array
     {
         return [
@@ -115,6 +125,7 @@ final class ChromeManager implements BrowserManagerInterface
             'host' => '127.0.0.1',
             'port' => 9515,
             'path' => '/status',
+            'chromedriver_arguments' => [],
             'capabilities' => [],
         ];
     }
