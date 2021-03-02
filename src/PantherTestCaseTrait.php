@@ -162,7 +162,7 @@ trait PantherTestCaseTrait
         }
 
         // Only allow browser arguments if a browser has been explicitly specified
-        if (is_array($browserArguments) && !array_key_exists('browser', $options)) {
+        if (\is_array($browserArguments) && !\array_key_exists('browser', $options)) {
             $browserArguments = null;
         }
 
