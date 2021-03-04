@@ -147,8 +147,14 @@ trait PantherTestCaseTrait
      *
      * @param array $options see {@see $defaultOptions}
      */
-    protected static function createPantherClient(array $options = [], array $kernelOptions = [], array $managerOptions = [], array $browserArguments = null): PantherClient
+    protected static function createPantherClient(array $options = [], array $kernelOptions = [], array $managerOptions = []/*, array $browserArguments = []*/): PantherClient
     {
+        if (\func_num_args() < 4 && __CLASS__ !== (new \ReflectionClass(static::class))->getName() && __CLASS__ !== (new \ReflectionMethod(static::class,__FUNCTION__))->getDeclaringClass()->getName()) {
+            @trigger_error(sprintf('The "%s()" method will have a new "array $browserArguments = []" argument in version 1.1.0, not defining it is deprecated since Symfony 1.0.1.', __METHOD__), E_USER_DEPRECATED);
+        }
+
+        $browserArguments = 3 < \func_num_args() ? func_get_arg(3) : [];
+
         $browser = ($options['browser'] ?? self::$defaultOptions['browser'] ?? static::CHROME);
         $callGetClient = \is_callable([self::class, 'getClient']) && (new \ReflectionMethod(self::class, 'getClient'))->isStatic();
         if (null !== self::$pantherClient) {
@@ -163,6 +169,7 @@ trait PantherTestCaseTrait
 
         // Only allow browser arguments if a browser has been explicitly specified
         if (\is_array($browserArguments) && !\array_key_exists('browser', $options)) {
+            @trigger_error('Specifying $browserArguments implies that you specifically set the browser in $options. $browserArguments will be ignored.', E_USER_WARNING);
             $browserArguments = null;
         }
 
