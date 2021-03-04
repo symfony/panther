@@ -149,8 +149,8 @@ trait PantherTestCaseTrait
      */
     protected static function createPantherClient(array $options = [], array $kernelOptions = [], array $managerOptions = []/*, array $browserArguments = []*/): PantherClient
     {
-        if (\func_num_args() < 4 && \__CLASS__ !== (new \ReflectionClass(static::class))->getName() && \__CLASS__ !== (new \ReflectionMethod(static::class, \__FUNCTION__))->getDeclaringClass()->getName()) {
-            @trigger_error(sprintf('The "%s()" method will have a new "array $browserArguments = []" argument in version 1.1.0, not defining it is deprecated since Symfony 1.0.1.', \__METHOD__), \E_USER_DEPRECATED);
+        if (\func_num_args() < 4 && __CLASS__ !== (new \ReflectionClass(static::class))->getName() && __CLASS__ !== (new \ReflectionMethod(static::class, __FUNCTION__))->getDeclaringClass()->getName()) {
+            @trigger_error(sprintf('The "%s()" method will have a new "array $browserArguments = []" argument in version 1.1.0, not defining it is deprecated since Symfony 1.0.1.', __METHOD__), \E_USER_DEPRECATED);
         }
 
         $browserArguments = 3 < \func_num_args() ? \func_get_arg(3) : [];
