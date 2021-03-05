@@ -21,14 +21,8 @@ if (\class_exists(WebTestCase::class)) {
     {
         use WebTestAssertionsTrait;
 
-        /**
-         * @deprecated Using the CHROME constant from the PantherTestCase is deprecated, use Symfony\Component\Panther\Browser::CHROME instead
-         */
-        public const CHROME = Browser::CHROME;
-        /**
-         * @deprecated Using the FIREFOX constant from the PantherTestCase is deprecated, use Symfony\Component\Panther\Browser::FIREFOX instead
-         */
-        public const FIREFOX = Browser::FIREFOX;
+        public const CHROME = 'chrome';
+        public const FIREFOX = 'firefox';
 
         protected function tearDown(): void
         {
@@ -47,13 +41,7 @@ if (\class_exists(WebTestCase::class)) {
     {
         use PantherTestCaseTrait;
 
-        /**
-         * @deprecated Using the CHROME constant from the PantherTestCase is deprecated, use Symfony\Component\Panther\Browser::CHROME instead
-         */
-        public const CHROME = Browser::CHROME;
-        /**
-         * @deprecated Using the FIREFOX constant from the PantherTestCase is deprecated, use Symfony\Component\Panther\Browser::FIREFOX instead
-         */
-        public const FIREFOX = Browser::FIREFOX;
+        public const CHROME = 'chrome';
+        public const FIREFOX = 'firefox';
     }
 }
