@@ -149,7 +149,7 @@ trait PantherTestCaseTrait
      */
     protected static function createPantherClient(array $options = [], array $kernelOptions = [], array $managerOptions = []): PantherClient
     {
-        $browser = ($options['browser'] ?? self::$defaultOptions['browser'] ?? static::CHROME);
+        $browser = ($options['browser'] ?? self::$defaultOptions['browser'] ?? PantherTestCase::CHROME);
         $callGetClient = \is_callable([self::class, 'getClient']) && (new \ReflectionMethod(self::class, 'getClient'))->isStatic();
         if (null !== self::$pantherClient) {
             $browserManager = self::$pantherClient->getBrowserManager();
