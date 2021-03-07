@@ -73,7 +73,7 @@ trait PantherTestCaseTrait
         'router' => '',
         'external_base_uri' => null,
         'readinessPath' => '',
-        'browser' => Browser::CHROME,
+        'browser' => PantherTestCase::CHROME,
     ];
 
     public static function tearDownAfterClass(): void
@@ -154,8 +154,8 @@ trait PantherTestCaseTrait
         if (null !== self::$pantherClient) {
             $browserManager = self::$pantherClient->getBrowserManager();
             if (
-                (Browser::CHROME === $browser && $browserManager instanceof ChromeManager) ||
-                (Browser::FIREFOX === $browser && $browserManager instanceof FirefoxManager)
+                (PantherTestCase::CHROME === $browser && $browserManager instanceof ChromeManager) ||
+                (PantherTestCase::FIREFOX === $browser && $browserManager instanceof FirefoxManager)
             ) {
                 return $callGetClient ? self::getClient(self::$pantherClient) : self::$pantherClient; // @phpstan-ignore-line
             }
@@ -163,7 +163,7 @@ trait PantherTestCaseTrait
 
         self::startWebServer($options);
 
-        if (Browser::CHROME === $browser) {
+        if (PantherTestCase::CHROME === $browser) {
             self::$pantherClients[0] = self::$pantherClient = Client::createChromeClient(null, null, $managerOptions, self::$baseUri);
         } else {
             self::$pantherClients[0] = self::$pantherClient = Client::createFirefoxClient(null, null, $managerOptions, self::$baseUri);
