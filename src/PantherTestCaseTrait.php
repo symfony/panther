@@ -163,7 +163,15 @@ trait PantherTestCaseTrait
 
         self::startWebServer($options);
 
-        $browserArguments = \array_key_exists('browser_arguments', $options) && \is_array($options['browser_arguments']) ? $options['browser_arguments'] : [];
+        $browserArguments = null;
+
+        if (\array_key_exists('browser_arguments', $options)) {
+            if (!\is_array($options['browser_arguments'])) {
+                @trigger_error('Expected key "browser_arguments" to be an array.', \E_USER_WARNING);
+            } else {
+                $browserArguments = $options['browser_arguments'];
+            }
+        }
 
         if (static::CHROME === $browser) {
             self::$pantherClients[0] = self::$pantherClient = Client::createChromeClient(null, $browserArguments, $managerOptions, self::$baseUri);
