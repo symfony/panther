@@ -163,10 +163,20 @@ trait PantherTestCaseTrait
 
         self::startWebServer($options);
 
+        $browserArguments = null;
+
+        if (\array_key_exists('browser_arguments', $options)) {
+            if (!\is_array($options['browser_arguments'])) {
+                @trigger_error('Expected key "browser_arguments" to be an array.', \E_USER_WARNING);
+            } else {
+                $browserArguments = $options['browser_arguments'];
+            }
+        }
+
         if (static::CHROME === $browser) {
-            self::$pantherClients[0] = self::$pantherClient = Client::createChromeClient(null, null, $managerOptions, self::$baseUri);
+            self::$pantherClients[0] = self::$pantherClient = Client::createChromeClient(null, $browserArguments, $managerOptions, self::$baseUri);
         } else {
-            self::$pantherClients[0] = self::$pantherClient = Client::createFirefoxClient(null, null, $managerOptions, self::$baseUri);
+            self::$pantherClients[0] = self::$pantherClient = Client::createFirefoxClient(null, $browserArguments, $managerOptions, self::$baseUri);
         }
 
         if (\is_a(self::class, KernelTestCase::class, true)) {
