@@ -60,9 +60,13 @@ final class ChromeManager implements BrowserManagerInterface
         }
 
         if ($this->arguments) {
-            $chromeOptions = new ChromeOptions();
+            $chromeOptions = $capabilities->getCapability(ChromeOptions::CAPABILITY);
+            if (null === $chromeOptions) {
+                $chromeOptions = new ChromeOptions();
+                $capabilities->setCapability(ChromeOptions::CAPABILITY, $chromeOptions);
+            }
             $chromeOptions->addArguments($this->arguments);
-            $capabilities->setCapability(ChromeOptions::CAPABILITY, $chromeOptions);
+
             if (isset($_SERVER['PANTHER_CHROME_BINARY'])) {
                 $chromeOptions->setBinary($_SERVER['PANTHER_CHROME_BINARY']);
             }
