@@ -45,8 +45,6 @@ Use [Composer](https://getcomposer.org/) to install Panther in your project. You
 
 ### Installing ChromeDriver and geckodriver
 
-Panther uses the WebDriver protocol to control the browser used to crawl websites.
-
 On all systems, you can use `dbrekelmans/browser-driver-installer` to install ChromeDriver and geckodriver locally:
 
     composer require --dev dbrekelmans/bdi
@@ -68,9 +66,9 @@ On Windows, using [chocolatey](https://chocolatey.org):
 
     choco install chromedriver selenium-gecko-driver
 
-Finally, you can download manually [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/) (for Chromium or Chrome)
-and [GeckoDriver](https://github.com/mozilla/geckodriver) (for Firefox) and put them anywhere in your `PATH`
-or in the `drivers/` directory of your project.
+Finally, you can manually download [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/) (for Chromium or Chrome)
+or [GeckoDriver](https://github.com/mozilla/geckodriver) (for Firefox) and add them to your `PATH` or put them 
+in the `drivers/` directory of your project.
 
 #### Registering the PHPUnit Extension
 
