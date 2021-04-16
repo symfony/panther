@@ -388,7 +388,7 @@ $client = self::createPantherClient([
 * `PANTHER_FIREFOX_ARGUMENTS`: to customize Firefox arguments. You need to set `PANTHER_NO_HEADLESS` to fully customize.
 * `PANTHER_FIREFOX_BINARY`: to use another `firefox` binary
 
-### Changing the Size of the Brwoser Window
+### Changing the Size of the Browser Window
 
 This also controls the size of the screenshots.
 
