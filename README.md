@@ -118,7 +118,7 @@ $crawler = $client->waitForVisibility('#installing-the-framework');
 
 echo $crawler->filter('#installing-the-framework')->text();
 $client->takeScreenshot('screen.png'); // Yeah, screenshot!
-$sourceCode = $client->html();
+$sourceCode = $crawler->html();
 ```
 
 ### Testing Usage
