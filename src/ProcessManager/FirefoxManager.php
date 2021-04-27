@@ -89,8 +89,18 @@ final class FirefoxManager implements BrowserManagerInterface
 
     private function getDefaultArguments(): array
     {
+        $args = [];
+
         // Enable the headless mode unless PANTHER_NO_HEADLESS is defined
-        $args = ($_SERVER['PANTHER_NO_HEADLESS'] ?? false) ? ['--devtools'] : ['--headless', '--window-size=1200,1100'];
+        if (($_SERVER['PANTHER_NO_HEADLESS'] ?? false) == false) {
+            $args[] = '--headless';
+            $args[] = '--window-size=1200,1100';
+        }
+
+        // Enable devtools for debugging
+        if ($_SERVER['PANTHER_DEVTOOLS'] ?? true) {
+            $args[] = '--devtools';
+        }
 
         // Add custom arguments with PANTHER_FIREFOX_ARGUMENTS
         if ($_SERVER['PANTHER_FIREFOX_ARGUMENTS'] ?? false) {
