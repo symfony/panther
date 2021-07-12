@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther;
 
+use PHPUnit\Runner\BaseTestRunner;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\BrowserKit\HttpBrowser as HttpBrowserClient;
 use Symfony\Component\HttpClient\HttpClient;
@@ -140,6 +141,18 @@ trait PantherTestCaseTrait
     public static function isWebServerStarted(): bool
     {
         return self::$webServerManager && self::$webServerManager->isStarted();
+    }
+
+    public function takeScreenshotIfTestFailed(): void
+    {
+        if (!in_array($this->getStatus(), [BaseTestRunner::STATUS_ERROR, BaseTestRunner::STATUS_FAILURE])) {
+            return;
+        }
+
+        $type = $this->getStatus() === BaseTestRunner::STATUS_FAILURE ? 'failure' : 'error';
+        $test = $this->toString();
+
+        ServerExtension::takeScreenshots($type, $test);
     }
 
     /**
