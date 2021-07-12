@@ -390,7 +390,9 @@ $client = self::createPantherClient([
 
 ### Changing the Size of the Browser Window
 
+It's possible to control the size of the browser window.
 This also controls the size of the screenshots.
+
 
 Chrome:
 
