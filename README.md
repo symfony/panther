@@ -400,6 +400,7 @@ or set it via `.env`:
 ```
 PANTHER_CHROME_ARGUMENTS='--window-size=1500,4000'
 Firefox:
+
 ```php
 use Facebook\WebDriver\WebDriverDimension;
 $client = Client::createFirefoxClient();
