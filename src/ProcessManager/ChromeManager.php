@@ -93,7 +93,7 @@ final class ChromeManager implements BrowserManagerInterface
         $args = [];
 
         // Enable the headless mode unless PANTHER_NO_HEADLESS is defined
-        if (($_SERVER['PANTHER_NO_HEADLESS'] ?? false) == false) {
+        if ($_SERVER['PANTHER_NO_HEADLESS'] ?? false) {
             $args[] = '--headless';
             $args[] = '--window-size=1200,1100';
             $args[] = '--disable-gpu';
