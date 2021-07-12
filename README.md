@@ -503,6 +503,12 @@ To use a proxy server, set the following environment variable: `PANTHER_CHROME_A
 To force Chrome to accept invalid and self-signed certificates, set the following environment variable: `PANTHER_CHROME_ARGUMENTS='--ignore-certificate-errors'`
 **This option is insecure**, use it only for testing in development environments, never in production (e.g. for web crawlers).
 
+For Firefox, instantiate the client like this:
+
+```php
+$client = Client::createFirefoxClient(null, null, ['capabilities' => ['acceptInsecureCerts' => true]]);
+```
+
 ### Docker Integration
 
 Here is a minimal Docker image that can run Panther with both Chrome and Firefox:
