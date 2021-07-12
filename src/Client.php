@@ -269,7 +269,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
 
         foreach (['parameters', 'files', 'server'] as $arg) {
             if ([] !== $$arg) {
-                throw new \InvalidArgumentException(\sprintf('The parameter "$%s" is not supported when using WebDriver.', $arg));
+                throw new \InvalidArgumentException(sprintf('The parameter "$%s" is not supported when using WebDriver.', $arg));
             }
         }
 
@@ -524,7 +524,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
         $this->start();
 
         // Prepend the base URI to URIs without a host
-        if (null !== $this->baseUri && (false !== $components = \parse_url($url)) && !isset($components['host'])) {
+        if (null !== $this->baseUri && (false !== $components = parse_url($url)) && !isset($components['host'])) {
             $url = $this->baseUri.$url;
         }
 

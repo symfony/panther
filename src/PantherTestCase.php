@@ -16,7 +16,7 @@ namespace Symfony\Component\Panther;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-if (\class_exists(WebTestCase::class)) {
+if (class_exists(WebTestCase::class)) {
     abstract class PantherTestCase extends WebTestCase
     {
         use WebTestAssertionsTrait;

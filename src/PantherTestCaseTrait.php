@@ -147,11 +147,11 @@ trait PantherTestCaseTrait
 
     public function takeScreenshotIfTestFailed(): void
     {
-        if (!in_array($this->getStatus(), [BaseTestRunner::STATUS_ERROR, BaseTestRunner::STATUS_FAILURE])) {
+        if (!\in_array($this->getStatus(), [BaseTestRunner::STATUS_ERROR, BaseTestRunner::STATUS_FAILURE], true)) {
             return;
         }
 
-        $type = $this->getStatus() === BaseTestRunner::STATUS_FAILURE ? 'failure' : 'error';
+        $type = BaseTestRunner::STATUS_FAILURE === $this->getStatus() ? 'failure' : 'error';
         $test = $this->toString();
 
         ServerExtension::takeScreenshots($type, $test);
@@ -186,7 +186,7 @@ trait PantherTestCaseTrait
             self::$pantherClients[0] = self::$pantherClient = Client::createFirefoxClient(null, null, $managerOptions, self::$baseUri);
         }
 
-        if (\is_a(self::class, KernelTestCase::class, true)) {
+        if (is_a(self::class, KernelTestCase::class, true)) {
             static::bootKernel($kernelOptions); // @phpstan-ignore-line
         }
 
@@ -224,7 +224,7 @@ trait PantherTestCaseTrait
             self::$httpBrowserClient = new HttpBrowserClient(HttpClient::create());
         }
 
-        if (\is_a(self::class, KernelTestCase::class, true)) {
+        if (is_a(self::class, KernelTestCase::class, true)) {
             static::bootKernel($kernelOptions); // @phpstan-ignore-line
         }
 

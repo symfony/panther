@@ -78,10 +78,10 @@ class WebServerManagerTest extends TestCase
     public function testInvalidDocumentRoot(): void
     {
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessageRegExp('#/not-exists#');
+        $this->expectExceptionMessageMatches('#/not-exists#');
 
+        $server = new WebServerManager('/not-exists', '127.0.0.1', 1234);
         try {
-            $server = new WebServerManager('/not-exists', '127.0.0.1', 1234);
             $server->start();
         } finally {
             $server->quit();

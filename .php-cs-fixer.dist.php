@@ -11,7 +11,7 @@ HEADER;
 
 $finder = PhpCsFixer\Finder::create()->in(__DIR__);
 
-return PhpCsFixer\Config::create()
+return (new PhpCsFixer\Config())
     ->setRiskyAllowed(true)
     ->setRules([
         '@Symfony' => true,
@@ -29,17 +29,6 @@ return PhpCsFixer\Config::create()
         ],
         'modernize_types_casting' => true,
         'native_function_invocation' => ['include' => ['@compiler_optimized'], 'scope' => 'namespaced'],
-        'no_extra_consecutive_blank_lines' => [
-            'break',
-            'continue',
-            'curly_brace_block',
-            'extra',
-            'parenthesis_brace_block',
-            'return',
-            'square_brace_block',
-            'throw',
-            'use',
-        ],
         'no_useless_else' => true,
         'no_useless_return' => true,
         'ordered_imports' => true,
@@ -47,7 +36,6 @@ return PhpCsFixer\Config::create()
             'only_untyped' => true,
         ],
         'phpdoc_order' => true,
-        'psr4' => true,
         'semicolon_after_instruction' => true,
         'strict_comparison' => true,
         'strict_param' => true,
