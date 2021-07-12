@@ -67,7 +67,7 @@ On Windows, using [chocolatey](https://chocolatey.org):
     choco install chromedriver selenium-gecko-driver
 
 Finally, you can manually download [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/) (for Chromium or Chrome)
-or [GeckoDriver](https://github.com/mozilla/geckodriver) (for Firefox) and add them to your `PATH` or put them 
+and/or [GeckoDriver](https://github.com/mozilla/geckodriver) (for Firefox) and add them to your `PATH` or put them 
 in the `drivers/` directory of your project.
 
 #### Registering the PHPUnit Extension
