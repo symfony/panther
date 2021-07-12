@@ -47,7 +47,8 @@ Use [Composer](https://getcomposer.org/) to install Panther in your project. You
 
 Panther uses the WebDriver protocol to control the browser used to crawl websites.
 
-On all systems, you can use `dbrekelmans/browser-driver-installer` to install ChromeDriver and geckodriver locally:
+On all systems, you can use [`dbrekelmans/browser-driver-installer`](https://github.com/dbrekelmans/browser-driver-installer)
+to install ChromeDriver and geckodriver locally:
 
     composer require --dev dbrekelmans/bdi
     vendor/bin/bdi detect drivers
