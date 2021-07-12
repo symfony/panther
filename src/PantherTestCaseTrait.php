@@ -157,6 +157,8 @@ trait PantherTestCaseTrait
                 (static::CHROME === $browser && $browserManager instanceof ChromeManager) ||
                 (static::FIREFOX === $browser && $browserManager instanceof FirefoxManager)
             ) {
+                ServerExtension::registerClient(self::$pantherClient);
+
                 return $callGetClient ? self::getClient(self::$pantherClient) : self::$pantherClient; // @phpstan-ignore-line
             }
         }

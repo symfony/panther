@@ -35,7 +35,7 @@ final class ServerExtension implements BeforeFirstTestHook, AfterLastTestHook, B
 
     public static function registerClient(Client $client): void
     {
-        if (self::$enabled) {
+        if (self::$enabled && !in_array($client, self::$registeredClients, true)) {
             self::$registeredClients[] = $client;
         }
     }
