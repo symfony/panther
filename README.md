@@ -396,7 +396,6 @@ Chrome:
 
 ```php
 $client = Client::createChromeClient(null, ['--window-size=1500,4000']);
-```
 or set it via `.env`:
 ```
 PANTHER_CHROME_ARGUMENTS='--window-size=1500,4000'
