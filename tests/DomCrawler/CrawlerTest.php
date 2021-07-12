@@ -220,6 +220,7 @@ class CrawlerTest extends TestCase
 
     /**
      * @dataProvider clientFactoryProvider
+     * @group legacy
      */
     public function testParents(callable $clientFactory): void
     {
@@ -227,6 +228,24 @@ class CrawlerTest extends TestCase
 
         $names = [];
         $crawler->filter('main > h1')->parents()->each(function (Crawler $c, int $i) use (&$names) {
+            $names[$i] = $c->nodeName();
+        });
+
+        $this->assertSame(['main', 'body', 'html'], $names);
+    }
+
+    /**
+     * @dataProvider clientFactoryProvider
+     */
+    public function testAncestors(callable $clientFactory): void
+    {
+        $crawler = $this->request($clientFactory, '/basic.html');
+        if (!method_exists($crawler, 'ancestors')) {
+            $this->markTestSkipped('Crawler::ancestors() doesn\'t exist.');
+        }
+
+        $names = [];
+        $crawler->filter('main > h1')->ancestors()->each(function (Crawler $c, int $i) use (&$names) {
             $names[$i] = $c->nodeName();
         });
 

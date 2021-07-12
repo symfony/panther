@@ -10,7 +10,7 @@
 
     <php>
         <env name="KERNEL_CLASS" value="Symfony\Component\Panther\Tests\DummyKernel" />
-        <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[total]=1" />
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[direct]=0" />
     </php>
 
     <testsuites>
