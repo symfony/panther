@@ -128,7 +128,7 @@ class WebDriverCheckBoxTest extends TestCase
         foreach ($c->getAllSelectedOptions() as $option) {
             $selectedValues[] = $option->getAttribute('value');
         }
-        $this->assertSame(\array_values($selectedOptions), $selectedValues);
+        $this->assertSame(array_values($selectedOptions), $selectedValues);
     }
 
     public function selectByIndexDataProvider(): iterable

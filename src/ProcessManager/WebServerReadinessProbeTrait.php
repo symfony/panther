@@ -36,7 +36,7 @@ trait WebServerReadinessProbeTrait
         if (\is_resource($resource)) {
             fclose($resource);
             if ($throw) {
-                throw new \RuntimeException(\sprintf('The port %d is already in use.', $port));
+                throw new \RuntimeException(sprintf('The port %d is already in use.', $port));
             }
         }
     }

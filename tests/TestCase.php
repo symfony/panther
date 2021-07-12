@@ -49,6 +49,6 @@ abstract class TestCase extends PantherTestCase
 
     protected function getUploadFilePath(string $fileName): string
     {
-        return \sprintf('%s/%s', self::$webServerDir, $fileName);
+        return sprintf('%s/%s', self::$webServerDir, $fileName);
     }
 }

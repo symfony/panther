@@ -36,7 +36,7 @@ final class TextareaFormField extends BaseTextareaFormField
     {
         $tagName = $this->element->getTagName();
         if ('textarea' !== $tagName) {
-            throw new \LogicException(\sprintf('A TextareaFormField can only be created from a textarea tag (%s given).', $tagName));
+            throw new \LogicException(sprintf('A TextareaFormField can only be created from a textarea tag (%s given).', $tagName));
         }
     }
 }
