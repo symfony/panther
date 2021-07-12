@@ -34,8 +34,7 @@ trait ServerTrait
 
     private function pause($message): void
     {
-        if (PantherTestCase::isWebServerStarted()
-            && \in_array('--debug', $_SERVER['argv'], true)
+        if (\in_array('--debug', $_SERVER['argv'], true)
             && $_SERVER['PANTHER_NO_HEADLESS'] ?? false
         ) {
             echo "$message\n\nPress enter to continue...";
