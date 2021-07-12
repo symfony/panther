@@ -35,7 +35,7 @@ final class ServerExtension implements BeforeFirstTestHook, AfterLastTestHook, B
 
     public static function registerClient(Client $client): void
     {
-        if (self::$enabled) {
+        if (self::$enabled && !in_array($client, self::$registeredClients, true)) {
             self::$registeredClients[] = $client;
         }
     }
@@ -63,13 +63,11 @@ final class ServerExtension implements BeforeFirstTestHook, AfterLastTestHook, B
 
     public function executeAfterTestError(string $test, string $message, float $time): void
     {
-        $this->takeScreenshots('error', $test);
         $this->pause(sprintf('Error: %s', $message));
     }
 
     public function executeAfterTestFailure(string $test, string $message, float $time): void
     {
-        $this->takeScreenshots('failure', $test);
         $this->pause(sprintf('Failure: %s', $message));
     }
 
@@ -78,20 +76,24 @@ final class ServerExtension implements BeforeFirstTestHook, AfterLastTestHook, B
         self::$registeredClients = [];
     }
 
-    private function takeScreenshots(string $type, string $test): void
+    public static function takeScreenshots(string $type, string $test): void
     {
-        if (!($_SERVER['PANTHER_ERROR_SCREENSHOT_DIR'] ?? false)) {
+        if (!self::$enabled || !($_SERVER['PANTHER_ERROR_SCREENSHOT_DIR'] ?? false)) {
             return;
         }
 
         foreach (self::$registeredClients as $i => $client) {
-            $client->takeScreenshot(sprintf('%s/%s_%s_%s-%d.png',
+            $screenshotPath = sprintf('%s/%s_%s_%s-%d.png',
                 $_SERVER['PANTHER_ERROR_SCREENSHOT_DIR'],
                 date('Y-m-d_H-i-s'),
                 $type,
                 strtr($test, ['\\' => '-', ':' => '_']),
                 $i
-            ));
+            );
+            $client->takeScreenshot($screenshotPath);
+            if ($_SERVER['PANTHER_ERROR_SCREENSHOT_ATTACH'] ?? false) {
+                printf('[[ATTACHMENT|%s]]', $screenshotPath);
+            }
         }
     }
 }

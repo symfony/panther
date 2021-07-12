@@ -32,6 +32,7 @@ if (\class_exists(WebTestCase::class)) {
         private function doTearDown(): void
         {
             parent::tearDown();
+            $this->takeScreenshotIfTestFailed();
             self::getClient(null);
         }
     }
@@ -43,5 +44,11 @@ if (\class_exists(WebTestCase::class)) {
 
         public const CHROME = 'chrome';
         public const FIREFOX = 'firefox';
+
+        protected function tearDown(): void
+        {
+            parent::tearDown();
+            $this->takeScreenshotIfTestFailed();
+        }
     }
 }

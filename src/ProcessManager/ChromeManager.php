@@ -81,7 +81,7 @@ final class ChromeManager implements BrowserManagerInterface
      */
     private function findChromeDriverBinary(): string
     {
-        if ($binary = (new ExecutableFinder())->find('chromedriver', null, ['./drivers'])) {
+        if ($binary = (new ExecutableFinder())->find('chromedriver', null, ['./drivers', './vendor/bin'])) {
             return $binary;
         }
 
