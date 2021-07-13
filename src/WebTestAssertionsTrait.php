@@ -236,7 +236,7 @@ trait WebTestAssertionsTrait
             return self::findElement($locator)->getText();
         }
 
-        return $client->getCrawler()->filter($locator)->text();
+        return $client->getCrawler()->filter($locator)->text(null, true);
     }
 
     /**

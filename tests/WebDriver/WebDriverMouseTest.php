@@ -33,7 +33,7 @@ class WebDriverMouseTest extends TestCase
         $client = self::createPantherClient();
 
         $client->getMouse()->{$method}($cssSelector);
-        $this->assertEquals($result, $client->getCrawler()->filter('#result')->text());
+        $this->assertEquals($result, $client->getCrawler()->filter('#result')->text(null, true));
     }
 
     public function provide(): iterable
