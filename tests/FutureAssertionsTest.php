@@ -20,7 +20,7 @@ class FutureAssertionsTest extends TestCase
     {
         $crawler = self::createPantherClient()->request('GET', '/waitfor.html');
         $this->assertSelectorWillExist($locator);
-        $this->assertSame('Hello', $crawler->filter('#hello')->text());
+        $this->assertSame('Hello', $crawler->filter('#hello')->text(null, true));
     }
 
     /** @dataProvider futureDataProvider */
@@ -36,7 +36,7 @@ class FutureAssertionsTest extends TestCase
     {
         $crawler = self::createPantherClient()->request('GET', '/waitfor-element-to-be-visible.html');
         $this->assertSelectorWillBeVisible($locator);
-        $this->assertSame('Hello', $crawler->filter('#hello')->text());
+        $this->assertSame('Hello', $crawler->filter('#hello')->text(null, true));
         $this->assertSelectorExists($locator);
     }
 
@@ -45,7 +45,7 @@ class FutureAssertionsTest extends TestCase
     {
         $crawler = self::createPantherClient()->request('GET', '/waitfor-element-to-be-invisible.html');
         $this->assertSelectorWillNotBeVisible($locator);
-        $this->assertSame('', $crawler->filter('#hello')->text());
+        $this->assertSame('', $crawler->filter('#hello')->text(null, true));
     }
 
     /** @dataProvider futureDataProvider */
@@ -53,7 +53,7 @@ class FutureAssertionsTest extends TestCase
     {
         $crawler = self::createPantherClient()->request('GET', '/waitfor-element-to-contain.html');
         $this->assertSelectorWillContain($locator, 'new content');
-        $this->assertSame('Hello new content', $crawler->filter('#hello')->text());
+        $this->assertSame('Hello new content', $crawler->filter('#hello')->text(null, true));
     }
 
     /** @dataProvider futureDataProvider */
@@ -61,7 +61,7 @@ class FutureAssertionsTest extends TestCase
     {
         $crawler = self::createPantherClient()->request('GET', '/waitfor-element-to-not-contain.html');
         $this->assertSelectorWillNotContain($locator, 'removed content');
-        $this->assertSame('Hello', $crawler->filter('#hello')->text());
+        $this->assertSame('Hello', $crawler->filter('#hello')->text(null, true));
     }
 
     /** @dataProvider futureDataProvider */

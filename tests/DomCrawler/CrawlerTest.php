@@ -71,13 +71,13 @@ class CrawlerTest extends TestCase
         $crawler->filterXPath('descendant-or-self::body/p')->each(function (Crawler $crawler, int $i) {
             switch ($i) {
                 case 0:
-                    $this->assertSame('P1', $crawler->text());
+                    $this->assertSame('P1', $crawler->text(null, true));
                     break;
                 case 1:
-                    $this->assertSame('P2', $crawler->text());
+                    $this->assertSame('P2', $crawler->text(null, true));
                     break;
                 case 2:
-                    $this->assertSame('36', $crawler->text());
+                    $this->assertSame('36', $crawler->text(null, true));
                     break;
                 default:
                     $this->fail(sprintf('Unexpected index "%d".', $i));
@@ -95,10 +95,10 @@ class CrawlerTest extends TestCase
 
         $texts = [];
         $crawler->filter('main > p')->each(function (Crawler $crawler, int $i) use (&$texts) {
-            $texts[$i] = $crawler->text();
+            $texts[$i] = $crawler->text(null, true);
         });
         $this->assertSame(['Sibling', 'Sibling 2', 'Sibling 3'], $texts);
-        $this->assertSame('Sibling 2', $crawler->filter('main')->filter('#a-sibling')->text());
+        $this->assertSame('Sibling 2', $crawler->filter('main')->filter('#a-sibling')->text(null, true));
     }
 
     /**
@@ -129,7 +129,7 @@ class CrawlerTest extends TestCase
     public function testFirst(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/basic.html');
-        $this->assertSame('Sibling', $crawler->filter('main > p')->first()->text());
+        $this->assertSame('Sibling', $crawler->filter('main > p')->first()->text(null, true));
     }
 
     /**
@@ -138,7 +138,7 @@ class CrawlerTest extends TestCase
     public function testLast(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/basic.html');
-        $this->assertSame('Sibling 3', $crawler->filter('main > p')->last()->text());
+        $this->assertSame('Sibling 3', $crawler->filter('main > p')->last()->text(null, true));
     }
 
     /**
@@ -150,7 +150,7 @@ class CrawlerTest extends TestCase
 
         $texts = [];
         $crawler->filter('main > p')->siblings()->each(function (Crawler $c, int $i) use (&$texts) {
-            $texts[$i] = $c->text();
+            $texts[$i] = $c->text(null, true);
         });
 
         $this->assertSame(['Main', 'Sibling 2', 'Sibling 3'], $texts);
@@ -165,7 +165,7 @@ class CrawlerTest extends TestCase
 
         $texts = [];
         $crawler->filter('main > p')->nextAll()->each(function (Crawler $c, int $i) use (&$texts) {
-            $texts[$i] = $c->text();
+            $texts[$i] = $c->text(null, true);
         });
 
         $this->assertSame(['Sibling 2', 'Sibling 3'], $texts);
@@ -180,7 +180,7 @@ class CrawlerTest extends TestCase
 
         $texts = [];
         $crawler->filter('main > p')->previousAll()->each(function (Crawler $c, int $i) use (&$texts) {
-            $texts[$i] = $c->text();
+            $texts[$i] = $c->text(null, true);
         });
 
         $this->assertSame(['Main'], $texts);
@@ -348,7 +348,7 @@ class CrawlerTest extends TestCase
         }
 
         $crawler = $this->request($clientFactory, '/normalize.html');
-        $this->assertSame('Foo Bar Baz', $crawler->filter('#normalize')->text());
+        $this->assertSame('Foo Bar Baz', $crawler->filter('#normalize')->text(null, true));
     }
 
     public function testDoNotNormalizeText(): void
