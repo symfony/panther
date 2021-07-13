@@ -1,6 +1,21 @@
 CHANGELOG
 =========
 
+1.1.0
+-----
+
+* Add a `PANTHER_DEVTOOLS` environment variable to disable the dev tools
+* Add a `PANTHER_ERROR_SCREENSHOT_ATTACH` environment variable to attach screenshots to PHPUnit reports in the JUnit format
+* Add a `chromedriver_arguments` option to pass custom arguments to Chromedriver
+* Add an `env` option to pass custom environment variables to the built-in web server from `PantherTestCase`
+* Add the possibility to pass options to `ChromeManager`
+* Automatically find the Chromedriver binary installed by `lanfest/binary-chromedriver`
+* Symfony 5.3 compatibility
+* Fix assertions that were not working with clients other than `PantherClient`
+* Fix the ability to keep the window of the browser open when a test fail by using the `--debug` option
+* Fix the `ServerExtension` when `registerClient()` is called multiple times
+* Fix `undefined constant` errors when using `PantherTestCaseTrait` directly
+
 1.0.1
 -----
 
