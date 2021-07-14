@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+1.1.1
+-----
+
+* Fix a bug preventing to disable the headless mode
+
 1.1.0
 -----
 
