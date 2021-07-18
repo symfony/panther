@@ -161,6 +161,7 @@ trait PantherTestCaseTrait
      * Creates the primary browser.
      *
      * @param array $options see {@see $defaultOptions}
+     *
      * @throws \InvalidArgumentException
      */
     protected static function createPantherClient(array $options = [], array $kernelOptions = [], array $managerOptions = []): PantherClient
@@ -186,9 +187,9 @@ trait PantherTestCaseTrait
         if (\array_key_exists('browser_arguments', $options)) {
             if (!\is_array($options['browser_arguments'])) {
                 throw new \InvalidArgumentException('Expected key "browser_arguments" to be an array.');
-            } else {
-                $browserArguments = $options['browser_arguments'];
             }
+
+            $browserArguments = $options['browser_arguments'];
         }
 
         if (PantherTestCase::CHROME === $browser) {

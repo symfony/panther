@@ -41,6 +41,26 @@ class ClientTest extends TestCase
         $this->assertInstanceOf(KernelInterface::class, self::$kernel);
     }
 
+    public function testCreatePantherClientWithBrowserArgument(): void
+    {
+        $client = self::createPantherClient([
+            'browser_arguments' => ['--window-size=1400,900'],
+        ]);
+        $this->assertInstanceOf(AbstractBrowser::class, $client);
+        $this->assertInstanceOf(WebDriver::class, $client);
+        $this->assertInstanceOf(JavaScriptExecutor::class, $client);
+        $this->assertInstanceOf(KernelInterface::class, self::$kernel);
+    }
+
+    public function testCreatePantherClientInvalidArgument(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $client = self::createPantherClient([
+            'browser_arguments' => 'bad browser arguments data type',
+        ]);
+    }
+
     public function testWaitForEmptyLocator(): void
     {
         $this->expectException(InvalidSelectorException::class);
