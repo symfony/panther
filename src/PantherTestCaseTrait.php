@@ -168,6 +168,7 @@ trait PantherTestCaseTrait
     {
         $browser = ($options['browser'] ?? self::$defaultOptions['browser'] ?? PantherTestCase::CHROME);
         $callGetClient = \is_callable([self::class, 'getClient']) && (new \ReflectionMethod(self::class, 'getClient'))->isStatic();
+
         if (null !== self::$pantherClient) {
             $browserManager = self::$pantherClient->getBrowserManager();
             if (
