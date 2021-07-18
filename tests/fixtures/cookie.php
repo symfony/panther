@@ -15,7 +15,7 @@ require __DIR__.'/security-check.php';
 
 $val = $_COOKIE['barcelona'] ?? 0;
 
-\setcookie('barcelona', (string) ($val + 1), 0, '/cookie.php', '127.0.0.1', false, true);
+setcookie('barcelona', (string) ($val + 1), 0, '/cookie.php', '127.0.0.1', false, true);
 ?>
 <!DOCTYPE html>
 <html lang="en">

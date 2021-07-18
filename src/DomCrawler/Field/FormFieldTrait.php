@@ -68,7 +68,7 @@ trait FormFieldTrait
         }
 
         $existingValueLength = \strlen($v);
-        $deleteKeys = \str_repeat(WebDriverKeys::BACKSPACE.WebDriverKeys::DELETE, $existingValueLength);
+        $deleteKeys = str_repeat(WebDriverKeys::BACKSPACE.WebDriverKeys::DELETE, $existingValueLength);
         $this->element->sendKeys($deleteKeys.$value);
     }
 }

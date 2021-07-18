@@ -1,5 +1,5 @@
-/.php_cs.cache
-/.php_cs
+/.php-cs-fixer.php
+/.php-cs-fixer.cache
 /.phpunit.result.cache
 /composer.phar
 /composer.lock

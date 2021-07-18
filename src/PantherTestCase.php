@@ -16,7 +16,7 @@ namespace Symfony\Component\Panther;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-if (\class_exists(WebTestCase::class)) {
+if (class_exists(WebTestCase::class)) {
     abstract class PantherTestCase extends WebTestCase
     {
         use WebTestAssertionsTrait;
@@ -32,6 +32,7 @@ if (\class_exists(WebTestCase::class)) {
         private function doTearDown(): void
         {
             parent::tearDown();
+            $this->takeScreenshotIfTestFailed();
             self::getClient(null);
         }
     }
@@ -43,5 +44,11 @@ if (\class_exists(WebTestCase::class)) {
 
         public const CHROME = 'chrome';
         public const FIREFOX = 'firefox';
+
+        protected function tearDown(): void
+        {
+            parent::tearDown();
+            $this->takeScreenshotIfTestFailed();
+        }
     }
 }

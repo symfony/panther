@@ -144,6 +144,13 @@ final class Crawler extends BaseCrawler implements WebDriverElement
 
     public function parents(): self
     {
+        trigger_deprecation('symfony/panther', '1.1', 'The %s() method is deprecated, use ancestors() instead.', __METHOD__);
+
+        return $this->ancestors();
+    }
+
+    public function ancestors(): self
+    {
         return $this->createSubCrawlerFromXpath('ancestor::*', true);
     }
 
@@ -247,19 +254,19 @@ final class Crawler extends BaseCrawler implements WebDriverElement
     public function selectLink($value): self
     {
         return $this->selectFromXpath(
-            \sprintf('descendant-or-self::a[contains(concat(\' \', normalize-space(string(.)), \' \'), %1$s) or ./img[contains(concat(\' \', normalize-space(string(@alt)), \' \'), %1$s)]]', self::xpathLiteral(' '.$value.' '))
+            sprintf('descendant-or-self::a[contains(concat(\' \', normalize-space(string(.)), \' \'), %1$s) or ./img[contains(concat(\' \', normalize-space(string(@alt)), \' \'), %1$s)]]', self::xpathLiteral(' '.$value.' '))
         );
     }
 
     public function selectImage($value): self
     {
-        return $this->selectFromXpath(\sprintf('descendant-or-self::img[contains(normalize-space(string(@alt)), %s)]', self::xpathLiteral($value)));
+        return $this->selectFromXpath(sprintf('descendant-or-self::img[contains(normalize-space(string(@alt)), %s)]', self::xpathLiteral($value)));
     }
 
     public function selectButton($value): self
     {
         return $this->selectFromXpath(
-            \sprintf(
+            sprintf(
                 'descendant-or-self::input[((contains(%1$s, "submit") or contains(%1$s, "button")) and contains(concat(\' \', normalize-space(string(@value)), \' \'), %2$s)) or (contains(%1$s, "image") and contains(concat(\' \', normalize-space(string(@alt)), \' \'), %2$s)) or @id=%3$s or @name=%3$s] | descendant-or-self::button[contains(concat(\' \', normalize-space(string(.)), \' \'), %2$s) or @id=%3$s or @name=%3$s]',
                 'translate(@type, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz")',
                 self::xpathLiteral(' '.$value.' '),
@@ -376,7 +383,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
             return $this->createSubCrawler();
         }
 
-        return $this->createSubCrawler($reverse ? \array_reverse($elements) : $elements);
+        return $this->createSubCrawler($reverse ? array_reverse($elements) : $elements);
     }
 
     private function filterWebDriverBy(WebDriverBy $selector): self

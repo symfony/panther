@@ -60,9 +60,13 @@ final class ChromeManager implements BrowserManagerInterface
         }
 
         if ($this->arguments) {
-            $chromeOptions = new ChromeOptions();
+            $chromeOptions = $capabilities->getCapability(ChromeOptions::CAPABILITY);
+            if (null === $chromeOptions) {
+                $chromeOptions = new ChromeOptions();
+                $capabilities->setCapability(ChromeOptions::CAPABILITY, $chromeOptions);
+            }
             $chromeOptions->addArguments($this->arguments);
-            $capabilities->setCapability(ChromeOptions::CAPABILITY, $chromeOptions);
+
             if (isset($_SERVER['PANTHER_CHROME_BINARY'])) {
                 $chromeOptions->setBinary($_SERVER['PANTHER_CHROME_BINARY']);
             }
@@ -81,7 +85,7 @@ final class ChromeManager implements BrowserManagerInterface
      */
     private function findChromeDriverBinary(): string
     {
-        if ($binary = (new ExecutableFinder())->find('chromedriver', null, ['./drivers'])) {
+        if ($binary = (new ExecutableFinder())->find('chromedriver', null, ['./drivers', './vendor/bin'])) {
             return $binary;
         }
 
@@ -90,8 +94,19 @@ final class ChromeManager implements BrowserManagerInterface
 
     private function getDefaultArguments(): array
     {
+        $args = [];
+
         // Enable the headless mode unless PANTHER_NO_HEADLESS is defined
-        $args = ($_SERVER['PANTHER_NO_HEADLESS'] ?? false) ? ['--auto-open-devtools-for-tabs'] : ['--headless', '--window-size=1200,1100', '--disable-gpu'];
+        if (!($_SERVER['PANTHER_NO_HEADLESS'] ?? false)) {
+            $args[] = '--headless';
+            $args[] = '--window-size=1200,1100';
+            $args[] = '--disable-gpu';
+        }
+
+        // Enable devtools for debugging
+        if ($_SERVER['PANTHER_DEVTOOLS'] ?? true) {
+            $args[] = '--auto-open-devtools-for-tabs';
+        }
 
         // Disable Chrome's sandbox if PANTHER_NO_SANDBOX is defined or if running in Travis
         if ($_SERVER['PANTHER_NO_SANDBOX'] ?? $_SERVER['HAS_JOSH_K_SEAL_OF_APPROVAL'] ?? false) {

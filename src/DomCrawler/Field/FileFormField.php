@@ -36,10 +36,10 @@ final class FileFormField extends BaseFileFormField
     {
         $value = $this->sanitizeValue($value);
 
-        if (null !== $value && \is_readable($value)) {
+        if (null !== $value && is_readable($value)) {
             $error = \UPLOAD_ERR_OK;
-            $size = \filesize($value);
-            $name = \pathinfo($value, \PATHINFO_BASENAME);
+            $size = filesize($value);
+            $name = pathinfo($value, \PATHINFO_BASENAME);
 
             $this->setFilePath($value);
             $value = $this->element->getAttribute('value');
@@ -72,12 +72,12 @@ final class FileFormField extends BaseFileFormField
     {
         $tagName = $this->element->getTagName();
         if ('input' !== $tagName) {
-            throw new \LogicException(\sprintf('A FileFormField can only be created from an input tag (%s given).', $tagName));
+            throw new \LogicException(sprintf('A FileFormField can only be created from an input tag (%s given).', $tagName));
         }
 
-        $type = \strtolower($this->element->getAttribute('type'));
+        $type = strtolower($this->element->getAttribute('type'));
         if ('file' !== $type) {
-            throw new \LogicException(\sprintf('A FileFormField can only be created from an input tag with a type of file (given type is %s).', $type));
+            throw new \LogicException(sprintf('A FileFormField can only be created from an input tag with a type of file (given type is %s).', $type));
         }
 
         $value = $this->element->getAttribute('value');
@@ -95,16 +95,16 @@ final class FileFormField extends BaseFileFormField
         // size not determinable
         $size = 0;
         // C:\fakepath\filename.extension
-        $basename = \pathinfo($value, \PATHINFO_BASENAME);
-        $nameParts = \explode('\\', $basename);
-        $name = \end($nameParts);
+        $basename = pathinfo($value, \PATHINFO_BASENAME);
+        $nameParts = explode('\\', $basename);
+        $name = end($nameParts);
 
         $this->value = ['name' => $name, 'type' => '', 'tmp_name' => $value, 'error' => $error, 'size' => $size];
     }
 
     private function sanitizeValue(?string $value): ?string
     {
-        $realpathValue = \is_string($value) && $value ? \realpath($value) : false;
+        $realpathValue = \is_string($value) && $value ? realpath($value) : false;
         if (\is_string($realpathValue)) {
             $value = $realpathValue;
         }

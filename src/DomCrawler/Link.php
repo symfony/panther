@@ -30,7 +30,7 @@ final class Link extends BaseLink
     {
         $tagName = $element->getTagName();
         if ('a' !== $tagName && 'area' !== $tagName && 'link' !== $tagName) {
-            throw new \LogicException(\sprintf('Unable to navigate from a "%s" tag.', $tagName));
+            throw new \LogicException(sprintf('Unable to navigate from a "%s" tag.', $tagName));
         }
 
         $this->element = $element;

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther;
 
+use PHPUnit\Runner\BaseTestRunner;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\BrowserKit\HttpBrowser as HttpBrowserClient;
 use Symfony\Component\HttpClient\HttpClient;
@@ -74,6 +75,7 @@ trait PantherTestCaseTrait
         'external_base_uri' => null,
         'readinessPath' => '',
         'browser' => PantherTestCase::CHROME,
+        'env' => [],
     ];
 
     public static function tearDownAfterClass(): void
@@ -129,6 +131,7 @@ trait PantherTestCaseTrait
             'port' => (int) ($options['port'] ?? $_SERVER['PANTHER_WEB_SERVER_PORT'] ?? self::$defaultOptions['port']),
             'router' => $options['router'] ?? $_SERVER['PANTHER_WEB_SERVER_ROUTER'] ?? self::$defaultOptions['router'],
             'readinessPath' => $options['readinessPath'] ?? $_SERVER['PANTHER_READINESS_PATH'] ?? self::$defaultOptions['readinessPath'],
+            'env' => (array) ($options['env'] ?? self::$defaultOptions['env']),
         ];
 
         self::$webServerManager = new WebServerManager(...array_values($options));
@@ -142,21 +145,36 @@ trait PantherTestCaseTrait
         return self::$webServerManager && self::$webServerManager->isStarted();
     }
 
+    public function takeScreenshotIfTestFailed(): void
+    {
+        if (!\in_array($this->getStatus(), [BaseTestRunner::STATUS_ERROR, BaseTestRunner::STATUS_FAILURE], true)) {
+            return;
+        }
+
+        $type = BaseTestRunner::STATUS_FAILURE === $this->getStatus() ? 'failure' : 'error';
+        $test = $this->toString();
+
+        ServerExtension::takeScreenshots($type, $test);
+    }
+
     /**
      * Creates the primary browser.
      *
      * @param array $options see {@see $defaultOptions}
+     * @throws \InvalidArgumentException
      */
     protected static function createPantherClient(array $options = [], array $kernelOptions = [], array $managerOptions = []): PantherClient
     {
-        $browser = ($options['browser'] ?? self::$defaultOptions['browser'] ?? static::CHROME);
+        $browser = ($options['browser'] ?? self::$defaultOptions['browser'] ?? PantherTestCase::CHROME);
         $callGetClient = \is_callable([self::class, 'getClient']) && (new \ReflectionMethod(self::class, 'getClient'))->isStatic();
         if (null !== self::$pantherClient) {
             $browserManager = self::$pantherClient->getBrowserManager();
             if (
-                (static::CHROME === $browser && $browserManager instanceof ChromeManager) ||
-                (static::FIREFOX === $browser && $browserManager instanceof FirefoxManager)
+                (PantherTestCase::CHROME === $browser && $browserManager instanceof ChromeManager) ||
+                (PantherTestCase::FIREFOX === $browser && $browserManager instanceof FirefoxManager)
             ) {
+                ServerExtension::registerClient(self::$pantherClient);
+
                 return $callGetClient ? self::getClient(self::$pantherClient) : self::$pantherClient; // @phpstan-ignore-line
             }
         }
@@ -167,19 +185,19 @@ trait PantherTestCaseTrait
 
         if (\array_key_exists('browser_arguments', $options)) {
             if (!\is_array($options['browser_arguments'])) {
-                @trigger_error('Expected key "browser_arguments" to be an array.', \E_USER_WARNING);
+                throw new \InvalidArgumentException('Expected key "browser_arguments" to be an array.');
             } else {
                 $browserArguments = $options['browser_arguments'];
             }
         }
 
-        if (static::CHROME === $browser) {
+        if (PantherTestCase::CHROME === $browser) {
             self::$pantherClients[0] = self::$pantherClient = Client::createChromeClient(null, $browserArguments, $managerOptions, self::$baseUri);
         } else {
             self::$pantherClients[0] = self::$pantherClient = Client::createFirefoxClient(null, $browserArguments, $managerOptions, self::$baseUri);
         }
 
-        if (\is_a(self::class, KernelTestCase::class, true)) {
+        if (is_a(self::class, KernelTestCase::class, true)) {
             static::bootKernel($kernelOptions); // @phpstan-ignore-line
         }
 
@@ -217,7 +235,7 @@ trait PantherTestCaseTrait
             self::$httpBrowserClient = new HttpBrowserClient(HttpClient::create());
         }
 
-        if (\is_a(self::class, KernelTestCase::class, true)) {
+        if (is_a(self::class, KernelTestCase::class, true)) {
             static::bootKernel($kernelOptions); // @phpstan-ignore-line
         }
 

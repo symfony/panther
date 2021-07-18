@@ -60,13 +60,13 @@ final class Form extends BaseForm
     {
         $this->button = $element;
         $tagName = $element->getTagName();
-        if ('button' === $tagName || ('input' === $tagName && \in_array(\strtolower($element->getAttribute('type')), ['submit', 'button', 'image'], true))) {
+        if ('button' === $tagName || ('input' === $tagName && \in_array(strtolower($element->getAttribute('type')), ['submit', 'button', 'image'], true))) {
             if (null !== $formId = $element->getAttribute('form')) {
                 // if the node has the HTML5-compliant 'form' attribute, use it
                 try {
                     $form = $this->webDriver->findElement(WebDriverBy::id($formId));
                 } catch (NoSuchElementException $e) {
-                    throw new \LogicException(\sprintf('The selected node has an invalid form attribute (%s).', $formId));
+                    throw new \LogicException(sprintf('The selected node has an invalid form attribute (%s).', $formId));
                 }
 
                 $this->element = $form;
@@ -82,7 +82,7 @@ final class Form extends BaseForm
                 }
             } while ('form' !== $element->getTagName());
         } elseif ('form' !== $tagName = $element->getTagName()) {
-            throw new \LogicException(\sprintf('Unable to submit on a "%s" tag.', $tagName));
+            throw new \LogicException(sprintf('Unable to submit on a "%s" tag.', $tagName));
         }
 
         $this->element = $element;
@@ -132,10 +132,10 @@ final class Form extends BaseForm
 
             $value = $this->getValue($element);
 
-            $isArrayElement = \is_array($value) && '[]' === \substr($name, -2);
+            $isArrayElement = \is_array($value) && '[]' === substr($name, -2);
             if ($isArrayElement) {
                 // compatibility with the DomCrawler API
-                $name = \substr($name, 0, -2);
+                $name = substr($name, 0, -2);
             }
 
             if ('checkbox' === $type) {
@@ -185,10 +185,10 @@ final class Form extends BaseForm
 
         // If the form was created from a button rather than the form node, check for HTML5 method override
         if ($this->button !== $this->element && null !== $this->button->getAttribute('formmethod')) {
-            return \strtoupper($this->button->getAttribute('formmethod'));
+            return strtoupper($this->button->getAttribute('formmethod'));
         }
 
-        return $this->element->getAttribute('method') ? \strtoupper($this->element->getAttribute('method')) : 'GET';
+        return $this->element->getAttribute('method') ? strtoupper($this->element->getAttribute('method')) : 'GET';
     }
 
     public function has($name): bool
@@ -263,7 +263,7 @@ final class Form extends BaseForm
     private function getFormElement(string $name): WebDriverElement
     {
         return $this->element->findElement(WebDriverBy::xpath(
-            \sprintf('.//input[@name=%1$s] | .//textarea[@name=%1$s] | .//select[@name=%1$s] | .//button[@name=%1$s] | .//input[@name=%2$s] | .//textarea[@name=%2$s] | .//select[@name=%2$s] | .//button[@name=%2$s]', XPathEscaper::escapeQuotes($name), XPathEscaper::escapeQuotes($name.'[]'))
+            sprintf('.//input[@name=%1$s] | .//textarea[@name=%1$s] | .//select[@name=%1$s] | .//button[@name=%1$s] | .//input[@name=%2$s] | .//textarea[@name=%2$s] | .//select[@name=%2$s] | .//button[@name=%2$s]', XPathEscaper::escapeQuotes($name), XPathEscaper::escapeQuotes($name.'[]'))
         ));
     }
 

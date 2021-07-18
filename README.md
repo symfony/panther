@@ -47,7 +47,8 @@ Use [Composer](https://getcomposer.org/) to install Panther in your project. You
 
 Panther uses the WebDriver protocol to control the browser used to crawl websites.
 
-On all systems, you can use `dbrekelmans/browser-driver-installer` to install ChromeDriver and geckodriver locally:
+On all systems, you can use [`dbrekelmans/browser-driver-installer`](https://github.com/dbrekelmans/browser-driver-installer)
+to install ChromeDriver and geckodriver locally:
 
     composer require --dev dbrekelmans/bdi
     vendor/bin/bdi detect drivers
@@ -364,6 +365,8 @@ The following environment variables can be set to change some Panther's behaviou
 * `PANTHER_EXTERNAL_BASE_URI`: to use an external web server (the PHP built-in web server will not be started)
 * `PANTHER_APP_ENV`: to override the `APP_ENV` variable passed to the web server running the PHP app
 * `PANTHER_ERROR_SCREENSHOT_DIR`: to set a base directory for your failure/error screenshots (e.g. `./var/error-screenshots`)
+* `PANTHER_DEVTOOLS`: to toggle the browser's dev tools (default `enabled`, useful to debug)
+* `PANTHER_ERROR_SCREENSHOT_ATTACH`: to add screenshots mentioned above to test output in junit attachment format
 
 ### Changing the Hostname and Port of the Built-in Web Server
 
@@ -500,6 +503,12 @@ To use a proxy server, set the following environment variable: `PANTHER_CHROME_A
 
 To force Chrome to accept invalid and self-signed certificates, set the following environment variable: `PANTHER_CHROME_ARGUMENTS='--ignore-certificate-errors'`
 **This option is insecure**, use it only for testing in development environments, never in production (e.g. for web crawlers).
+
+For Firefox, instantiate the client like this:
+
+```php
+$client = Client::createFirefoxClient(null, null, ['capabilities' => ['acceptInsecureCerts' => true]]);
+```
 
 ### Docker Integration
 
