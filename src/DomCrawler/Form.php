@@ -232,6 +232,14 @@ final class Form extends BaseForm
         return $this->has($name);
     }
 
+    /**
+     * Gets the value of a field.
+     *
+     * @param string $name
+     *
+     * @return FormField|FormField[]|FormField[][]
+     */
+    #[\ReturnTypeWillChange]
     public function offsetGet($name)
     {
         return $this->get($name);
