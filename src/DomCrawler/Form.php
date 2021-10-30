@@ -103,6 +103,12 @@ final class Form extends BaseForm
         throw $this->createNotSupportedException(__METHOD__);
     }
 
+    /**
+     * Disables the internal validation of the field.
+     *
+     * @return static
+     */
+    #[\ReturnTypeWillChange]
     public function setValues(array $values): self
     {
         foreach ($values as $name => $value) {
@@ -212,6 +218,10 @@ final class Form extends BaseForm
         $this->setValue($field->getName(), $field->getValue());
     }
 
+    /**
+     * @return FormField|FormField[]|FormField[][]
+     */
+    #[\ReturnTypeWillChange]
     public function get($name)
     {
         return $this->getFormField($this->getFormElement($name));

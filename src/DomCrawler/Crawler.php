@@ -86,6 +86,10 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         throw $this->createNotSupportedException(__METHOD__);
     }
 
+    /**
+     * @return static
+     */
+    #[\ReturnTypeWillChange]
     public function eq($position): self
     {
         if (isset($this->elements[$position])) {
@@ -105,11 +109,19 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         return $data;
     }
 
+    /**
+     * @return static
+     */
+    #[\ReturnTypeWillChange]
     public function slice($offset = 0, $length = null): self
     {
         return $this->createSubCrawler(\array_slice($this->elements, $offset, $length));
     }
 
+    /**
+     * @return static
+     */
+    #[\ReturnTypeWillChange]
     public function reduce(\Closure $closure): self
     {
         $elements = [];
@@ -122,21 +134,37 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         return $this->createSubCrawler($elements);
     }
 
+    /**
+     * @return static
+     */
+    #[\ReturnTypeWillChange]
     public function last(): self
     {
         return $this->eq(\count($this->elements) - 1);
     }
 
+    /**
+     * @return static
+     */
+    #[\ReturnTypeWillChange]
     public function siblings(): self
     {
         return $this->createSubCrawlerFromXpath('(preceding-sibling::* | following-sibling::*)');
     }
 
+    /**
+     * @return static
+     */
+    #[\ReturnTypeWillChange]
     public function nextAll(): self
     {
         return $this->createSubCrawlerFromXpath('following-sibling::*');
     }
 
+    /**
+     * @return static
+     */
+    #[\ReturnTypeWillChange]
     public function previousAll(): self
     {
         return $this->createSubCrawlerFromXpath('preceding-sibling::*');
@@ -149,6 +177,10 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         return $this->ancestors();
     }
 
+    /**
+     * @return static
+     */
+    #[\ReturnTypeWillChange]
     public function ancestors(): self
     {
         return $this->createSubCrawlerFromXpath('ancestor::*', true);
@@ -156,7 +188,10 @@ final class Crawler extends BaseCrawler implements WebDriverElement
 
     /**
      * @see https://github.com/symfony/symfony/issues/26432
+     *
+     * @return static
      */
+    #[\ReturnTypeWillChange]
     public function children(string $selector = null): self
     {
         $xpath = 'child::*';
@@ -219,6 +254,10 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         }
     }
 
+    /**
+     * @return static
+     */
+    #[\ReturnTypeWillChange]
     public function evaluate($xpath): self
     {
         throw $this->createNotSupportedException(__METHOD__);
@@ -241,16 +280,28 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         return $data;
     }
 
+    /**
+     * @return static
+     */
+    #[\ReturnTypeWillChange]
     public function filterXPath($xpath): self
     {
         return $this->filterWebDriverBy(WebDriverBy::xpath($xpath));
     }
 
+    /**
+     * @return static
+     */
+    #[\ReturnTypeWillChange]
     public function filter($selector): self
     {
         return $this->filterWebDriverBy(WebDriverBy::cssSelector($selector));
     }
 
+    /**
+     * @return static
+     */
+    #[\ReturnTypeWillChange]
     public function selectLink($value): self
     {
         return $this->selectFromXpath(
@@ -258,11 +309,19 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         );
     }
 
+    /**
+     * @return static
+     */
+    #[\ReturnTypeWillChange]
     public function selectImage($value): self
     {
         return $this->selectFromXpath(sprintf('descendant-or-self::img[contains(normalize-space(string(@alt)), %s)]', self::xpathLiteral($value)));
     }
 
+    /**
+     * @return static
+     */
+    #[\ReturnTypeWillChange]
     public function selectButton($value): self
     {
         return $this->selectFromXpath(

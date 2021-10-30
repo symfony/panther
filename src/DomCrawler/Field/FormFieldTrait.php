@@ -45,8 +45,9 @@ trait FormFieldTrait
     }
 
     /**
-     * @return string|array|null
+     * @return string|string[]|null
      */
+    #[\ReturnTypeWillChange]
     public function getValue()
     {
         return $this->element->getAttribute('value');
