@@ -44,11 +44,7 @@ trait FormFieldTrait
         return $this->element->getAttribute('name') ?? '';
     }
 
-    /**
-     * @return string|string[]|null
-     */
-    #[\ReturnTypeWillChange]
-    public function getValue()
+    public function getValue(): array|string|null
     {
         return $this->element->getAttribute('value');
     }

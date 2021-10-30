@@ -105,11 +105,8 @@ final class Form extends BaseForm
 
     /**
      * Disables the internal validation of the field.
-     *
-     * @return static
      */
-    #[\ReturnTypeWillChange]
-    public function setValues(array $values): self
+    public function setValues(array $values): static
     {
         foreach ($values as $name => $value) {
             $this->setValue($name, $value);
@@ -223,8 +220,7 @@ final class Form extends BaseForm
      *
      * @return FormField|FormField[]|FormField[][]
      */
-    #[\ReturnTypeWillChange]
-    public function get($name)
+    public function get($name): FormField|array
     {
         return $this->getFormField($this->getFormElement($name));
     }
@@ -251,8 +247,7 @@ final class Form extends BaseForm
      *
      * @return FormField|FormField[]|FormField[][]
      */
-    #[\ReturnTypeWillChange]
-    public function offsetGet($name)
+    public function offsetGet($name): FormField|array
     {
         return $this->get($name);
     }

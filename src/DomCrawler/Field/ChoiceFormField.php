@@ -79,11 +79,7 @@ final class ChoiceFormField extends BaseChoiceFormField
         $this->setValue(false);
     }
 
-    /**
-     * @return string|string[]|null
-     */
-    #[\ReturnTypeWillChange]
-    public function getValue()
+    public function getValue(): array|string|null
     {
         $type = $this->element->getAttribute('type');
 
@@ -185,11 +181,8 @@ final class ChoiceFormField extends BaseChoiceFormField
 
     /**
      * Disables the internal validation of the field.
-     *
-     * @return static
      */
-    #[\ReturnTypeWillChange]
-    public function disableValidation(): self
+    public function disableValidation(): static
     {
         throw $this->createNotSupportedException(__METHOD__);
     }
