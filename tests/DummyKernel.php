@@ -53,7 +53,7 @@ class DummyKernel implements KernelInterface
     {
     }
 
-    public function locateResource($name, $dir = null, $first = true)
+    public function locateResource($name, $dir = null, $first = true): string
     {
     }
 
@@ -76,7 +76,7 @@ class DummyKernel implements KernelInterface
     public function getContainer(): ContainerInterface
     {
         return new class() implements ContainerInterface {
-            public function get($id, $invalidBehavior = ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE)
+            public function get($id, $invalidBehavior = ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE): ?object
             {
             }
 
