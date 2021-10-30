@@ -129,4 +129,8 @@ class DummyKernel implements KernelInterface
     public function getProjectDir(): string
     {
     }
+
+    public function getBuildDir(): string
+    {
+    }
 }
