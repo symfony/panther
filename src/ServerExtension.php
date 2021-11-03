@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther;
 
+use Facebook\WebDriver\WebDriver;
 use PHPUnit\Runner\AfterLastTestHook;
 use PHPUnit\Runner\AfterTestErrorHook;
 use PHPUnit\Runner\AfterTestFailureHook;
@@ -83,17 +84,27 @@ final class ServerExtension implements BeforeFirstTestHook, AfterLastTestHook, B
         }
 
         foreach (self::$registeredClients as $i => $client) {
-            $screenshotPath = sprintf('%s/%s_%s_%s-%d.png',
-                $_SERVER['PANTHER_ERROR_SCREENSHOT_DIR'],
-                date('Y-m-d_H-i-s'),
-                $type,
-                strtr($test, ['\\' => '-', ':' => '_']),
-                $i
-            );
-            $client->takeScreenshot($screenshotPath);
+            $screenshotPath = self::takeClientScreenshot($_SERVER['PANTHER_ERROR_SCREENSHOT_DIR'], $type, $test, $client, $i);
             if ($_SERVER['PANTHER_ERROR_SCREENSHOT_ATTACH'] ?? false) {
                 printf('[[ATTACHMENT|%s]]', $screenshotPath);
             }
         }
+    }
+
+    public static function takeClientScreenshot(string $screenshotDirectory, string $type, string $test, WebDriver $client, int $clientNumber): string
+    {
+        $testSlug = strtr($test, ['\\' => '-', ':' => '_']);
+        $testSlug = substr(preg_replace('/[^-_A-Za-z0-9 ]/', '', $testSlug), 0, 150);
+        $screenshotPath = sprintf('%s/%s_%s_%s_%s-%d.png',
+                                  $screenshotDirectory,
+                                  date('Y-m-d_H-i-s'),
+                                  $type,
+                                  $testSlug,
+                                  md5($test),
+                                  $clientNumber
+        );
+        $client->takeScreenshot($screenshotPath);
+
+        return $screenshotPath;
     }
 }

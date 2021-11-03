@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\Tests;
 
+use Facebook\WebDriver\WebDriver;
 use Symfony\Component\Panther\PantherTestCase;
 use Symfony\Component\Panther\ServerExtension;
 
@@ -66,5 +67,19 @@ class ServerExtensionTest extends TestCase
     {
         yield ['executeAfterTestError', "Error: message\n\nPress enter to continue..."];
         yield ['executeAfterTestFailure', "Failure: message\n\nPress enter to continue..."];
+    }
+
+    public function testScreenshotTaking(): void
+    {
+        $clientMock = $this->createMock(WebDriver::class);
+        $clientMock->expects($this->once())
+                   ->method('takeScreenshot');
+
+        $problematicTestNameString = 'AcmeTest-EndToEnd-TestCases-Orders-Admin-AddOrderTest__testAddOrder with data set "europe/\@!;:\" (\'EUROPE_TEST_CLIENT\', AcmeTest-EndToEnd-Library-Modules-Orders-Admin-Add-Models-Initial-TransferObject-BillingInformation Object (...), AcmeTest-EndToEnd-Library-Modules-Orders-Admin-Add-Models-Initial-TransferObject-ShippingAddress Object (...), \'Another argument\', \'Last argument\')';
+        $actualFilePath = ServerExtension::takeClientScreenshot('screenshot_dir', 'failure', $problematicTestNameString, $clientMock, 1);
+        $this->assertStringEndsWith(
+            '_failure_AcmeTest-EndToEnd-TestCases-Orders-Admin-AddOrderTest__testAddOrder with data set europe-_- EUROPE_TEST_CLIENT AcmeTest-EndToEnd-Library-Modules-Order_afc257711399c8d413c87167d5fea6d1-1.png',
+            $actualFilePath
+        );
     }
 }
