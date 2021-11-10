@@ -219,6 +219,8 @@ final class Form extends BaseForm
     }
 
     /**
+     * @param mixed $name
+     *
      * @return FormField|FormField[]|FormField[][]
      */
     #[\ReturnTypeWillChange]

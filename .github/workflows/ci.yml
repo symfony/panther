@@ -15,7 +15,7 @@ jobs:
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: '7.4' # PHP CS Fixer isn't compatible with PHP 8 yet https://github.com/FriendsOfPHP/PHP-CS-Fixer/issues/4702
+                  php-version: '8.0'
                   tools: php-cs-fixer, cs2pr
 
             - name: PHP Coding Standards Fixer
