@@ -292,6 +292,9 @@ trait WebTestAssertionsTrait
 
         $client->setServerParameters($server);
 
-        return self::getClient($client);
+        /** @var KernelBrowser $wrapperClient */
+        $wrapperClient = self::getClient($client);
+
+        return $wrapperClient;
     }
 }

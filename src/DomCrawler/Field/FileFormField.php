@@ -24,6 +24,8 @@ final class FileFormField extends BaseFileFormField
 
     /**
      * @var array
+     *
+     * @phpstan-ignore-next-line
      */
     protected $value;
 

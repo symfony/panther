@@ -7,8 +7,6 @@ parameters:
 		- vendor/bin/.phpunit/phpunit/vendor/autoload.php
 	inferPrivatePropertyTypeFromConstructor: true
 	ignoreErrors:
-		- message: '#.+#'
-		  path: tests/DummyKernel.php
 		# False positive
 		- '#Call to an undefined method ReflectionType::getName\(\)\.#'
 		# To fix in PHP WebDriver

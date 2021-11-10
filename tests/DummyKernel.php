@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\Tests;
 
+use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,10 +28,12 @@ class DummyKernel implements KernelInterface
 {
     public function handle(Request $request, $type = self::MASTER_REQUEST, $catch = true): Response
     {
+        return new Response();
     }
 
     public function registerBundles(): iterable
     {
+        return [];
     }
 
     public function registerContainerConfiguration(LoaderInterface $loader): void
@@ -47,30 +50,37 @@ class DummyKernel implements KernelInterface
 
     public function getBundles(): array
     {
+        return [];
     }
 
     public function getBundle($name, $first = true): BundleInterface
     {
+        return new FrameworkBundle();
     }
 
     public function locateResource($name, $dir = null, $first = true): string
     {
+        return '';
     }
 
     public function getName(): string
     {
+        return '';
     }
 
     public function getEnvironment(): string
     {
+        return '';
     }
 
     public function isDebug(): bool
     {
+        return false;
     }
 
     public function getRootDir(): string
     {
+        return '';
     }
 
     public function getContainer(): ContainerInterface
@@ -78,6 +88,7 @@ class DummyKernel implements KernelInterface
         return new class() implements ContainerInterface {
             public function get($id, $invalidBehavior = ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE): ?object
             {
+                return new \stdClass();
             }
 
             public function has($id): bool
@@ -112,25 +123,31 @@ class DummyKernel implements KernelInterface
 
     public function getStartTime(): float
     {
+        return 0;
     }
 
     public function getCacheDir(): string
     {
+        return '';
     }
 
     public function getLogDir(): string
     {
+        return '';
     }
 
     public function getCharset(): string
     {
+        return '';
     }
 
     public function getProjectDir(): string
     {
+        return '';
     }
 
     public function getBuildDir(): string
     {
+        return '';
     }
 }
