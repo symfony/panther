@@ -15,7 +15,7 @@ jobs:
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: '7.4' # PHP CS Fixer isn't compatible with PHP 8 yet https://github.com/FriendsOfPHP/PHP-CS-Fixer/issues/4702
+                  php-version: '8.0'
                   tools: php-cs-fixer, cs2pr
 
             - name: PHP Coding Standards Fixer
@@ -58,7 +58,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                php-versions: ['7.1', '7.2', '7.3', '7.4', '8.0']
+                php-versions: ['8.0']
             fail-fast: false
         name: PHP ${{ matrix.php-versions }} Test on ubuntu-latest
         steps:
@@ -81,6 +81,43 @@ jobs:
                   path: ${{ steps.composercache.outputs.dir }}
                   key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
                   restore-keys: ${{ runner.os }}-composer-
+
+            - name: Install dependencies
+              run: composer install --prefer-dist
+
+            - name: Run tests
+              run: vendor/bin/simple-phpunit
+
+    phpunit-dev:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                php-versions: ['8.0']
+            fail-fast: false
+        name: PHP ${{ matrix.php-versions }} Test dev dependencies on ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ matrix.php-versions }}
+                  extensions: zip
+
+            - name: Get composer cache directory
+              id: composercache
+              run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+            - name: Cache dependencies
+              uses: actions/cache@v2
+              with:
+                  path: ${{ steps.composercache.outputs.dir }}
+                  key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+                  restore-keys: ${{ runner.os }}-composer-
+
+            - name: Allow dev dependencies
+              run: composer config minimum-stability dev
 
             - name: Install dependencies
               run: composer install --prefer-dist

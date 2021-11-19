@@ -38,7 +38,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
     {
         $this->uri = $uri;
         $this->webDriver = $webDriver;
-        $this->elements = $elements ?? [];
+        $this->elements = $elements;
     }
 
     public function clear(): void
@@ -86,7 +86,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         throw $this->createNotSupportedException(__METHOD__);
     }
 
-    public function eq($position): self
+    public function eq($position): static
     {
         if (isset($this->elements[$position])) {
             return $this->createSubCrawler([$this->elements[$position]]);
@@ -105,12 +105,12 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         return $data;
     }
 
-    public function slice($offset = 0, $length = null): self
+    public function slice($offset = 0, $length = null): static
     {
         return $this->createSubCrawler(\array_slice($this->elements, $offset, $length));
     }
 
-    public function reduce(\Closure $closure): self
+    public function reduce(\Closure $closure): static
     {
         $elements = [];
         foreach ($this->elements as $i => $element) {
@@ -122,22 +122,22 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         return $this->createSubCrawler($elements);
     }
 
-    public function last(): self
+    public function last(): static
     {
         return $this->eq(\count($this->elements) - 1);
     }
 
-    public function siblings(): self
+    public function siblings(): static
     {
         return $this->createSubCrawlerFromXpath('(preceding-sibling::* | following-sibling::*)');
     }
 
-    public function nextAll(): self
+    public function nextAll(): static
     {
         return $this->createSubCrawlerFromXpath('following-sibling::*');
     }
 
-    public function previousAll(): self
+    public function previousAll(): static
     {
         return $this->createSubCrawlerFromXpath('preceding-sibling::*');
     }
@@ -149,7 +149,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         return $this->ancestors();
     }
 
-    public function ancestors(): self
+    public function ancestors(): static
     {
         return $this->createSubCrawlerFromXpath('ancestor::*', true);
     }
@@ -157,7 +157,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
     /**
      * @see https://github.com/symfony/symfony/issues/26432
      */
-    public function children(string $selector = null): self
+    public function children(string $selector = null): static
     {
         $xpath = 'child::*';
         if (null !== $selector) {
@@ -219,7 +219,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         }
     }
 
-    public function evaluate($xpath): self
+    public function evaluate($xpath): static
     {
         throw $this->createNotSupportedException(__METHOD__);
     }
@@ -241,29 +241,29 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         return $data;
     }
 
-    public function filterXPath($xpath): self
+    public function filterXPath($xpath): static
     {
         return $this->filterWebDriverBy(WebDriverBy::xpath($xpath));
     }
 
-    public function filter($selector): self
+    public function filter($selector): static
     {
         return $this->filterWebDriverBy(WebDriverBy::cssSelector($selector));
     }
 
-    public function selectLink($value): self
+    public function selectLink($value): static
     {
         return $this->selectFromXpath(
             sprintf('descendant-or-self::a[contains(concat(\' \', normalize-space(string(.)), \' \'), %1$s) or ./img[contains(concat(\' \', normalize-space(string(@alt)), \' \'), %1$s)]]', self::xpathLiteral(' '.$value.' '))
         );
     }
 
-    public function selectImage($value): self
+    public function selectImage($value): static
     {
         return $this->selectFromXpath(sprintf('descendant-or-self::img[contains(normalize-space(string(@alt)), %s)]', self::xpathLiteral($value)));
     }
 
-    public function selectButton($value): self
+    public function selectButton($value): static
     {
         return $this->selectFromXpath(
             sprintf(

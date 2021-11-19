@@ -139,12 +139,12 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
         $this->isFirefox = false;
     }
 
-    public function getRequest()
+    public function getRequest(): object
     {
         throw new \LogicException('HttpFoundation Request object is not available when using WebDriver.');
     }
 
-    public function getResponse()
+    public function getResponse(): object
     {
         throw new \LogicException('HttpFoundation Response object is not available when using WebDriver.');
     }
@@ -190,7 +190,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
         throw new \InvalidArgumentException('Server parameters cannot be set when using WebDriver.');
     }
 
-    public function getServerParameter($key, $default = '')
+    public function getServerParameter($key, $default = ''): mixed
     {
         throw new \InvalidArgumentException('Server parameters cannot be retrieved when using WebDriver.');
     }

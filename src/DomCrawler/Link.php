@@ -43,7 +43,7 @@ final class Link extends BaseLink
         return $this->element;
     }
 
-    public function getNode()
+    public function getNode(): \DOMElement
     {
         throw $this->createNotSupportedException(__METHOD__);
     }

@@ -24,10 +24,12 @@ final class FileFormField extends BaseFileFormField
 
     /**
      * @var array
+     *
+     * @phpstan-ignore-next-line
      */
     protected $value;
 
-    public function getValue()
+    public function getValue(): array|string|null
     {
         return $this->value;
     }

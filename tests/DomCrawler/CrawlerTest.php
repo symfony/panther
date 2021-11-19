@@ -226,6 +226,10 @@ class CrawlerTest extends TestCase
     {
         $crawler = $this->request($clientFactory, '/basic.html');
 
+        if (!method_exists($crawler, 'parents')) {
+            $this->markTestSkipped('Dom Crawler on Symfony 6.0 does not have `parents()` method');
+        }
+
         $names = [];
         $crawler->filter('main > h1')->parents()->each(function (Crawler $c, int $i) use (&$names) {
             $names[$i] = $c->nodeName();

@@ -34,7 +34,7 @@ trait FormFieldTrait
         $this->initialize();
     }
 
-    public function getLabel(): void
+    public function getLabel(): ?\DOMElement
     {
         throw $this->createNotSupportedException(__METHOD__);
     }
@@ -44,10 +44,7 @@ trait FormFieldTrait
         return $this->element->getAttribute('name') ?? '';
     }
 
-    /**
-     * @return string|array|null
-     */
-    public function getValue()
+    public function getValue(): array|string|null
     {
         return $this->element->getAttribute('value');
     }
