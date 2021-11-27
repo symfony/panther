@@ -28,7 +28,7 @@ final class CookieJar extends BaseCookieJar
 {
     use ExceptionThrower;
 
-    private $webDriver;
+    private WebDriver $webDriver;
 
     public function __construct(WebDriver $webDriver)
     {
@@ -146,7 +146,7 @@ final class CookieJar extends BaseCookieJar
         }
 
         $cookiePath = $cookie->getPath() ?? '/';
-        if (0 !== strpos($path, $cookiePath)) {
+        if (!str_starts_with($path, $cookiePath)) {
             return null;
         }
 

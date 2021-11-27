@@ -56,13 +56,10 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
 {
     use ExceptionThrower;
 
-    /**
-     * @var WebDriver|null
-     */
-    private $webDriver;
-    private $browserManager;
-    private $baseUri;
-    private $isFirefox = false;
+    private ?WebDriver $webDriver = null;
+    private BrowserManagerInterface $browserManager;
+    private ?string $baseUri = null;
+    private bool $isFirefox = false;
 
     /**
      * @param string[]|null $arguments

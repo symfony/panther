@@ -24,7 +24,7 @@ final class Image extends BaseImage
 {
     use ExceptionThrower;
 
-    private $element;
+    private WebDriverElement $element;
 
     public function __construct(WebDriverElement $element)
     {

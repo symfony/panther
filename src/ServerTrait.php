@@ -20,7 +20,7 @@ namespace Symfony\Component\Panther;
  */
 trait ServerTrait
 {
-    public $testing = false;
+    public bool $testing = false;
 
     private function keepServerOnTeardown(): void
     {

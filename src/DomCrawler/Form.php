@@ -37,16 +37,9 @@ final class Form extends BaseForm
 {
     use ExceptionThrower;
 
-    /**
-     * @var WebDriverElement
-     */
-    private $button;
-
-    /**
-     * @var WebDriverElement
-     */
-    private $element;
-    private $webDriver;
+    private WebDriverElement $button;
+    private WebDriverElement $element;
+    private WebDriver $webDriver;
 
     public function __construct(WebDriverElement $element, WebDriver $webDriver)
     {

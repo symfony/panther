@@ -23,9 +23,9 @@ use Symfony\Component\Panther\PantherTestCase;
  */
 abstract class TestCase extends PantherTestCase
 {
-    protected static $uploadFileName = 'some-file.txt';
-    protected static $anotherUploadFileName = 'another-file.txt';
-    protected static $webServerDir = __DIR__.'/fixtures';
+    protected static string $uploadFileName = 'some-file.txt';
+    protected static string $anotherUploadFileName = 'another-file.txt';
+    protected static ?string $webServerDir = __DIR__.'/fixtures';
 
     public function clientFactoryProvider(): iterable
     {

@@ -26,9 +26,9 @@ final class FirefoxManager implements BrowserManagerInterface
 {
     use WebServerReadinessProbeTrait;
 
-    private $process;
-    private $arguments;
-    private $options;
+    private Process $process;
+    private array $arguments;
+    private array $options;
 
     /**
      * @throws \RuntimeException

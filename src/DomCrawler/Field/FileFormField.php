@@ -60,7 +60,7 @@ final class FileFormField extends BaseFileFormField
      *
      * @param string $path The path to the file
      */
-    public function setFilePath($path): void
+    public function setFilePath(string $path): void
     {
         $this->element->sendKeys($this->sanitizeValue($path));
     }
