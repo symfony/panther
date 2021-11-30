@@ -38,7 +38,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
     {
         $this->uri = $uri;
         $this->webDriver = $webDriver;
-        $this->elements = $elements ?? [];
+        $this->elements = $elements;
     }
 
     public function clear(): void
