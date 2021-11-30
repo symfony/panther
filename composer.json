@@ -27,7 +27,6 @@
     "symfony/dom-crawler": "^4.4 || ^5.0 || ^6.0",
     "symfony/http-client": "^4.4.11 || ^5.2 || ^6.0",
     "symfony/http-kernel": "^4.4 || ^5.0 || ^6.0",
-    "symfony/polyfill-php72": "^1.9",
     "symfony/process": "^4.4 || ^5.0 || ^6.0"
   },
   "autoload": {
