@@ -5,6 +5,8 @@ CHANGELOG
 -----
 
 * Allow Symfony 6
+* Add type declarations everywhere possible
+* Remove Support for Symfony 4.4
 
 1.1.2
 -----
