@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+1.1.2
+-----
+
+* Allow deprecation-contracts 3
+* Fix `Form::offsetGet()` return type
+
 1.1.1
 -----
 
