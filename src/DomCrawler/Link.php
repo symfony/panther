@@ -24,7 +24,7 @@ final class Link extends BaseLink
 {
     use ExceptionThrower;
 
-    private $element;
+    private WebDriverElement $element;
 
     public function __construct(WebDriverElement $element, string $currentUri)
     {

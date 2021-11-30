@@ -23,14 +23,10 @@ final class WebServerManager
 {
     use WebServerReadinessProbeTrait;
 
-    private $hostname;
-    private $port;
-    private $readinessPath;
-
-    /**
-     * @var Process
-     */
-    private $process;
+    private string $hostname;
+    private int $port;
+    private string $readinessPath;
+    private Process $process;
 
     /**
      * @throws \RuntimeException

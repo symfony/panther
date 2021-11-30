@@ -28,8 +28,8 @@ final class Crawler extends BaseCrawler implements WebDriverElement
 {
     use ExceptionThrower;
 
-    private $elements;
-    private $webDriver;
+    private array $elements;
+    private ?WebDriver $webDriver;
 
     /**
      * @param WebDriverElement[] $elements
@@ -140,13 +140,6 @@ final class Crawler extends BaseCrawler implements WebDriverElement
     public function previousAll(): static
     {
         return $this->createSubCrawlerFromXpath('preceding-sibling::*');
-    }
-
-    public function parents(): self
-    {
-        trigger_deprecation('symfony/panther', '1.1', 'The %s() method is deprecated, use ancestors() instead.', __METHOD__);
-
-        return $this->ancestors();
     }
 
     public function ancestors(): static

@@ -25,15 +25,8 @@ final class ChoiceFormField extends BaseChoiceFormField
 {
     use FormFieldTrait;
 
-    /**
-     * @var string
-     */
-    private $type;
-
-    /**
-     * @var WebDriverSelectInterface
-     */
-    private $selector;
+    private string $type;
+    private WebDriverSelectInterface $selector;
 
     public function hasValue(): bool
     {
