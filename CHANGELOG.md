@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+2.0.1
+-----
+
+* Fix accessing `PantherTestCaseTrait::$webServerDir` before initialization
+
 2.0.0
 -----
 
