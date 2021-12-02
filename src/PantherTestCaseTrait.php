@@ -31,7 +31,7 @@ trait PantherTestCaseTrait
 {
     public static bool $stopServerOnTeardown = true;
 
-    protected static ?string $webServerDir;
+    protected static ?string $webServerDir = null;
 
     protected static ?WebServerManager $webServerManager = null;
 
