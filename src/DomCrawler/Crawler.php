@@ -142,6 +142,9 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         return $this->createSubCrawlerFromXpath('preceding-sibling::*');
     }
 
+    /**
+     * @deprecated since symfony/panther 1.1, use ancestors() instead.
+     */
     public function parents(): self
     {
         trigger_deprecation('symfony/panther', '1.1', 'The %s() method is deprecated, use ancestors() instead.', __METHOD__);
