@@ -13,16 +13,14 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\DomCrawler;
 
+use function array_merge;
 use Facebook\WebDriver\Exception\NoSuchElementException;
-use Facebook\WebDriver\Remote\RemoteWebElement;
 use Facebook\WebDriver\WebDriver;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverElement;
-use Facebook\WebDriver\WebDriverSearchContext;
 use Symfony\Component\CssSelector\CssSelectorConverter;
 use Symfony\Component\DomCrawler\Crawler as BaseCrawler;
 use Symfony\Component\Panther\ExceptionThrower;
-use function array_merge;
 
 /**
  * @author Kévin Dunglas <dunglas@gmail.com>
