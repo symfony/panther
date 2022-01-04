@@ -639,6 +639,7 @@ test_script:
 ### Usage with Other Testing Tools
 
 If you want to use Panther with other testing tools like [LiipFunctionalTestBundle](https://github.com/liip/LiipFunctionalTestBundle)
+and [LiipTestFixturesBundle](https://github.com/liip/LiipTestFixturesBundle)
 or if you just need to use a different base class, Panther has got you covered.
 It provides you with the `Symfony\Component\Panther\PantherTestCaseTrait` and you can use it to enhance your existing
 test-infrastructure with some Panther awesomeness:
@@ -649,15 +650,29 @@ test-infrastructure with some Panther awesomeness:
 namespace App\Tests\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
+use Liip\TestFixturesBundle\Services\DatabaseTools\AbstractDatabaseTool;
+// If you don't use FunctionalTestBundle, use the following WebTestCase instead:
+//use Symfony\Bundle\FrameworkBundle\Test\WebTestCase
 use Symfony\Component\Panther\PantherTestCaseTrait;
 
 class DefaultControllerTest extends WebTestCase
 {
     use PantherTestCaseTrait; // this is the magic. Panther is now available.
+    
+    /** @var AbstractDatabaseTool */
+    protected $databaseTool;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        self::bootKernel();
+        $this->databaseTool = self::$container->get(DatabaseToolCollection::class)->get();
+    }
 
     public function testWithFixtures(): void
     {
-        $this->loadFixtures([]); // load your fixtures
+        $this->databaseTool->loadFixtures([]); // load your fixtures
         $client = self::createPantherClient(); // create your panther client
 
         $client->request('GET', '/');
