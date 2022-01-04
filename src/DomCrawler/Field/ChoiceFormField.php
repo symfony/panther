@@ -135,6 +135,9 @@ final class ChoiceFormField extends BaseChoiceFormField
             return;
         }
 
+        if ($this->selector->isMultiple()) {
+            $this->selector->deselectAll();
+        }
         foreach ((array) $value as $v) {
             $this->selector->selectByValue($v);
         }

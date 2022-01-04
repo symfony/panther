@@ -67,6 +67,21 @@ class ChoiceFormFieldTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
+    public function testSetValueFromSelectMultipleIfOneIsSelectedAfterAllHaveBeenSelectedBefore(callable $clientFactory): void
+    {
+        $crawler = $this->request($clientFactory, '/choice-form-field.html');
+        $form = $crawler->filter('form')->form();
+
+        $field = $form['select_multiple_selected_all'];
+        $this->assertInstanceOf(ChoiceFormField::class, $field);
+        $this->assertSame(['10', '20', '30'], $field->getValue());
+        $field->setValue('20');
+        $this->assertSame(['20'], $field->getValue());
+    }
+
+    /**
+     * @dataProvider clientFactoryProvider
+     */
     public function testGetValueFromSelectMultipleIfMultipleIsSelected(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/choice-form-field.html');
@@ -150,6 +165,26 @@ class ChoiceFormFieldTest extends TestCase
             $this->markTestSkipped('The DomCrawler component doesn\'t support multiple fields with the same name');
         }
         $this->assertSame(['checked_one', 'checked_two'], $field->getValue());
+    }
+
+    /**
+     * @dataProvider clientFactoryProvider
+     */
+    public function testSetValueFromCheckboxIfOneIsCheckedAfterAllHaveBeenCheckedBefore(callable $clientFactory, string $type): void
+    {
+        $crawler = $this->request($clientFactory, '/choice-form-field.html');
+        $form = $crawler->filter('form')->form();
+
+        $field = $form['checkbox_multiple_checked'];
+
+        $this->assertInstanceOf(ChoiceFormField::class, $field);
+        // https://github.com/symfony/symfony/issues/26827
+        if (PantherClient::class !== $type) {
+            $this->markTestSkipped('The DomCrawler component doesn\'t support multiple fields with the same name');
+        }
+        $this->assertSame(['checked_one', 'checked_two'], $field->getValue());
+        $field->setValue('checked_two');
+        $this->assertSame('checked_two', $field->getValue());
     }
 
     /**
