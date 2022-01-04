@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\DomCrawler;
 
+use function array_merge;
 use Facebook\WebDriver\Exception\NoSuchElementException;
 use Facebook\WebDriver\WebDriver;
 use Facebook\WebDriver\WebDriverBy;
@@ -130,6 +131,33 @@ final class Crawler extends BaseCrawler implements WebDriverElement
     public function siblings(): static
     {
         return $this->createSubCrawlerFromXpath('(preceding-sibling::* | following-sibling::*)');
+    }
+
+    public function matches(string $selector): bool
+    {
+        $converter = $this->createCssSelectorConverter();
+        $xpath = $converter->toXPath($selector, 'self::');
+
+        return $this->filterXPath($xpath)->count() > 0;
+    }
+
+    public function closest(string $selector): ?self
+    {
+        $converter = $this->createCssSelectorConverter();
+        $xpath = WebDriverBy::xpath($converter->toXPath($selector, 'self::'));
+
+        /** @var WebDriverElement[] $elements */
+        $elements = [...$this->elements, ...$this->ancestors()->elements];
+        foreach ($elements as $element) {
+            try {
+                $element->findElement($xpath);
+
+                return $this->createSubCrawler([$element]);
+            } catch (NoSuchElementException) {
+            }
+        }
+
+        return null;
     }
 
     public function nextAll(): static
