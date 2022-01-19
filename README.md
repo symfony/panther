@@ -677,6 +677,18 @@ The following features are not currently supported:
 
 Pull Requests are welcome to fill the remaining gaps!
 
+## Troubleshooting
+
+### Run with Bootstrap 5
+
+If you are using Bootstrap 5, then you may have a problem with testing. Bootstrap 5 implements a scrolling effect, which tends to mislead Panther.
+
+To fix this, we advise you to deactivate this effect by setting the Bootstrap 5 **$enable-smooth-scroll** variable to **false** in your style file.
+
+```scss
+$enable-smooth-scroll: false;
+```
+
 ## Save the Panthers
 
 Many of the wild cat species are highly threatened.
