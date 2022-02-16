@@ -29,45 +29,27 @@ use Symfony\Component\Panther\ProcessManager\WebServerManager;
  */
 trait PantherTestCaseTrait
 {
-    /**
-     * @var bool
-     */
-    public static $stopServerOnTeardown = true;
+    public static bool $stopServerOnTeardown = true;
 
-    /**
-     * @var string|null
-     */
-    protected static $webServerDir;
+    protected static ?string $webServerDir = null;
 
-    /**
-     * @var WebServerManager|null
-     */
-    protected static $webServerManager;
+    protected static ?WebServerManager $webServerManager = null;
 
-    /**
-     * @var string|null
-     */
-    protected static $baseUri;
+    protected static ?string $baseUri = null;
 
-    /**
-     * @var HttpBrowserClient|null
-     */
-    protected static $httpBrowserClient;
+    protected static ?HttpBrowserClient $httpBrowserClient = null;
 
     /**
      * @var PantherClient|null The primary Panther client instance created
      */
-    protected static $pantherClient;
+    protected static ?PantherClient $pantherClient = null;
 
     /**
      * @var PantherClient[] All Panther clients, the first one is the primary one (aka self::$pantherClient)
      */
-    protected static $pantherClients = [];
+    protected static array $pantherClients = [];
 
-    /**
-     * @var array
-     */
-    protected static $defaultOptions = [
+    protected static array $defaultOptions = [
         'webServerDir' => __DIR__.'/../../../../public', // the Flex directory structure
         'hostname' => '127.0.0.1',
         'port' => 9080,
@@ -264,7 +246,7 @@ trait PantherTestCaseTrait
             return self::$defaultOptions['webServerDir'];
         }
 
-        if (0 === strpos($_SERVER['PANTHER_WEB_SERVER_DIR'], './')) {
+        if (str_starts_with($_SERVER['PANTHER_WEB_SERVER_DIR'], './')) {
             return getcwd().substr($_SERVER['PANTHER_WEB_SERVER_DIR'], 1);
         }
 

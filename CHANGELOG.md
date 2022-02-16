@@ -1,6 +1,24 @@
 CHANGELOG
 =========
 
+2.0.1
+-----
+
+* Fix accessing `PantherTestCaseTrait::$webServerDir` before initialization
+
+2.0.0
+-----
+
+* Allow Symfony 6
+* Add type declarations everywhere possible
+* Remove Support for Symfony 4.4
+
+1.1.2
+-----
+
+* Allow deprecation-contracts 3
+* Fix `Form::offsetGet()` return type
+
 1.1.1
 -----
 

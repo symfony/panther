@@ -22,7 +22,7 @@ final class TextareaFormField extends BaseTextareaFormField
 {
     use FormFieldTrait;
 
-    public function setValue($value): void
+    public function setValue(?string $value): void
     {
         $this->setTextValue($value);
     }

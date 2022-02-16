@@ -35,9 +35,9 @@ use Facebook\WebDriver\WebDriverSelectInterface;
  */
 class WebDriverCheckbox implements WebDriverSelectInterface
 {
-    private $element;
-    private $type;
-    private $name;
+    private WebDriverElement $element;
+    private string $type;
+    private string $name;
 
     public function __construct(WebDriverElement $element)
     {
@@ -51,7 +51,7 @@ class WebDriverCheckbox implements WebDriverSelectInterface
         }
 
         if (null === $name = $element->getAttribute('name')) {
-            throw new WebDriverException('The input have a "name" attribute.');
+            throw new WebDriverException('The input must have a "name" attribute.');
         }
 
         $this->element = $element;

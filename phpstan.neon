@@ -6,9 +6,9 @@ parameters:
 	bootstrapFiles:
 		- vendor/bin/.phpunit/phpunit/vendor/autoload.php
 	inferPrivatePropertyTypeFromConstructor: true
+	excludePaths:
+	    - tests/DummyKernel.php
 	ignoreErrors:
-		- message: '#.+#'
-		  path: tests/DummyKernel.php
 		# False positive
 		- '#Call to an undefined method ReflectionType::getName\(\)\.#'
 		# To fix in PHP WebDriver
@@ -16,4 +16,3 @@ parameters:
 		# Require a redesign of the underlying Symfony components
 		- '#Call to an undefined method DOMNode::getTagName\(\)\.#'
 		- '#Return type \(void\) of method Symfony\\Component\\Panther\\DomCrawler\\Crawler::clear\(\) should be compatible with return type \(Facebook\\WebDriver\\WebDriverElement\) of method Facebook\\WebDriver\\WebDriverElement::clear\(\)#'
-		- '#Method Symfony\\Component\\Panther\\DomCrawler\\Crawler::getIterator\(\) should return ArrayIterator&iterable<DOMNode> but returns ArrayIterator<\(int\|string\), Facebook\\WebDriver\\WebDriverElement>\.#'

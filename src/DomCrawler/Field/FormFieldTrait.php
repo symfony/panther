@@ -26,7 +26,7 @@ trait FormFieldTrait
 {
     use ExceptionThrower;
 
-    private $element;
+    private WebDriverElement $element;
 
     public function __construct(WebDriverElement $element)
     {
@@ -34,7 +34,7 @@ trait FormFieldTrait
         $this->initialize();
     }
 
-    public function getLabel(): void
+    public function getLabel(): ?\DOMElement
     {
         throw $this->createNotSupportedException(__METHOD__);
     }
@@ -44,10 +44,7 @@ trait FormFieldTrait
         return $this->element->getAttribute('name') ?? '';
     }
 
-    /**
-     * @return string|array|null
-     */
-    public function getValue()
+    public function getValue(): array|string|null
     {
         return $this->element->getAttribute('value');
     }
@@ -57,15 +54,12 @@ trait FormFieldTrait
         return null !== $this->element->getAttribute('disabled');
     }
 
-    private function setTextValue($value): void
+    private function setTextValue(?string $value): void
     {
         // Ensure to clean field before sending keys.
         // Unable to use $this->element->clear(); because it triggers a change event on it's own which is unexpected behavior.
 
         $v = $this->getValue();
-        if (\is_array($v)) {
-            throw new \InvalidArgumentException('The value must not be an array');
-        }
 
         $existingValueLength = \strlen($v);
         $deleteKeys = str_repeat(WebDriverKeys::BACKSPACE.WebDriverKeys::DELETE, $existingValueLength);

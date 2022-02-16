@@ -27,11 +27,10 @@ final class ServerExtension implements BeforeFirstTestHook, AfterLastTestHook, B
 {
     use ServerTrait;
 
-    /** @var bool */
-    private static $enabled = false;
+    private static bool $enabled = false;
 
     /** @var Client[] */
-    private static $registeredClients = [];
+    private static array $registeredClients = [];
 
     public static function registerClient(Client $client): void
     {

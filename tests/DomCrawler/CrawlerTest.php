@@ -159,6 +159,50 @@ class CrawlerTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
+    public function testMatches(callable $clientFactory): void
+    {
+        $crawler = $this->request($clientFactory, '/basic.html');
+        $p = $crawler->filter('#a-sibling');
+
+        $this->assertTrue($p->matches('#a-sibling'));
+        $this->assertTrue($p->matches('p'));
+        $this->assertTrue($p->matches('.foo'));
+        $this->assertFalse($p->matches('#other-id'));
+        $this->assertFalse($p->matches('div'));
+        $this->assertFalse($p->matches('.bar'));
+    }
+
+    /**
+     * @dataProvider clientFactoryProvider
+     */
+    public function testClosest(callable $clientFactory): void
+    {
+        $crawler = $this->request($clientFactory, '/closest.html');
+
+        $foo = $crawler->filter('#foo');
+
+        $newFoo = $foo->closest('#foo');
+        $this->assertNotNull($newFoo);
+        $this->assertSame('newFoo ok', $newFoo->attr('class'));
+
+        $lorem1 = $foo->closest('.lorem1');
+        $this->assertNotNull($lorem1);
+        $this->assertSame('lorem1 ok', $lorem1->attr('class'));
+
+        $lorem2 = $foo->closest('.lorem2');
+        $this->assertNotNull($lorem2);
+        $this->assertSame('lorem2 ok', $lorem2->attr('class'));
+
+        $lorem3 = $foo->closest('.lorem3');
+        $this->assertNull($lorem3);
+
+        $notFound = $foo->closest('.not-found');
+        $this->assertNull($notFound);
+    }
+
+    /**
+     * @dataProvider clientFactoryProvider
+     */
     public function testNextAll(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/basic.html');
@@ -225,6 +269,10 @@ class CrawlerTest extends TestCase
     public function testParents(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/basic.html');
+
+        if (!method_exists($crawler, 'parents')) {
+            $this->markTestSkipped('Dom Crawler on Symfony 6.0 does not have `parents()` method');
+        }
 
         $names = [];
         $crawler->filter('main > h1')->parents()->each(function (Crawler $c, int $i) use (&$names) {

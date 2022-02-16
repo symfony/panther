@@ -24,10 +24,12 @@ final class FileFormField extends BaseFileFormField
 
     /**
      * @var array
+     *
+     * @phpstan-ignore-next-line
      */
     protected $value;
 
-    public function getValue()
+    public function getValue(): array|string|null
     {
         return $this->value;
     }
@@ -58,7 +60,7 @@ final class FileFormField extends BaseFileFormField
      *
      * @param string $path The path to the file
      */
-    public function setFilePath($path): void
+    public function setFilePath(string $path): void
     {
         $this->element->sendKeys($this->sanitizeValue($path));
     }

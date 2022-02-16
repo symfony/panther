@@ -23,8 +23,8 @@ use Symfony\Component\Panther\Client;
  */
 final class WebDriverMouse implements BaseWebDriverMouse
 {
-    private $mouse;
-    private $client;
+    private BaseWebDriverMouse $mouse;
+    private Client $client;
 
     public function __construct(BaseWebDriverMouse $mouse, Client $client)
     {

@@ -20,7 +20,7 @@ namespace Symfony\Component\Panther;
  */
 trait ServerTrait
 {
-    public $testing = false;
+    public bool $testing = false;
 
     private function keepServerOnTeardown(): void
     {
@@ -35,7 +35,7 @@ trait ServerTrait
     private function pause($message): void
     {
         if (\in_array('--debug', $_SERVER['argv'], true)
-            && $_SERVER['PANTHER_NO_HEADLESS'] ?? false
+            && ($_SERVER['PANTHER_NO_HEADLESS'] ?? false)
         ) {
             echo "$message\n\nPress enter to continue...";
             if (!$this->testing) {

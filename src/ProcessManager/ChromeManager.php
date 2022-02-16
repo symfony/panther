@@ -27,16 +27,16 @@ final class ChromeManager implements BrowserManagerInterface
 {
     use WebServerReadinessProbeTrait;
 
-    private $process;
-    private $arguments;
-    private $options;
+    private Process $process;
+    private array $arguments;
+    private array $options;
 
     /**
      * @throws \RuntimeException
      */
     public function __construct(?string $chromeDriverBinary = null, ?array $arguments = null, array $options = [])
     {
-        $this->options = array_merge($this->getDefaultOptions(), $options);
+        $this->options = $options ? array_merge($this->getDefaultOptions(), $options) : $this->getDefaultOptions();
         $this->process = $this->createProcess($chromeDriverBinary ?: $this->findChromeDriverBinary());
         $this->arguments = $arguments ?? $this->getDefaultArguments();
     }

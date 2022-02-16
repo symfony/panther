@@ -37,16 +37,9 @@ final class Form extends BaseForm
 {
     use ExceptionThrower;
 
-    /**
-     * @var WebDriverElement
-     */
-    private $button;
-
-    /**
-     * @var WebDriverElement
-     */
-    private $element;
-    private $webDriver;
+    private WebDriverElement $button;
+    private WebDriverElement $element;
+    private WebDriver $webDriver;
 
     public function __construct(WebDriverElement $element, WebDriver $webDriver)
     {
@@ -103,7 +96,10 @@ final class Form extends BaseForm
         throw $this->createNotSupportedException(__METHOD__);
     }
 
-    public function setValues(array $values): self
+    /**
+     * Disables the internal validation of the field.
+     */
+    public function setValues(array $values): static
     {
         foreach ($values as $name => $value) {
             $this->setValue($name, $value);
@@ -212,7 +208,12 @@ final class Form extends BaseForm
         $this->setValue($field->getName(), $field->getValue());
     }
 
-    public function get($name)
+    /**
+     * @param mixed $name
+     *
+     * @return FormField|FormField[]|FormField[][]
+     */
+    public function get($name): FormField|array
     {
         return $this->getFormField($this->getFormElement($name));
     }
@@ -232,7 +233,14 @@ final class Form extends BaseForm
         return $this->has($name);
     }
 
-    public function offsetGet($name)
+    /**
+     * Gets the value of a field.
+     *
+     * @param string $name
+     *
+     * @return FormField|FormField[]|FormField[][]
+     */
+    public function offsetGet($name): FormField|array
     {
         return $this->get($name);
     }
