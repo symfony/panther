@@ -53,11 +53,8 @@ class ClientTest extends TestCase
         $this->assertInstanceOf(JavaScriptExecutor::class, $client);
         $this->assertInstanceOf(KernelInterface::class, self::$kernel);
 
-        // I'm not sure exactly how to start with a clear class, since the
-        // test file assumes the client will be present for the next tests
-        // So I'm cleaning up this way here so that we can have a default
-        // client next
-        self::$pantherClient = null;
+        // stop the web server and clean up self::$pantherClient so it is not reused by other tests
+        $this->stopWebServer();
     }
 
     public function testCreateClient(): void
