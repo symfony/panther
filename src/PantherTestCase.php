@@ -18,6 +18,7 @@ use PHPUnit\Framework\TestResult;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 
 if (class_exists(WebTestCase::class)) {
     abstract class PantherTestCase extends WebTestCase
@@ -44,10 +45,10 @@ if (class_exists(WebTestCase::class)) {
                 throw new \LogicException('The Finder component is not installed. Try running "composer require --dev symfony/finder".');
             }
 
-            /** @var \SplFileInfo[] $files */
+            /** @var SplFileInfo[] $files */
             $files = (new Finder())->in(self::COVERAGE_DIRECTORY)->files()->name('*.code_coverage');
             foreach ($files as $file) {
-                $content = file_get_contents($file->getRealPath());
+                $content = $file->getContents();
                 $rawCodeCoverageData = unserialize($content);
 
                 if (!empty($content)) {
