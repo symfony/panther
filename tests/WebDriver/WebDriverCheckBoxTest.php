@@ -59,6 +59,29 @@ class WebDriverCheckBoxTest extends TestCase
         yield ['radio', ['j3a', 'j3b', 'j3c']];
     }
 
+    /**
+     * @dataProvider getOptionsDataProviderWithoutNameAttribute
+     */
+    public function testWebDriverCheckboxGetOptionsWithoutNameAttribute(string $type, array $options): void
+    {
+        $crawler = self::createPantherClient()->request('GET', self::$baseUri.'/choice-form-field-without-name-attribute.html');
+        $element = $crawler->filterXPath("//input[@type='$type']")->getElement(0);
+
+        $c = new WebDriverCheckbox($element);
+        $values = [];
+        foreach ($c->getOptions() as $option) {
+            $values[] = $option->getAttribute('value');
+        }
+
+        $this->assertSame($options, $values);
+    }
+
+    public function getOptionsDataProviderWithoutNameAttribute(): iterable
+    {
+        yield ['checkbox', ['noNameCheckbox']];
+        yield ['radio', ['noNameRadio']];
+    }
+
     public function testWebDriverCheckboxGetFirstSelectedOption(): void
     {
         $crawler = self::createPantherClient()->request('GET', self::$baseUri.'/form.html');
@@ -72,6 +95,21 @@ class WebDriverCheckBoxTest extends TestCase
         $c = new WebDriverCheckbox($radioElement);
         $c->selectByValue('j3a');
         $this->assertSame('j3a', $c->getFirstSelectedOption()->getAttribute('value'));
+    }
+
+    public function testWebDriverCheckboxGetFirstSelectedOptionWithoutNameAttribute(): void
+    {
+        $crawler = self::createPantherClient()->request('GET', self::$baseUri.'/choice-form-field-without-name-attribute.html');
+        $checkboxElement = $crawler->filterXPath('//input[@type="checkbox"]')->getElement(0);
+
+        $c = new WebDriverCheckbox($checkboxElement);
+        $c->selectByValue('noNameCheckbox');
+        $this->assertSame('noNameCheckbox', $c->getFirstSelectedOption()->getAttribute('value'));
+
+        $radioElement = $crawler->filterXPath('//input[@type="radio"]')->getElement(0);
+        $c = new WebDriverCheckbox($radioElement);
+        $c->selectByValue('noNameRadio');
+        $this->assertSame('noNameRadio', $c->getFirstSelectedOption()->getAttribute('value'));
     }
 
     /**

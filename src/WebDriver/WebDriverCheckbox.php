@@ -50,13 +50,9 @@ class WebDriverCheckbox implements WebDriverSelectInterface
             throw new WebDriverException('The input must be of type "checkbox" or "radio".');
         }
 
-        if (null === $name = $element->getAttribute('name')) {
-            throw new WebDriverException('The input have a "name" attribute.');
-        }
-
         $this->element = $element;
         $this->type = $type;
-        $this->name = $name;
+        $this->name = $element->getAttribute('name');
     }
 
     public function isMultiple(): bool
@@ -231,6 +227,10 @@ class WebDriverCheckbox implements WebDriverSelectInterface
 
     private function getRelatedElements($value = null): array
     {
+        if (\is_null($this->name)) {
+            return [$this->element];
+        }
+
         $valueSelector = $value ? sprintf(' and @value = %s', XPathEscaper::escapeQuotes($value)) : '';
         if (null === $formId = $this->element->getAttribute('form')) {
             $form = $this->element->findElement(WebDriverBy::xpath('ancestor::form'));
