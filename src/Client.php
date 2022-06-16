@@ -252,7 +252,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
         return $this->crawler = $this->createCrawler();
     }
 
-    public function request(string $method, string $uri, array $parameters = [], array $files = [], array $server = [], string $content = null, bool $changeHistory = true): PantherCrawler
+    public function request(string $method, string $uri, array $parameters = [], array $files = [], array $server = [], ?string $content = null, bool $changeHistory = true): PantherCrawler
     {
         if ('GET' !== $method) {
             throw new \InvalidArgumentException('Only the GET method is supported when using WebDriver.');
