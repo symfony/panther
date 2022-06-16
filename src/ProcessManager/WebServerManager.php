@@ -75,7 +75,7 @@ final class WebServerManager
         $this->checkPortAvailable($this->hostname, $this->port);
         $this->process->start();
 
-        $url = "http://$this->hostname:$this->port";
+        $url = "http://{$this->hostname}:{$this->port}";
 
         if ($this->readinessPath) {
             $url .= $this->readinessPath;

@@ -55,7 +55,7 @@ trait WebServerReadinessProbeTrait
 
             if (Process::STATUS_STARTED !== $status) {
                 if (microtime(true) - $start >= $timeout) {
-                    throw new \RuntimeException("Could not start $service (or it crashed) after $timeout seconds.");
+                    throw new \RuntimeException("Could not start ${service} (or it crashed) after ${timeout} seconds.");
                 }
 
                 usleep(1000);
@@ -77,9 +77,9 @@ trait WebServerReadinessProbeTrait
                 if ($e) {
                     $message = $e->getMessage();
                 } else {
-                    $message = "Status code: $statusCode";
+                    $message = "Status code: ${statusCode}";
                 }
-                throw new \RuntimeException("Could not connect to $service after $timeout seconds ($message).");
+                throw new \RuntimeException("Could not connect to ${service} after ${timeout} seconds (${message}).");
             }
 
             usleep(1000);
