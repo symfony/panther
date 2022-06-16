@@ -265,7 +265,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
         }
 
         foreach (['parameters', 'files', 'server'] as $arg) {
-            if ([] !== $$arg) {
+            if ([] !== ${$arg}) {
                 throw new \InvalidArgumentException(sprintf('The parameter "$%s" is not supported when using WebDriver.', $arg));
             }
         }
