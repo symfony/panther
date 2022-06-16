@@ -23,7 +23,7 @@ use PHPUnit\Runner\BeforeTestHook;
 /**
  *  @author Dany Maillard <danymaillard93b@gmail.com>
  */
-final class ServerExtension implements BeforeFirstTestHook, AfterLastTestHook, BeforeTestHook, AfterTestHook, AfterTestErrorHook, AfterTestFailureHook
+final class ServerExtension implements AfterLastTestHook, AfterTestErrorHook, AfterTestFailureHook, AfterTestHook, BeforeFirstTestHook, BeforeTestHook
 {
     use ServerTrait;
 

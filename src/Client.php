@@ -52,7 +52,7 @@ use Symfony\Component\Panther\WebDriver\WebDriverMouse;
  *
  * @method PantherCrawler getCrawler()
  */
-final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecutor, WebDriverHasInputDevices
+final class Client extends AbstractBrowser implements JavaScriptExecutor, WebDriver, WebDriverHasInputDevices
 {
     use ExceptionThrower;
 
