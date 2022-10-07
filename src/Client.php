@@ -541,7 +541,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
         // set a cookie to the uninitialised web driver. The path does not matter for this
         $this->request('GET', '/');
 
-        if(null === $sessionStorage) {
+        if (null === $sessionStorage) {
             $sessionStorage = new MockFileSessionStorage('/app/var/cache/panther/sessions');
         }
         $session = new Session($sessionStorage);
