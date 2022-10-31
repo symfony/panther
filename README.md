@@ -69,7 +69,7 @@ On Windows, using [chocolatey](https://chocolatey.org):
 
     choco install chromedriver selenium-gecko-driver
 
-Finally, you can download manually [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/) (for Chromium or Chrome)
+Finally, you can download manually [ChromeDriver](https://sites.google.com/chromium.org/driver/) (for Chromium or Chrome)
 and [GeckoDriver](https://github.com/mozilla/geckodriver) (for Firefox) and put them anywhere in your `PATH`
 or in the `drivers/` directory of your project.
 
