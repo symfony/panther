@@ -27,7 +27,7 @@ abstract class TestCase extends PantherTestCase
     protected static string $anotherUploadFileName = 'another-file.txt';
     protected static ?string $webServerDir = __DIR__.'/fixtures';
 
-    public function clientFactoryProvider(): iterable
+    public static function clientFactoryProvider(): iterable
     {
         // Tests must pass with both Panther and HttpBrowser
         yield 'HttpBrowser' => [[static::class, 'createHttpBrowserClient'], HttpBrowserClient::class];

@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther;
 
-use PHPUnit\Runner\BaseTestRunner;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\BrowserKit\HttpBrowser as HttpBrowserClient;
 use Symfony\Component\HttpClient\HttpClient;
@@ -129,14 +128,19 @@ trait PantherTestCaseTrait
 
     public function takeScreenshotIfTestFailed(): void
     {
-        if (!\in_array($this->getStatus(), [BaseTestRunner::STATUS_ERROR, BaseTestRunner::STATUS_FAILURE], true)) {
+        // provided by PHPUnit\Framework\TestCase
+        if (!method_exists($this, 'status')) {
             return;
         }
 
-        $type = BaseTestRunner::STATUS_FAILURE === $this->getStatus() ? 'failure' : 'error';
+        if (!$this->status()->isError() && !$this->status()->isFailure()) {
+            return;
+        }
+
+        $type = $this->status()->isError() ? "error" : "failure";
         $test = $this->toString();
 
-        ServerExtension::takeScreenshots($type, $test);
+        ServerExtensionLegacy::takeScreenshots($type, $test);
     }
 
     /**
@@ -147,7 +151,7 @@ trait PantherTestCaseTrait
     protected static function createPantherClient(array $options = [], array $kernelOptions = [], array $managerOptions = []): PantherClient
     {
         $browser = ($options['browser'] ?? self::$defaultOptions['browser'] ?? PantherTestCase::CHROME);
-        $callGetClient = \is_callable([self::class, 'getClient']) && (new \ReflectionMethod(self::class, 'getClient'))->isStatic();
+        $callGetClient = self::isGetClientStaticMethodAvailable();
         if (null !== self::$pantherClient) {
             $browserManager = self::$pantherClient->getBrowserManager();
             if (
@@ -216,7 +220,7 @@ trait PantherTestCaseTrait
             self::$httpBrowserClient->setServerParameter('HTTPS', 'true');
         }
 
-        return \is_callable([self::class, 'getClient']) && (new \ReflectionMethod(self::class, 'getClient'))->isStatic() ? self::getClient(self::$httpBrowserClient) : self::$httpBrowserClient; // @phpstan-ignore-line
+        return self::isGetClientStaticMethodAvailable() ? self::getClient(self::$httpBrowserClient) : self::$httpBrowserClient; // @phpstan-ignore-line
     }
 
     private static function getWebServerDir(array $options): string
@@ -238,5 +242,10 @@ trait PantherTestCaseTrait
         }
 
         return $_SERVER['PANTHER_WEB_SERVER_DIR'];
+    }
+
+    private static function isGetClientStaticMethodAvailable(): bool
+    {
+        return method_exists(self::class, 'getClient') && (new \ReflectionMethod(self::class, 'getClient'))->isStatic();
     }
 }

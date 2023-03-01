@@ -2,30 +2,34 @@
 
 <!-- http://phpunit.de/manual/4.1/en/appendixes.configuration.html -->
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/6.3/phpunit.xsd"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.0/phpunit.xsd"
          backupGlobals="false"
          bootstrap="vendor/autoload.php"
          colors="true"
+         cacheDirectory=".phpunit.cache"
 >
 
-    <php>
-        <env name="KERNEL_CLASS" value="Symfony\Component\Panther\Tests\DummyKernel" />
-        <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[direct]=0" />
-    </php>
+  <coverage>
+    <include>
+      <directory>.</directory>
+    </include>
+    <exclude>
+      <directory>tests</directory>
+      <directory>vendor</directory>
+    </exclude>
+  </coverage>
 
-    <testsuites>
-        <testsuite name="Project Test Suite">
-            <directory>tests</directory>
-        </testsuite>
-    </testsuites>
+  <php>
+    <env name="KERNEL_CLASS" value="Symfony\Component\Panther\Tests\DummyKernel"/>
+    <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[direct]=0"/>
+    <!--@todo uncomment below if/when back on symfony/phpunit-bridge -->
+    <!--<server name="SYMFONY_PHPUNIT_VERSION" value="10.0"/>-->
+  </php>
 
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory>.</directory>
-            <exclude>
-                <directory>tests</directory>
-                <directory>vendor</directory>
-            </exclude>
-        </whitelist>
-    </filter>
+  <testsuites>
+    <testsuite name="Project Test Suite">
+      <directory>tests</directory>
+    </testsuite>
+  </testsuites>
+
 </phpunit>

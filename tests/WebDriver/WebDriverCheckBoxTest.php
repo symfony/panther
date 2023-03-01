@@ -15,6 +15,7 @@ namespace Symfony\Component\Panther\Tests\WebDriver;
 
 use Facebook\WebDriver\Exception\NoSuchElementException;
 use Facebook\WebDriver\Exception\UnsupportedOperationException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Panther\Tests\TestCase;
 use Symfony\Component\Panther\WebDriver\WebDriverCheckbox;
 
@@ -36,9 +37,7 @@ class WebDriverCheckBoxTest extends TestCase
         $this->assertFalse($c->isMultiple());
     }
 
-    /**
-     * @dataProvider getOptionsDataProvider
-     */
+    #[DataProvider('getOptionsDataProvider')]
     public function testWebDriverCheckboxGetOptions(string $type, array $options): void
     {
         $crawler = self::createPantherClient()->request('GET', self::$baseUri.'/form.html');
@@ -53,7 +52,7 @@ class WebDriverCheckBoxTest extends TestCase
         $this->assertSame($options, $values);
     }
 
-    public function getOptionsDataProvider(): iterable
+    public static function getOptionsDataProvider(): iterable
     {
         yield ['checkbox', ['j2a', 'j2b', 'j2c']];
         yield ['radio', ['j3a', 'j3b', 'j3c']];
@@ -74,9 +73,7 @@ class WebDriverCheckBoxTest extends TestCase
         $this->assertSame('j3a', $c->getFirstSelectedOption()->getAttribute('value'));
     }
 
-    /**
-     * @dataProvider selectByValueDataProvider
-     */
+    #[DataProvider('selectByValueDataProvider')]
     public function testWebDriverCheckboxSelectByValue(string $type, array $selectedOptions): void
     {
         $crawler = self::createPantherClient()->request('GET', self::$baseUri.'/form.html');
@@ -94,7 +91,7 @@ class WebDriverCheckBoxTest extends TestCase
         $this->assertSame($selectedOptions, $selectedValues);
     }
 
-    public function selectByValueDataProvider(): iterable
+    public static function selectByValueDataProvider(): iterable
     {
         yield ['checkbox', ['j2b', 'j2c']];
         yield ['radio', ['j3b']];
@@ -111,9 +108,7 @@ class WebDriverCheckBoxTest extends TestCase
         $c->selectByValue('notexist');
     }
 
-    /**
-     * @dataProvider selectByIndexDataProvider
-     */
+    #[DataProvider('selectByIndexDataProvider')]
     public function testWebDriverCheckboxSelectByIndex(string $type, array $selectedOptions): void
     {
         $crawler = self::createPantherClient()->request('GET', self::$baseUri.'/form.html');
@@ -131,7 +126,7 @@ class WebDriverCheckBoxTest extends TestCase
         $this->assertSame(array_values($selectedOptions), $selectedValues);
     }
 
-    public function selectByIndexDataProvider(): iterable
+    public static function selectByIndexDataProvider(): iterable
     {
         yield ['checkbox', [1 => 'j2b', 2 => 'j2c']];
         yield ['radio', [1 => 'j3b']];
@@ -148,9 +143,7 @@ class WebDriverCheckBoxTest extends TestCase
         $c->selectByIndex(\PHP_INT_MAX);
     }
 
-    /**
-     * @dataProvider selectByVisibleTextDataProvider
-     */
+    #[DataProvider('selectByVisibleTextDataProvider')]
     public function testWebDriverCheckboxSelectByVisibleText(string $type, string $text, string $value): void
     {
         $crawler = self::createPantherClient()->request('GET', self::$baseUri.'/form.html');
@@ -161,7 +154,7 @@ class WebDriverCheckBoxTest extends TestCase
         $this->assertSame($value, $c->getFirstSelectedOption()->getAttribute('value'));
     }
 
-    public function selectByVisibleTextDataProvider(): iterable
+    public static function selectByVisibleTextDataProvider(): iterable
     {
         yield ['checkbox', 'J2B', 'j2b'];
         yield ['checkbox', 'J2C', 'j2c'];
@@ -169,9 +162,7 @@ class WebDriverCheckBoxTest extends TestCase
         yield ['radio', 'J3C', 'j3c'];
     }
 
-    /**
-     * @dataProvider selectByVisiblePartialTextDataProvider
-     */
+    #[DataProvider('selectByVisiblePartialTextDataProvider')]
     public function testWebDriverCheckboxSelectByVisiblePartialText(string $type, string $text, string $value): void
     {
         $crawler = self::createPantherClient()->request('GET', self::$baseUri.'/form.html');
@@ -182,7 +173,7 @@ class WebDriverCheckBoxTest extends TestCase
         $this->assertSame($value, $c->getFirstSelectedOption()->getAttribute('value'));
     }
 
-    public function selectByVisiblePartialTextDataProvider(): iterable
+    public static function selectByVisiblePartialTextDataProvider(): iterable
     {
         yield ['checkbox', '2B', 'j2b'];
         yield ['checkbox', '2C', 'j2c'];

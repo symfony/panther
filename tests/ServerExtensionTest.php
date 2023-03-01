@@ -13,8 +13,9 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Panther\PantherTestCase;
-use Symfony\Component\Panther\ServerExtension;
+use Symfony\Component\Panther\ServerExtensionLegacy;
 
 class ServerExtensionTest extends TestCase
 {
@@ -25,7 +26,7 @@ class ServerExtensionTest extends TestCase
 
     public function testStartAndStop(): void
     {
-        $extension = new ServerExtension();
+        $extension = new ServerExtensionLegacy();
 
         $extension->executeBeforeFirstTest();
         static::assertFalse(PantherTestCase::$stopServerOnTeardown);
@@ -34,12 +35,10 @@ class ServerExtensionTest extends TestCase
         static::assertNull(PantherTestCase::$webServerManager);
     }
 
-    /**
-     * @dataProvider provideTestPauseOnFailure
-     */
+    #[DataProvider('provideTestPauseOnFailure')]
     public function testPauseOnFailure(string $method, string $expected): void
     {
-        $extension = new ServerExtension();
+        $extension = new ServerExtensionLegacy();
         $extension->testing = true;
 
         // stores current state
@@ -62,7 +61,7 @@ class ServerExtensionTest extends TestCase
         }
     }
 
-    public function provideTestPauseOnFailure(): iterable
+    public static function provideTestPauseOnFailure(): iterable
     {
         yield ['executeAfterTestError', "Error: message\n\nPress enter to continue..."];
         yield ['executeAfterTestFailure', "Failure: message\n\nPress enter to continue..."];

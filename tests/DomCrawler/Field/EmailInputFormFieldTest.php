@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\Tests\DomCrawler\Field;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\DomCrawler\Field\InputFormField;
 use Symfony\Component\Panther\Tests\TestCase;
 
@@ -21,9 +22,7 @@ use Symfony\Component\Panther\Tests\TestCase;
  */
 class EmailInputFormFieldTest extends TestCase
 {
-    /**
-     * @dataProvider clientFactoryProvider
-     */
+    #[DataProvider('clientFactoryProvider')]
     public function testGetValueWithSomeValueFromTextInput(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/input-email-form-field.html');
@@ -35,9 +34,7 @@ class EmailInputFormFieldTest extends TestCase
         $this->assertSame('some_value', $field->getValue());
     }
 
-    /**
-     * @dataProvider clientFactoryProvider
-     */
+    #[DataProvider('clientFactoryProvider')]
     public function testGetValueWithNoValueFromTextInput(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/input-email-form-field.html');
@@ -49,9 +46,7 @@ class EmailInputFormFieldTest extends TestCase
         $this->assertSame('', $field->getValue());
     }
 
-    /**
-     * @dataProvider clientFactoryProvider
-     */
+    #[DataProvider('clientFactoryProvider')]
     public function testSetValueMultipleTimesInTextInput(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/input-email-form-field.html');
@@ -68,9 +63,7 @@ class EmailInputFormFieldTest extends TestCase
         $this->assertSame('second@example.com', $field->getValue());
     }
 
-    /**
-     * @dataProvider clientFactoryProvider
-     */
+    #[DataProvider('clientFactoryProvider')]
     public function testChangeValueFromExistingValue(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/input-email-form-field.html');

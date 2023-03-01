@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\Tests\DomCrawler\Field;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\DomCrawler\Field\TextareaFormField;
 use Symfony\Component\Panther\Tests\TestCase;
 
@@ -21,9 +22,7 @@ use Symfony\Component\Panther\Tests\TestCase;
  */
 class TextareaFormFieldTest extends TestCase
 {
-    /**
-     * @dataProvider clientFactoryProvider
-     */
+    #[DataProvider('clientFactoryProvider')]
     public function testGetValueWithSomeValue(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/textarea-form-field.html');
@@ -35,9 +34,7 @@ class TextareaFormFieldTest extends TestCase
         $this->assertSame('some_value', $field->getValue());
     }
 
-    /**
-     * @dataProvider clientFactoryProvider
-     */
+    #[DataProvider('clientFactoryProvider')]
     public function testGetValueWithNoValue(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/textarea-form-field.html');
@@ -49,9 +46,7 @@ class TextareaFormFieldTest extends TestCase
         $this->assertSame('', $field->getValue());
     }
 
-    /**
-     * @dataProvider clientFactoryProvider
-     */
+    #[DataProvider('clientFactoryProvider')]
     public function testSetValueMultipleTimes(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/textarea-form-field.html');

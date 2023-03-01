@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\Tests\DomCrawler;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\DomCrawler\Field\ChoiceFormField;
 use Symfony\Component\Panther\Tests\TestCase;
 
@@ -21,9 +22,7 @@ use Symfony\Component\Panther\Tests\TestCase;
  */
 class FormTest extends TestCase
 {
-    /**
-     * @dataProvider clientFactoryProvider
-     */
+    #[DataProvider('clientFactoryProvider')]
     public function testFormByButton(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/form.html');
@@ -47,9 +46,7 @@ class FormTest extends TestCase
         $this->assertFalse($form->has('notexist'));
     }
 
-    /**
-     * @dataProvider clientFactoryProvider
-     */
+    #[DataProvider('clientFactoryProvider')]
     public function testFormById(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/form.html');
@@ -70,9 +67,7 @@ class FormTest extends TestCase
         $this->assertSame('DELETE', $crawler->filter('#special-submit')->form()->getMethod());
     }
 
-    /**
-     * @dataProvider clientFactoryProvider
-     */
+    #[DataProvider('clientFactoryProvider')]
     public function testFormFields(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/form.html');
@@ -96,9 +91,7 @@ class FormTest extends TestCase
         $this->assertSame($originalValues, $form->getValues());
     }
 
-    /**
-     * @dataProvider clientFactoryProvider
-     */
+    #[DataProvider('clientFactoryProvider')]
     public function testSelect(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/form.html');
@@ -131,9 +124,7 @@ class FormTest extends TestCase
         ], $form->getPhpValues());
     }
 
-    /**
-     * @dataProvider clientFactoryProvider
-     */
+    #[DataProvider('clientFactoryProvider')]
     public function testGetValuesDoesNotContainFiles(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/form.html');
@@ -146,9 +137,7 @@ class FormTest extends TestCase
         $this->assertNotContains(self::$uploadFileName, $form->getValues());
     }
 
-    /**
-     * @dataProvider clientFactoryProvider
-     */
+    #[DataProvider('clientFactoryProvider')]
     public function testGetFilesContainOnlyFiles(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/form.html');
