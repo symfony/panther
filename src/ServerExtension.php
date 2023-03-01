@@ -36,7 +36,7 @@ use PHPUnit\Runner\Extension\Facade;
 use PHPUnit\Runner\Extension\ParameterCollection;
 use PHPUnit\TextUI\Configuration\Configuration;
 
-/**
+/*
  *  @author Dany Maillard <danymaillard93b@gmail.com>
  */
 if (class_exists(TestRunnerStartedEvent::class)) {
@@ -50,7 +50,10 @@ if (class_exists(TestRunnerStartedEvent::class)) {
             $extension = new ServerExtensionLegacy();
 
             $facade->registerSubscriber(new class($extension) implements TestRunnerStartedSubscriber {
-                public function __construct(private $extension) {}
+                public function __construct(private $extension)
+                {
+                }
+
                 public function notify(TestRunnerStartedEvent $event): void
                 {
                     $this->extension->executeBeforeFirstTest();
@@ -58,7 +61,10 @@ if (class_exists(TestRunnerStartedEvent::class)) {
             });
 
             $facade->registerSubscriber(new class($extension) implements TestRunnerFinishedSubscriber {
-                public function __construct(private $extension) {}
+                public function __construct(private $extension)
+                {
+                }
+
                 public function notify(TestRunnerFinishedEvent $event): void
                 {
                     $this->extension->executeAfterLastTest();
@@ -66,7 +72,10 @@ if (class_exists(TestRunnerStartedEvent::class)) {
             });
 
             $facade->registerSubscriber(new class($extension) implements TestStartedSubscriber {
-                public function __construct(private $extension) {}
+                public function __construct(private $extension)
+                {
+                }
+
                 public function notify(TestStartedEvent $event): void
                 {
                     $this->extension->executeBeforeTest();
@@ -74,7 +83,10 @@ if (class_exists(TestRunnerStartedEvent::class)) {
             });
 
             $facade->registerSubscriber(new class($extension) implements TestFinishedSubscriber {
-                public function __construct(private $extension) {}
+                public function __construct(private $extension)
+                {
+                }
+
                 public function notify(TestFinishedEvent $event): void
                 {
                     $this->extension->executeAfterTest();
@@ -82,7 +94,10 @@ if (class_exists(TestRunnerStartedEvent::class)) {
             });
 
             $facade->registerSubscriber(new class($extension) implements ErroredSubscriber {
-                public function __construct(private $extension) {}
+                public function __construct(private $extension)
+                {
+                }
+
                 public function notify(Errored $event): void
                 {
                     $this->extension->executeAfterTestError();
@@ -90,7 +105,10 @@ if (class_exists(TestRunnerStartedEvent::class)) {
             });
 
             $facade->registerSubscriber(new class($extension) implements FailedSubscriber {
-                public function __construct(private $extension) {}
+                public function __construct(private $extension)
+                {
+                }
+
                 public function notify(Failed $event): void
                 {
                     $this->extension->executeAfterTestFailure();
@@ -103,7 +121,6 @@ if (class_exists(TestRunnerStartedEvent::class)) {
             ServerExtensionLegacy::registerClient($client);
         }
     }
-
 } elseif (
     // Explicitly checking each to appeasing PHPStan
     class_exists(BeforeFirstTestHook::class) &&
@@ -113,14 +130,12 @@ if (class_exists(TestRunnerStartedEvent::class)) {
     class_exists(AfterTestErrorHook::class) &&
     class_exists(AfterTestFailureHook::class)
 ) {
-
     /**
      * PHPUnit < 10.
      */
     final class ServerExtension extends ServerExtensionLegacy implements BeforeFirstTestHook, BeforeTestHook, AfterTestHook, AfterLastTestHook, AfterTestErrorHook, AfterTestFailureHook
     {
     }
-
 } else {
-    die("Failed to initialize Symfony\Component\Panther\ServerExtension, unknown phpunit version.");
+    exit("Failed to initialize Symfony\Component\Panther\ServerExtension, unknown phpunit version.");
 }

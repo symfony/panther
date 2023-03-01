@@ -137,7 +137,7 @@ trait PantherTestCaseTrait
             return;
         }
 
-        $type = $this->status()->isError() ? "error" : "failure";
+        $type = $this->status()->isError() ? 'error' : 'failure';
         $test = $this->toString();
 
         ServerExtensionLegacy::takeScreenshots($type, $test);

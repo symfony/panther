@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\DomCrawler;
 
-use function array_merge;
 use Facebook\WebDriver\Exception\NoSuchElementException;
 use Facebook\WebDriver\WebDriver;
 use Facebook\WebDriver\WebDriverBy;
@@ -385,7 +384,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
             $data[] = $element->findElements($selector);
         }
 
-        return $this->createSubCrawler(array_merge([], ...$data));
+        return $this->createSubCrawler(\array_merge([], ...$data));
     }
 
     /**
@@ -414,7 +413,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
             $subElements[] = $element->findElements($selector);
         }
 
-        return $this->createSubCrawler(array_merge([], ...$subElements));
+        return $this->createSubCrawler(\array_merge([], ...$subElements));
     }
 
     private function getElementOrThrow(): WebDriverElement

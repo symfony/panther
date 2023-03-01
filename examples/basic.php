@@ -17,7 +17,7 @@ require __DIR__.'/../vendor/autoload.php'; // Composer's autoloader
 
 $client = Client::createChromeClient();
 // Or, if you care about the open web and prefer to use Firefox
-//$client = Client::createFirefoxClient();
+// $client = Client::createFirefoxClient();
 
 $client->request('GET', 'https://api-platform.com'); // Yes, this website is 100% written in JavaScript
 $client->clickLink('Get started');
