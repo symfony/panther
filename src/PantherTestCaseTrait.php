@@ -128,19 +128,30 @@ trait PantherTestCaseTrait
 
     public function takeScreenshotIfTestFailed(): void
     {
-        // provided by PHPUnit\Framework\TestCase
-        if (!method_exists($this, 'status')) {
+        if (class_exists(BaseTestRunner::class) && method_exists($this, 'getStatus')) {
+            /**
+             * PHPUnit <10 TestCase.
+             */
+            $status = $this->getStatus();
+            $isError = BaseTestRunner::STATUS_FAILURE === $status;
+            $isFailure = BaseTestRunner::STATUS_ERROR === $status;
+        } elseif (method_exists($this, 'status')) {
+            /**
+             * PHPUnit 10 TestCase.
+             */
+            $status = $this->status();
+            $isError = $status->isError();
+            $isFailure = $status->isFailure();
+        } else {
+            /*
+             * Symfony WebTestCase.
+             */
             return;
         }
-
-        if (!$this->status()->isError() && !$this->status()->isFailure()) {
-            return;
+        if ($isError || $isFailure) {
+            $type = $isError ? 'error' : 'failure';
+            ServerExtensionLegacy::takeScreenshots($type, $this->toString());
         }
-
-        $type = $this->status()->isError() ? 'error' : 'failure';
-        $test = $this->toString();
-
-        ServerExtensionLegacy::takeScreenshots($type, $test);
     }
 
     /**
