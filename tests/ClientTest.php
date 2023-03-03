@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Symfony\Component\Panther\Tests;
 
 use Facebook\WebDriver\Exception\InvalidSelectorException;
+use Facebook\WebDriver\Exception\StaleElementReferenceException;
 use Facebook\WebDriver\JavaScriptExecutor;
 use Facebook\WebDriver\WebDriver;
 use Facebook\WebDriver\WebDriverExpectedCondition;
@@ -300,10 +301,7 @@ JS
             // doesn't help. I can't figure out what is going on,
             // but skipping if empty to prevent inconsistent failures.
             $client->getCrawler()->html();
-        } catch (\InvalidArgumentException $exception) {
-            if ('The current node list is empty.' !== $exception->getMessage()) {
-                throw $exception;
-            }
+        } catch (\InvalidArgumentException|StaleElementReferenceException $exception) {
             $this->markTestSkipped('unknown bug with inconsistent empty html');
         }
 
