@@ -39,7 +39,7 @@ use PHPUnit\TextUI\Configuration\Configuration;
 /*
  *  @author Dany Maillard <danymaillard93b@gmail.com>
  */
-if (class_exists(TestRunnerStartedEvent::class)) {
+if (interface_exists(Extension::class)) {
     /**
      * PHPUnit >= 10.
      */
@@ -121,15 +121,7 @@ if (class_exists(TestRunnerStartedEvent::class)) {
             ServerExtensionLegacy::registerClient($client);
         }
     }
-} elseif (
-    // Explicitly checking each to appeasing PHPStan
-    class_exists(BeforeFirstTestHook::class) &&
-    class_exists(BeforeTestHook::class) &&
-    class_exists(AfterTestHook::class) &&
-    class_exists(AfterLastTestHook::class) &&
-    class_exists(AfterTestErrorHook::class) &&
-    class_exists(AfterTestFailureHook::class)
-) {
+} elseif (interface_exists(BeforeFirstTestHook::class)) {
     /**
      * PHPUnit < 10.
      */
@@ -137,5 +129,5 @@ if (class_exists(TestRunnerStartedEvent::class)) {
     {
     }
 } else {
-    exit("Failed to initialize Symfony\Component\Panther\ServerExtension, unknown phpunit version.");
+    exit("Failed to initialize Symfony\Component\Panther\ServerExtension, undetectable or unsupported phpunit version.");
 }

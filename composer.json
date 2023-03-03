@@ -44,9 +44,9 @@
     "sort-packages": true
   },
   "require-dev": {
-    "phpunit/phpunit": "^10.0",
     "symfony/css-selector": "^5.3 || ^6.0",
     "symfony/framework-bundle": "^5.3 || ^6.0",
-    "symfony/mime": "^5.3 || ^6.0"
+    "symfony/mime": "^5.3 || ^6.0",
+    "symfony/phpunit-bridge": "^5.3 || ^6.0"
   }
 }

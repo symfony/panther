@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\Tests\DomCrawler\Field;
 
-use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\DomCrawler\Field\ChoiceFormField;
 use Symfony\Component\Panther\Client as PantherClient;
 use Symfony\Component\Panther\Tests\TestCase;
@@ -23,7 +22,9 @@ use Symfony\Component\Panther\Tests\TestCase;
  */
 class ChoiceFormFieldTest extends TestCase
 {
-    #[DataProvider('clientFactoryProvider')]
+    /**
+     * @dataProvider clientFactoryProvider
+     */
     public function testGetValueFromSelectIfOneIsSelected(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/choice-form-field.html');
@@ -35,7 +36,9 @@ class ChoiceFormFieldTest extends TestCase
         $this->assertSame('20', $field->getValue());
     }
 
-    #[DataProvider('clientFactoryProvider')]
+    /**
+     * @dataProvider clientFactoryProvider
+     */
     public function testGetValueFromSelectIfNoneIsSelected(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/choice-form-field.html');
@@ -47,7 +50,9 @@ class ChoiceFormFieldTest extends TestCase
         $this->assertSame('', $field->getValue());
     }
 
-    #[DataProvider('clientFactoryProvider')]
+    /**
+     * @dataProvider clientFactoryProvider
+     */
     public function testGetValueFromSelectMultipleIfOneIsSelected(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/choice-form-field.html');
@@ -59,7 +64,9 @@ class ChoiceFormFieldTest extends TestCase
         $this->assertSame(['20'], $field->getValue());
     }
 
-    #[DataProvider('clientFactoryProvider')]
+    /**
+     * @dataProvider clientFactoryProvider
+     */
     public function testGetValueFromSelectMultipleIfMultipleIsSelected(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/choice-form-field.html');
@@ -71,7 +78,9 @@ class ChoiceFormFieldTest extends TestCase
         $this->assertSame(['20', '30'], $field->getValue());
     }
 
-    #[DataProvider('clientFactoryProvider')]
+    /**
+     * @dataProvider clientFactoryProvider
+     */
     public function testGetValueFromSelectMultipleIfNoneIsSelected(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/choice-form-field.html');
@@ -83,7 +92,9 @@ class ChoiceFormFieldTest extends TestCase
         $this->assertSame([], $field->getValue());
     }
 
-    #[DataProvider('clientFactoryProvider')]
+    /**
+     * @dataProvider clientFactoryProvider
+     */
     public function testGetValueFromRadioIfSelected(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/choice-form-field.html');
@@ -95,7 +106,9 @@ class ChoiceFormFieldTest extends TestCase
         $this->assertSame('i_am_checked', $field->getValue());
     }
 
-    #[DataProvider('clientFactoryProvider')]
+    /**
+     * @dataProvider clientFactoryProvider
+     */
     public function testGetValueFromRadioIfNoneIsChecked(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/choice-form-field.html');
@@ -107,7 +120,9 @@ class ChoiceFormFieldTest extends TestCase
         $this->assertNull($field->getValue());
     }
 
-    #[DataProvider('clientFactoryProvider')]
+    /**
+     * @dataProvider clientFactoryProvider
+     */
     public function testGetValueFromCheckboxIfChecked(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/choice-form-field.html');
@@ -119,7 +134,9 @@ class ChoiceFormFieldTest extends TestCase
         $this->assertSame('i_am_checked', $field->getValue());
     }
 
-    #[DataProvider('clientFactoryProvider')]
+    /**
+     * @dataProvider clientFactoryProvider
+     */
     public function testGetValueFromCheckboxIfMultipleAreChecked(callable $clientFactory, string $type): void
     {
         $crawler = $this->request($clientFactory, '/choice-form-field.html');
@@ -135,7 +152,9 @@ class ChoiceFormFieldTest extends TestCase
         $this->assertSame(['checked_one', 'checked_two'], $field->getValue());
     }
 
-    #[DataProvider('clientFactoryProvider')]
+    /**
+     * @dataProvider clientFactoryProvider
+     */
     public function testGetValueFromCheckboxIfNoneIsChecked(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/choice-form-field.html');

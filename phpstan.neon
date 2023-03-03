@@ -3,12 +3,13 @@ parameters:
 	paths:
 		- src
 		- tests
-	# @todo use below if/when we are back on symfony/phpunit-bridge
-	#bootstrapFiles:
-	#	- vendor/bin/.phpunit/phpunit/vendor/autoload.php
+	bootstrapFiles:
+		- vendor/bin/.phpunit/phpunit/vendor/autoload.php
 	inferPrivatePropertyTypeFromConstructor: true
 	excludePaths:
 	    - tests/DummyKernel.php
+	    # There are lots of missing phpunit classes since we are supporting multiple versions
+	    - src/ServerExtension.php
 	ignoreErrors:
 		# False positive
 		- '#Call to an undefined method ReflectionType::getName\(\)\.#'
@@ -17,3 +18,4 @@ parameters:
 		# Require a redesign of the underlying Symfony components
 		- '#Call to an undefined method DOMNode::getTagName\(\)\.#'
 		- '#Return type \(void\) of method Symfony\\Component\\Panther\\DomCrawler\\Crawler::clear\(\) should be compatible with return type \(Facebook\\WebDriver\\WebDriverElement\) of method Facebook\\WebDriver\\WebDriverElement::clear\(\)#'
+

@@ -17,7 +17,6 @@ use Facebook\WebDriver\Exception\InvalidSelectorException;
 use Facebook\WebDriver\JavaScriptExecutor;
 use Facebook\WebDriver\WebDriver;
 use Facebook\WebDriver\WebDriverExpectedCondition;
-use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\BrowserKit\AbstractBrowser;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\BrowserKit\CookieJar as BrowserKitCookieJar;
@@ -51,7 +50,9 @@ class ClientTest extends TestCase
         $client->waitFor('');
     }
 
-    #[DataProvider('waitForDataProvider')]
+    /**
+     * @dataProvider waitForDataProvider
+     */
     public function testWaitFor(string $locator): void
     {
         $client = self::createPantherClient();
@@ -76,7 +77,9 @@ class ClientTest extends TestCase
         yield 'xpath expression' => ['locator' => '//*[@id="hello"]'];
     }
 
-    #[DataProvider('waitForDataProvider')]
+    /**
+     * @dataProvider waitForDataProvider
+     */
     public function testWaitForVisibility(string $locator): void
     {
         $client = self::createPantherClient();
@@ -86,7 +89,9 @@ class ClientTest extends TestCase
         $this->assertSame('Hello', $crawler->filter('#hello')->text(null, true));
     }
 
-    #[DataProvider('waitForDataProvider')]
+    /**
+     * @dataProvider waitForDataProvider
+     */
     public function testWaitForInvisibility(string $locator): void
     {
         $client = self::createPantherClient();
@@ -96,7 +101,9 @@ class ClientTest extends TestCase
         $this->assertSame('', $crawler->filter('#hello')->text(null, true));
     }
 
-    #[DataProvider('waitForDataProvider')]
+    /**
+     * @dataProvider waitForDataProvider
+     */
     public function testWaitForElementToContain(string $locator): void
     {
         $client = self::createPantherClient();
@@ -106,7 +113,9 @@ class ClientTest extends TestCase
         $this->assertSame('Hello new content', $crawler->filter('#hello')->text(null, true));
     }
 
-    #[DataProvider('waitForDataProvider')]
+    /**
+     * @dataProvider waitForDataProvider
+     */
     public function testWaitForElementToNotContain(string $locator): void
     {
         $client = self::createPantherClient();
@@ -116,7 +125,9 @@ class ClientTest extends TestCase
         $this->assertSame('Hello', $crawler->filter('#hello')->text(null, true));
     }
 
-    #[DataProvider('waitForDataProvider')]
+    /**
+     * @dataProvider waitForDataProvider
+     */
     public function testWaitForEnabled(string $locator): void
     {
         $client = self::createPantherClient();
@@ -126,7 +137,9 @@ class ClientTest extends TestCase
         $this->assertTrue($crawler->filter('#hello')->isEnabled());
     }
 
-    #[DataProvider('waitForDataProvider')]
+    /**
+     * @dataProvider waitForDataProvider
+     */
     public function testWaitForDisabled(string $locator): void
     {
         $client = self::createPantherClient();
@@ -136,7 +149,9 @@ class ClientTest extends TestCase
         $this->assertFalse($crawler->filter('#hello')->isEnabled());
     }
 
-    #[DataProvider('waitForDataProvider')]
+    /**
+     * @dataProvider waitForDataProvider
+     */
     public function testWaitForAttributeToContain(string $locator): void
     {
         $client = self::createPantherClient();
@@ -146,7 +161,9 @@ class ClientTest extends TestCase
         $this->assertSame('42', $crawler->filter('#hello')->getAttribute('data-old-price'));
     }
 
-    #[DataProvider('waitForDataProvider')]
+    /**
+     * @dataProvider waitForDataProvider
+     */
     public function testWaitForAttributeToNotContain(string $locator): void
     {
         $client = self::createPantherClient();
@@ -156,7 +173,9 @@ class ClientTest extends TestCase
         $this->assertSame('36', $crawler->filter('#hello')->getAttribute('data-old-price'));
     }
 
-    #[DataProvider('waitForDataProvider')]
+    /**
+     * @dataProvider waitForDataProvider
+     */
     public function testWaitForStalenessElement(string $locator): void
     {
         $client = self::createPantherClient();
@@ -196,7 +215,9 @@ JS
         $this->assertSame('P1', $innerText);
     }
 
-    #[DataProvider('clientFactoryProvider')]
+    /**
+     * @dataProvider clientFactoryProvider
+     */
     public function testGetCrawler(callable $clientFactory, string $type): void
     {
         $crawler = $this->request($clientFactory, '/basic.html');
@@ -225,7 +246,9 @@ JS
         $this->assertSame('Hello', $refreshedCrawler->filter('h1')->text(null, true));
     }
 
-    #[DataProvider('clientFactoryProvider')]
+    /**
+     * @dataProvider clientFactoryProvider
+     */
     public function testFollowLink(callable $clientFactory, string $type): void
     {
         /** @var AbstractBrowser $client */
@@ -241,7 +264,9 @@ JS
         $this->assertSame(self::$baseUri.'/basic.html#e12', $crawler->getUri());
     }
 
-    #[DataProvider('clientFactoryProvider')]
+    /**
+     * @dataProvider clientFactoryProvider
+     */
     public function testSubmitForm(callable $clientFactory): void
     {
         /** @var AbstractBrowser $client */
@@ -269,7 +294,9 @@ JS
         $this->assertSame(self::$baseUri.'/form-handle.php?i1=Michel&i2=&i3=&i4=i4a', $crawler->getUri());
     }
 
-    #[DataProvider('clientFactoryProvider')]
+    /**
+     * @dataProvider clientFactoryProvider
+     */
     public function testSubmitFormWithValues(callable $clientFactory, string $type): void
     {
         /** @var AbstractBrowser $client */
@@ -288,7 +315,9 @@ JS
         $this->assertSame('I1: Reclus', $crawler->filter('#result')->text(null, true));
     }
 
-    #[DataProvider('clientFactoryProvider')]
+    /**
+     * @dataProvider clientFactoryProvider
+     */
     public function testHistory(callable $clientFactory): void
     {
         /** @var AbstractBrowser $client */
@@ -313,7 +342,9 @@ JS
         $this->assertSame(self::$baseUri.'/link.html', $crawler->getUri());
     }
 
-    #[DataProvider('clientFactoryProvider')]
+    /**
+     * @dataProvider clientFactoryProvider
+     */
     public function testCookie(callable $clientFactory, string $type): void
     {
         /** @var AbstractBrowser $client */
@@ -363,7 +394,9 @@ JS
         $this->assertNull($cookieJar->get('foo'));
     }
 
-    #[DataProvider('clientFactoryProvider')]
+    /**
+     * @dataProvider clientFactoryProvider
+     */
     public function testServerPort(callable $clientFactory): void
     {
         $expectedPort = $_SERVER['PANTHER_WEB_SERVER_PORT'] ?? '9080';
@@ -371,7 +404,9 @@ JS
         $this->assertEquals($expectedPort, mb_substr(self::$baseUri, -4));
     }
 
-    #[DataProvider('clientFactoryProvider')]
+    /**
+     * @dataProvider clientFactoryProvider
+     */
     public function testBrowserProvider(callable $clientFactory): void
     {
         $client = $clientFactory();

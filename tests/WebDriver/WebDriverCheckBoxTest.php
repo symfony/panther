@@ -15,7 +15,6 @@ namespace Symfony\Component\Panther\Tests\WebDriver;
 
 use Facebook\WebDriver\Exception\NoSuchElementException;
 use Facebook\WebDriver\Exception\UnsupportedOperationException;
-use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Panther\Tests\TestCase;
 use Symfony\Component\Panther\WebDriver\WebDriverCheckbox;
 
@@ -37,7 +36,9 @@ class WebDriverCheckBoxTest extends TestCase
         $this->assertFalse($c->isMultiple());
     }
 
-    #[DataProvider('getOptionsDataProvider')]
+    /**
+     * @dataProvider getOptionsDataProvider
+     */
     public function testWebDriverCheckboxGetOptions(string $type, array $options): void
     {
         $crawler = self::createPantherClient()->request('GET', self::$baseUri.'/form.html');
@@ -73,7 +74,9 @@ class WebDriverCheckBoxTest extends TestCase
         $this->assertSame('j3a', $c->getFirstSelectedOption()->getAttribute('value'));
     }
 
-    #[DataProvider('selectByValueDataProvider')]
+    /**
+     * @dataProvider selectByValueDataProvider
+     */
     public function testWebDriverCheckboxSelectByValue(string $type, array $selectedOptions): void
     {
         $crawler = self::createPantherClient()->request('GET', self::$baseUri.'/form.html');
@@ -108,7 +111,9 @@ class WebDriverCheckBoxTest extends TestCase
         $c->selectByValue('notexist');
     }
 
-    #[DataProvider('selectByIndexDataProvider')]
+    /**
+     * @dataProvider selectByIndexDataProvider
+     */
     public function testWebDriverCheckboxSelectByIndex(string $type, array $selectedOptions): void
     {
         $crawler = self::createPantherClient()->request('GET', self::$baseUri.'/form.html');
@@ -143,7 +148,9 @@ class WebDriverCheckBoxTest extends TestCase
         $c->selectByIndex(\PHP_INT_MAX);
     }
 
-    #[DataProvider('selectByVisibleTextDataProvider')]
+    /**
+     * @dataProvider selectByVisibleTextDataProvider
+     */
     public function testWebDriverCheckboxSelectByVisibleText(string $type, string $text, string $value): void
     {
         $crawler = self::createPantherClient()->request('GET', self::$baseUri.'/form.html');
@@ -162,7 +169,9 @@ class WebDriverCheckBoxTest extends TestCase
         yield ['radio', 'J3C', 'j3c'];
     }
 
-    #[DataProvider('selectByVisiblePartialTextDataProvider')]
+    /**
+     * @dataProvider selectByVisiblePartialTextDataProvider
+     */
     public function testWebDriverCheckboxSelectByVisiblePartialText(string $type, string $text, string $value): void
     {
         $crawler = self::createPantherClient()->request('GET', self::$baseUri.'/form.html');

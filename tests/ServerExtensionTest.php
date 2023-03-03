@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\Tests;
 
-use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Panther\PantherTestCase;
 use Symfony\Component\Panther\ServerExtensionLegacy;
 
@@ -35,7 +34,9 @@ class ServerExtensionTest extends TestCase
         static::assertNull(PantherTestCase::$webServerManager);
     }
 
-    #[DataProvider('provideTestPauseOnFailure')]
+    /**
+     * @dataProvider provideTestPauseOnFailure
+     */
     public function testPauseOnFailure(string $method, string $expected): void
     {
         $extension = new ServerExtensionLegacy();
