@@ -300,7 +300,10 @@ JS
             // doesn't help. I can't figure out what is going on,
             // but skipping if empty to prevent inconsistent failures.
             $client->getCrawler()->html();
-        } catch (\InvalidArgumentException) {
+        } catch (\InvalidArgumentException $exception) {
+            if ('The current node list is empty.' !== $exception->getMessage()) {
+                throw $exception;
+            }
             $this->markTestSkipped('unknown bug with inconsistent empty html');
         }
 
