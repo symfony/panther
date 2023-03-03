@@ -384,7 +384,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
             $data[] = $element->findElements($selector);
         }
 
-        return $this->createSubCrawler(\array_merge([], ...$data));
+        return $this->createSubCrawler(array_merge([], ...$data));
     }
 
     /**
@@ -413,7 +413,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
             $subElements[] = $element->findElements($selector);
         }
 
-        return $this->createSubCrawler(\array_merge([], ...$subElements));
+        return $this->createSubCrawler(array_merge([], ...$subElements));
     }
 
     private function getElementOrThrow(): WebDriverElement
