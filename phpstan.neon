@@ -18,4 +18,3 @@ parameters:
 		# Require a redesign of the underlying Symfony components
 		- '#Call to an undefined method DOMNode::getTagName\(\)\.#'
 		- '#Return type \(void\) of method Symfony\\Component\\Panther\\DomCrawler\\Crawler::clear\(\) should be compatible with return type \(Facebook\\WebDriver\\WebDriverElement\) of method Facebook\\WebDriver\\WebDriverElement::clear\(\)#'
-
