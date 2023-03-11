@@ -171,7 +171,8 @@ trait PantherTestCaseTrait
             ) {
                 ServerExtension::registerClient(self::$pantherClient);
 
-                return $callGetClient ? self::getClient(self::$pantherClient) : self::$pantherClient; // @phpstan-ignore-line
+                /* @phpstan-ignore-next-line */
+                return $callGetClient ? self::getClient(self::$pantherClient) : self::$pantherClient;
             }
         }
 
@@ -189,7 +190,8 @@ trait PantherTestCaseTrait
 
         ServerExtension::registerClient(self::$pantherClient);
 
-        return $callGetClient ? self::getClient(self::$pantherClient) : self::$pantherClient; // @phpstan-ignore-line
+        /* @phpstan-ignore-next-line */
+        return $callGetClient ? self::getClient(self::$pantherClient) : self::$pantherClient;
     }
 
     /**
