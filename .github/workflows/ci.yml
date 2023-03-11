@@ -216,3 +216,43 @@ jobs:
 
             - name: Run tests
               run: vendor/bin/simple-phpunit
+
+    phpunit-10:
+      runs-on: ubuntu-latest
+      strategy:
+        matrix:
+          php-versions: [ '8.1' ]
+        fail-fast: false
+      name: PHP ${{ matrix.php-versions }} (phpunit 10) Test on ubuntu-latest
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v2
+
+        - name: Setup PHP
+          uses: shivammathur/setup-php@v2
+          with:
+            php-version: ${{ matrix.php-versions }}
+            extensions: zip
+
+        - name: Get composer cache directory
+          id: composercache
+          run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+        - name: Cache dependencies
+          uses: actions/cache@v2
+          with:
+            path: ${{ steps.composercache.outputs.dir }}
+            key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+            restore-keys: ${{ runner.os }}-composer-
+
+        - name: Install dependencies
+          run: composer install --prefer-dist
+
+        - name: Remove phpunit-bridge dependency (not yet phpunit 10 compliant)
+          run: composer remove --dev symfony/phpunit-bridge
+
+        - name: Install latest phpunit 10
+          run: composer require --dev --prefer-dist phpunit/phpunit:^10.0
+
+        - name: Run tests
+          run: vendor/bin/phpunit --configuration phpunit.xml.dist.10
