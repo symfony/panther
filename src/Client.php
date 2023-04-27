@@ -522,6 +522,11 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
 
         // Prepend the base URI to URIs without a host
         if (null !== $this->baseUri && (false !== $components = parse_url($url)) && !isset($components['host'])) {
+            if (str_starts_with($url, '/') && str_ends_with($this->baseUri, '/')) {
+                $url = substr($url, 1);
+            } elseif (!str_starts_with($url, '/') && !str_ends_with($this->baseUri, '/')) {
+                $url = '/'.$url;
+            }
             $url = $this->baseUri.$url;
         }
 
