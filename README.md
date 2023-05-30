@@ -3,7 +3,6 @@
 **A browser testing and web scraping library for [PHP](https://php.net) and [Symfony](https://symfony.com)**
 
 ![CI](https://github.com/symfony/panther/workflows/CI/badge.svg)
-[![SymfonyInsight](https://insight.symfony.com/projects/9ea7e78c-998a-4489-9815-7449ce8291ef/mini.png)](https://insight.symfony.com/projects/9ea7e78c-998a-4489-9815-7449ce8291ef)
 
 *Panther* is a convenient standalone library to scrape websites and to run end-to-end tests **using real browsers**.
 
