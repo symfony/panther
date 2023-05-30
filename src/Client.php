@@ -64,7 +64,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
     /**
      * @param string[]|null $arguments
      */
-    public static function createChromeClient(?string $chromeDriverBinary = null, ?array $arguments = null, array $options = [], ?string $baseUri = null): self
+    public static function createChromeClient(string $chromeDriverBinary = null, array $arguments = null, array $options = [], string $baseUri = null): self
     {
         return new self(new ChromeManager($chromeDriverBinary, $arguments, $options), $baseUri);
     }
@@ -72,17 +72,17 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
     /**
      * @param string[]|null $arguments
      */
-    public static function createFirefoxClient(?string $geckodriverBinary = null, ?array $arguments = null, array $options = [], ?string $baseUri = null): self
+    public static function createFirefoxClient(string $geckodriverBinary = null, array $arguments = null, array $options = [], string $baseUri = null): self
     {
         return new self(new FirefoxManager($geckodriverBinary, $arguments, $options), $baseUri);
     }
 
-    public static function createSeleniumClient(?string $host = null, ?WebDriverCapabilities $capabilities = null, ?string $baseUri = null, array $options = []): self
+    public static function createSeleniumClient(string $host = null, WebDriverCapabilities $capabilities = null, string $baseUri = null, array $options = []): self
     {
         return new self(new SeleniumManager($host, $capabilities, $options), $baseUri);
     }
 
-    public function __construct(BrowserManagerInterface $browserManager, ?string $baseUri = null)
+    public function __construct(BrowserManagerInterface $browserManager, string $baseUri = null)
     {
         $this->browserManager = $browserManager;
         $this->baseUri = $baseUri;
@@ -630,8 +630,6 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
     /**
      * @param string $name
      * @param array  $params
-     *
-     * @return mixed
      */
     public function execute($name, $params)
     {
@@ -661,8 +659,6 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
      * @param string $script
      *
      * @throws \Exception
-     *
-     * @return mixed
      */
     public function executeScript($script, array $arguments = [])
     {
@@ -677,8 +673,6 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
      * @param string $script
      *
      * @throws \Exception
-     *
-     * @return mixed
      */
     public function executeAsyncScript($script, array $arguments = [])
     {

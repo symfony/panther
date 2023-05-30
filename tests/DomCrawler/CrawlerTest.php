@@ -247,8 +247,6 @@ class CrawlerTest extends TestCase
 
     /**
      * @dataProvider clientFactoryProvider
-     *
-     * @param mixed $clientFactory
      */
     public function testChildrenFilter($clientFactory): void
     {

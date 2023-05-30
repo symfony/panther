@@ -34,7 +34,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
     /**
      * @param WebDriverElement[] $elements
      */
-    public function __construct(array $elements = [], ?WebDriver $webDriver = null, ?string $uri = null)
+    public function __construct(array $elements = [], WebDriver $webDriver = null, string $uri = null)
     {
         $this->uri = $uri;
         $this->webDriver = $webDriver;
@@ -390,7 +390,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
     /**
      * @param WebDriverElement[]|null $nodes
      */
-    private function createSubCrawler(?array $nodes = null): self
+    private function createSubCrawler(array $nodes = null): self
     {
         return new self($nodes ?? [], $this->webDriver, $this->uri);
     }
