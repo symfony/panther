@@ -72,8 +72,6 @@ class FileFormFieldTest extends TestCase
 
     /**
      * @dataProvider clientFactoryProvider
-     *
-     * @param mixed $class
      */
     public function testFileUploadWithSetFilePath(callable $clientFactory, $class): void
     {

@@ -209,8 +209,6 @@ final class Form extends BaseForm
     }
 
     /**
-     * @param mixed $name
-     *
      * @return FormField|FormField[]|FormField[][]
      */
     public function get($name): FormField|array
@@ -344,9 +342,6 @@ final class Form extends BaseForm
         return $values;
     }
 
-    /**
-     * @param mixed $value
-     */
     private function setValue(string $name, $value): void
     {
         try {

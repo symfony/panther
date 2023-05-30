@@ -25,7 +25,7 @@ final class PantherWebDriverExpectedCondition
             try {
                 $elementText = $driver->findElement($by)->getText();
 
-                return false === strpos($elementText, $text);
+                return !str_contains($elementText, $text);
             } catch (StaleElementReferenceException $e) {
                 return null;
             }
@@ -63,7 +63,7 @@ final class PantherWebDriverExpectedCondition
             try {
                 $attributeValue = $driver->findElement($by)->getAttribute($attribute);
 
-                return null !== $attributeValue && false !== strpos($attributeValue, $text);
+                return null !== $attributeValue && str_contains($attributeValue, $text);
             } catch (StaleElementReferenceException $e) {
                 return null;
             }
@@ -77,7 +77,7 @@ final class PantherWebDriverExpectedCondition
             try {
                 $attributeValue = $driver->findElement($by)->getAttribute($attribute);
 
-                return null !== $attributeValue && false === strpos($attributeValue, $text);
+                return null !== $attributeValue && !str_contains($attributeValue, $text);
             } catch (StaleElementReferenceException $e) {
                 return null;
             }
