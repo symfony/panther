@@ -8,6 +8,8 @@ parameters:
 	inferPrivatePropertyTypeFromConstructor: true
 	excludePaths:
 	    - tests/DummyKernel.php
+	    # There are lots of missing phpunit classes since we are supporting multiple versions
+	    - src/ServerExtension.php
 	ignoreErrors:
 		# False positive
 		- '#Call to an undefined method ReflectionType::getName\(\)\.#'

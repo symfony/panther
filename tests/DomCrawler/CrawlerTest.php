@@ -264,6 +264,7 @@ class CrawlerTest extends TestCase
 
     /**
      * @dataProvider clientFactoryProvider
+     *
      * @group legacy
      */
     public function testParents(callable $clientFactory): void

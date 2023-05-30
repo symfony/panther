@@ -100,7 +100,7 @@ class FutureAssertionsTest extends TestCase
         $this->assertSame('42', $crawler->filter('#hello')->getAttribute('data-old-price'));
     }
 
-    public function futureDataProvider(): iterable
+    public static function futureDataProvider(): iterable
     {
         yield 'css selector' => ['locator' => '#hello'];
         yield 'xpath expression' => ['locator' => '//*[@id="hello"]'];

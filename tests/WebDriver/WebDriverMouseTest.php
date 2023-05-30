@@ -36,11 +36,11 @@ class WebDriverMouseTest extends TestCase
         $this->assertEquals($result, $client->getCrawler()->filter('#result')->text(null, true));
     }
 
-    public function provide(): iterable
+    public static function provide(): iterable
     {
         yield ['clickTo', '#mouse', 'click'];
         // Double clicks aren't detected as dblclick events anymore in W3C mode, looks related to https://github.com/w3c/webdriver/issues/1197
-        //yield ['doubleClickTo', '#mouse', 'dblclick'];
+        // yield ['doubleClickTo', '#mouse', 'dblclick'];
         yield ['contextClickTo', '#mouse', 'contextmenu'];
         yield ['mouseDownTo', '#mouse', 'mousedown'];
         yield ['mouseMoveTo', '#mouse', 'mousemove'];
