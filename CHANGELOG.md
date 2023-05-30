@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+2.1.0
+-----
+
+* Add support for PHPUnit 10
+* Add support for `matches()` and `closest()` in `Crawler`
+
 2.0.1
 -----
 
