@@ -631,7 +631,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
      * @param string $name
      * @param array  $params
      */
-    public function execute($name, $params)
+    public function execute($name, $params): mixed
     {
         $this->start();
 
@@ -660,7 +660,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
      *
      * @throws \Exception
      */
-    public function executeScript($script, array $arguments = [])
+    public function executeScript($script, array $arguments = []): mixed
     {
         if (!$this->webDriver instanceof JavaScriptExecutor) {
             throw $this->createException(JavaScriptExecutor::class);
@@ -674,7 +674,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
      *
      * @throws \Exception
      */
-    public function executeAsyncScript($script, array $arguments = [])
+    public function executeAsyncScript($script, array $arguments = []): mixed
     {
         if (!$this->webDriver instanceof JavaScriptExecutor) {
             throw $this->createException(JavaScriptExecutor::class);
