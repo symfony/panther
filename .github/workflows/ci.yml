@@ -33,6 +33,7 @@ jobs:
               with:
                   php-version: '8.2'
                   tools: phpstan
+                  extensions: zip
 
             - name: Get composer cache directory
               id: composercache
@@ -136,6 +137,7 @@ jobs:
               uses: shivammathur/setup-php@v2
               with:
                   php-version: '8.2'
+                  extensions: zip
 
             - name: Get composer cache directory
               id: composercache
@@ -170,6 +172,7 @@ jobs:
               uses: shivammathur/setup-php@v2
               with:
                   php-version: '8.2'
+                  extensions: zip
 
             - name: Get composer cache directory
               id: composercache
@@ -199,6 +202,7 @@ jobs:
               uses: shivammathur/setup-php@v2
               with:
                   php-version: '8.2'
+                  extensions: zip
 
             - name: Get composer cache directory
               id: composercache
