@@ -55,7 +55,6 @@ trait PantherTestCaseTrait
         'router' => '',
         'external_base_uri' => null,
         'readinessPath' => '',
-        'browser' => PantherTestCase::CHROME,
         'env' => [],
     ];
 
@@ -100,7 +99,7 @@ trait PantherTestCaseTrait
             return;
         }
 
-        if ($externalBaseUri = $options['external_base_uri'] ?? $_SERVER['PANTHER_EXTERNAL_BASE_URI'] ?? self::$defaultOptions['external_base_uri']) {
+        if ($externalBaseUri = $options['external_base_uri'] ?? self::$defaultOptions['external_base_uri'] ?? $_SERVER['PANTHER_EXTERNAL_BASE_URI'] ?? $_SERVER['SYMFONY_PROJECT_DEFAULT_ROUTE_URL'] ?? null) {
             self::$baseUri = $externalBaseUri;
 
             return;
@@ -161,7 +160,7 @@ trait PantherTestCaseTrait
      */
     protected static function createPantherClient(array $options = [], array $kernelOptions = [], array $managerOptions = []): PantherClient
     {
-        $browser = ($options['browser'] ?? self::$defaultOptions['browser'] ?? PantherTestCase::CHROME);
+        $browser = ($options['browser'] ?? self::$defaultOptions['browser'] ?? null);
         $callGetClient = method_exists(self::class, 'getClient') && (new \ReflectionMethod(self::class, 'getClient'))->isStatic();
         if (null !== self::$pantherClient) {
             $browserManager = self::$pantherClient->getBrowserManager();
@@ -178,10 +177,21 @@ trait PantherTestCaseTrait
 
         self::startWebServer($options);
 
-        if (PantherTestCase::CHROME === $browser) {
-            self::$pantherClients[0] = self::$pantherClient = Client::createChromeClient(null, null, $managerOptions, self::$baseUri);
-        } else {
+        if (PantherTestCase::FIREFOX === $browser) {
             self::$pantherClients[0] = self::$pantherClient = Client::createFirefoxClient(null, null, $managerOptions, self::$baseUri);
+        } else {
+            try {
+                self::$pantherClients[0] = self::$pantherClient = Client::createChromeClient(null, null, $managerOptions, self::$baseUri);
+            } catch (\RuntimeException $e) {
+                if (PantherTestCase::CHROME === $browser) {
+                    throw $e;
+                }
+                self::$pantherClients[0] = self::$pantherClient = Client::createFirefoxClient(null, null, $managerOptions, self::$baseUri);
+            }
+
+            if (null === $browser) {
+                self::$defaultOptions['browser'] = self::$pantherClient->getBrowserManager() instanceof ChromeManager ? PantherTestCase::CHROME : PantherTestCase::FIREFOX;
+            }
         }
 
         if (is_a(self::class, KernelTestCase::class, true)) {
