@@ -494,6 +494,32 @@ class SecondDomainTest extends PantherTestCase
 }
 ```
 
+### Enable Code Coverage
+
+To enable code coverage with Panther usage, edit your `Kernel.php` file as follow:
+
+```php
+<?php
+
+namespace App;
+
+use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
+use Symfony\Component\HttpKernel\Kernel as BaseKernel;
+use Symfony\Component\Panther\PantherCoverageKernelTrait;
+
+class Kernel extends BaseKernel
+{
+    use MicroKernelTrait;
+    use PantherCoverageKernelTrait;
+}
+```
+
+When running PhpUnit and want to have the coverage, enable it for Panther by passing the environment `PANTHER_COVERAGE=true`
+to enable it in the Symfony Kernel.
+
+**ℹ Note:** if you use Pcov as code coverage driver, you need to set `pcov.directory` in your `php.ini` file with the
+absolute path to your `src/` directory. By default, when using Panther it's defined on `public` directory.
+
 ### Using a Proxy
 
 To use a proxy server, set the following environment variable: `PANTHER_CHROME_ARGUMENTS='--proxy-server=socks://127.0.0.1:9050'`
