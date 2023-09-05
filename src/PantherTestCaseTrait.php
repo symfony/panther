@@ -74,7 +74,7 @@ trait PantherTestCaseTrait
         }
 
         if (null !== self::$pantherClient) {
-            foreach (self::$pantherClients as $i => $pantherClient) {
+            foreach (self::$pantherClients as $pantherClient) {
                 // Stop ChromeDriver only when all sessions are already closed
                 $pantherClient->quit(false);
             }
@@ -178,16 +178,21 @@ trait PantherTestCaseTrait
 
         self::startWebServer($options);
 
+        $browserArguments = $options['browser_arguments'] ?? null;
+        if (null !== $browserArguments && !\is_array($browserArguments)) {
+            throw new \TypeError(sprintf('Expected key "browser_arguments" to be an array or null, "%s" given.', get_debug_type($browserArguments)));
+        }
+
         if (PantherTestCase::FIREFOX === $browser) {
-            self::$pantherClients[0] = self::$pantherClient = Client::createFirefoxClient(null, null, $managerOptions, self::$baseUri);
+            self::$pantherClients[0] = self::$pantherClient = Client::createFirefoxClient(null, $browserArguments, $managerOptions, self::$baseUri);
         } else {
             try {
-                self::$pantherClients[0] = self::$pantherClient = Client::createChromeClient(null, null, $managerOptions, self::$baseUri);
+                self::$pantherClients[0] = self::$pantherClient = Client::createChromeClient(null, $browserArguments, $managerOptions, self::$baseUri);
             } catch (\RuntimeException $e) {
                 if (PantherTestCase::CHROME === $browser) {
                     throw $e;
                 }
-                self::$pantherClients[0] = self::$pantherClient = Client::createFirefoxClient(null, null, $managerOptions, self::$baseUri);
+                self::$pantherClients[0] = self::$pantherClient = Client::createFirefoxClient(null, $browserArguments, $managerOptions, self::$baseUri);
             }
 
             if (null === $browser) {
@@ -229,9 +234,14 @@ trait PantherTestCaseTrait
         self::startWebServer($options);
 
         if (null === self::$httpBrowserClient) {
-            // The ScopingHttpClient cant't be used cause the HttpBrowser only supports absolute URLs,
+            $httpClientOptions = $options['http_client_options'] ?? [];
+            if (!\is_array($httpClientOptions)) {
+                throw new \TypeError(sprintf('Expected key "http_client_options" to be an array, "%s" given.', get_debug_type($httpClientOptions)));
+            }
+
+            // The ScopingHttpClient can't be used cause the HttpBrowser only supports absolute URLs,
             // https://github.com/symfony/symfony/pull/35177
-            self::$httpBrowserClient = new HttpBrowserClient(HttpClient::create());
+            self::$httpBrowserClient = new HttpBrowserClient(HttpClient::create($httpClientOptions));
         }
 
         if (is_a(self::class, KernelTestCase::class, true)) {
