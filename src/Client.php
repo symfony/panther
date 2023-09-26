@@ -197,7 +197,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
         throw new \LogicException('History is not available when using WebDriver.');
     }
 
-    public function click(Link $link): Crawler
+    public function click(Link $link, array $serverParameters = []): Crawler
     {
         if ($link instanceof PantherLink) {
             $link->getElement()->click();
@@ -205,7 +205,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
             return $this->crawler = $this->createCrawler();
         }
 
-        return parent::click($link);
+        return parent::click($link, $serverParameters);
     }
 
     public function submit(Form $form, array $values = [], array $serverParameters = []): Crawler
@@ -272,6 +272,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
 
         $this->get($uri);
 
+        // @phpstan-ignore-next-line The above call to get() sets the proper crawler
         return $this->crawler;
     }
 

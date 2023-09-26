@@ -47,6 +47,7 @@ final class Form extends BaseForm
         $this->setElement($element);
 
         $this->currentUri = $webDriver->getCurrentURL();
+        $this->method = null;
     }
 
     private function setElement(WebDriverElement $element): void
