@@ -32,7 +32,7 @@ jobs:
               uses: shivammathur/setup-php@v2
               with:
                   php-version: '8.2'
-                  tools: phpstan
+                  tools: phpstan,flex
                   extensions: zip
 
             - name: Get composer cache directory
@@ -48,6 +48,8 @@ jobs:
 
             - name: Install dependencies
               run: composer install --prefer-dist
+              env:
+                SYMFONY_REQUIRE: 7.0.*
 
             - name: Install PHPUnit dependencies
               run: vendor/bin/simple-phpunit --version

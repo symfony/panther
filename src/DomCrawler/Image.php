@@ -34,6 +34,7 @@ final class Image extends BaseImage
 
         $this->element = $element;
         $this->method = 'GET';
+        $this->currentUri = null;
     }
 
     public function getNode(): \DOMElement

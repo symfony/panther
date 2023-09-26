@@ -22,13 +22,6 @@ final class FileFormField extends BaseFileFormField
 {
     use FormFieldTrait;
 
-    /**
-     * @var array
-     *
-     * @phpstan-ignore-next-line
-     */
-    protected $value;
-
     public function getValue(): array|string|null
     {
         return $this->value;
