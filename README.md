@@ -109,7 +109,7 @@ $client = Client::createChromeClient();
 $client = Client::createFirefoxClient();
 
 $client->request('GET', 'https://api-platform.com'); // Yes, this website is 100% written in JavaScript
-$client->clickLink('Get started');
+$client->clickLink('Getting started');
 
 // Wait for an element to be present in the DOM (even if hidden)
 $crawler = $client->waitFor('#installing-the-framework');
