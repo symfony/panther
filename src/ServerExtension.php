@@ -78,7 +78,7 @@ if (interface_exists(Extension::class)) {
 
                 public function notify(TestStartedEvent $event): void
                 {
-                    $this->extension->executeBeforeTest();
+                    $this->extension->executeBeforeTest($event->test()->name());
                 }
             });
 
@@ -89,7 +89,7 @@ if (interface_exists(Extension::class)) {
 
                 public function notify(TestFinishedEvent $event): void
                 {
-                    $this->extension->executeAfterTest();
+                    $this->extension->executeAfterTest($event->test()->name(), (float) $event->telemetryInfo()->time()->seconds());
                 }
             });
 
@@ -100,7 +100,7 @@ if (interface_exists(Extension::class)) {
 
                 public function notify(Errored $event): void
                 {
-                    $this->extension->executeAfterTestError();
+                    $this->extension->executeAfterTestError($event->test()->name(), $event->throwable()->message(), (float) $event->telemetryInfo()->time()->seconds());
                 }
             });
 
@@ -111,7 +111,7 @@ if (interface_exists(Extension::class)) {
 
                 public function notify(Failed $event): void
                 {
-                    $this->extension->executeAfterTestFailure();
+                    $this->extension->executeAfterTestFailure($event->test()->name(), $event->throwable()->message(), (float) $event->telemetryInfo()->time()->seconds());
                 }
             });
         }
