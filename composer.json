@@ -26,8 +26,10 @@
     "symfony/deprecation-contracts": "^2.4 || ^3",
     "symfony/dom-crawler": "^5.3 || ^6.0",
     "symfony/http-client": "^5.3 || ^6.0",
+    "symfony/http-foundation": "^5.3 || ^6.0",
     "symfony/http-kernel": "^5.3 || ^6.0",
-    "symfony/process": "^5.3 || ^6.0"
+    "symfony/process": "^5.3 || ^6.0",
+    "symfony/security-core": "^5.3 || ^6.0"
   },
   "autoload": {
     "psr-4": { "Symfony\\Component\\Panther\\": "src/" }
