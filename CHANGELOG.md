@@ -1,6 +1,14 @@
 CHANGELOG
 =========
 
+2.1.1
+-----
+
+* Allow Symfony 7
+* Improve DX when using the Symfony binary
+* Fix screenshot on test failure
+* Add missing arguments when calling the legacy PHPUnit extension
+
 2.1.0
 -----
 
