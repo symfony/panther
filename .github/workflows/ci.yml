@@ -10,12 +10,12 @@ jobs:
         name: Coding Standards
         steps:
             - name: Checkout
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
 
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: '8.2'
+                  php-version: '8.3'
                   tools: php-cs-fixer, cs2pr
 
             - name: PHP Coding Standards Fixer
@@ -26,12 +26,12 @@ jobs:
         name: Static Analysis
         steps:
             -   name: Checkout
-                uses: actions/checkout@v2
+                uses: actions/checkout@v4
 
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: '8.2'
+                  php-version: '8.3'
                   tools: phpstan,flex
                   extensions: zip
 
@@ -61,12 +61,12 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                php-versions: ['8.0', '8.1', '8.2']
+                php-versions: ['8.0', '8.1', '8.2', '8.3']
             fail-fast: false
         name: PHP ${{ matrix.php-versions }} Test on ubuntu-latest
         steps:
             - name: Checkout
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
 
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
@@ -95,12 +95,12 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                php-versions: ['8.0', '8.1', '8.2']
+                php-versions: ['8.0', '8.1', '8.2', '8.3']
             fail-fast: false
         name: PHP ${{ matrix.php-versions }} Test dev dependencies on ubuntu-latest
         steps:
             - name: Checkout
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
 
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
@@ -130,15 +130,15 @@ jobs:
 
     phpunit-lowest:
         runs-on: ubuntu-latest
-        name: PHP 8.2 (lowest) Test on ubuntu-latest
+        name: PHP 8.3 (lowest) Test on ubuntu-latest
         steps:
             - name: Checkout
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
 
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: '8.2'
+                  php-version: '8.3'
                   extensions: zip
 
             - name: Get composer cache directory
@@ -162,18 +162,18 @@ jobs:
 
     phpunit-windows:
         runs-on: windows-latest
-        name: PHP 8.2 Test on windows-latest
+        name: PHP 8.3 Test on windows-latest
         env:
             PANTHER_FIREFOX_BINARY: 'C:\Program Files\Mozilla Firefox\firefox.exe'
             SKIP_FIREFOX: 1
         steps:
             - name: Checkout
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
 
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: '8.2'
+                  php-version: '8.3'
                   extensions: zip
 
             - name: Get composer cache directory
@@ -195,15 +195,15 @@ jobs:
 
     phpunit-macos:
         runs-on: macos-latest
-        name: PHP 8.2 Test on macos-latest
+        name: PHP 8.3 Test on macos-latest
         steps:
             - name: Checkout
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
 
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: '8.2'
+                  php-version: '8.3'
                   extensions: zip
 
             - name: Get composer cache directory
@@ -227,12 +227,12 @@ jobs:
       runs-on: ubuntu-latest
       strategy:
         matrix:
-          php-versions: [ '8.1', '8.2' ]
+          php-versions: [ '8.1', '8.2', '8.3' ]
         fail-fast: false
       name: PHP ${{ matrix.php-versions }} (phpunit 10) Test on ubuntu-latest
       steps:
         - name: Checkout
-          uses: actions/checkout@v3
+          uses: actions/checkout@v4
 
         - name: Setup PHP
           uses: shivammathur/setup-php@v2
