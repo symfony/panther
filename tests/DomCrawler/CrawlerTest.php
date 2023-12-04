@@ -242,7 +242,7 @@ class CrawlerTest extends TestCase
             $names[$i] = $c->nodeName();
         });
 
-        $this->assertSame(['h1', 'main', 'p', 'p', 'input', 'p'], $names);
+        $this->assertSame(['h1', 'main', 'p', 'p', 'input', 'p', 'div'], $names);
     }
 
     /**
@@ -383,6 +383,15 @@ class CrawlerTest extends TestCase
     {
         $crawler = $this->request($clientFactory, '/basic.html');
         $this->assertSame('default', $crawler->filter('header')->html('default'));
+    }
+
+    /**
+     * @dataProvider clientFactoryProvider
+     */
+    public function testEmptyHtml(callable $clientFactory): void
+    {
+        $crawler = $this->request($clientFactory, '/basic.html');
+        $this->assertEmpty($crawler->filter('.empty')->html());
     }
 
     /**
