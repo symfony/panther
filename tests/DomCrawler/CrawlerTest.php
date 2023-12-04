@@ -391,7 +391,7 @@ class CrawlerTest extends TestCase
     public function testEmptyHtml(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/basic.html');
-        $this->assertEmpty($crawler->filter('.empty')->html());
+        $this->assertEmpty($crawler->filter('.empty')->html(''));
     }
 
     /**
