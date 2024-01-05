@@ -365,6 +365,9 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         return \count($this->elements);
     }
 
+    /**
+     * @return \ArrayIterator<int, WebDriverElement>
+     */
     public function getIterator(): \ArrayIterator
     {
         return new \ArrayIterator($this->elements);
