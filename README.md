@@ -498,6 +498,20 @@ class SecondDomainTest extends PantherTestCase
 
 To use a proxy server, set the following environment variable: `PANTHER_CHROME_ARGUMENTS='--proxy-server=socks://127.0.0.1:9050'`
 
+### Using Selenium with the built-in web server
+
+If you want to use Selenium with the built-in web server, you need to configure the panther client as follows:
+
+```php
+$client = Client::createPantherClient(
+    host: 'http://firefox:4444', // the host of the selenium server
+    capabilities: DesiredCapabilities::firefox(), // the capabilities of the browser
+    options: [
+        'browser' => PantherTestCase::SELENIUM,
+    ],
+);
+```
+
 ### Accepting Self-signed SSL Certificates
 
 To force Chrome to accept invalid and self-signed certificates, set the following environment variable: `PANTHER_CHROME_ARGUMENTS='--ignore-certificate-errors'`
