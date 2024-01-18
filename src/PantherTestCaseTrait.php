@@ -185,6 +185,8 @@ trait PantherTestCaseTrait
 
         if (PantherTestCase::FIREFOX === $browser) {
             self::$pantherClients[0] = self::$pantherClient = PantherClient::createFirefoxClient(null, $browserArguments, $managerOptions, self::$baseUri);
+        } elseif (PantherTestCase::SELENIUM === $browser) {
+            self::$pantherClients[0] = self::$pantherClient = PantherClient::createSeleniumClient($managerOptions['host'], $managerOptions['capabilities'] ?? null, self::$baseUri, $options);
         } else {
             try {
                 self::$pantherClients[0] = self::$pantherClient = PantherClient::createChromeClient(null, $browserArguments, $managerOptions, self::$baseUri);
