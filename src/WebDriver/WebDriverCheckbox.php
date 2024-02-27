@@ -231,7 +231,7 @@ class WebDriverCheckbox implements WebDriverSelectInterface
 
     private function getRelatedElements($value = null): array
     {
-        $valueSelector = ($value !== null)  ? sprintf(' and @value = %s', XPathEscaper::escapeQuotes($value)) : '';
+        $valueSelector = (null !== $value) ? sprintf(' and @value = %s', XPathEscaper::escapeQuotes($value)) : '';
         if (null === $formId = $this->element->getAttribute('form')) {
             $form = $this->element->findElement(WebDriverBy::xpath('ancestor::form'));
             if ('' === $formId = (string) $form->getAttribute('id')) {
