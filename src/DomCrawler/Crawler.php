@@ -229,13 +229,13 @@ final class Crawler extends BaseCrawler implements WebDriverElement
                 return $this->webDriver->getPageSource();
             }
 
-            return $this->attr('outerHTML');
+            return $this->attr('outerHTML', (string) $default);
         } catch (\InvalidArgumentException $e) {
             if (null === $default) {
                 throw $e;
             }
 
-            return (string) $default;
+            return $default;
         }
     }
 
