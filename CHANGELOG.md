@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+2.1.2
+-----
+
+* Updated PHPDoc: getIterator method on Crawler returns an ArrayIterator of WebDriverElements
+
 2.1.1
 -----
 
