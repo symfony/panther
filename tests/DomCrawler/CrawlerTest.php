@@ -397,6 +397,15 @@ class CrawlerTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
+    public function testEmptyHtmlWithoutDefault(callable $clientFactory): void
+    {
+        $crawler = $this->request($clientFactory, '/basic.html');
+        $this->assertEmpty($crawler->filter('.empty')->html());
+    }
+
+    /**
+     * @dataProvider clientFactoryProvider
+     */
     public function testNormalizeText(callable $clientFactory, string $clientClass): void
     {
         if (PantherClient::class !== $clientClass) {
