@@ -26,7 +26,9 @@ use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Panther\Client;
 use Symfony\Component\Panther\Cookie\CookieJar;
 use Symfony\Component\Panther\DomCrawler\Crawler;
+use Symfony\Component\Panther\PantherTestCase;
 use Symfony\Component\Panther\ProcessManager\ChromeManager;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
  * @author Kévin Dunglas <dunglas@gmail.com>
@@ -449,5 +451,61 @@ JS
 
         self::stopWebServer();
         $this->assertFalse($client->ping());
+    }
+
+    public function testCreatePantherClientWithBrowserArguments(): void
+    {
+        $client = self::createPantherClient([
+            'browser' => PantherTestCase::CHROME,
+            'browser_arguments' => ['--window-size=1400,900'],
+        ]);
+        $this->assertInstanceOf(AbstractBrowser::class, $client);
+        $this->assertInstanceOf(WebDriver::class, $client);
+        $this->assertInstanceOf(JavaScriptExecutor::class, $client);
+        $this->assertInstanceOf(KernelInterface::class, self::$kernel);
+
+        self::stopWebServer();
+    }
+
+    public function testCreatePantherClientWithInvalidBrowserArguments(): void
+    {
+        $this->expectException(\TypeError::class);
+
+        self::createPantherClient([
+            'browser_arguments' => 'bad browser arguments data type',
+        ]);
+    }
+
+    public function testCreateHttpBrowserClientWithHttpClientOptions(): void
+    {
+        $client = self::createHttpBrowserClient([
+            'http_client_options' => [
+                'auth_basic' => ['foo', 'bar'],
+                'on_progress' => $closure = static function () {},
+                'cafile' => '/foo/bar',
+            ],
+        ]);
+
+        ($httpClientRef = new \ReflectionProperty($client, 'client'))->setAccessible(true);
+        /** @var HttpClientInterface $httpClient */
+        $httpClient = $httpClientRef->getValue($client);
+
+        ($httpClientOptionsRef = new \ReflectionProperty($httpClient, 'defaultOptions'))->setAccessible(true);
+        $httpClientOptions = $httpClientOptionsRef->getValue($httpClient);
+
+        $this->assertSame('foo:bar', $httpClientOptions['auth_basic']);
+        $this->assertSame($closure, $httpClientOptions['on_progress']);
+        $this->assertSame('/foo/bar', $httpClientOptions['cafile']);
+
+        self::stopWebServer();
+    }
+
+    public function testCreateHttpBrowserClientWithInvalidHttpClientOptions(): void
+    {
+        $this->expectException(\TypeError::class);
+
+        self::createHttpBrowserClient([
+            'http_client_options' => 'bad http client option data type',
+        ]);
     }
 }
