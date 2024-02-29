@@ -264,10 +264,8 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
             throw new \InvalidArgumentException('The history always change when using WebDriver.');
         }
 
-        foreach (['parameters', 'files', 'server'] as $arg) {
-            if ([] !== $$arg) {
-                throw new \InvalidArgumentException(sprintf('The parameter "$%s" is not supported when using WebDriver.', $arg));
-            }
+        if ([] !== $parameters || [] !== $files || [] !== $server) {
+            throw new \InvalidArgumentException('The arguments $parameters, $files, and $server are not supported when using WebDriver.');
         }
 
         $this->get($uri);
