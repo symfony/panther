@@ -299,4 +299,28 @@ class WebDriverCheckBoxTest extends TestCase
         $c = new WebDriverCheckbox($element);
         $c->deselectByVisiblePartialText('AB');
     }
+
+    /**
+     * @dataProvider selectByValueDataProviderWithZeroValue
+     */
+    public function testWebDriverCheckboxSelectByValueWithZeroValue(string $type, string $selectedAndExpectedOption): void
+    {
+        $crawler = self::createPantherClient()->request('GET', self::$baseUri.'/form.html');
+        $element = $crawler->filterXPath("//form[@id='zero-form-$type']/input")->getElement(0);
+
+        $c = new WebDriverCheckbox($element);
+        $c->selectByValue($selectedAndExpectedOption);
+
+        $selectedValues = [];
+        foreach ($c->getAllSelectedOptions() as $option) {
+            $selectedValues[] = $option->getAttribute('value');
+        }
+        $this->assertSame([$selectedAndExpectedOption], $selectedValues);
+    }
+
+    public static function selectByValueDataProviderWithZeroValue(): iterable
+    {
+        yield ['checkbox', '0'];
+        yield ['radio', '0'];
+    }
 }
