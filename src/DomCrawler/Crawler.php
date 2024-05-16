@@ -34,7 +34,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
     /**
      * @param WebDriverElement[] $elements
      */
-    public function __construct(array $elements = [], WebDriver $webDriver = null, string $uri = null)
+    public function __construct(array $elements = [], ?WebDriver $webDriver = null, ?string $uri = null)
     {
         $this->uri = $uri;
         $this->webDriver = $webDriver;
@@ -177,7 +177,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
     /**
      * @see https://github.com/symfony/symfony/issues/26432
      */
-    public function children(string $selector = null): static
+    public function children(?string $selector = null): static
     {
         $xpath = 'child::*';
         if (null !== $selector) {
@@ -203,7 +203,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         return $this->getElementOrThrow()->getTagName();
     }
 
-    public function text(string $default = null, bool $normalizeWhitespace = true): string
+    public function text(?string $default = null, bool $normalizeWhitespace = true): string
     {
         if (!$normalizeWhitespace) {
             throw new \InvalidArgumentException('Panther only supports getting normalized text.');
@@ -220,7 +220,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         }
     }
 
-    public function html(string $default = null): string
+    public function html(?string $default = null): string
     {
         try {
             $element = $this->getElementOrThrow();
@@ -330,7 +330,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         return $images;
     }
 
-    public function form(array $values = null, $method = null): Form
+    public function form(?array $values = null, $method = null): Form
     {
         $form = new Form($this->getElementOrThrow(), $this->webDriver);
         if (null !== $values) {
@@ -393,7 +393,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
     /**
      * @param WebDriverElement[]|null $nodes
      */
-    private function createSubCrawler(array $nodes = null): self
+    private function createSubCrawler(?array $nodes = null): self
     {
         return new self($nodes ?? [], $this->webDriver, $this->uri);
     }

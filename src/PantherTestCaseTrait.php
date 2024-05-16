@@ -184,15 +184,15 @@ trait PantherTestCaseTrait
         }
 
         if (PantherTestCase::FIREFOX === $browser) {
-            self::$pantherClients[0] = self::$pantherClient = Client::createFirefoxClient(null, $browserArguments, $managerOptions, self::$baseUri);
+            self::$pantherClients[0] = self::$pantherClient = PantherClient::createFirefoxClient(null, $browserArguments, $managerOptions, self::$baseUri);
         } else {
             try {
-                self::$pantherClients[0] = self::$pantherClient = Client::createChromeClient(null, $browserArguments, $managerOptions, self::$baseUri);
+                self::$pantherClients[0] = self::$pantherClient = PantherClient::createChromeClient(null, $browserArguments, $managerOptions, self::$baseUri);
             } catch (\RuntimeException $e) {
                 if (PantherTestCase::CHROME === $browser) {
                     throw $e;
                 }
-                self::$pantherClients[0] = self::$pantherClient = Client::createFirefoxClient(null, $browserArguments, $managerOptions, self::$baseUri);
+                self::$pantherClients[0] = self::$pantherClient = PantherClient::createFirefoxClient(null, $browserArguments, $managerOptions, self::$baseUri);
             }
 
             if (null === $browser) {

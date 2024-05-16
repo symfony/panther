@@ -193,7 +193,7 @@ trait WebTestAssertionsTrait
         self::assertSelectorAttributeContains($locator, 'disabled', 'true');
     }
 
-    public static function assertSelectorAttributeContains(string $locator, string $attribute, string $text = null): void
+    public static function assertSelectorAttributeContains(string $locator, string $attribute, ?string $text = null): void
     {
         if (null === $text) {
             self::assertNull(self::getAttribute($locator, $attribute));
