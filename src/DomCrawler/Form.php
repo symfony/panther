@@ -166,7 +166,7 @@ final class Form extends BaseForm
                 continue;
             }
 
-            if ($field instanceof Field\FileFormField) {
+            if ($field instanceof FileFormField) {
                 $files[$field->getName()] = $field->getValue();
             }
         }

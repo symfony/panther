@@ -133,7 +133,7 @@ final class CookieJar extends BaseCookieJar
         return new Cookie($cookie->getName(), $cookie->getValue(), $expiry, $cookie->getPath(), (string) $cookie->getDomain(), (bool) $cookie->isSecure(), (bool) $cookie->isHttpOnly());
     }
 
-    private function getWebDriverCookie(string $name, string $path = '/', string $domain = null): ?WebDriverCookie
+    private function getWebDriverCookie(string $name, string $path = '/', ?string $domain = null): ?WebDriverCookie
     {
         try {
             $cookie = $this->webDriver->manage()->getCookieNamed($name);
