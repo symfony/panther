@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Symfony\Component\Panther\Tests;
 
 use Facebook\WebDriver\Exception\InvalidSelectorException;
+use Facebook\WebDriver\Exception\JavascriptErrorException;
 use Facebook\WebDriver\Exception\StaleElementReferenceException;
 use Facebook\WebDriver\JavaScriptExecutor;
 use Facebook\WebDriver\WebDriver;
@@ -46,7 +47,9 @@ class ClientTest extends TestCase
 
     public function testWaitForEmptyLocator(): void
     {
-        $this->expectException(InvalidSelectorException::class);
+        // https://bugs.chromium.org/p/chromedriver/issues/detail?id=4743
+        // $this->expectException(InvalidSelectorException::class);
+        $this->expectException(JavascriptErrorException::class);
 
         $client = self::createPantherClient();
         $client->request('GET', '/waitfor.html');
