@@ -44,7 +44,7 @@ class ServerExtensionTest extends TestCase
 
         // stores current state
         $argv = $_SERVER['argv'];
-        $noHeadless = $_SERVER['PANTHER_NO_HEADLESS'] ?? false;
+        $noHeadless = filter_var($_SERVER['PANTHER_NO_HEADLESS'] ?? false, FILTER_VALIDATE_BOOLEAN);
 
         self::startWebServer();
         $_SERVER['argv'][] = '--debug';
