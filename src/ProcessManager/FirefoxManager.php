@@ -92,13 +92,13 @@ final class FirefoxManager implements BrowserManagerInterface
         $args = [];
 
         // Enable the headless mode unless PANTHER_NO_HEADLESS is defined
-        if (!($_SERVER['PANTHER_NO_HEADLESS'] ?? false)) {
+        if (!(filter_var($_SERVER['PANTHER_NO_HEADLESS'] ?? false, FILTER_VALIDATE_BOOLEAN))) {
             $args[] = '--headless';
             $args[] = '--window-size=1200,1100';
         }
 
         // Enable devtools for debugging
-        if ($_SERVER['PANTHER_DEVTOOLS'] ?? true) {
+        if (filter_var($_SERVER['PANTHER_DEVTOOLS'] ?? true, FILTER_VALIDATE_BOOLEAN)) {
             $args[] = '--devtools';
         }
 
