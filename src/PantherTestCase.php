@@ -23,6 +23,7 @@ if (class_exists(WebTestCase::class)) {
 
         public const CHROME = 'chrome';
         public const FIREFOX = 'firefox';
+        public const SELENIUM = 'selenium';
 
         protected function tearDown(): void
         {
@@ -44,6 +45,7 @@ if (class_exists(WebTestCase::class)) {
 
         public const CHROME = 'chrome';
         public const FIREFOX = 'firefox';
+        public const SELENIUM = 'selenium';
 
         protected function tearDown(): void
         {
