@@ -357,7 +357,7 @@ Since Panther implements the API of popular libraries, it already has an extensi
 
 The following environment variables can be set to change some Panther's behaviour:
 
-* `PANTHER_NO_HEADLESS`: if defined and true, then it disables Panther's default use headless mode with a 1200x1100 window (and disable GPU for chrome) 
+* `PANTHER_NO_HEADLESS`: if defined and true, then it disables Panther's default use of headless mode with a 1200x1100 window (and disable GPU for chrome) 
 * `PANTHER_WEB_SERVER_DIR`: to change the project's document root (default to `./public/`, relative paths **must start** by `./`)
 * `PANTHER_WEB_SERVER_PORT`: to change the web server's port (default to `9080`)
 * `PANTHER_WEB_SERVER_ROUTER`:  to use a web server router script which is run at the start of each HTTP request
