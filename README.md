@@ -357,7 +357,7 @@ Since Panther implements the API of popular libraries, it already has an extensi
 
 The following environment variables can be set to change some Panther's behaviour:
 
-* `PANTHER_NO_HEADLESS`: to disable the browser's headless mode (will display the testing window, useful to debug)
+* `PANTHER_NO_HEADLESS`: if defined and true, then it disables the browser's headless mode (will display the testing window, useful to debug) otherwise Panther will by default use headless mode with a 1200x1100 window (and disable GPU for chrome)
 * `PANTHER_WEB_SERVER_DIR`: to change the project's document root (default to `./public/`, relative paths **must start** by `./`)
 * `PANTHER_WEB_SERVER_PORT`: to change the web server's port (default to `9080`)
 * `PANTHER_WEB_SERVER_ROUTER`:  to use a web server router script which is run at the start of each HTTP request
@@ -382,12 +382,12 @@ $client = self::createPantherClient([
 #### Chrome-specific Environment Variables
 
 * `PANTHER_NO_SANDBOX`: to disable [Chrome's sandboxing](https://chromium.googlesource.com/chromium/src/+/b4730a0c2773d8f6728946013eb812c6d3975bec/docs/design/sandbox.md) (unsafe, but allows to use Panther in containers)
-* `PANTHER_CHROME_ARGUMENTS`: to customize Chrome arguments. You need to set `PANTHER_NO_HEADLESS` to fully customize.
+* `PANTHER_CHROME_ARGUMENTS`: to customize Chrome arguments. You need to set `PANTHER_NO_HEADLESS` to a false value to fully customize arguments.
 * `PANTHER_CHROME_BINARY`: to use another `google-chrome` binary
 
 #### Firefox-specific Environment Variables
 
-* `PANTHER_FIREFOX_ARGUMENTS`: to customize Firefox arguments. You need to set `PANTHER_NO_HEADLESS` to fully customize.
+* `PANTHER_FIREFOX_ARGUMENTS`: to customize Firefox arguments. You need to set `PANTHER_NO_HEADLESS` to a false value to fully customize arguments.
 * `PANTHER_FIREFOX_BINARY`: to use another `firefox` binary
 
 ### Accessing To Hidden Text
