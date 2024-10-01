@@ -94,7 +94,6 @@ final class FirefoxManager implements BrowserManagerInterface
         // Enable the headless mode unless PANTHER_NO_HEADLESS is defined
         if (!($_SERVER['PANTHER_NO_HEADLESS'] ?? false)) {
             $args[] = '--headless';
-            $args[] = '--window-size=1200,1100';
         }
 
         // Enable devtools for debugging
