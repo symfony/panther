@@ -26,6 +26,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Panther\Client;
 use Symfony\Component\Panther\Cookie\CookieJar;
 use Symfony\Component\Panther\DomCrawler\Crawler;
+use Symfony\Component\Panther\Exception\LogicException;
 use Symfony\Component\Panther\PantherTestCase;
 use Symfony\Component\Panther\ProcessManager\ChromeManager;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -197,7 +198,7 @@ class ClientTest extends TestCase
 
     public function testExecuteScriptLogicExceptionWhenDriverIsNotStartedYet(): void
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $client = Client::createChromeClient();
         $client->executeScript('return document.querySelector(arguments[0]).innerText;', ['.p-1']);
     }
@@ -436,7 +437,7 @@ JS
 
     public function testGetHistory(): void
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $this->expectExceptionMessage('History is not available when using WebDriver.');
 
         self::createPantherClient()->getHistory();

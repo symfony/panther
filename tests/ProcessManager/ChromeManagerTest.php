@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Symfony\Component\Panther\Tests\ProcessManager;
 
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Panther\Exception\RuntimeException;
 use Symfony\Component\Panther\ProcessManager\ChromeManager;
 
 /**
@@ -31,7 +32,7 @@ class ChromeManagerTest extends TestCase
 
     public function testAlreadyRunning(): void
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('The port 9515 is already in use.');
 
         $driver1 = new ChromeManager();

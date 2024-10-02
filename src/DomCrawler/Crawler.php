@@ -19,6 +19,8 @@ use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverElement;
 use Symfony\Component\CssSelector\CssSelectorConverter;
 use Symfony\Component\DomCrawler\Crawler as BaseCrawler;
+use Symfony\Component\Panther\Exception\InvalidArgumentException;
+use Symfony\Component\Panther\Exception\LogicException;
 use Symfony\Component\Panther\ExceptionThrower;
 
 /**
@@ -206,12 +208,12 @@ final class Crawler extends BaseCrawler implements WebDriverElement
     public function text(?string $default = null, bool $normalizeWhitespace = true): string
     {
         if (!$normalizeWhitespace) {
-            throw new \InvalidArgumentException('Panther only supports getting normalized text.');
+            throw new InvalidArgumentException('Panther only supports getting normalized text.');
         }
 
         try {
             return $this->getElementOrThrow()->getText();
-        } catch (\InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             if (null === $default) {
                 throw $e;
             }
@@ -230,7 +232,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
             }
 
             return $this->attr('outerHTML', (string) $default);
-        } catch (\InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             if (null === $default) {
                 throw $e;
             }
@@ -299,7 +301,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
     {
         $element = $this->getElementOrThrow();
         if ('get' !== $method) {
-            throw new \InvalidArgumentException('Only the "get" method is supported in WebDriver mode.');
+            throw new InvalidArgumentException('Only the "get" method is supported in WebDriver mode.');
         }
 
         return new Link($element, $this->webDriver->getCurrentURL());
@@ -352,7 +354,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
 
     public function getNode($position): ?\DOMElement
     {
-        throw new \InvalidArgumentException('The "getNode" method cannot be used in WebDriver mode. Use "getElement" instead.');
+        throw new InvalidArgumentException('The "getNode" method cannot be used in WebDriver mode. Use "getElement" instead.');
     }
 
     public function getElement(int $position): ?WebDriverElement
@@ -423,7 +425,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
     {
         $element = $this->getElement(0);
         if (!$element) {
-            throw new \InvalidArgumentException('The current node list is empty.');
+            throw new InvalidArgumentException('The current node list is empty.');
         }
 
         return $element;
@@ -510,12 +512,12 @@ final class Crawler extends BaseCrawler implements WebDriverElement
     }
 
     /**
-     * @throws \LogicException If the CssSelector Component is not available
+     * @throws LogicException If the CssSelector Component is not available
      */
     private function createCssSelectorConverter(): CssSelectorConverter
     {
         if (!class_exists(CssSelectorConverter::class)) {
-            throw new \LogicException('To filter with a CSS selector, install the CssSelector component ("composer require symfony/css-selector"). Or use filterXpath instead.');
+            throw new LogicException('To filter with a CSS selector, install the CssSelector component ("composer require symfony/css-selector"). Or use filterXpath instead.');
         }
 
         return new CssSelectorConverter();

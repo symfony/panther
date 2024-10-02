@@ -19,6 +19,7 @@ use Symfony\Component\Panther\Client;
 use Symfony\Component\Panther\Client as PantherClient;
 use Symfony\Component\Panther\DomCrawler\Image;
 use Symfony\Component\Panther\DomCrawler\Link;
+use Symfony\Component\Panther\Exception\InvalidArgumentException;
 use Symfony\Component\Panther\Tests\TestCase;
 
 /**
@@ -418,7 +419,7 @@ class CrawlerTest extends TestCase
 
     public function testDoNotNormalizeText(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
 
         self::createPantherClient()->request('GET', self::$baseUri.'/normalize.html')->filter('#normalize')->text(null, false);
     }
