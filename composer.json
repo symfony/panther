@@ -1,27 +1,27 @@
 {
-  "name": "symfony/panther",
-  "description": "A browser testing and web scraping library for PHP and Symfony.",
-  "license": "MIT",
-  "type": "library",
-  "keywords": [
-    "scraping",
-    "E2E",
-    "testing",
-    "webdriver",
-    "selenium",
-    "symfony"
-  ],
-  "authors": [
-    {
-      "name": "Kévin Dunglas",
-      "email": "dunglas@gmail.com",
-      "homepage": "https://dunglas.fr"
-    },
-    {
-      "name": "Symfony Community",
-      "homepage": "https://symfony.com/contributors"
-    }
-  ],
+    "name": "symfony/panther",
+    "description": "A browser testing and web scraping library for PHP and Symfony.",
+    "license": "MIT",
+    "type": "library",
+    "keywords": [
+        "scraping",
+        "E2E",
+        "testing",
+        "webdriver",
+        "selenium",
+        "symfony"
+    ],
+    "authors": [
+        {
+            "name": "Kévin Dunglas",
+            "email": "dunglas@gmail.com",
+            "homepage": "https://dunglas.fr"
+        },
+        {
+            "name": "Symfony Community",
+            "homepage": "https://symfony.com/contributors"
+        }
+    ],
   "homepage": "https://dunglas.fr",
   "require": {
     "php": ">=8.0",
