@@ -36,7 +36,7 @@ trait WebServerReadinessProbeTrait
         if (\is_resource($resource)) {
             fclose($resource);
             if ($throw) {
-                throw new \RuntimeException(sprintf('The port %d is already in use.', $port));
+                throw new \RuntimeException(\sprintf('The port %d is already in use.', $port));
             }
         }
     }
@@ -50,7 +50,7 @@ trait WebServerReadinessProbeTrait
         while (true) {
             $status = $process->getStatus();
             if (Process::STATUS_TERMINATED === $status) {
-                throw new \RuntimeException(sprintf('Could not start %s. Exit code: %d (%s). Error output: %s', $service, $process->getExitCode(), $process->getExitCodeText(), $process->getErrorOutput()));
+                throw new \RuntimeException(\sprintf('Could not start %s. Exit code: %d (%s). Error output: %s', $service, $process->getExitCode(), $process->getExitCodeText(), $process->getErrorOutput()));
             }
 
             if (Process::STATUS_STARTED !== $status) {

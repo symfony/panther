@@ -109,7 +109,7 @@ final class WebDriverMouse implements BaseWebDriverMouse
         $element = $this->client->getCrawler()->filter($cssSelector)->getElement(0);
 
         if (!$element instanceof WebDriverLocatable) {
-            throw new \RuntimeException(sprintf('The element of "%s" CSS selector does not implement "%s".', $cssSelector, WebDriverLocatable::class));
+            throw new \RuntimeException(\sprintf('The element of "%s" CSS selector does not implement "%s".', $cssSelector, WebDriverLocatable::class));
         }
 
         return $element->getCoordinates();

@@ -55,12 +55,12 @@ class ServerExtensionLegacy
 
     public function executeAfterTestError(string $test, string $message, float $time): void
     {
-        $this->pause(sprintf('Error: %s', $message));
+        $this->pause(\sprintf('Error: %s', $message));
     }
 
     public function executeAfterTestFailure(string $test, string $message, float $time): void
     {
-        $this->pause(sprintf('Failure: %s', $message));
+        $this->pause(\sprintf('Failure: %s', $message));
     }
 
     private static function reset(): void
@@ -75,7 +75,7 @@ class ServerExtensionLegacy
         }
 
         foreach (self::$registeredClients as $i => $client) {
-            $screenshotPath = sprintf('%s/%s_%s_%s-%d.png',
+            $screenshotPath = \sprintf('%s/%s_%s_%s-%d.png',
                 $_SERVER['PANTHER_ERROR_SCREENSHOT_DIR'],
                 date('Y-m-d_H-i-s'),
                 $type,

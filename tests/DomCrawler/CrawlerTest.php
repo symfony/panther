@@ -80,7 +80,7 @@ class CrawlerTest extends TestCase
                     $this->assertSame('36', $crawler->text(null, true));
                     break;
                 default:
-                    $this->fail(sprintf('Unexpected index "%d".', $i));
+                    $this->fail(\sprintf('Unexpected index "%d".', $i));
             }
         });
     }

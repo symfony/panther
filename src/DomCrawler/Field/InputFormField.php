@@ -48,7 +48,7 @@ final class InputFormField extends BaseInputFormField
     {
         $tagName = $this->element->getTagName();
         if ('input' !== $tagName && 'button' !== $tagName) {
-            throw new \LogicException(sprintf('An InputFormField can only be created from an input or button tag (%s given).', $tagName));
+            throw new \LogicException(\sprintf('An InputFormField can only be created from an input or button tag (%s given).', $tagName));
         }
 
         $type = strtolower((string) $this->element->getAttribute('type'));

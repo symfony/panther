@@ -34,7 +34,7 @@ final class ChromeManager implements BrowserManagerInterface
     /**
      * @throws \RuntimeException
      */
-    public function __construct(string $chromeDriverBinary = null, array $arguments = null, array $options = [])
+    public function __construct(?string $chromeDriverBinary = null, ?array $arguments = null, array $options = [])
     {
         $this->options = $options ? array_merge($this->getDefaultOptions(), $options) : $this->getDefaultOptions();
         $this->process = $this->createProcess($chromeDriverBinary ?: $this->findChromeDriverBinary());

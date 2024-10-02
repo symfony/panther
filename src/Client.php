@@ -64,7 +64,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
     /**
      * @param string[]|null $arguments
      */
-    public static function createChromeClient(string $chromeDriverBinary = null, array $arguments = null, array $options = [], string $baseUri = null): self
+    public static function createChromeClient(?string $chromeDriverBinary = null, ?array $arguments = null, array $options = [], ?string $baseUri = null): self
     {
         return new self(new ChromeManager($chromeDriverBinary, $arguments, $options), $baseUri);
     }
@@ -72,17 +72,17 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
     /**
      * @param string[]|null $arguments
      */
-    public static function createFirefoxClient(string $geckodriverBinary = null, array $arguments = null, array $options = [], string $baseUri = null): self
+    public static function createFirefoxClient(?string $geckodriverBinary = null, ?array $arguments = null, array $options = [], ?string $baseUri = null): self
     {
         return new self(new FirefoxManager($geckodriverBinary, $arguments, $options), $baseUri);
     }
 
-    public static function createSeleniumClient(string $host = null, WebDriverCapabilities $capabilities = null, string $baseUri = null, array $options = []): self
+    public static function createSeleniumClient(?string $host = null, ?WebDriverCapabilities $capabilities = null, ?string $baseUri = null, array $options = []): self
     {
         return new self(new SeleniumManager($host, $capabilities, $options), $baseUri);
     }
 
-    public function __construct(BrowserManagerInterface $browserManager, string $baseUri = null)
+    public function __construct(BrowserManagerInterface $browserManager, ?string $baseUri = null)
     {
         $this->browserManager = $browserManager;
         $this->baseUri = $baseUri;
@@ -252,7 +252,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
         return $this->crawler = $this->createCrawler();
     }
 
-    public function request(string $method, string $uri, array $parameters = [], array $files = [], array $server = [], string $content = null, bool $changeHistory = true): PantherCrawler
+    public function request(string $method, string $uri, array $parameters = [], array $files = [], array $server = [], ?string $content = null, bool $changeHistory = true): PantherCrawler
     {
         if ('GET' !== $method) {
             throw new \InvalidArgumentException('Only the GET method is supported when using WebDriver.');
@@ -266,7 +266,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
 
         foreach (['parameters', 'files', 'server'] as $arg) {
             if ([] !== $$arg) {
-                throw new \InvalidArgumentException(sprintf('The parameter "$%s" is not supported when using WebDriver.', $arg));
+                throw new \InvalidArgumentException(\sprintf('The parameter "$%s" is not supported when using WebDriver.', $arg));
             }
         }
 
@@ -773,9 +773,9 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
     private function createException(string $implementableClass): \Exception
     {
         if (null === $this->webDriver) {
-            return new \LogicException(sprintf('WebDriver not started yet. Call method `start()` first before calling any `%s` method.', $implementableClass));
+            return new \LogicException(\sprintf('WebDriver not started yet. Call method `start()` first before calling any `%s` method.', $implementableClass));
         }
 
-        return new \RuntimeException(sprintf('"%s" does not implement "%s".', \get_class($this->webDriver), $implementableClass));
+        return new \RuntimeException(\sprintf('"%s" does not implement "%s".', \get_class($this->webDriver), $implementableClass));
     }
 }

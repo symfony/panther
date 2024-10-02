@@ -29,7 +29,7 @@ final class Image extends BaseImage
     public function __construct(WebDriverElement $element)
     {
         if ('img' !== $tagName = $element->getTagName()) {
-            throw new \LogicException(sprintf('Unable to visualize a "%s" tag.', $tagName));
+            throw new \LogicException(\sprintf('Unable to visualize a "%s" tag.', $tagName));
         }
 
         $this->element = $element;

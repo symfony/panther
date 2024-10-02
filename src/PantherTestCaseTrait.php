@@ -118,7 +118,7 @@ trait PantherTestCaseTrait
         self::$webServerManager = new WebServerManager(...array_values($options));
         self::$webServerManager->start();
 
-        self::$baseUri = sprintf('http://%s:%s', $options['hostname'], $options['port']);
+        self::$baseUri = \sprintf('http://%s:%s', $options['hostname'], $options['port']);
     }
 
     public static function isWebServerStarted(): bool
@@ -180,19 +180,19 @@ trait PantherTestCaseTrait
 
         $browserArguments = $options['browser_arguments'] ?? null;
         if (null !== $browserArguments && !\is_array($browserArguments)) {
-            throw new \TypeError(sprintf('Expected key "browser_arguments" to be an array or null, "%s" given.', get_debug_type($browserArguments)));
+            throw new \TypeError(\sprintf('Expected key "browser_arguments" to be an array or null, "%s" given.', get_debug_type($browserArguments)));
         }
 
         if (PantherTestCase::FIREFOX === $browser) {
-            self::$pantherClients[0] = self::$pantherClient = Client::createFirefoxClient(null, $browserArguments, $managerOptions, self::$baseUri);
+            self::$pantherClients[0] = self::$pantherClient = PantherClient::createFirefoxClient(null, $browserArguments, $managerOptions, self::$baseUri);
         } else {
             try {
-                self::$pantherClients[0] = self::$pantherClient = Client::createChromeClient(null, $browserArguments, $managerOptions, self::$baseUri);
+                self::$pantherClients[0] = self::$pantherClient = PantherClient::createChromeClient(null, $browserArguments, $managerOptions, self::$baseUri);
             } catch (\RuntimeException $e) {
                 if (PantherTestCase::CHROME === $browser) {
                     throw $e;
                 }
-                self::$pantherClients[0] = self::$pantherClient = Client::createFirefoxClient(null, $browserArguments, $managerOptions, self::$baseUri);
+                self::$pantherClients[0] = self::$pantherClient = PantherClient::createFirefoxClient(null, $browserArguments, $managerOptions, self::$baseUri);
             }
 
             if (null === $browser) {
@@ -236,7 +236,7 @@ trait PantherTestCaseTrait
         if (null === self::$httpBrowserClient) {
             $httpClientOptions = $options['http_client_options'] ?? [];
             if (!\is_array($httpClientOptions)) {
-                throw new \TypeError(sprintf('Expected key "http_client_options" to be an array, "%s" given.', get_debug_type($httpClientOptions)));
+                throw new \TypeError(\sprintf('Expected key "http_client_options" to be an array, "%s" given.', get_debug_type($httpClientOptions)));
             }
 
             // The ScopingHttpClient can't be used cause the HttpBrowser only supports absolute URLs,
@@ -249,7 +249,7 @@ trait PantherTestCaseTrait
         }
 
         $urlComponents = parse_url(self::$baseUri);
-        self::$httpBrowserClient->setServerParameter('HTTP_HOST', sprintf('%s:%s', $urlComponents['host'], $urlComponents['port']));
+        self::$httpBrowserClient->setServerParameter('HTTP_HOST', \sprintf('%s:%s', $urlComponents['host'], $urlComponents['port']));
         if ('https' === $urlComponents['scheme']) {
             self::$httpBrowserClient->setServerParameter('HTTPS', 'true');
         }

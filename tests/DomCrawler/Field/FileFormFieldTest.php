@@ -126,7 +126,7 @@ class FileFormFieldTest extends TestCase
         $fileFormField = $form['file_upload'];
         $this->assertInstanceOf(FileFormField::class, $fileFormField);
 
-        $nonCanonicalPath = sprintf('%s/../fixtures/%s', self::$webServerDir, self::$uploadFileName);
+        $nonCanonicalPath = \sprintf('%s/../fixtures/%s', self::$webServerDir, self::$uploadFileName);
 
         $fileFormField->upload($nonCanonicalPath);
         $fileFormField->setValue($nonCanonicalPath);
