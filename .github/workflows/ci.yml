@@ -35,21 +35,12 @@ jobs:
                   tools: phpstan,flex
                   extensions: zip
 
-            - name: Get composer cache directory
-              id: composercache
-              run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-
-            - name: Cache dependencies
-              uses: actions/cache@v4
+            - name: "Install dependencies with composer"
+              uses: "ramsey/composer-install@3.0.0"
               with:
-                  path: ${{ steps.composercache.outputs.dir }}
-                  key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
-                  restore-keys: ${{ runner.os }}-composer-
-
-            - name: Install dependencies
-              run: composer install --prefer-dist
+                  composer-options: "--prefer-dist"
               env:
-                SYMFONY_REQUIRE: 7.0.*
+                  SYMFONY_REQUIRE: 7.0.*
 
             - name: Install PHPUnit dependencies
               run: vendor/bin/simple-phpunit --version
@@ -74,19 +65,10 @@ jobs:
                   php-version: ${{ matrix.php-versions }}
                   extensions: zip
 
-            - name: Get composer cache directory
-              id: composercache
-              run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-
-            - name: Cache dependencies
-              uses: actions/cache@v4
+            - name: "Install dependencies with composer"
+              uses: "ramsey/composer-install@3.0.0"
               with:
-                  path: ${{ steps.composercache.outputs.dir }}
-                  key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
-                  restore-keys: ${{ runner.os }}-composer-
-
-            - name: Install dependencies
-              run: composer install --prefer-dist
+                  composer-options: "--prefer-dist"
 
             - name: Run tests
               run: vendor/bin/simple-phpunit
@@ -108,22 +90,13 @@ jobs:
                   php-version: ${{ matrix.php-versions }}
                   extensions: zip
 
-            - name: Get composer cache directory
-              id: composercache
-              run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-
-            - name: Cache dependencies
-              uses: actions/cache@v4
-              with:
-                  path: ${{ steps.composercache.outputs.dir }}
-                  key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
-                  restore-keys: ${{ runner.os }}-composer-
-
             - name: Allow dev dependencies
               run: composer config minimum-stability dev
 
-            - name: Install dependencies
-              run: composer install --prefer-dist
+            - name: "Install dependencies with composer"
+              uses: "ramsey/composer-install@3.0.0"
+              with:
+                  composer-options: "--prefer-dist"
 
             - name: Run tests
               run: vendor/bin/simple-phpunit
@@ -141,19 +114,10 @@ jobs:
                   php-version: '8.3'
                   extensions: zip
 
-            - name: Get composer cache directory
-              id: composercache
-              run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-
-            - name: Cache dependencies
-              uses: actions/cache@v4
+            - name: "Install dependencies with composer"
+              uses: "ramsey/composer-install@3.0.0"
               with:
-                  path: ${{ steps.composercache.outputs.dir }}
-                  key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
-                  restore-keys: ${{ runner.os }}-composer-
-
-            - name: Install dependencies
-              run: composer update --prefer-dist --prefer-lowest
+                  dependency-versions: "lowest"
 
             - name: Run tests
               env:
@@ -176,19 +140,10 @@ jobs:
                   php-version: '8.3'
                   extensions: zip
 
-            - name: Get composer cache directory
-              id: composercache
-              run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-
-            - name: Cache dependencies
-              uses: actions/cache@v4
+            - name: "Install dependencies with composer"
+              uses: "ramsey/composer-install@3.0.0"
               with:
-                  path: ${{ steps.composercache.outputs.dir }}
-                  key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
-                  restore-keys: ${{ runner.os }}-composer-
-
-            - name: Install dependencies
-              run: composer install --prefer-dist
+                  composer-options: "--prefer-dist"
 
             - name: Run tests
               run: vendor/bin/simple-phpunit
@@ -206,19 +161,10 @@ jobs:
                   php-version: '8.3'
                   extensions: zip
 
-            - name: Get composer cache directory
-              id: composercache
-              run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-
-            - name: Cache dependencies
-              uses: actions/cache@v4
+            - name: "Install dependencies with composer"
+              uses: "ramsey/composer-install@3.0.0"
               with:
-                  path: ${{ steps.composercache.outputs.dir }}
-                  key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
-                  restore-keys: ${{ runner.os }}-composer-
-
-            - name: Install dependencies
-              run: composer install --prefer-dist
+                  composer-options: "--prefer-dist"
 
             - name: Run tests
               run: vendor/bin/simple-phpunit
@@ -240,19 +186,10 @@ jobs:
             php-version: ${{ matrix.php-versions }}
             extensions: zip
 
-        - name: Get composer cache directory
-          id: composercache
-          run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-
-        - name: Cache dependencies
-          uses: actions/cache@v4
+        - name: "Install dependencies with composer"
+          uses: "ramsey/composer-install@3.0.0"
           with:
-            path: ${{ steps.composercache.outputs.dir }}
-            key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
-            restore-keys: ${{ runner.os }}-composer-
-
-        - name: Install dependencies
-          run: composer install --prefer-dist
+            composer-options: "--prefer-dist"
 
         - name: Remove phpunit-bridge dependency (not yet phpunit 10 compliant)
           run: composer remove --dev symfony/phpunit-bridge
