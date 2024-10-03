@@ -507,6 +507,23 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
         return $this->crawler = $this->createCrawler();
     }
 
+    /**
+     * @param string $locator The path to the element that will be disabled. Can be a CSS selector or Xpath expression.
+     *
+     * @throws NoSuchElementException
+     * @throws TimeoutException
+     */
+    public function waitForClickable(string $locator, int $timeoutInSecond = 30, int $intervalInMillisecond = 250): PantherCrawler
+    {
+        $by = self::createWebDriverByFromLocator($locator);
+
+        $this->wait($timeoutInSecond, $intervalInMillisecond)->until(
+            WebDriverExpectedCondition::elementToBeClickable($by)
+        );
+
+        return $this->crawler = $this->createCrawler();
+    }
+
     public function getWebDriver(): WebDriver
     {
         $this->start();
