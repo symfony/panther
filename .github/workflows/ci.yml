@@ -35,8 +35,8 @@ jobs:
                   tools: phpstan,flex
                   extensions: zip
 
-            - name: "Install dependencies with composer"
-              uses: "ramsey/composer-install@v3"
+            - name: Install dependencies
+              uses: ramsey/composer-install@v3
               env:
                   SYMFONY_REQUIRE: 7.0.*
 
@@ -63,8 +63,8 @@ jobs:
                   php-version: ${{ matrix.php-versions }}
                   extensions: zip
 
-            - name: "Install dependencies with composer"
-              uses: "ramsey/composer-install@v3"
+            - name: Install dependencies
+              uses: ramsey/composer-install@v3
 
             - name: Run tests
               run: vendor/bin/simple-phpunit
@@ -89,8 +89,8 @@ jobs:
             - name: Allow dev dependencies
               run: composer config minimum-stability dev
 
-            - name: "Install dependencies with composer"
-              uses: "ramsey/composer-install@v3"
+            - name: Install dependencies
+              uses: ramsey/composer-install@v3
 
             - name: Run tests
               run: vendor/bin/simple-phpunit
@@ -108,8 +108,8 @@ jobs:
                   php-version: '8.3'
                   extensions: zip
 
-            - name: "Install dependencies with composer"
-              uses: "ramsey/composer-install@v3"
+            - name: Install dependencies
+              uses: ramsey/composer-install@v3
               with:
                   dependency-versions: "lowest"
 
@@ -134,8 +134,8 @@ jobs:
                   php-version: '8.3'
                   extensions: zip
 
-            - name: "Install dependencies with composer"
-              uses: "ramsey/composer-install@v3"
+            - name: Install dependencies
+              uses: ramsey/composer-install@v3
 
             - name: Run tests
               run: vendor/bin/simple-phpunit
@@ -153,8 +153,8 @@ jobs:
                   php-version: '8.3'
                   extensions: zip
 
-            - name: "Install dependencies with composer"
-              uses: "ramsey/composer-install@v3"
+            - name: Install dependencies
+              uses: ramsey/composer-install@v3
 
             - name: Run tests
               run: vendor/bin/simple-phpunit
@@ -176,8 +176,8 @@ jobs:
             php-version: ${{ matrix.php-versions }}
             extensions: zip
 
-        - name: "Install dependencies with composer"
-          uses: "ramsey/composer-install@v3"
+        - name: Install dependencies
+          uses: ramsey/composer-install@v3
           with:
             composer-options: "--prefer-dist"
 
