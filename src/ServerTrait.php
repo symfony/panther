@@ -35,7 +35,7 @@ trait ServerTrait
     private function pause($message): void
     {
         if (\in_array('--debug', $_SERVER['argv'], true)
-            && (filter_var($_SERVER['PANTHER_NO_HEADLESS'] ?? false, FILTER_VALIDATE_BOOLEAN))
+            && filter_var($_SERVER['PANTHER_NO_HEADLESS'] ?? false, \FILTER_VALIDATE_BOOLEAN)
         ) {
             echo "$message\n\nPress enter to continue...";
             if (!$this->testing) {

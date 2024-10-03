@@ -97,19 +97,19 @@ final class ChromeManager implements BrowserManagerInterface
         $args = [];
 
         // Enable the headless mode unless PANTHER_NO_HEADLESS is defined
-        if (!(filter_var($_SERVER['PANTHER_NO_HEADLESS'] ?? false, FILTER_VALIDATE_BOOLEAN))) {
+        if (!filter_var($_SERVER['PANTHER_NO_HEADLESS'] ?? false, \FILTER_VALIDATE_BOOLEAN)) {
             $args[] = '--headless';
             $args[] = '--window-size=1200,1100';
             $args[] = '--disable-gpu';
         }
 
         // Enable devtools for debugging
-        if (filter_var($_SERVER['PANTHER_DEVTOOLS'] ?? true, FILTER_VALIDATE_BOOLEAN)) {
+        if (filter_var($_SERVER['PANTHER_DEVTOOLS'] ?? true, \FILTER_VALIDATE_BOOLEAN)) {
             $args[] = '--auto-open-devtools-for-tabs';
         }
 
         // Disable Chrome's sandbox if PANTHER_NO_SANDBOX is defined or if running in Travis
-        if (filter_var($_SERVER['PANTHER_NO_SANDBOX'] ?? $_SERVER['HAS_JOSH_K_SEAL_OF_APPROVAL'] ?? false, FILTER_VALIDATE_BOOLEAN)) {
+        if (filter_var($_SERVER['PANTHER_NO_SANDBOX'] ?? $_SERVER['HAS_JOSH_K_SEAL_OF_APPROVAL'] ?? false, \FILTER_VALIDATE_BOOLEAN)) {
             // Running in Travis, disabling the sandbox mode
             $args[] = '--no-sandbox';
         }
