@@ -193,7 +193,7 @@ trait WebTestAssertionsTrait
         self::assertSelectorAttributeContains($locator, 'disabled', 'true');
     }
 
-    public static function assertSelectorAttributeContains(string $locator, string $attribute, string $text = null): void
+    public static function assertSelectorAttributeContains(string $locator, string $attribute, ?string $text = null): void
     {
         if (null === $text) {
             self::assertNull(self::getAttribute($locator, $attribute));
@@ -258,7 +258,7 @@ trait WebTestAssertionsTrait
     {
         $client = self::getClient();
         if (!$client instanceof PantherClient) {
-            throw new \LogicException(sprintf('Using a client that is not an instance of "%s" is not supported.', PantherClient::class));
+            throw new \LogicException(\sprintf('Using a client that is not an instance of "%s" is not supported.', PantherClient::class));
         }
 
         $by = $client::createWebDriverByFromLocator($locator);

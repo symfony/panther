@@ -67,12 +67,12 @@ final class FileFormField extends BaseFileFormField
     {
         $tagName = $this->element->getTagName();
         if ('input' !== $tagName) {
-            throw new \LogicException(sprintf('A FileFormField can only be created from an input tag (%s given).', $tagName));
+            throw new \LogicException(\sprintf('A FileFormField can only be created from an input tag (%s given).', $tagName));
         }
 
         $type = strtolower($this->element->getAttribute('type'));
         if ('file' !== $type) {
-            throw new \LogicException(sprintf('A FileFormField can only be created from an input tag with a type of file (given type is %s).', $type));
+            throw new \LogicException(\sprintf('A FileFormField can only be created from an input tag with a type of file (given type is %s).', $type));
         }
 
         $value = $this->element->getAttribute('value');
