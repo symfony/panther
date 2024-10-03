@@ -36,9 +36,7 @@ jobs:
                   extensions: zip
 
             - name: "Install dependencies with composer"
-              uses: "ramsey/composer-install@3.0.0"
-              with:
-                  composer-options: "--prefer-dist"
+              uses: "ramsey/composer-install@v3"
               env:
                   SYMFONY_REQUIRE: 7.0.*
 
@@ -66,9 +64,8 @@ jobs:
                   extensions: zip
 
             - name: "Install dependencies with composer"
-              uses: "ramsey/composer-install@3.0.0"
-              with:
-                  composer-options: "--prefer-dist"
+              uses: "ramsey/composer-install@v3"
+
 
             - name: Run tests
               run: vendor/bin/simple-phpunit
@@ -94,9 +91,8 @@ jobs:
               run: composer config minimum-stability dev
 
             - name: "Install dependencies with composer"
-              uses: "ramsey/composer-install@3.0.0"
-              with:
-                  composer-options: "--prefer-dist"
+              uses: "ramsey/composer-install@v3"
+
 
             - name: Run tests
               run: vendor/bin/simple-phpunit
@@ -115,7 +111,7 @@ jobs:
                   extensions: zip
 
             - name: "Install dependencies with composer"
-              uses: "ramsey/composer-install@3.0.0"
+              uses: "ramsey/composer-install@v3"
               with:
                   dependency-versions: "lowest"
 
@@ -141,9 +137,8 @@ jobs:
                   extensions: zip
 
             - name: "Install dependencies with composer"
-              uses: "ramsey/composer-install@3.0.0"
-              with:
-                  composer-options: "--prefer-dist"
+              uses: "ramsey/composer-install@v3"
+
 
             - name: Run tests
               run: vendor/bin/simple-phpunit
@@ -162,9 +157,8 @@ jobs:
                   extensions: zip
 
             - name: "Install dependencies with composer"
-              uses: "ramsey/composer-install@3.0.0"
-              with:
-                  composer-options: "--prefer-dist"
+              uses: "ramsey/composer-install@v3"
+
 
             - name: Run tests
               run: vendor/bin/simple-phpunit
@@ -187,7 +181,7 @@ jobs:
             extensions: zip
 
         - name: "Install dependencies with composer"
-          uses: "ramsey/composer-install@3.0.0"
+          uses: "ramsey/composer-install@v3"
           with:
             composer-options: "--prefer-dist"
 
