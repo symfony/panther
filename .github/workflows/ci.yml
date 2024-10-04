@@ -153,6 +153,12 @@ jobs:
                   php-version: '8.3'
                   extensions: zip
 
+            - name: Install Firefox
+              run: brew install --cask firefox
+
+            - name: Install Geckodriver
+              run: brew install geckodriver
+
             - name: Install dependencies
               uses: ramsey/composer-install@v3
 
