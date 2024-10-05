@@ -116,7 +116,7 @@ $crawler = $client->waitFor('#bootstraping-the-core-library');
 // Alternatively, wait for an element to be visible
 $crawler = $client->waitForVisibility('#bootstraping-the-core-library');
 
-echo $crawler->filter('#bootstraping-the-core-library')->text();
+echo $crawler->filter('div:has(> #bootstraping-the-core-library)')->text();
 $client->takeScreenshot('screen.png'); // Yeah, screenshot!
 ```
 
