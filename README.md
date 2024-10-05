@@ -112,11 +112,11 @@ $client->request('GET', 'https://api-platform.com'); // Yes, this website is 100
 $client->clickLink('Getting started');
 
 // Wait for an element to be present in the DOM (even if hidden)
-$crawler = $client->waitFor('#installing-the-framework');
+$crawler = $client->waitFor('#bootstraping-the-core-library');
 // Alternatively, wait for an element to be visible
-$crawler = $client->waitForVisibility('#installing-the-framework');
+$crawler = $client->waitForVisibility('#bootstraping-the-core-library');
 
-echo $crawler->filter('#installing-the-framework')->text();
+echo $crawler->filter('#bootstraping-the-core-library')->text();
 $client->takeScreenshot('screen.png'); // Yeah, screenshot!
 ```
 
