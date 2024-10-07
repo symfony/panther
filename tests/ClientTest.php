@@ -198,7 +198,7 @@ class ClientTest extends TestCase
 
     public function testExecuteScriptLogicExceptionWhenDriverIsNotStartedYet(): void
     {
-        $this->expectException(LogicException::class);
+        $this->expectException(\LogicException::class);
         $client = Client::createChromeClient();
         $client->executeScript('return document.querySelector(arguments[0]).innerText;', ['.p-1']);
     }

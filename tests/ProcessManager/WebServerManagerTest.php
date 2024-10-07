@@ -78,7 +78,7 @@ class WebServerManagerTest extends TestCase
 
     public function testInvalidDocumentRoot(): void
     {
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\Symfony\Component\Process\Exception\RuntimeException::class);
         $this->expectExceptionMessageMatches('#/not-exists#');
 
         $server = new WebServerManager('/not-exists', '127.0.0.1', 1234);
