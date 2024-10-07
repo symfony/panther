@@ -16,6 +16,8 @@ namespace Symfony\Component\Panther\DomCrawler\Field;
 use Facebook\WebDriver\WebDriverSelect;
 use Facebook\WebDriver\WebDriverSelectInterface;
 use Symfony\Component\DomCrawler\Field\ChoiceFormField as BaseChoiceFormField;
+use Symfony\Component\Panther\Exception\InvalidArgumentException;
+use Symfony\Component\Panther\Exception\LogicException;
 use Symfony\Component\Panther\WebDriver\WebDriverCheckbox;
 
 /**
@@ -47,12 +49,12 @@ final class ChoiceFormField extends BaseChoiceFormField
     /**
      * Ticks a checkbox.
      *
-     * @throws \LogicException When the type provided is not correct
+     * @throws LogicException When the type provided is not correct
      */
     public function tick(): void
     {
         if ('checkbox' !== $type = $this->element->getAttribute('type')) {
-            throw new \LogicException(\sprintf('You cannot tick "%s" as it is not a checkbox (%s).', $this->element->getAttribute('name'), $type));
+            throw new LogicException(\sprintf('You cannot tick "%s" as it is not a checkbox (%s).', $this->element->getAttribute('name'), $type));
         }
 
         $this->setValue(true);
@@ -61,12 +63,12 @@ final class ChoiceFormField extends BaseChoiceFormField
     /**
      * Ticks a checkbox.
      *
-     * @throws \LogicException When the type provided is not correct
+     * @throws LogicException When the type provided is not correct
      */
     public function untick(): void
     {
         if ('checkbox' !== $type = $this->element->getAttribute('type')) {
-            throw new \LogicException(\sprintf('You cannot tick "%s" as it is not a checkbox (%s).', $this->element->getAttribute('name'), $type));
+            throw new LogicException(\sprintf('You cannot tick "%s" as it is not a checkbox (%s).', $this->element->getAttribute('name'), $type));
         }
 
         $this->setValue(false);
@@ -108,13 +110,13 @@ final class ChoiceFormField extends BaseChoiceFormField
      *
      * @param string|array|bool $value The value of the field
      *
-     * @throws \InvalidArgumentException When value type provided is not correct
+     * @throws InvalidArgumentException When value type provided is not correct
      */
     public function setValue($value): void
     {
         if (\is_bool($value)) {
             if ('checkbox' !== $this->type) {
-                throw new \InvalidArgumentException(\sprintf('Invalid argument of type "%s"', \gettype($value)));
+                throw new InvalidArgumentException(\sprintf('Invalid argument of type "%s"', \gettype($value)));
             }
 
             if ($value) {
@@ -183,18 +185,18 @@ final class ChoiceFormField extends BaseChoiceFormField
     /**
      * Initializes the form field.
      *
-     * @throws \LogicException When node type is incorrect
+     * @throws LogicException When node type is incorrect
      */
     protected function initialize(): void
     {
         $tagName = $this->element->getTagName();
         if ('input' !== $tagName && 'select' !== $tagName) {
-            throw new \LogicException(\sprintf('A ChoiceFormField can only be created from an input or select tag (%s given).', $tagName));
+            throw new LogicException(\sprintf('A ChoiceFormField can only be created from an input or select tag (%s given).', $tagName));
         }
 
         $type = strtolower((string) $this->element->getAttribute('type'));
         if ('input' === $tagName && 'checkbox' !== $type && 'radio' !== $type) {
-            throw new \LogicException(\sprintf('A ChoiceFormField can only be created from an input tag with a type of checkbox or radio (given type is %s).', $type));
+            throw new LogicException(\sprintf('A ChoiceFormField can only be created from an input tag with a type of checkbox or radio (given type is %s).', $type));
         }
 
         $this->type = 'select' === $tagName ? 'select' : $type;

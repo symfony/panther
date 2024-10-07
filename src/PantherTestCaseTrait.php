@@ -18,6 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\BrowserKit\HttpBrowser as HttpBrowserClient;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\Panther\Client as PantherClient;
+use Symfony\Component\Panther\Exception\RuntimeException;
 use Symfony\Component\Panther\ProcessManager\ChromeManager;
 use Symfony\Component\Panther\ProcessManager\FirefoxManager;
 use Symfony\Component\Panther\ProcessManager\WebServerManager;
@@ -188,7 +189,7 @@ trait PantherTestCaseTrait
         } else {
             try {
                 self::$pantherClients[0] = self::$pantherClient = PantherClient::createChromeClient(null, $browserArguments, $managerOptions, self::$baseUri);
-            } catch (\RuntimeException $e) {
+            } catch (RuntimeException $e) {
                 if (PantherTestCase::CHROME === $browser) {
                     throw $e;
                 }

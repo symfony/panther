@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\ProcessManager;
 
+use Symfony\Component\Panther\Exception\RuntimeException;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
@@ -29,7 +30,7 @@ final class WebServerManager
     private Process $process;
 
     /**
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function __construct(string $documentRoot, string $hostname, int $port, string $router = '', string $readinessPath = '', ?array $env = null)
     {
@@ -39,7 +40,7 @@ final class WebServerManager
 
         $finder = new PhpExecutableFinder();
         if (false === $binary = $finder->find(false)) {
-            throw new \RuntimeException('Unable to find the PHP binary.');
+            throw new RuntimeException('Unable to find the PHP binary.');
         }
 
         if (isset($_SERVER['PANTHER_APP_ENV'])) {
@@ -85,7 +86,7 @@ final class WebServerManager
     }
 
     /**
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function quit(): void
     {

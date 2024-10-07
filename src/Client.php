@@ -39,6 +39,8 @@ use Symfony\Component\Panther\Cookie\CookieJar;
 use Symfony\Component\Panther\DomCrawler\Crawler as PantherCrawler;
 use Symfony\Component\Panther\DomCrawler\Form as PantherForm;
 use Symfony\Component\Panther\DomCrawler\Link as PantherLink;
+use Symfony\Component\Panther\Exception\InvalidArgumentException;
+use Symfony\Component\Panther\Exception\LogicException;
 use Symfony\Component\Panther\ProcessManager\BrowserManagerInterface;
 use Symfony\Component\Panther\ProcessManager\ChromeManager;
 use Symfony\Component\Panther\ProcessManager\FirefoxManager;
@@ -138,18 +140,18 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
 
     public function getRequest(): object
     {
-        throw new \LogicException('HttpFoundation Request object is not available when using WebDriver.');
+        throw new LogicException('HttpFoundation Request object is not available when using WebDriver.');
     }
 
     public function getResponse(): object
     {
-        throw new \LogicException('HttpFoundation Response object is not available when using WebDriver.');
+        throw new LogicException('HttpFoundation Response object is not available when using WebDriver.');
     }
 
     public function followRedirects($followRedirects = true): void
     {
         if (!$followRedirects) {
-            throw new \InvalidArgumentException('Redirects are always followed when using WebDriver.');
+            throw new InvalidArgumentException('Redirects are always followed when using WebDriver.');
         }
     }
 
@@ -161,7 +163,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
     public function setMaxRedirects($maxRedirects): void
     {
         if (-1 !== $maxRedirects) {
-            throw new \InvalidArgumentException('There are no max redirects when using WebDriver.');
+            throw new InvalidArgumentException('There are no max redirects when using WebDriver.');
         }
     }
 
@@ -173,28 +175,28 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
     public function insulate($insulated = true): void
     {
         if (!$insulated) {
-            throw new \InvalidArgumentException('Requests are always insulated when using WebDriver.');
+            throw new InvalidArgumentException('Requests are always insulated when using WebDriver.');
         }
     }
 
     public function setServerParameters(array $server): void
     {
-        throw new \InvalidArgumentException('Server parameters cannot be set when using WebDriver.');
+        throw new InvalidArgumentException('Server parameters cannot be set when using WebDriver.');
     }
 
     public function setServerParameter($key, $value): void
     {
-        throw new \InvalidArgumentException('Server parameters cannot be set when using WebDriver.');
+        throw new InvalidArgumentException('Server parameters cannot be set when using WebDriver.');
     }
 
     public function getServerParameter($key, $default = ''): mixed
     {
-        throw new \InvalidArgumentException('Server parameters cannot be retrieved when using WebDriver.');
+        throw new InvalidArgumentException('Server parameters cannot be retrieved when using WebDriver.');
     }
 
     public function getHistory(): History
     {
-        throw new \LogicException('History is not available when using WebDriver.');
+        throw new LogicException('History is not available when using WebDriver.');
     }
 
     public function click(Link $link, array $serverParameters = []): Crawler
@@ -255,18 +257,18 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
     public function request(string $method, string $uri, array $parameters = [], array $files = [], array $server = [], ?string $content = null, bool $changeHistory = true): PantherCrawler
     {
         if ('GET' !== $method) {
-            throw new \InvalidArgumentException('Only the GET method is supported when using WebDriver.');
+            throw new InvalidArgumentException('Only the GET method is supported when using WebDriver.');
         }
         if (null !== $content) {
-            throw new \InvalidArgumentException('Setting a content is not supported when using WebDriver.');
+            throw new InvalidArgumentException('Setting a content is not supported when using WebDriver.');
         }
         if (!$changeHistory) {
-            throw new \InvalidArgumentException('The history always change when using WebDriver.');
+            throw new InvalidArgumentException('The history always change when using WebDriver.');
         }
 
         foreach (['parameters', 'files', 'server'] as $arg) {
             if ([] !== $$arg) {
-                throw new \InvalidArgumentException(\sprintf('The parameter "$%s" is not supported when using WebDriver.', $arg));
+                throw new InvalidArgumentException(\sprintf('The parameter "$%s" is not supported when using WebDriver.', $arg));
             }
         }
 
@@ -286,7 +288,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
 
     protected function doRequest($request)
     {
-        throw new \LogicException('Not useful in WebDriver mode.');
+        throw new LogicException('Not useful in WebDriver mode.');
     }
 
     public function back(): PantherCrawler
@@ -315,7 +317,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
 
     public function followRedirect(): PantherCrawler
     {
-        throw new \LogicException('Redirects are always followed when using WebDriver.');
+        throw new LogicException('Redirects are always followed when using WebDriver.');
     }
 
     public function restart(): void
