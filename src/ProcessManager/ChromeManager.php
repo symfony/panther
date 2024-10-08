@@ -135,13 +135,23 @@ final class ChromeManager implements BrowserManagerInterface
 
     private function getDefaultOptions(): array
     {
+        $chromeOptions = new ChromeOptions();
+        $chromeOptions->setExperimentalOption('perfLoggingPrefs', [
+            'enableNetwork' => true,
+        ]);
+
         return [
             'scheme' => 'http',
             'host' => '127.0.0.1',
             'port' => 9515,
             'path' => '/status',
             'chromedriver_arguments' => [],
-            'capabilities' => [],
+            'capabilities' => [
+                'goog:loggingPrefs' => [
+                    'performance' => 'ALL',
+                ],
+                ChromeOptions::CAPABILITY => $chromeOptions,
+            ],
         ];
     }
 }

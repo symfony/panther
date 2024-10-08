@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\ProcessManager;
 
+use Facebook\WebDriver\Firefox\FirefoxOptions;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriver;
@@ -52,20 +53,17 @@ final class FirefoxManager implements BrowserManagerInterface
             $this->waitUntilReady($this->process, $url.$this->options['path'], 'firefox');
         }
 
-        $firefoxOptions = [];
-        if (isset($_SERVER['PANTHER_FIREFOX_BINARY'])) {
-            $firefoxOptions['binary'] = $_SERVER['PANTHER_FIREFOX_BINARY'];
-        }
-        if ($this->arguments) {
-            $firefoxOptions['args'] = $this->arguments;
-        }
-
         $capabilities = DesiredCapabilities::firefox();
-        $capabilities->setCapability('moz:firefoxOptions', $firefoxOptions);
 
         foreach ($this->options['capabilities'] as $capability => $value) {
             $capabilities->setCapability($capability, $value);
         }
+        $firefoxOptions = $capabilities->getCapability(FirefoxOptions::CAPABILITY);
+
+ //       if (isset($_SERVER['PANTHER_FIREFOX_BINARY'])) {
+ //           $firefoxOptions['binary'] = $_SERVER['PANTHER_FIREFOX_BINARY'];
+ //       }
+        $firefoxOptions->addArguments($this->arguments);
 
         return RemoteWebDriver::create($url, $capabilities, $this->options['connection_timeout_in_ms'] ?? null, $this->options['request_timeout_in_ms'] ?? null);
     }
@@ -112,12 +110,24 @@ final class FirefoxManager implements BrowserManagerInterface
 
     private function getDefaultOptions(): array
     {
+        $firefoxOptions = new FirefoxOptions();
+
+        // TODO: make this work - not sure why it doesn't :)
+        $firefoxOptions->setPreference('devtools.netmonitor.enabled', true);
+        $firefoxOptions->setPreference('devtools.netmonitor.har.enableAutoExportToFile', true);
+        $firefoxOptions->setPreference('devtools.netmonitor.har.forceExport', true);
+        $firefoxOptions->setPreference('devtools.netmonitor.har.defaultLogDir', '/tmp/panther-firefox/');
+
         return [
             'scheme' => 'http',
             'host' => '127.0.0.1',
             'port' => 4444,
             'path' => '/status',
             'capabilities' => [],
+            'capabilities' => [
+                'acceptInsecureCerts' => true,
+                FirefoxOptions::CAPABILITY => $firefoxOptions,
+            ],
         ];
     }
 }
