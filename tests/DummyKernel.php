@@ -85,7 +85,7 @@ class DummyKernel implements KernelInterface
 
     public function getContainer(): ContainerInterface
     {
-        return new class() implements ContainerInterface {
+        return new class implements ContainerInterface {
             public function get($id, $invalidBehavior = ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE): ?object
             {
                 return new \stdClass();

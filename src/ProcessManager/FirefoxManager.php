@@ -33,7 +33,7 @@ final class FirefoxManager implements BrowserManagerInterface
     /**
      * @throws \RuntimeException
      */
-    public function __construct(string $geckodriverBinary = null, array $arguments = null, array $options = [])
+    public function __construct(?string $geckodriverBinary = null, ?array $arguments = null, array $options = [])
     {
         $this->options = array_merge($this->getDefaultOptions(), $options);
         $this->process = new Process([$geckodriverBinary ?: $this->findGeckodriverBinary(), '--port='.$this->options['port']], null, null, null, null);
@@ -94,7 +94,6 @@ final class FirefoxManager implements BrowserManagerInterface
         // Enable the headless mode unless PANTHER_NO_HEADLESS is defined
         if (!($_SERVER['PANTHER_NO_HEADLESS'] ?? false)) {
             $args[] = '--headless';
-            $args[] = '--window-size=1200,1100';
         }
 
         // Enable devtools for debugging
