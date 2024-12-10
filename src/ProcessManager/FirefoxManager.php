@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\ProcessManager;
 
+use Facebook\WebDriver\Firefox\FirefoxOptions;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriver;
@@ -53,16 +54,20 @@ final class FirefoxManager implements BrowserManagerInterface
             $this->waitUntilReady($this->process, $url.$this->options['path'], 'firefox');
         }
 
-        $firefoxOptions = [];
+        $capabilities = DesiredCapabilities::firefox();
+
+        /** @var FirefoxOptions $firefoxOptions */
+        $firefoxOptions = $capabilities->getCapability(FirefoxOptions::CAPABILITY);
         if (isset($_SERVER['PANTHER_FIREFOX_BINARY'])) {
-            $firefoxOptions['binary'] = $_SERVER['PANTHER_FIREFOX_BINARY'];
+            $firefoxOptions->setOption('binary', $_SERVER['PANTHER_FIREFOX_BINARY']);
         }
         if ($this->arguments) {
-            $firefoxOptions['args'] = $this->arguments;
+            $firefoxOptions->addArguments($this->arguments);
         }
-
-        $capabilities = DesiredCapabilities::firefox();
-        $capabilities->setCapability('moz:firefoxOptions', $firefoxOptions);
+        // Prefer reduced motion, see https://developer.mozilla.org/fr/docs/Web/CSS/@media/prefers-reduced-motion
+        if ($_SERVER['PANTHER_REDUCED_MOTION'] ?? false) {
+            $firefoxOptions->setPreference('ui.prefersReducedMotion', 'reduced');
+        }
 
         foreach ($this->options['capabilities'] as $capability => $value) {
             $capabilities->setCapability($capability, $value);

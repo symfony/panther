@@ -115,6 +115,11 @@ final class ChromeManager implements BrowserManagerInterface
             $args[] = '--no-sandbox';
         }
 
+        // Prefer reduced motion, see https://developer.mozilla.org/fr/docs/Web/CSS/@media/prefers-reduced-motion
+        if ($_SERVER['PANTHER_REDUCED_MOTION'] ?? false) {
+            $args[] = '--force-prefers-reduced-motion';
+        }
+
         // Add custom arguments with PANTHER_CHROME_ARGUMENTS
         if ($_SERVER['PANTHER_CHROME_ARGUMENTS'] ?? false) {
             $arguments = explode(' ', $_SERVER['PANTHER_CHROME_ARGUMENTS']);

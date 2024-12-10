@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+2.2.0
+-----
+
+* Add a `PANTHER_REDUCED_MOTION` environment variable to instruct the website to minimize the amount of non-essential movement
+
 2.1.2
 -----
 
