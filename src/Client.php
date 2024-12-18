@@ -348,7 +348,8 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
         $by = self::createWebDriverByFromLocator($locator);
 
         $this->wait($timeoutInSecond, $intervalInMillisecond)->until(
-            WebDriverExpectedCondition::presenceOfElementLocated($by)
+            WebDriverExpectedCondition::presenceOfElementLocated($by),
+            \sprintf('Element "%s" not found within %d seconds.', $locator, $timeoutInSecond),
         );
 
         return $this->crawler = $this->createCrawler();
@@ -367,7 +368,8 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
         $element = $this->findElement($by);
 
         $this->wait($timeoutInSecond, $intervalInMillisecond)->until(
-            WebDriverExpectedCondition::stalenessOf($element)
+            WebDriverExpectedCondition::stalenessOf($element),
+            \sprintf('Element "%s" did not become stale within %d seconds.', $locator, $timeoutInSecond),
         );
 
         return $this->crawler = $this->createCrawler();
@@ -384,7 +386,8 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
         $by = self::createWebDriverByFromLocator($locator);
 
         $this->wait($timeoutInSecond, $intervalInMillisecond)->until(
-            WebDriverExpectedCondition::visibilityOfElementLocated($by)
+            WebDriverExpectedCondition::visibilityOfElementLocated($by),
+            \sprintf('Element "%s" did not become visible within %d seconds.', $locator, $timeoutInSecond),
         );
 
         return $this->crawler = $this->createCrawler();
@@ -401,7 +404,8 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
         $by = self::createWebDriverByFromLocator($locator);
 
         $this->wait($timeoutInSecond, $intervalInMillisecond)->until(
-            WebDriverExpectedCondition::invisibilityOfElementLocated($by)
+            WebDriverExpectedCondition::invisibilityOfElementLocated($by),
+            \sprintf('Element "%s" did not become invisible within %d seconds.', $locator, $timeoutInSecond),
         );
 
         return $this->crawler = $this->createCrawler();
@@ -418,7 +422,8 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
         $by = self::createWebDriverByFromLocator($locator);
 
         $this->wait($timeoutInSecond, $intervalInMillisecond)->until(
-            WebDriverExpectedCondition::elementTextContains($by, $text)
+            WebDriverExpectedCondition::elementTextContains($by, $text),
+            \sprintf('Element "%s" did not contain "%s" within %d seconds.', $locator, $text, $timeoutInSecond),
         );
 
         return $this->crawler = $this->createCrawler();
@@ -435,7 +440,8 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
         $by = self::createWebDriverByFromLocator($locator);
 
         $this->wait($timeoutInSecond, $intervalInMillisecond)->until(
-            PantherWebDriverExpectedCondition::elementTextNotContains($by, $text)
+            PantherWebDriverExpectedCondition::elementTextNotContains($by, $text),
+            \sprintf('Element "%s" still contained "%s" after %d seconds.', $locator, $text, $timeoutInSecond),
         );
 
         return $this->crawler = $this->createCrawler();
@@ -452,7 +458,8 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
         $by = self::createWebDriverByFromLocator($locator);
 
         $this->wait($timeoutInSecond, $intervalInMillisecond)->until(
-            PantherWebDriverExpectedCondition::elementAttributeContains($by, $attribute, $text)
+            PantherWebDriverExpectedCondition::elementAttributeContains($by, $attribute, $text),
+            \sprintf('Element "%s" attribute "%s" did not contain "%s" within %d seconds.', $locator, $attribute, $text, $timeoutInSecond),
         );
 
         return $this->crawler = $this->createCrawler();
@@ -469,7 +476,8 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
         $by = self::createWebDriverByFromLocator($locator);
 
         $this->wait($timeoutInSecond, $intervalInMillisecond)->until(
-            PantherWebDriverExpectedCondition::elementAttributeNotContains($by, $attribute, $text)
+            PantherWebDriverExpectedCondition::elementAttributeNotContains($by, $attribute, $text),
+            \sprintf('Element "%s" attribute "%s" still contained "%s" after %d seconds.', $locator, $attribute, $text, $timeoutInSecond),
         );
 
         return $this->crawler = $this->createCrawler();
@@ -486,7 +494,8 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
         $by = self::createWebDriverByFromLocator($locator);
 
         $this->wait($timeoutInSecond, $intervalInMillisecond)->until(
-            PantherWebDriverExpectedCondition::elementEnabled($by)
+            PantherWebDriverExpectedCondition::elementEnabled($by),
+            \sprintf('Element "%s" did not become enabled within %d seconds.', $locator, $timeoutInSecond),
         );
 
         return $this->crawler = $this->createCrawler();
@@ -503,7 +512,8 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
         $by = self::createWebDriverByFromLocator($locator);
 
         $this->wait($timeoutInSecond, $intervalInMillisecond)->until(
-            PantherWebDriverExpectedCondition::elementDisabled($by)
+            PantherWebDriverExpectedCondition::elementDisabled($by),
+            \sprintf('Element "%s" did not become disabled within %d seconds.', $locator, $timeoutInSecond),
         );
 
         return $this->crawler = $this->createCrawler();
