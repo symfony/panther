@@ -269,7 +269,7 @@ trait WebTestAssertionsTrait
     // Copied from WebTestCase to allow assertions to work with createClient
 
     /**
-     * Creates a KernelBrowser.
+     * Creates a KernelBrowser foo!
      *
      * @param array $options An array of options to pass to the createKernel method
      * @param array $server  An array of server parameters
