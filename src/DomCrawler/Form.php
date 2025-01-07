@@ -211,10 +211,7 @@ final class Form extends BaseForm
         $this->setValue($field->getName(), $field->getValue());
     }
 
-    /**
-     * @return FormField|FormField[]|FormField[][]
-     */
-    public function get($name): FormField|array
+    public function get($name): FormField
     {
         return $this->getFormField($this->getFormElement($name));
     }
@@ -238,10 +235,8 @@ final class Form extends BaseForm
      * Gets the value of a field.
      *
      * @param string $name
-     *
-     * @return FormField|FormField[]|FormField[][]
      */
-    public function offsetGet($name): FormField|array
+    public function offsetGet($name): FormField
     {
         return $this->get($name);
     }
