@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\Tests\ProcessManager;
 
+use Symfony\Component\Panther\Exception\RuntimeException;
 use Symfony\Component\Panther\ProcessManager\WebServerManager;
 use Symfony\Component\Panther\Tests\TestCase;
 
@@ -32,7 +33,7 @@ class WebServerManagerTest extends TestCase
 
     public function testAlreadyRunning(): void
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('The port 1234 is already in use.');
 
         $server1 = new WebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234);
@@ -77,7 +78,7 @@ class WebServerManagerTest extends TestCase
 
     public function testInvalidDocumentRoot(): void
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(\Symfony\Component\Process\Exception\RuntimeException::class);
         $this->expectExceptionMessageMatches('#/not-exists#');
 
         $server = new WebServerManager('/not-exists', '127.0.0.1', 1234);

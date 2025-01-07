@@ -19,6 +19,8 @@ use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverElement;
 use Symfony\Component\CssSelector\CssSelectorConverter;
 use Symfony\Component\DomCrawler\Crawler as BaseCrawler;
+use Symfony\Component\Panther\Exception\InvalidArgumentException;
+use Symfony\Component\Panther\Exception\LogicException;
 use Symfony\Component\Panther\ExceptionThrower;
 
 /**
@@ -34,7 +36,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
     /**
      * @param WebDriverElement[] $elements
      */
-    public function __construct(array $elements = [], WebDriver $webDriver = null, string $uri = null)
+    public function __construct(array $elements = [], ?WebDriver $webDriver = null, ?string $uri = null)
     {
         $this->uri = $uri;
         $this->webDriver = $webDriver;
@@ -177,7 +179,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
     /**
      * @see https://github.com/symfony/symfony/issues/26432
      */
-    public function children(string $selector = null): static
+    public function children(?string $selector = null): static
     {
         $xpath = 'child::*';
         if (null !== $selector) {
@@ -203,15 +205,15 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         return $this->getElementOrThrow()->getTagName();
     }
 
-    public function text(string $default = null, bool $normalizeWhitespace = true): string
+    public function text(?string $default = null, bool $normalizeWhitespace = true): string
     {
         if (!$normalizeWhitespace) {
-            throw new \InvalidArgumentException('Panther only supports getting normalized text.');
+            throw new InvalidArgumentException('Panther only supports getting normalized text.');
         }
 
         try {
             return $this->getElementOrThrow()->getText();
-        } catch (\InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             if (null === $default) {
                 throw $e;
             }
@@ -220,7 +222,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         }
     }
 
-    public function html(string $default = null): string
+    public function html(?string $default = null): string
     {
         try {
             $element = $this->getElementOrThrow();
@@ -229,13 +231,13 @@ final class Crawler extends BaseCrawler implements WebDriverElement
                 return $this->webDriver->getPageSource();
             }
 
-            return $this->attr('outerHTML');
-        } catch (\InvalidArgumentException $e) {
+            return $this->attr('outerHTML', (string) $default);
+        } catch (InvalidArgumentException $e) {
             if (null === $default) {
                 throw $e;
             }
 
-            return (string) $default;
+            return $default;
         }
     }
 
@@ -274,19 +276,19 @@ final class Crawler extends BaseCrawler implements WebDriverElement
     public function selectLink($value): static
     {
         return $this->selectFromXpath(
-            sprintf('descendant-or-self::a[contains(concat(\' \', normalize-space(string(.)), \' \'), %1$s) or ./img[contains(concat(\' \', normalize-space(string(@alt)), \' \'), %1$s)]]', self::xpathLiteral(' '.$value.' '))
+            \sprintf('descendant-or-self::a[contains(concat(\' \', normalize-space(string(.)), \' \'), %1$s) or ./img[contains(concat(\' \', normalize-space(string(@alt)), \' \'), %1$s)]]', self::xpathLiteral(' '.$value.' '))
         );
     }
 
     public function selectImage($value): static
     {
-        return $this->selectFromXpath(sprintf('descendant-or-self::img[contains(normalize-space(string(@alt)), %s)]', self::xpathLiteral($value)));
+        return $this->selectFromXpath(\sprintf('descendant-or-self::img[contains(normalize-space(string(@alt)), %s)]', self::xpathLiteral($value)));
     }
 
     public function selectButton($value): static
     {
         return $this->selectFromXpath(
-            sprintf(
+            \sprintf(
                 'descendant-or-self::input[((contains(%1$s, "submit") or contains(%1$s, "button")) and contains(concat(\' \', normalize-space(string(@value)), \' \'), %2$s)) or (contains(%1$s, "image") and contains(concat(\' \', normalize-space(string(@alt)), \' \'), %2$s)) or @id=%3$s or @name=%3$s] | descendant-or-self::button[contains(concat(\' \', normalize-space(string(.)), \' \'), %2$s) or @id=%3$s or @name=%3$s]',
                 'translate(@type, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz")',
                 self::xpathLiteral(' '.$value.' '),
@@ -299,7 +301,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
     {
         $element = $this->getElementOrThrow();
         if ('get' !== $method) {
-            throw new \InvalidArgumentException('Only the "get" method is supported in WebDriver mode.');
+            throw new InvalidArgumentException('Only the "get" method is supported in WebDriver mode.');
         }
 
         return new Link($element, $this->webDriver->getCurrentURL());
@@ -330,7 +332,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         return $images;
     }
 
-    public function form(array $values = null, $method = null): Form
+    public function form(?array $values = null, $method = null): Form
     {
         $form = new Form($this->getElementOrThrow(), $this->webDriver);
         if (null !== $values) {
@@ -352,7 +354,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
 
     public function getNode($position): ?\DOMElement
     {
-        throw new \InvalidArgumentException('The "getNode" method cannot be used in WebDriver mode. Use "getElement" instead.');
+        throw new InvalidArgumentException('The "getNode" method cannot be used in WebDriver mode. Use "getElement" instead.');
     }
 
     public function getElement(int $position): ?WebDriverElement
@@ -365,6 +367,9 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         return \count($this->elements);
     }
 
+    /**
+     * @return \ArrayIterator<int, WebDriverElement>
+     */
     public function getIterator(): \ArrayIterator
     {
         return new \ArrayIterator($this->elements);
@@ -390,7 +395,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
     /**
      * @param WebDriverElement[]|null $nodes
      */
-    private function createSubCrawler(array $nodes = null): self
+    private function createSubCrawler(?array $nodes = null): self
     {
         return new self($nodes ?? [], $this->webDriver, $this->uri);
     }
@@ -420,7 +425,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
     {
         $element = $this->getElement(0);
         if (!$element) {
-            throw new \InvalidArgumentException('The current node list is empty.');
+            throw new InvalidArgumentException('The current node list is empty.');
         }
 
         return $element;
@@ -507,12 +512,12 @@ final class Crawler extends BaseCrawler implements WebDriverElement
     }
 
     /**
-     * @throws \LogicException If the CssSelector Component is not available
+     * @throws LogicException If the CssSelector Component is not available
      */
     private function createCssSelectorConverter(): CssSelectorConverter
     {
         if (!class_exists(CssSelectorConverter::class)) {
-            throw new \LogicException('To filter with a CSS selector, install the CssSelector component ("composer require symfony/css-selector"). Or use filterXpath instead.');
+            throw new LogicException('To filter with a CSS selector, install the CssSelector component ("composer require symfony/css-selector"). Or use filterXpath instead.');
         }
 
         return new CssSelectorConverter();

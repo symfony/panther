@@ -17,6 +17,7 @@ use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriver;
+use Symfony\Component\Panther\Exception\RuntimeException;
 use Symfony\Component\Process\ExecutableFinder;
 use Symfony\Component\Process\Process;
 
@@ -32,9 +33,9 @@ final class ChromeManager implements BrowserManagerInterface
     private array $options;
 
     /**
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
-    public function __construct(string $chromeDriverBinary = null, array $arguments = null, array $options = [])
+    public function __construct(?string $chromeDriverBinary = null, ?array $arguments = null, array $options = [])
     {
         $this->options = $options ? array_merge($this->getDefaultOptions(), $options) : $this->getDefaultOptions();
         $this->process = $this->createProcess($chromeDriverBinary ?: $this->findChromeDriverBinary());
@@ -42,7 +43,7 @@ final class ChromeManager implements BrowserManagerInterface
     }
 
     /**
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function start(): WebDriver
     {
@@ -81,7 +82,7 @@ final class ChromeManager implements BrowserManagerInterface
     }
 
     /**
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     private function findChromeDriverBinary(): string
     {
@@ -89,7 +90,7 @@ final class ChromeManager implements BrowserManagerInterface
             return $binary;
         }
 
-        throw new \RuntimeException('"chromedriver" binary not found. Install it using the package manager of your operating system or by running "composer require --dev dbrekelmans/bdi && vendor/bin/bdi detect drivers".');
+        throw new RuntimeException('"chromedriver" binary not found. Install it using the package manager of your operating system or by running "composer require --dev dbrekelmans/bdi && vendor/bin/bdi detect drivers".');
     }
 
     private function getDefaultArguments(): array
@@ -97,19 +98,19 @@ final class ChromeManager implements BrowserManagerInterface
         $args = [];
 
         // Enable the headless mode unless PANTHER_NO_HEADLESS is defined
-        if (!($_SERVER['PANTHER_NO_HEADLESS'] ?? false)) {
+        if (!filter_var($_SERVER['PANTHER_NO_HEADLESS'] ?? false, \FILTER_VALIDATE_BOOLEAN)) {
             $args[] = '--headless';
             $args[] = '--window-size=1200,1100';
             $args[] = '--disable-gpu';
         }
 
         // Enable devtools for debugging
-        if ($_SERVER['PANTHER_DEVTOOLS'] ?? true) {
+        if (filter_var($_SERVER['PANTHER_DEVTOOLS'] ?? true, \FILTER_VALIDATE_BOOLEAN)) {
             $args[] = '--auto-open-devtools-for-tabs';
         }
 
         // Disable Chrome's sandbox if PANTHER_NO_SANDBOX is defined or if running in Travis
-        if ($_SERVER['PANTHER_NO_SANDBOX'] ?? $_SERVER['HAS_JOSH_K_SEAL_OF_APPROVAL'] ?? false) {
+        if (filter_var($_SERVER['PANTHER_NO_SANDBOX'] ?? $_SERVER['HAS_JOSH_K_SEAL_OF_APPROVAL'] ?? false, \FILTER_VALIDATE_BOOLEAN)) {
             // Running in Travis, disabling the sandbox mode
             $args[] = '--no-sandbox';
         }

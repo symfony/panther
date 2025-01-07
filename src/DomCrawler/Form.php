@@ -27,6 +27,8 @@ use Symfony\Component\Panther\DomCrawler\Field\ChoiceFormField;
 use Symfony\Component\Panther\DomCrawler\Field\FileFormField;
 use Symfony\Component\Panther\DomCrawler\Field\InputFormField;
 use Symfony\Component\Panther\DomCrawler\Field\TextareaFormField;
+use Symfony\Component\Panther\Exception\LogicException;
+use Symfony\Component\Panther\Exception\RuntimeException;
 use Symfony\Component\Panther\ExceptionThrower;
 use Symfony\Component\Panther\WebDriver\WebDriverCheckbox;
 
@@ -60,7 +62,7 @@ final class Form extends BaseForm
                 try {
                     $form = $this->webDriver->findElement(WebDriverBy::id($formId));
                 } catch (NoSuchElementException $e) {
-                    throw new \LogicException(sprintf('The selected node has an invalid form attribute (%s).', $formId));
+                    throw new LogicException(\sprintf('The selected node has an invalid form attribute (%s).', $formId));
                 }
 
                 $this->element = $form;
@@ -72,11 +74,11 @@ final class Form extends BaseForm
                 try {
                     $element = $element->findElement(WebDriverBy::xpath('..'));
                 } catch (NoSuchElementException $e) {
-                    throw new \LogicException('The selected node does not have a form ancestor.');
+                    throw new LogicException('The selected node does not have a form ancestor.');
                 }
             } while ('form' !== $element->getTagName());
         } elseif ('form' !== $tagName = $element->getTagName()) {
-            throw new \LogicException(sprintf('Unable to submit on a "%s" tag.', $tagName));
+            throw new LogicException(\sprintf('Unable to submit on a "%s" tag.', $tagName));
         }
 
         $this->element = $element;
@@ -166,7 +168,7 @@ final class Form extends BaseForm
                 continue;
             }
 
-            if ($field instanceof Field\FileFormField) {
+            if ($field instanceof FileFormField) {
                 $files[$field->getName()] = $field->getValue();
             }
         }
@@ -270,7 +272,7 @@ final class Form extends BaseForm
     private function getFormElement(string $name): WebDriverElement
     {
         return $this->element->findElement(WebDriverBy::xpath(
-            sprintf('.//input[@name=%1$s] | .//textarea[@name=%1$s] | .//select[@name=%1$s] | .//button[@name=%1$s] | .//input[@name=%2$s] | .//textarea[@name=%2$s] | .//select[@name=%2$s] | .//button[@name=%2$s]', XPathEscaper::escapeQuotes($name), XPathEscaper::escapeQuotes($name.'[]'))
+            \sprintf('.//input[@name=%1$s] | .//textarea[@name=%1$s] | .//select[@name=%1$s] | .//button[@name=%1$s] | .//input[@name=%2$s] | .//textarea[@name=%2$s] | .//select[@name=%2$s] | .//button[@name=%2$s]', XPathEscaper::escapeQuotes($name), XPathEscaper::escapeQuotes($name.'[]'))
         ));
     }
 
@@ -323,7 +325,7 @@ final class Form extends BaseForm
     {
         if (null === $webDriverSelect = $this->getWebDriverSelect($element)) {
             if (!$this->webDriver instanceof JavaScriptExecutor) {
-                throw new \RuntimeException('To retrieve this value, the browser must support JavaScript.');
+                throw new RuntimeException('To retrieve this value, the browser must support JavaScript.');
             }
 
             return $this->webDriver->executeScript('return arguments[0].value', [$element]);

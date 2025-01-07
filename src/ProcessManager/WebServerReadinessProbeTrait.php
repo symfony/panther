@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Symfony\Component\Panther\ProcessManager;
 
 use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Component\Panther\Exception\RuntimeException;
 use Symfony\Component\Process\Process;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
 
@@ -25,7 +26,7 @@ use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
 trait WebServerReadinessProbeTrait
 {
     /**
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     private function checkPortAvailable(string $hostname, int $port, bool $throw = true): void
     {
@@ -36,7 +37,7 @@ trait WebServerReadinessProbeTrait
         if (\is_resource($resource)) {
             fclose($resource);
             if ($throw) {
-                throw new \RuntimeException(sprintf('The port %d is already in use.', $port));
+                throw new RuntimeException(\sprintf('The port %d is already in use.', $port));
             }
         }
     }
@@ -50,12 +51,12 @@ trait WebServerReadinessProbeTrait
         while (true) {
             $status = $process->getStatus();
             if (Process::STATUS_TERMINATED === $status) {
-                throw new \RuntimeException(sprintf('Could not start %s. Exit code: %d (%s). Error output: %s', $service, $process->getExitCode(), $process->getExitCodeText(), $process->getErrorOutput()));
+                throw new RuntimeException(\sprintf('Could not start %s. Exit code: %d (%s). Error output: %s', $service, $process->getExitCode(), $process->getExitCodeText(), $process->getErrorOutput()));
             }
 
             if (Process::STATUS_STARTED !== $status) {
                 if (microtime(true) - $start >= $timeout) {
-                    throw new \RuntimeException("Could not start $service (or it crashed) after $timeout seconds.");
+                    throw new RuntimeException("Could not start $service (or it crashed) after $timeout seconds.");
                 }
 
                 usleep(1000);
@@ -79,7 +80,7 @@ trait WebServerReadinessProbeTrait
                 } else {
                     $message = "Status code: $statusCode";
                 }
-                throw new \RuntimeException("Could not connect to $service after $timeout seconds ($message).");
+                throw new RuntimeException("Could not connect to $service after $timeout seconds ($message).");
             }
 
             usleep(1000);

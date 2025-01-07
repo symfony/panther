@@ -15,6 +15,7 @@ namespace Symfony\Component\Panther\Tests;
 
 use Facebook\WebDriver\Exception\InvalidSelectorException;
 use Facebook\WebDriver\Exception\StaleElementReferenceException;
+use Facebook\WebDriver\Exception\TimeoutException;
 use Facebook\WebDriver\JavaScriptExecutor;
 use Facebook\WebDriver\WebDriver;
 use Facebook\WebDriver\WebDriverExpectedCondition;
@@ -26,7 +27,10 @@ use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Panther\Client;
 use Symfony\Component\Panther\Cookie\CookieJar;
 use Symfony\Component\Panther\DomCrawler\Crawler;
+use Symfony\Component\Panther\Exception\LogicException;
+use Symfony\Component\Panther\PantherTestCase;
 use Symfony\Component\Panther\ProcessManager\ChromeManager;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
  * @author Kévin Dunglas <dunglas@gmail.com>
@@ -183,6 +187,73 @@ class ClientTest extends TestCase
         $client->request('GET', '/waitfor-staleness.html');
         $crawler = $client->waitForStaleness($locator);
         $this->assertInstanceOf(Crawler::class, $crawler);
+    }
+
+    public static function waitForExceptionsProvider(): iterable
+    {
+        yield 'waitFor' => [
+            'waitFor',
+            ['locator' => '#not_found'],
+            'Element "#not_found" not found within 1 seconds.',
+        ];
+        yield 'waitForStaleness' => [
+            'waitForStaleness',
+            ['locator' => '#price'],
+            'Element "#price" did not become stale within 1 seconds.',
+        ];
+        yield 'waitForVisibility' => [
+            'waitForVisibility',
+            ['locator' => '#hidden'],
+            'Element "#hidden" did not become visible within 1 seconds.',
+        ];
+        yield 'waitForInvisibility' => [
+            'waitForInvisibility',
+            ['locator' => '#price'],
+            'Element "#price" did not become invisible within 1 seconds.',
+        ];
+        yield 'waitForElementToContain' => [
+            'waitForElementToContain',
+            ['locator' => '#price', 'text' => '36'],
+            'Element "#price" did not contain "36" within 1 seconds.',
+        ];
+        yield 'waitForElementToNotContain' => [
+            'waitForElementToNotContain',
+            ['locator' => '#price', 'text' => '42'],
+            'Element "#price" still contained "42" after 1 seconds.',
+        ];
+        yield 'waitForAttributeToContain' => [
+            'waitForAttributeToContain',
+            ['locator' => '#price', 'attribute' => 'data-old-price', 'text' => '42'],
+            'Element "#price" attribute "data-old-price" did not contain "42" within 1 seconds.',
+        ];
+        yield 'waitForAttributeToNotContain' => [
+            'waitForAttributeToNotContain',
+            ['locator' => '#price', 'attribute' => 'data-old-price', 'text' => '36'],
+            'Element "#price" attribute "data-old-price" still contained "36" after 1 seconds.',
+        ];
+        yield 'waitForEnabled' => [
+            'waitForEnabled',
+            ['locator' => '#disabled'],
+            'Element "#disabled" did not become enabled within 1 seconds.',
+        ];
+        yield 'waitForDisabled' => [
+            'waitForDisabled',
+            ['locator' => '#enabled'],
+            'Element "#enabled" did not become disabled within 1 seconds.',
+        ];
+    }
+
+    /**
+     * @dataProvider waitForExceptionsProvider
+     */
+    public function testWaitForExceptions(string $method, array $args, string $message): void
+    {
+        $this->expectException(TimeoutException::class);
+        $this->expectExceptionMessage($message);
+
+        $client = self::createPantherClient();
+        $client->request('GET', '/waitfor-exceptions.html');
+        $client->$method(...($args + ['timeoutInSecond' => 1]));
     }
 
     public function testExecuteScript(): void
@@ -434,7 +505,7 @@ JS
 
     public function testGetHistory(): void
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $this->expectExceptionMessage('History is not available when using WebDriver.');
 
         self::createPantherClient()->getHistory();
@@ -449,5 +520,61 @@ JS
 
         self::stopWebServer();
         $this->assertFalse($client->ping());
+    }
+
+    public function testCreatePantherClientWithBrowserArguments(): void
+    {
+        $client = self::createPantherClient([
+            'browser' => PantherTestCase::CHROME,
+            'browser_arguments' => ['--window-size=1400,900'],
+        ]);
+        $this->assertInstanceOf(AbstractBrowser::class, $client);
+        $this->assertInstanceOf(WebDriver::class, $client);
+        $this->assertInstanceOf(JavaScriptExecutor::class, $client);
+        $this->assertInstanceOf(KernelInterface::class, self::$kernel);
+
+        self::stopWebServer();
+    }
+
+    public function testCreatePantherClientWithInvalidBrowserArguments(): void
+    {
+        $this->expectException(\TypeError::class);
+
+        self::createPantherClient([
+            'browser_arguments' => 'bad browser arguments data type',
+        ]);
+    }
+
+    public function testCreateHttpBrowserClientWithHttpClientOptions(): void
+    {
+        $client = self::createHttpBrowserClient([
+            'http_client_options' => [
+                'auth_basic' => ['foo', 'bar'],
+                'on_progress' => $closure = static function () {},
+                'cafile' => '/foo/bar',
+            ],
+        ]);
+
+        ($httpClientRef = new \ReflectionProperty($client, 'client'))->setAccessible(true);
+        /** @var HttpClientInterface $httpClient */
+        $httpClient = $httpClientRef->getValue($client);
+
+        ($httpClientOptionsRef = new \ReflectionProperty($httpClient, 'defaultOptions'))->setAccessible(true);
+        $httpClientOptions = $httpClientOptionsRef->getValue($httpClient);
+
+        $this->assertSame('foo:bar', $httpClientOptions['auth_basic']);
+        $this->assertSame($closure, $httpClientOptions['on_progress']);
+        $this->assertSame('/foo/bar', $httpClientOptions['cafile']);
+
+        self::stopWebServer();
+    }
+
+    public function testCreateHttpBrowserClientWithInvalidHttpClientOptions(): void
+    {
+        $this->expectException(\TypeError::class);
+
+        self::createHttpBrowserClient([
+            'http_client_options' => 'bad http client option data type',
+        ]);
     }
 }

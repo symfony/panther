@@ -19,6 +19,7 @@ use Symfony\Component\Panther\Client;
 use Symfony\Component\Panther\Client as PantherClient;
 use Symfony\Component\Panther\DomCrawler\Image;
 use Symfony\Component\Panther\DomCrawler\Link;
+use Symfony\Component\Panther\Exception\InvalidArgumentException;
 use Symfony\Component\Panther\Tests\TestCase;
 
 /**
@@ -80,7 +81,7 @@ class CrawlerTest extends TestCase
                     $this->assertSame('36', $crawler->text(null, true));
                     break;
                 default:
-                    $this->fail(sprintf('Unexpected index "%d".', $i));
+                    $this->fail(\sprintf('Unexpected index "%d".', $i));
             }
         });
     }
@@ -242,7 +243,7 @@ class CrawlerTest extends TestCase
             $names[$i] = $c->nodeName();
         });
 
-        $this->assertSame(['h1', 'main', 'p', 'p', 'input', 'p'], $names);
+        $this->assertSame(['h1', 'main', 'p', 'p', 'input', 'p', 'div'], $names);
     }
 
     /**
@@ -388,6 +389,24 @@ class CrawlerTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
+    public function testEmptyHtml(callable $clientFactory): void
+    {
+        $crawler = $this->request($clientFactory, '/basic.html');
+        $this->assertEmpty($crawler->filter('.empty')->html(''));
+    }
+
+    /**
+     * @dataProvider clientFactoryProvider
+     */
+    public function testEmptyHtmlWithoutDefault(callable $clientFactory): void
+    {
+        $crawler = $this->request($clientFactory, '/basic.html');
+        $this->assertEmpty($crawler->filter('.empty')->html());
+    }
+
+    /**
+     * @dataProvider clientFactoryProvider
+     */
     public function testNormalizeText(callable $clientFactory, string $clientClass): void
     {
         if (PantherClient::class !== $clientClass) {
@@ -400,7 +419,7 @@ class CrawlerTest extends TestCase
 
     public function testDoNotNormalizeText(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
 
         self::createPantherClient()->request('GET', self::$baseUri.'/normalize.html')->filter('#normalize')->text(null, false);
     }

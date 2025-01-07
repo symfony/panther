@@ -18,6 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\BrowserKit\HttpBrowser as HttpBrowserClient;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\Panther\Client as PantherClient;
+use Symfony\Component\Panther\Exception\RuntimeException;
 use Symfony\Component\Panther\ProcessManager\ChromeManager;
 use Symfony\Component\Panther\ProcessManager\FirefoxManager;
 use Symfony\Component\Panther\ProcessManager\WebServerManager;
@@ -74,7 +75,7 @@ trait PantherTestCaseTrait
         }
 
         if (null !== self::$pantherClient) {
-            foreach (self::$pantherClients as $i => $pantherClient) {
+            foreach (self::$pantherClients as $pantherClient) {
                 // Stop ChromeDriver only when all sessions are already closed
                 $pantherClient->quit(false);
             }
@@ -118,7 +119,7 @@ trait PantherTestCaseTrait
         self::$webServerManager = new WebServerManager(...array_values($options));
         self::$webServerManager->start();
 
-        self::$baseUri = sprintf('http://%s:%s', $options['hostname'], $options['port']);
+        self::$baseUri = \sprintf('http://%s:%s', $options['hostname'], $options['port']);
     }
 
     public static function isWebServerStarted(): bool
@@ -178,16 +179,23 @@ trait PantherTestCaseTrait
 
         self::startWebServer($options);
 
+        $browserArguments = $options['browser_arguments'] ?? null;
+        if (null !== $browserArguments && !\is_array($browserArguments)) {
+            throw new \TypeError(\sprintf('Expected key "browser_arguments" to be an array or null, "%s" given.', get_debug_type($browserArguments)));
+        }
+
         if (PantherTestCase::FIREFOX === $browser) {
-            self::$pantherClients[0] = self::$pantherClient = Client::createFirefoxClient(null, null, $managerOptions, self::$baseUri);
+            self::$pantherClients[0] = self::$pantherClient = PantherClient::createFirefoxClient(null, $browserArguments, $managerOptions, self::$baseUri);
+        } elseif (PantherTestCase::SELENIUM === $browser) {
+            self::$pantherClients[0] = self::$pantherClient = PantherClient::createSeleniumClient($managerOptions['host'], $managerOptions['capabilities'] ?? null, self::$baseUri, $options);
         } else {
             try {
-                self::$pantherClients[0] = self::$pantherClient = Client::createChromeClient(null, null, $managerOptions, self::$baseUri);
-            } catch (\RuntimeException $e) {
+                self::$pantherClients[0] = self::$pantherClient = PantherClient::createChromeClient(null, $browserArguments, $managerOptions, self::$baseUri);
+            } catch (RuntimeException $e) {
                 if (PantherTestCase::CHROME === $browser) {
                     throw $e;
                 }
-                self::$pantherClients[0] = self::$pantherClient = Client::createFirefoxClient(null, null, $managerOptions, self::$baseUri);
+                self::$pantherClients[0] = self::$pantherClient = PantherClient::createFirefoxClient(null, $browserArguments, $managerOptions, self::$baseUri);
             }
 
             if (null === $browser) {
@@ -229,9 +237,14 @@ trait PantherTestCaseTrait
         self::startWebServer($options);
 
         if (null === self::$httpBrowserClient) {
-            // The ScopingHttpClient cant't be used cause the HttpBrowser only supports absolute URLs,
+            $httpClientOptions = $options['http_client_options'] ?? [];
+            if (!\is_array($httpClientOptions)) {
+                throw new \TypeError(\sprintf('Expected key "http_client_options" to be an array, "%s" given.', get_debug_type($httpClientOptions)));
+            }
+
+            // The ScopingHttpClient can't be used cause the HttpBrowser only supports absolute URLs,
             // https://github.com/symfony/symfony/pull/35177
-            self::$httpBrowserClient = new HttpBrowserClient(HttpClient::create());
+            self::$httpBrowserClient = new HttpBrowserClient(HttpClient::create($httpClientOptions));
         }
 
         if (is_a(self::class, KernelTestCase::class, true)) {
@@ -239,7 +252,7 @@ trait PantherTestCaseTrait
         }
 
         $urlComponents = parse_url(self::$baseUri);
-        self::$httpBrowserClient->setServerParameter('HTTP_HOST', sprintf('%s:%s', $urlComponents['host'], $urlComponents['port']));
+        self::$httpBrowserClient->setServerParameter('HTTP_HOST', \sprintf('%s:%s', $urlComponents['host'], $urlComponents['port']));
         if ('https' === $urlComponents['scheme']) {
             self::$httpBrowserClient->setServerParameter('HTTPS', 'true');
         }
