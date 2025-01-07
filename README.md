@@ -8,7 +8,7 @@
 
 Panther is super powerful. It leverages [the W3C's WebDriver protocol](https://www.w3.org/TR/webdriver/) to drive native web browsers such as Google Chrome and Firefox.
 
-Panther is very easy to use, because it implements Symfony's popular [BrowserKit](https://symfony.com/doc/current/components/browser_kit.html) and
+Panther is very easy to use because it implements Symfony's popular [BrowserKit](https://symfony.com/doc/current/components/browser_kit.html) and
 [DomCrawler](https://symfony.com/doc/current/components/dom_crawler.html) APIs, and contains
 all the features you need to test your apps. It will sound familiar if you have ever created [a functional test for a Symfony app](https://symfony.com/doc/current/testing.html#functional-tests):
 as the API is exactly the same!
@@ -17,14 +17,14 @@ Keep in mind that Panther can be used in every PHP project, as it is a standalon
 Panther automatically finds your local installation of Chrome or Firefox and launches them,
 so you don't need to install anything else on your computer, a Selenium server is not needed!
 
-In test mode, Panther automatically starts your application using [the PHP built-in web-server](http://php.net/manual/en/features.commandline.webserver.php).
+In test mode, Panther automatically starts your application using [the PHP built-in web server](http://php.net/manual/en/features.commandline.webserver.php).
 You can focus on writing your tests or web-scraping scenario and Panther will take care of everything else.
 
 ## Features
 
 Unlike testing and web scraping libraries you're used to, Panther:
 
-* executes the JavaScript code contained in webpages
+* executes the JavaScript code contained in web pages
 * supports everything that Chrome (or Firefox) implements
 * allows taking screenshots
 * can wait for asynchronously loaded elements to show up
@@ -76,7 +76,7 @@ or in the `drivers/` directory of your project.
 
 If you intend to use Panther to test your application, we strongly recommend registering the Panther PHPUnit extension.
 While not strictly mandatory, this extension dramatically improves the testing experience by boosting the performance and
-allowing to use the [interactive debugging mode](#interactive-mode).
+allowing to use of the [interactive debugging mode](#interactive-mode).
 
 When using the extension in conjunction with the `PANTHER_ERROR_SCREENSHOT_DIR` environment variable, tests using the
 Panther client that fail or error (after the client is created) will automatically get a screenshot taken to help
@@ -112,11 +112,11 @@ $client->request('GET', 'https://api-platform.com'); // Yes, this website is 100
 $client->clickLink('Getting started');
 
 // Wait for an element to be present in the DOM (even if hidden)
-$crawler = $client->waitFor('#installing-the-framework');
+$crawler = $client->waitFor('#bootstrapping-the-core-library');
 // Alternatively, wait for an element to be visible
-$crawler = $client->waitForVisibility('#installing-the-framework');
+$crawler = $client->waitForVisibility('#bootstrapping-the-core-library');
 
-echo $crawler->filter('#installing-the-framework')->text();
+echo $crawler->filter('div:has(> #bootstrapping-the-core-library)')->text();
 $client->takeScreenshot('screen.png'); // Yeah, screenshot!
 ```
 
@@ -201,11 +201,11 @@ Two alternative clients are available:
 * The second leverages Symfony's [HttpBrowser](https://symfony.com/doc/4.4/components/browser_kit.html#making-external-http-requests).
   It is an intermediate between Symfony's kernel and Panther's test clients. HttpBrowser sends real HTTP requests using
   Symfony's [HttpClient](https://symfony.com/doc/current/components/http_client.html) component.
-  It is fast and is able to browse any webpage, not only the ones of the application under test.
+  It is fast and can browse any webpage, not only the ones of the application under test.
   However, HttpBrowser doesn't support JavaScript and other advanced features because it is entirely written in PHP.
   This one is available even for non-Symfony apps!
 
-The fun part is that the 3 clients implement the exact same API, so you can switch from one to another just by calling
+The fun part is that the 3 clients implement the same API, so you can switch from one to another just by calling
 the appropriate factory method, resulting in a good trade-off for every single test case (Do I need JavaScript? Do I need
 to authenticate with an external SSO server? Do I want to access the kernel of the current request? ... etc).
 
@@ -235,7 +235,7 @@ class E2eTest extends PantherTestCase
         // When initializing a custom client, the integrated web server IS NOT started automatically.
         // Use PantherTestCase::startWebServer() or WebServerManager if you want to start it manually.
 
-        // enjoy the same API for the 3 felines
+        // Enjoy the same API for the 3 felines.
         // $*client->request('GET', '...')
 
         $kernel = static::createKernel(); // If you are testing a Symfony app, you also have access to the kernel
@@ -247,10 +247,10 @@ class E2eTest extends PantherTestCase
 
 ### Creating Isolated Browsers to Test Apps Using [Mercure](https://mercure.rocks) or WebSocket
 
-Panther provides a convenient way to test applications with real-time capabilities which use [Mercure](https://symfony.com/doc/current/mercure.html), [WebSocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API)
+Panther provides a convenient way to test applications with real-time capabilities that use [Mercure](https://symfony.com/doc/current/mercure.html), [WebSocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API)
 and similar technologies.
 
-`PantherTestCase::createAdditionalPantherClient()` creates additional, isolated browsers which can interact with each other.
+`PantherTestCase::createAdditionalPantherClient()` creates additional, isolated browsers that can interact with each other.
 For instance, this can be useful to test a chat application having several users connected simultaneously:
 
 ```php
@@ -347,7 +347,7 @@ Use the `Client::ping()` method to check if the WebDriver connection is still ac
 
 ## Additional Documentation
 
-Since Panther implements the API of popular libraries, it already has an extensive documentation:
+Since Panther implements the API of popular libraries, it already has extensive documentation:
 
 * For the `Client` class, read [the BrowserKit documentation](https://symfony.com/doc/current/components/browser_kit.html)
 * For the `Crawler` class, read [the DomCrawler documentation](https://symfony.com/doc/current/components/dom_crawler.html)
@@ -355,7 +355,7 @@ Since Panther implements the API of popular libraries, it already has an extensi
 
 ### Environment Variables
 
-The following environment variables can be set to change some Panther's behaviour:
+The following environment variables can be set to change some Panther's behavior:
 
 * `PANTHER_NO_HEADLESS`: to disable the browser's headless mode (will display the testing window, useful to debug)
 * `PANTHER_WEB_SERVER_DIR`: to change the project's document root (default to `./public/`, relative paths **must start** by `./`)
@@ -398,9 +398,9 @@ the complete contents of the tag, including the tag itself.
 
 ### Interactive Mode
 
-Panther can make a pause in your tests suites after a failure.
+Panther can make a pause in your test suites after a failure.
 It is a break time really appreciated for investigating the problem through the web browser.
-For enabling this mode, you need the `--debug` PHPUnit option without the headless mode:
+To enable this mode, you need the `--debug` PHPUnit option without the headless mode:
 
     $ PANTHER_NO_HEADLESS=1 bin/phpunit --debug
     
@@ -428,7 +428,7 @@ class E2eTest extends PantherTestCase
     public function testMyApp(): void
     {
         $pantherClient = static::createPantherClient(['external_base_uri' => 'https://localhost']);
-        // the PHP integrated web server will not be started
+        // The integrated web server will not be started
     }
 }
 ```
@@ -442,7 +442,7 @@ processes if you write several tests using Panther for different domain names.
 
 To do so, you can use the native `@runInSeparateProcess` PHPUnit annotation.
 
-**ℹ Note:** it is really convenient to use the `external_base_uri` option and start your own webserver in the background,
+**ℹ Note:** It is really convenient to use the `external_base_uri` option and start your own webserver in the background
 because Panther will not have to start and stop your server on each test. [Symfony CLI](https://symfony.com/download) can
 be a quick and easy way to do so. 
 
@@ -583,7 +583,7 @@ Here is a minimal `.travis.yml` file to run Panther tests:
 ```yaml
 language: php
 addons:
-  # If you don't use Chrome, or Firefox, remove the corresponding line
+  # If you don't use Chrome or Firefox, remove the corresponding line
   chrome: stable
   firefox: latest
 
@@ -656,7 +656,7 @@ test_script:
 If you want to use Panther with other testing tools like [LiipFunctionalTestBundle](https://github.com/liip/LiipFunctionalTestBundle)
 or if you just need to use a different base class, Panther has got you covered.
 It provides you with the `Symfony\Component\Panther\PantherTestCaseTrait` and you can use it to enhance your existing
-test-infrastructure with some Panther awesomeness:
+test infrastructure with some Panther awesomeness:
 
 ```php
 <?php
@@ -688,7 +688,7 @@ The following features are not currently supported:
 * Updating existing documents (browsers are mostly used to consume data, not to create webpages)
 * Setting form values using the multidimensional PHP array syntax
 * Methods returning an instance of `\DOMElement` (because this library uses `WebDriverElement` internally)
-* Selecting invalid choices in select
+* Selecting invalid choices in the select
 
 Pull Requests are welcome to fill the remaining gaps!
 
