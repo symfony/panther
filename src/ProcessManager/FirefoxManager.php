@@ -66,7 +66,7 @@ final class FirefoxManager implements BrowserManagerInterface
         $capabilities->setCapability('moz:firefoxOptions', $firefoxOptions);
 
         // Prefer reduced motion, see https://developer.mozilla.org/fr/docs/Web/CSS/@media/prefers-reduced-motion
-        if ($_SERVER['PANTHER_REDUCED_MOTION'] ?? false) {
+        if (filter_var($_SERVER['PANTHER_REDUCED_MOTION'] ?? true, \FILTER_VALIDATE_BOOLEAN)) {
             /** @var FirefoxOptions|array $firefoxOptions */
             $firefoxOptions = $capabilities->getCapability('moz:firefoxOptions') ?? [];
             $firefoxOptions = $firefoxOptions instanceof FirefoxOptions ? $firefoxOptions->toArray() : $firefoxOptions;

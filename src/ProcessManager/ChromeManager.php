@@ -116,7 +116,7 @@ final class ChromeManager implements BrowserManagerInterface
         }
 
         // Prefer reduced motion, see https://developer.mozilla.org/fr/docs/Web/CSS/@media/prefers-reduced-motion
-        if ($_SERVER['PANTHER_REDUCED_MOTION'] ?? false) {
+        if (filter_var($_SERVER['PANTHER_REDUCED_MOTION'] ?? true, \FILTER_VALIDATE_BOOLEAN)) {
             $args[] = '--force-prefers-reduced-motion';
         }
 
