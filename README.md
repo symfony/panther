@@ -387,7 +387,7 @@ $client = self::createPantherClient([
 
 #### Firefox-specific Environment Variables
 
-* `PANTHER_FIREFOX_ARGUMENTS`: to customize Firefox arguments. You need to set `PANTHER_NO_HEADLESS` to a true value to have full control of arguments.
+* `PANTHER_FIREFOX_ARGUMENTS`: to customize Firefox arguments. You need to set `PANTHER_NO_HEADLESS` to `1` value to have full control over arguments.
 * `PANTHER_FIREFOX_BINARY`: to use another `firefox` binary
 
 ### Accessing To Hidden Text
