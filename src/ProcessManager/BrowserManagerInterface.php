@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Symfony\Component\Panther\ProcessManager;
 
 use Facebook\WebDriver\WebDriver;
+use Symfony\Component\Panther\Exception\RuntimeException;
 
 /**
  * A browser manager (for instance using ChromeDriver or GeckoDriver).
@@ -23,7 +24,7 @@ use Facebook\WebDriver\WebDriver;
 interface BrowserManagerInterface
 {
     /**
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function start(): WebDriver;
 

@@ -17,6 +17,7 @@ use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriver;
+use Symfony\Component\Panther\Exception\RuntimeException;
 use Symfony\Component\Process\ExecutableFinder;
 use Symfony\Component\Process\Process;
 
@@ -32,7 +33,7 @@ final class ChromeManager implements BrowserManagerInterface
     private array $options;
 
     /**
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function __construct(?string $chromeDriverBinary = null, ?array $arguments = null, array $options = [])
     {
@@ -42,7 +43,7 @@ final class ChromeManager implements BrowserManagerInterface
     }
 
     /**
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function start(): WebDriver
     {
@@ -81,7 +82,7 @@ final class ChromeManager implements BrowserManagerInterface
     }
 
     /**
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     private function findChromeDriverBinary(): string
     {
@@ -89,7 +90,7 @@ final class ChromeManager implements BrowserManagerInterface
             return $binary;
         }
 
-        throw new \RuntimeException('"chromedriver" binary not found. Install it using the package manager of your operating system or by running "composer require --dev dbrekelmans/bdi && vendor/bin/bdi detect drivers".');
+        throw new RuntimeException('"chromedriver" binary not found. Install it using the package manager of your operating system or by running "composer require --dev dbrekelmans/bdi && vendor/bin/bdi detect drivers".');
     }
 
     private function getDefaultArguments(): array
