@@ -112,7 +112,7 @@ $client->request('GET', 'https://api-platform.com'); // Yes, this website is 100
 $client->clickLink('Getting started');
 
 // Wait for an element to be present in the DOM (even if hidden)
-$crawler = $client->waitFor('#bootstraping-the-core-library');
+$crawler = $client->waitFor('#bootstrapping-the-core-library');
 // Alternatively, wait for an element to be visible
 $crawler = $client->waitForVisibility('#bootstrapping-the-core-library');
 
