@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther;
 
+use Facebook\WebDriver\Exception\InvalidArgumentException;
 use Facebook\WebDriver\Exception\NoSuchElementException;
 use Facebook\WebDriver\Exception\TimeoutException;
 use Facebook\WebDriver\JavaScriptExecutor;
@@ -35,6 +36,7 @@ use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\DomCrawler\Form;
 use Symfony\Component\DomCrawler\Link;
+use Symfony\Component\HttpFoundation\Response as HttpFoundationResponse;
 use Symfony\Component\Panther\Cookie\CookieJar;
 use Symfony\Component\Panther\DomCrawler\Crawler as PantherCrawler;
 use Symfony\Component\Panther\DomCrawler\Form as PantherForm;
@@ -143,7 +145,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
 
     public function getResponse(): object
     {
-        throw new \LogicException('HttpFoundation Response object is not available when using WebDriver.');
+        return $this->response ?? throw new \LogicException('HttpFoundation Response object is not available when using WebDriver.');
     }
 
     public function followRedirects($followRedirects = true): void
@@ -533,7 +535,34 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
 
         $this->internalRequest = new Request($url, 'GET');
         $this->webDriver->get($url);
+
+        if ($this->webDriver instanceof JavaScriptExecutor) {
+            $this->executeScript('window.localStorage.setItem("symfony/profiler/toolbar/displayState", "none");');
+        }
+
         $this->internalResponse = new Response($this->webDriver->getPageSource());
+
+        if ($this->browserManager instanceof ChromeManager) {
+            try {
+                $events = $this->webDriver->manage()->getLog('performance');
+            } catch (InvalidArgumentException) {
+                $events = [];
+            }
+
+            foreach ($events as $event) {
+                $event = json_decode($event['message'], true)['message'];
+
+                if ('Network.responseReceived' !== ($event['method'] ?? '')) {
+                    continue;
+                }
+                $response = $event['params']['response'];
+
+                if ($response['url'] === $url) {
+                    $this->response = new HttpFoundationResponse($this->internalResponse->getContent(), $response['status'], $response['headers']);
+                    break;
+                }
+            }
+        }
 
         $this->crawler = $this->createCrawler();
 
