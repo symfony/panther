@@ -366,7 +366,7 @@ The following environment variables can be set to change some Panther's behavior
 * `PANTHER_ERROR_SCREENSHOT_DIR`: to set a base directory for your failure/error screenshots (e.g. `./var/error-screenshots`)
 * `PANTHER_DEVTOOLS`: to toggle the browser's dev tools (default `enabled`, useful to debug)
 * `PANTHER_ERROR_SCREENSHOT_ATTACH`: to add screenshots mentioned above to test output in junit attachment format
-* `PANTHER_REDUCED_MOTION`: to instruct the website to minimize the amount of non-essential movement
+* `PANTHER_NO_REDUCED_MOTION`: to instruct the website to disable the reduction of non-essential movement
 
 ### Changing the Hostname and Port of the Built-in Web Server
 
