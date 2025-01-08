@@ -37,7 +37,7 @@ class ScreenshotTest extends TestCase
 
         $screen = $client->takeScreenshot();
 
-        $this->assertIsString($screen);
+        $this->assertNotEmpty($screen);
     }
 
     public function testTakeScreenshotAndSaveToFile(): void

@@ -39,8 +39,9 @@ trait WebTestAssertionsTrait
         $client = self::getClient();
 
         if ($client instanceof PantherClient) {
-            $element = self::findElement($selector);
-            self::assertNotNull($element, $message);
+            $by = $client::createWebDriverByFromLocator($selector);
+            $elements = $client->findElements($by);
+            self::assertNotEmpty($elements, $message);
 
             return;
         }
@@ -92,12 +93,6 @@ trait WebTestAssertionsTrait
     {
         $client = self::getClient();
         if ($client instanceof PantherClient) {
-            if (method_exists(self::class, 'assertStringContainsString')) {
-                self::assertStringContainsString($expectedTitle, $client->getTitle());
-
-                return;
-            }
-
             self::assertStringContainsString($expectedTitle, $client->getTitle());
 
             return;
