@@ -31,7 +31,7 @@ Unlike testing and web scraping libraries you're used to, Panther:
 * can wait for asynchronously loaded elements to show up
 * lets you run your own JS code or XPath queries in the context of the loaded page
 * supports custom [Selenium server](https://www.seleniumhq.org) installations
-* supports remote browser testing services including [LambdaTest](https://www.lambdatest.com), [SauceLabs](https://saucelabs.com/) and [BrowserStack](https://www.browserstack.com/)
+* supports remote browser testing services including [SauceLabs](https://saucelabs.com/), [BrowserStack](https://www.browserstack.com/) and [LambdaTest](https://www.lambdatest.com/)
 
 ## Documentation
 
