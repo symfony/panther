@@ -115,7 +115,7 @@ final class ChromeManager implements BrowserManagerInterface
             $args[] = '--no-sandbox';
         }
 
-        // Prefer reduced motion, see https://developer.mozilla.org/fr/docs/Web/CSS/@media/prefers-reduced-motion
+        // Prefer reduced motion, see https://developer.mozilla.org/docs/Web/CSS/@media/prefers-reduced-motion
         if (!filter_var($_SERVER['PANTHER_NO_REDUCED_MOTION'] ?? false, \FILTER_VALIDATE_BOOLEAN)) {
             $args[] = '--force-prefers-reduced-motion';
         }
