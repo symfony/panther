@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\ProcessManager;
 
+use Facebook\WebDriver\Firefox\FirefoxOptions;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriver;
@@ -63,6 +64,15 @@ final class FirefoxManager implements BrowserManagerInterface
 
         $capabilities = DesiredCapabilities::firefox();
         $capabilities->setCapability('moz:firefoxOptions', $firefoxOptions);
+
+        // Prefer reduced motion, see https://developer.mozilla.org/fr/docs/Web/CSS/@media/prefers-reduced-motion
+        if (!filter_var($_SERVER['PANTHER_NO_REDUCED_MOTION'] ?? false, \FILTER_VALIDATE_BOOLEAN)) {
+            /** @var FirefoxOptions|array $firefoxOptions */
+            $firefoxOptions = $capabilities->getCapability('moz:firefoxOptions') ?? [];
+            $firefoxOptions = $firefoxOptions instanceof FirefoxOptions ? $firefoxOptions->toArray() : $firefoxOptions;
+            $firefoxOptions['prefs']['ui.prefersReducedMotion'] = 1;
+            $capabilities->setCapability('moz:firefoxOptions', $firefoxOptions);
+        }
 
         foreach ($this->options['capabilities'] as $capability => $value) {
             $capabilities->setCapability($capability, $value);

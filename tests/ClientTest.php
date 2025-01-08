@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\Tests;
 
+use Facebook\WebDriver\Exception\ElementClickInterceptedException;
 use Facebook\WebDriver\Exception\InvalidSelectorException;
 use Facebook\WebDriver\Exception\StaleElementReferenceException;
 use Facebook\WebDriver\Exception\TimeoutException;
@@ -576,5 +577,37 @@ JS
         self::createHttpBrowserClient([
             'http_client_options' => 'bad http client option data type',
         ]);
+    }
+
+    /**
+     * @dataProvider providePrefersReducedMotion
+     */
+    public function testPrefersReducedMotion(string $browser): void
+    {
+        $client = self::createPantherClient(['browser' => $browser]);
+        $client->request('GET', '/prefers-reduced-motion.html');
+
+        $client->clickLink('Click me!');
+        $this->assertStringEndsWith('#clicked', $client->getCurrentURL());
+    }
+
+    /**
+     * @dataProvider providePrefersReducedMotion
+     */
+    public function testPrefersReducedMotionDisabled(string $browser): void
+    {
+        $this->expectException(ElementClickInterceptedException::class);
+
+        $_SERVER['PANTHER_NO_REDUCED_MOTION'] = true;
+        $client = self::createPantherClient(['browser' => $browser]);
+        $client->request('GET', '/prefers-reduced-motion.html');
+
+        $client->clickLink('Click me!');
+    }
+
+    public function providePrefersReducedMotion(): iterable
+    {
+        yield 'Chrome' => [PantherTestCase::CHROME];
+        yield 'Firefox' => [PantherTestCase::FIREFOX];
     }
 }
