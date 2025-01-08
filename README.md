@@ -398,12 +398,15 @@ Chrome:
 
 ```php
 $client = Client::createChromeClient(null, ['--window-size=1500,4000']);
-or using the `PANTHER_CHROME_ARGUMENTS` environment variable:
-PANTHER_CHROME_ARGUMENTS='--window-size=1500,4000'
+```
+
+Or using the `PANTHER_CHROME_ARGUMENTS` environment variable: `PANTHER_CHROME_ARGUMENTS='--window-size=1500,4000'`
+
 Firefox:
 
 ```php
 use Facebook\WebDriver\WebDriverDimension;
+
 $client = Client::createFirefoxClient();
 $size = new WebDriverDimension(1500, 4000);
 $client->manage()->window()->setSize($size);
