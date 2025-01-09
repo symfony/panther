@@ -120,6 +120,8 @@ echo $crawler->filter('div:has(> #bootstrapping-the-core-library)')->text();
 $client->takeScreenshot('screen.png'); // Yeah, screenshot!
 ```
 
+"visible" means that the text is within the current scroll area. To check content further down on the page, you can adjust the window size (see below).
+
 ### Testing Usage
 
 The `PantherTestCase` class allows you to easily write E2E tests. It automatically starts your app using the built-in PHP
