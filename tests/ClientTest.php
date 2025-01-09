@@ -622,7 +622,7 @@ JS
         $client->clickLink('Click me!');
     }
 
-    public function providePrefersReducedMotion(): iterable
+    public static function providePrefersReducedMotion(): iterable
     {
         yield 'Chrome' => [PantherTestCase::CHROME];
         yield 'Firefox' => [PantherTestCase::FIREFOX];
