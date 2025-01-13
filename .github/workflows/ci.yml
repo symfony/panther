@@ -31,14 +31,14 @@ jobs:
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: '8.3'
+                  php-version: '8.4'
                   tools: phpstan,flex
                   extensions: zip
 
             - name: Install dependencies
               uses: ramsey/composer-install@v3
               env:
-                  SYMFONY_REQUIRE: 7.0.*
+                  SYMFONY_REQUIRE: ^7
 
             - name: Install PHPUnit dependencies
               run: vendor/bin/simple-phpunit --version
@@ -97,7 +97,7 @@ jobs:
 
     phpunit-lowest:
         runs-on: ubuntu-latest
-        name: PHP 8.3 (lowest) Test on ubuntu-latest
+        name: PHP 8.4 (lowest) Test on ubuntu-latest
         steps:
             - name: Checkout
               uses: actions/checkout@v4
@@ -105,7 +105,7 @@ jobs:
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: '8.3'
+                  php-version: '8.4'
                   extensions: zip
 
             - name: Install dependencies
@@ -120,7 +120,7 @@ jobs:
 
     phpunit-windows:
         runs-on: windows-latest
-        name: PHP 8.3 Test on windows-latest
+        name: PHP 8.4 Test on windows-latest
         env:
             PANTHER_FIREFOX_BINARY: 'C:\Program Files\Mozilla Firefox\firefox.exe'
             SKIP_FIREFOX: 1
@@ -131,7 +131,7 @@ jobs:
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: '8.3'
+                  php-version: '8.4'
                   extensions: zip
 
             - name: Install dependencies
@@ -142,7 +142,7 @@ jobs:
 
     phpunit-macos:
         runs-on: macos-latest
-        name: PHP 8.3 Test on macos-latest
+        name: PHP 8.4 Test on macos-latest
         steps:
             - name: Checkout
               uses: actions/checkout@v4
@@ -150,7 +150,7 @@ jobs:
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: '8.3'
+                  php-version: '8.4'
                   extensions: zip
 
             - name: Install Firefox
@@ -171,7 +171,7 @@ jobs:
         matrix:
           php-versions: [ '8.1', '8.2', '8.3', '8.4']
         fail-fast: false
-      name: PHP ${{ matrix.php-versions }} (phpunit 10) Test on ubuntu-latest
+      name: PHP ${{ matrix.php-versions }} (PHPUnit 11) Test on ubuntu-latest
       steps:
         - name: Checkout
           uses: actions/checkout@v4
@@ -187,11 +187,11 @@ jobs:
           with:
             composer-options: "--prefer-dist"
 
-        - name: Remove phpunit-bridge dependency (not yet phpunit 10 compliant)
+        - name: Remove phpunit-bridge dependency (not yet PHPUnit 10+ compliant)
           run: composer remove --dev symfony/phpunit-bridge
 
-        - name: Install latest phpunit 10
-          run: composer require --dev --prefer-dist phpunit/phpunit:^10.0
+        - name: Install latest PHPUnit 11
+          run: composer require --dev --prefer-dist 'phpunit/phpunit:>=10'
 
         - name: Run tests
           run: vendor/bin/phpunit --configuration phpunit.xml.dist.10
