@@ -288,7 +288,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
         $this->start();
         $elements = $this->webDriver->findElements(WebDriverBy::cssSelector('html'));
 
-        return new PantherCrawler($elements, $this->webDriver, $this->webDriver->getCurrentURL());
+        return new PantherCrawler($elements, $this, $this->webDriver->getCurrentURL());
     }
 
     protected function doRequest($request)
