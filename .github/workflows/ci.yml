@@ -115,7 +115,7 @@ jobs:
 
             - name: Run tests
               env:
-                  SYMFONY_DEPRECATIONS_HELPER: max[total]=9223372036854775807 # PHP_INT_MAX
+                  SYMFONY_DEPRECATIONS_HELPER: "disabled=1"
               run: vendor/bin/simple-phpunit
 
     phpunit-windows:
