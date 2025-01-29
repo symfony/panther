@@ -32,7 +32,7 @@
         "symfony/dependency-injection": "^5.4 || ^6.4 || ^7.0",
         "symfony/deprecation-contracts": "^2.4 || ^3",
         "symfony/dom-crawler": "^5.4 || ^6.4 || ^7.0",
-        "symfony/http-client": "^5.4 || ^6.4 || ^7.0",
+        "symfony/http-client": "^6.4 || ^7.0",
         "symfony/http-kernel": "^5.4 || ^6.4 || ^7.0",
         "symfony/process": "^5.4 || ^6.4 || ^7.0"
     },
