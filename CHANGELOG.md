@@ -4,7 +4,17 @@ CHANGELOG
 2.2.0
 -----
 
+* Add support for PHP 8.4
+* Add support for using Selenium with the built-in web server
 * Add a `PANTHER_NO_REDUCED_MOTION` environment variable to instruct the website to disable the reduction of non-essential movement
+* Add the ability to pass options to `HttpClient` when using `HttpBrowser`
+* Use a custom exception hierarchy instead of native exceptions directly
+* The Firefox `window-size` option is not set by default anymore in headless mode
+* Add explicit error messages in `wait*` methods
+* Fix support for checkbox and radio buttons having `0` as value
+* Fix catching of WebDriver exceptions
+* Ignore curl exceptions when closing WebDriver inside the destructor
+* Documentation has been moved from the Git repository to https://symfony.com/doc/current/testing/end_to_end.html
 
 2.1.2
 -----
