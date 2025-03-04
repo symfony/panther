@@ -99,30 +99,37 @@ final class FirefoxManager implements BrowserManagerInterface
 
     private function buildCapabilities(): DesiredCapabilities
     {
-        $firefoxOptions = [];
+        $capabilities = DesiredCapabilities::firefox();
+        $firefoxOptions = $capabilities->getCapability(FirefoxOptions::CAPABILITY);
+
         if (isset($_SERVER['PANTHER_FIREFOX_BINARY'])) {
-            $firefoxOptions['binary'] = $_SERVER['PANTHER_FIREFOX_BINARY'];
+            $firefoxOptions->setOption('binary', $_SERVER['PANTHER_FIREFOX_BINARY']);
         }
         if ($this->arguments) {
-            $firefoxOptions['args'] = $this->arguments;
+            $firefoxOptions->addArguments($this->arguments);
         }
-
-        $capabilities = DesiredCapabilities::firefox();
-        $capabilities->setCapability('moz:firefoxOptions', $firefoxOptions);
 
         // Prefer reduced motion, see https://developer.mozilla.org/fr/docs/Web/CSS/@media/prefers-reduced-motion
-        /** @var FirefoxOptions|array $firefoxOptions */
-        $firefoxOptions = $capabilities->getCapability('moz:firefoxOptions') ?? [];
-        $firefoxOptions = $firefoxOptions instanceof FirefoxOptions ? $firefoxOptions->toArray() : $firefoxOptions;
         if (!filter_var($_SERVER['PANTHER_NO_REDUCED_MOTION'] ?? false, \FILTER_VALIDATE_BOOLEAN)) {
-            $firefoxOptions['prefs']['ui.prefersReducedMotion'] = 1;
+            $firefoxOptions->setPreference('ui.prefersReducedMotion', 1);
         } else {
-            $firefoxOptions['prefs']['ui.prefersReducedMotion'] = 0;
+            $firefoxOptions->setPreference('ui.prefersReducedMotion', 0);
         }
-        $capabilities->setCapability('moz:firefoxOptions', $firefoxOptions);
 
         foreach ($this->options['capabilities'] as $capability => $value) {
-            $capabilities->setCapability($capability, $value);
+            if (FirefoxOptions::CAPABILITY !== $capability) {
+                $capabilities->setCapability($capability, $value);
+                continue;
+            }
+
+            if (isset($value[FirefoxOptions::OPTION_ARGS])) {
+                $firefoxOptions->addArguments($value[FirefoxOptions::OPTION_ARGS]);
+            }
+            if (isset($value[FirefoxOptions::OPTION_PREFS])) {
+                foreach ($value[FirefoxOptions::OPTION_PREFS] as $preference => $preferenceValue) {
+                    $firefoxOptions->setPreference($preference, $preferenceValue);
+                }
+            }
         }
 
         return $capabilities;

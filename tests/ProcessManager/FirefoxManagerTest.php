@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\Tests\ProcessManager;
 
+use Facebook\WebDriver\Firefox\FirefoxOptions;
+use Facebook\WebDriver\Remote\DesiredCapabilities;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Panther\Exception\RuntimeException;
 use Symfony\Component\Panther\ProcessManager\FirefoxManager;
@@ -67,5 +69,55 @@ class FirefoxManagerTest extends TestCase
 
         $driver1->quit();
         $driver2->quit();
+    }
+
+    public function testCanOverrideOptions(): void
+    {
+        $manager = new FirefoxManager(null, null, [
+            'capabilities' => [
+                'platform' => 'LINUX',
+                'browserName' => 'firefox-esr',
+                'moz:firefoxOptions' => [
+                    'prefs' => [
+                        'devtools.console.stdout.content' => true,
+                        'reader.parse-on-load.enabled' => true,
+                    ],
+                    'args' => [
+                        '--new-instance',
+                    ],
+                ],
+            ],
+        ]);
+        $refl = new \ReflectionMethod($manager, 'buildCapabilities');
+        $refl->setAccessible(true);
+        $capabilities = $refl->invoke($manager);
+
+        $this->assertInstanceOf(DesiredCapabilities::class, $capabilities);
+        $this->assertEquals('LINUX', $capabilities->getCapability('platform'));
+        $this->assertEquals('firefox-esr', $capabilities->getCapability('browserName'));
+
+        $this->assertInstanceOf(FirefoxOptions::class, $capabilities->getCapability('moz:firefoxOptions'));
+        $mozFirefoxOptions = $capabilities->getCapability('moz:firefoxOptions')->toArray();
+        $this->assertArrayHasKey('prefs', $mozFirefoxOptions);
+
+        // // our preferences should be set
+        $this->assertArrayHasKey('devtools.console.stdout.content', $mozFirefoxOptions['prefs']);
+        $this->assertTrue($mozFirefoxOptions['prefs']['devtools.console.stdout.content']);
+
+        // but the default one should still be there
+        $this->assertArrayHasKey('ui.prefersReducedMotion', $mozFirefoxOptions['prefs']);
+        $this->assertEquals('1', $mozFirefoxOptions['prefs']['ui.prefersReducedMotion']);
+        $this->assertArrayHasKey('devtools.jsonview.enabled', $mozFirefoxOptions['prefs']);
+        $this->assertFalse($mozFirefoxOptions['prefs']['devtools.jsonview.enabled']);
+
+        // except if we override then
+        $this->assertArrayHasKey('reader.parse-on-load.enabled', $mozFirefoxOptions['prefs']);
+        $this->assertTrue($mozFirefoxOptions['prefs']['reader.parse-on-load.enabled']);
+
+        // default arguments should still be there
+        $this->assertContains('--headless', $mozFirefoxOptions['args']);
+
+        // but our custom one should be there too
+        $this->assertContains('--new-instance', $mozFirefoxOptions['args']);
     }
 }
