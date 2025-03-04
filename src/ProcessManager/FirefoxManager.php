@@ -54,33 +54,7 @@ final class FirefoxManager implements BrowserManagerInterface
             $this->waitUntilReady($this->process, $url.$this->options['path'], 'firefox');
         }
 
-        $firefoxOptions = [];
-        if (isset($_SERVER['PANTHER_FIREFOX_BINARY'])) {
-            $firefoxOptions['binary'] = $_SERVER['PANTHER_FIREFOX_BINARY'];
-        }
-        if ($this->arguments) {
-            $firefoxOptions['args'] = $this->arguments;
-        }
-
-        $capabilities = DesiredCapabilities::firefox();
-        $capabilities->setCapability('moz:firefoxOptions', $firefoxOptions);
-
-        // Prefer reduced motion, see https://developer.mozilla.org/fr/docs/Web/CSS/@media/prefers-reduced-motion
-        /** @var FirefoxOptions|array $firefoxOptions */
-        $firefoxOptions = $capabilities->getCapability('moz:firefoxOptions') ?? [];
-        $firefoxOptions = $firefoxOptions instanceof FirefoxOptions ? $firefoxOptions->toArray() : $firefoxOptions;
-        if (!filter_var($_SERVER['PANTHER_NO_REDUCED_MOTION'] ?? false, \FILTER_VALIDATE_BOOLEAN)) {
-            $firefoxOptions['prefs']['ui.prefersReducedMotion'] = 1;
-        } else {
-            $firefoxOptions['prefs']['ui.prefersReducedMotion'] = 0;
-        }
-        $capabilities->setCapability('moz:firefoxOptions', $firefoxOptions);
-
-        foreach ($this->options['capabilities'] as $capability => $value) {
-            $capabilities->setCapability($capability, $value);
-        }
-
-        return RemoteWebDriver::create($url, $capabilities, $this->options['connection_timeout_in_ms'] ?? null, $this->options['request_timeout_in_ms'] ?? null);
+        return RemoteWebDriver::create($url, $this->buildCapabilities(), $this->options['connection_timeout_in_ms'] ?? null, $this->options['request_timeout_in_ms'] ?? null);
     }
 
     public function quit(): void
@@ -121,6 +95,37 @@ final class FirefoxManager implements BrowserManagerInterface
         }
 
         return $args;
+    }
+
+    private function buildCapabilities(): DesiredCapabilities
+    {
+        $firefoxOptions = [];
+        if (isset($_SERVER['PANTHER_FIREFOX_BINARY'])) {
+            $firefoxOptions['binary'] = $_SERVER['PANTHER_FIREFOX_BINARY'];
+        }
+        if ($this->arguments) {
+            $firefoxOptions['args'] = $this->arguments;
+        }
+
+        $capabilities = DesiredCapabilities::firefox();
+        $capabilities->setCapability('moz:firefoxOptions', $firefoxOptions);
+
+        // Prefer reduced motion, see https://developer.mozilla.org/fr/docs/Web/CSS/@media/prefers-reduced-motion
+        /** @var FirefoxOptions|array $firefoxOptions */
+        $firefoxOptions = $capabilities->getCapability('moz:firefoxOptions') ?? [];
+        $firefoxOptions = $firefoxOptions instanceof FirefoxOptions ? $firefoxOptions->toArray() : $firefoxOptions;
+        if (!filter_var($_SERVER['PANTHER_NO_REDUCED_MOTION'] ?? false, \FILTER_VALIDATE_BOOLEAN)) {
+            $firefoxOptions['prefs']['ui.prefersReducedMotion'] = 1;
+        } else {
+            $firefoxOptions['prefs']['ui.prefersReducedMotion'] = 0;
+        }
+        $capabilities->setCapability('moz:firefoxOptions', $firefoxOptions);
+
+        foreach ($this->options['capabilities'] as $capability => $value) {
+            $capabilities->setCapability($capability, $value);
+        }
+
+        return $capabilities;
     }
 
     private function getDefaultOptions(): array
