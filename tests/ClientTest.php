@@ -615,11 +615,18 @@ JS
     {
         $this->expectException(ElementClickInterceptedException::class);
 
+        $previous = $_SERVER['PANTHER_NO_REDUCED_MOTION'] ?? null;
         $_SERVER['PANTHER_NO_REDUCED_MOTION'] = true;
         $client = self::createPantherClient(['browser' => $browser]);
         $client->request('GET', '/prefers-reduced-motion.html');
 
         $client->clickLink('Click me!');
+
+        if (null === $previous) {
+            unset($_SERVER['PANTHER_NO_REDUCED_MOTION']);
+        } else {
+            $_SERVER['PANTHER_NO_REDUCED_MOTION'] = $previous;
+        }
     }
 
     public static function providePrefersReducedMotion(): iterable
