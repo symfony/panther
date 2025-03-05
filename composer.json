@@ -27,7 +27,7 @@
         "php": ">=8.0",
         "ext-dom": "*",
         "ext-libxml": "*",
-        "php-webdriver/webdriver": "^1.8.2",
+        "php-webdriver/webdriver": "^1.11.0",
         "symfony/browser-kit": "^5.4 || ^6.4 || ^7.0",
         "symfony/dependency-injection": "^5.4 || ^6.4 || ^7.0",
         "symfony/deprecation-contracts": "^2.4 || ^3",
