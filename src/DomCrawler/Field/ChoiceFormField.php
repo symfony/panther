@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\DomCrawler\Field;
 
+use Facebook\WebDriver\Exception\NoSuchElementException;
 use Facebook\WebDriver\WebDriverSelect;
 use Facebook\WebDriver\WebDriverSelectInterface;
 use Symfony\Component\DomCrawler\Field\ChoiceFormField as BaseChoiceFormField;
@@ -42,7 +43,11 @@ final class ChoiceFormField extends BaseChoiceFormField
     public function select($value): void
     {
         foreach ((array) $value as $v) {
-            $this->selector->selectByValue($v);
+            try {
+                $this->selector->selectByValue($v);
+            } catch (NoSuchElementException) {
+                $this->selector->selectByVisibleText($v);
+            }
         }
     }
 
@@ -130,9 +135,7 @@ final class ChoiceFormField extends BaseChoiceFormField
             return;
         }
 
-        foreach ((array) $value as $v) {
-            $this->selector->selectByValue($v);
-        }
+        $this->select($value);
     }
 
     public function addChoice(\DOMElement $node): void
