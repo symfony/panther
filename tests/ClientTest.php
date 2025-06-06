@@ -632,39 +632,35 @@ JS
     }
 
     /**
-     * In order to test if destructing is fine, even when WebDriver throws exceptions, we test Client directly and use 
+     * In order to test if destructing is fine, even when WebDriver throws exceptions, we test Client directly and use
      * mocks to simulate wrong webdriver behaviour.
-     * 
+     *
      * @dataProvider provideSupportedWebDriverExceptions
      */
-    public function testDestructingIgnoringWebDriverException(\Throwable $webDriverException): void
+    public function testQuitBrowserManagerDuringDeconstructionEvenIfWebDriverThrowsExceptions(\Throwable $exception): void
     {
         $webDriver = $this->createMock(WebDriver::class);
         $browserManager = $this->createMock(BrowserManagerInterface::class);
-        
+
         $browserManager->expects(self::once())
             ->method('start')
             ->willReturn($webDriver);
         $browserManager->expects(self::once())
             ->method('quit');
-        
+
         $webDriver->expects(self::once())
             ->method('quit')
-            ->willThrowException($webDriverException);
-        
+            ->willThrowException($exception);
+
         $client = new Client($browserManager);
         $client->start();
-        try {
-            unset($client);
-        } catch (\Throwable) {
-            // if any unexpected exception is thrown, this test will fail!
-            self::fail('This must not throw an exception.');
-        }
+
+        unset($client);
     }
 
     public static function provideSupportedWebDriverExceptions(): iterable
     {
         yield 'WebDriverException' => [new WebDriverException('something went wrong')];
-        yield 'UnexpectedResponseException' => [UnexpectedResponseException::forError('something went wrong')];;
+        yield 'UnexpectedResponseException' => [UnexpectedResponseException::forError('something went wrong')];
     }
 }
