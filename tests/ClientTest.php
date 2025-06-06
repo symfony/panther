@@ -639,20 +639,20 @@ JS
      */
     public function testQuitBrowserManagerDuringDeconstructionEvenIfWebDriverThrowsExceptions(\Throwable $exception): void
     {
-        $webDriver = $this->createMock(WebDriver::class);
-        $browserManager = $this->createMock(BrowserManagerInterface::class);
+        $webDriverMock = $this->createMock(WebDriver::class);
+        $browserManagerMock = $this->createMock(BrowserManagerInterface::class);
 
-        $browserManager->expects(self::once())
+        $browserManagerMock->expects(self::once())
             ->method('start')
-            ->willReturn($webDriver);
-        $browserManager->expects(self::once())
+            ->willReturn($webDriverMock);
+        $browserManagerMock->expects(self::once())
             ->method('quit');
 
-        $webDriver->expects(self::once())
+        $webDriverMock->expects(self::once())
             ->method('quit')
             ->willThrowException($exception);
 
-        $client = new Client($browserManager);
+        $client = new Client($browserManagerMock);
         $client->start();
 
         unset($client);
