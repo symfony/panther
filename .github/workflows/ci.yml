@@ -195,3 +195,34 @@ jobs:
 
         - name: Run tests
           run: vendor/bin/phpunit --configuration phpunit.xml.dist.10
+
+    phpunit-11:
+      runs-on: ubuntu-latest
+      strategy:
+        matrix:
+          php-versions: ['8.2', '8.3', '8.4', '8.5']
+        fail-fast: false
+      name: PHP ${{ matrix.php-versions }} (PHPUnit 11) Test on ubuntu-latest
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v5
+
+        - name: Setup PHP
+          uses: shivammathur/setup-php@v2
+          with:
+            php-version: ${{ matrix.php-versions }}
+            extensions: zip
+
+        - name: Install dependencies
+          uses: ramsey/composer-install@v3
+          with:
+            composer-options: "--prefer-dist"
+
+        - name: Remove phpunit-bridge dependency (not yet PHPUnit 11+ compliant)
+          run: composer remove --dev symfony/phpunit-bridge
+
+        - name: Install latest PHPUnit 11
+          run: composer require --dev --prefer-dist 'phpunit/phpunit:11.5.*'
+
+        - name: Run tests
+          run: vendor/bin/phpunit --configuration phpunit.xml.dist.11

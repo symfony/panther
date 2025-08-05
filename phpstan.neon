@@ -25,3 +25,5 @@ parameters:
 		- '#Call to an undefined method DOMNode::getTagName\(\)\.#'
 		- '#Return type \(void\) of method Symfony\\Component\\Panther\\DomCrawler\\Crawler::clear\(\) should be compatible with return type \(Facebook\\WebDriver\\WebDriverElement\) of method Facebook\\WebDriver\\WebDriverElement::clear\(\)#'
 		- '#Return type \(ArrayIterator<int, Facebook\\WebDriver\\WebDriverElement>\) of method Symfony\\Component\\Panther\\DomCrawler\\Crawler::getIterator\(\) should be compatible with return type \(ArrayIterator<int, DOMNode>\) of method Symfony\\Component\\DomCrawler\\Crawler::getIterator\(\)#'
+		# PHPStan runs with lowest dependencies
+		- '#Attribute class PHPUnit\\Framework\\Attributes\\DataProvider does not exist\.#'

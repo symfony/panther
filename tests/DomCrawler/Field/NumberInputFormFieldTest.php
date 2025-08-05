@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\Tests\DomCrawler\Field;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\DomCrawler\Field\InputFormField;
 use Symfony\Component\Panther\Tests\TestCase;
 
@@ -21,6 +22,7 @@ use Symfony\Component\Panther\Tests\TestCase;
  */
 class NumberInputFormFieldTest extends TestCase
 {
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -35,6 +37,7 @@ class NumberInputFormFieldTest extends TestCase
         $this->assertSame('10', $field->getValue());
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -49,6 +52,7 @@ class NumberInputFormFieldTest extends TestCase
         $this->assertSame('', $field->getValue());
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -68,6 +72,7 @@ class NumberInputFormFieldTest extends TestCase
         $this->assertSame('30', $field->getValue());
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
