@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\Tests\DomCrawler\Field;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\DomCrawler\Field\ChoiceFormField;
 use Symfony\Component\Panther\Client as PantherClient;
 use Symfony\Component\Panther\Tests\TestCase;
@@ -22,6 +23,7 @@ use Symfony\Component\Panther\Tests\TestCase;
  */
 class ChoiceFormFieldTest extends TestCase
 {
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -36,6 +38,7 @@ class ChoiceFormFieldTest extends TestCase
         $this->assertSame('20', $field->getValue());
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -50,6 +53,7 @@ class ChoiceFormFieldTest extends TestCase
         $this->assertSame('', $field->getValue());
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -64,6 +68,7 @@ class ChoiceFormFieldTest extends TestCase
         $this->assertSame(['20'], $field->getValue());
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -78,6 +83,7 @@ class ChoiceFormFieldTest extends TestCase
         $this->assertSame(['20', '30'], $field->getValue());
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -92,6 +98,7 @@ class ChoiceFormFieldTest extends TestCase
         $this->assertSame([], $field->getValue());
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -106,6 +113,7 @@ class ChoiceFormFieldTest extends TestCase
         $this->assertSame('i_am_checked', $field->getValue());
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -120,6 +128,7 @@ class ChoiceFormFieldTest extends TestCase
         $this->assertNull($field->getValue());
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -134,6 +143,7 @@ class ChoiceFormFieldTest extends TestCase
         $this->assertSame('i_am_checked', $field->getValue());
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -152,6 +162,7 @@ class ChoiceFormFieldTest extends TestCase
         $this->assertSame(['checked_one', 'checked_two'], $field->getValue());
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */

@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Symfony\Component\Panther\Tests\DomCrawler;
 
 use Facebook\WebDriver\WebDriverElement;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Panther\Client;
 use Symfony\Component\Panther\Client as PantherClient;
@@ -34,6 +35,7 @@ class CrawlerTest extends TestCase
         $this->assertInstanceOf(WebDriverElement::class, $crawler);
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -43,6 +45,7 @@ class CrawlerTest extends TestCase
         $this->assertSame(static::$baseUri.'/basic.html', $crawler->getUri());
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -52,6 +55,7 @@ class CrawlerTest extends TestCase
         $this->assertStringContainsString('<title>A basic page</title>', $crawler->html());
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -63,6 +67,7 @@ class CrawlerTest extends TestCase
         }
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -86,6 +91,7 @@ class CrawlerTest extends TestCase
         });
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -102,6 +108,7 @@ class CrawlerTest extends TestCase
         $this->assertSame('Sibling 2', $crawler->filter('main')->filter('#a-sibling')->text(null, true));
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -115,6 +122,7 @@ class CrawlerTest extends TestCase
         });
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -124,6 +132,7 @@ class CrawlerTest extends TestCase
         $this->assertSame('a-sibling', $crawler->filter('main > p')->eq(1)->attr('id'));
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -133,6 +142,7 @@ class CrawlerTest extends TestCase
         $this->assertSame('Sibling', $crawler->filter('main > p')->first()->text(null, true));
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -142,6 +152,7 @@ class CrawlerTest extends TestCase
         $this->assertSame('Sibling 3', $crawler->filter('main > p')->last()->text(null, true));
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -157,6 +168,7 @@ class CrawlerTest extends TestCase
         $this->assertSame(['Main', 'Sibling 2', 'Sibling 3'], $texts);
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -173,6 +185,7 @@ class CrawlerTest extends TestCase
         $this->assertFalse($p->matches('.bar'));
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -201,6 +214,7 @@ class CrawlerTest extends TestCase
         $this->assertNull($notFound);
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -216,6 +230,7 @@ class CrawlerTest extends TestCase
         $this->assertSame(['Sibling 2', 'Sibling 3'], $texts);
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -231,6 +246,7 @@ class CrawlerTest extends TestCase
         $this->assertSame(['Main'], $texts);
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -246,6 +262,7 @@ class CrawlerTest extends TestCase
         $this->assertSame(['h1', 'main', 'p', 'p', 'input', 'p', 'div'], $names);
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -282,6 +299,7 @@ class CrawlerTest extends TestCase
         $this->assertSame(['main', 'body', 'html'], $names);
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -297,6 +315,7 @@ class CrawlerTest extends TestCase
         $this->assertSame(['main', 'body', 'html'], $names);
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -310,6 +329,7 @@ class CrawlerTest extends TestCase
         $this->assertSame([[], [], []], $crawler->filter('main > p')->extract([]));
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -339,6 +359,7 @@ class CrawlerTest extends TestCase
         $this->assertSame('https://api-platform.com/', $link->getUri());
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -365,6 +386,7 @@ class CrawlerTest extends TestCase
         $this->assertSame('https://api-platform.com/logo-250x250.png', $image->getUri());
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -374,6 +396,7 @@ class CrawlerTest extends TestCase
         $this->assertSame('default', $crawler->filter('header')->text('default'));
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -383,6 +406,7 @@ class CrawlerTest extends TestCase
         $this->assertSame('default', $crawler->filter('header')->html('default'));
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -392,6 +416,7 @@ class CrawlerTest extends TestCase
         $this->assertEmpty($crawler->filter('.empty')->html(''));
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -401,6 +426,7 @@ class CrawlerTest extends TestCase
         $this->assertEmpty($crawler->filter('.empty')->html());
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\Tests\DomCrawler;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\DomCrawler\Field\ChoiceFormField;
 use Symfony\Component\Panther\Tests\TestCase;
 
@@ -21,6 +22,7 @@ use Symfony\Component\Panther\Tests\TestCase;
  */
 class FormTest extends TestCase
 {
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -47,6 +49,7 @@ class FormTest extends TestCase
         $this->assertFalse($form->has('notexist'));
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -70,6 +73,7 @@ class FormTest extends TestCase
         $this->assertSame('DELETE', $crawler->filter('#special-submit')->form()->getMethod());
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -96,6 +100,7 @@ class FormTest extends TestCase
         $this->assertSame($originalValues, $form->getValues());
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -131,6 +136,7 @@ class FormTest extends TestCase
         ], $form->getPhpValues());
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -146,6 +152,7 @@ class FormTest extends TestCase
         $this->assertNotContains(self::$uploadFileName, $form->getValues());
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
