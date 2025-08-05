@@ -291,7 +291,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
         return new PantherCrawler($elements, $this->webDriver, $this->webDriver->getCurrentURL());
     }
 
-    protected function doRequest($request)
+    protected function doRequest(object $request): object
     {
         throw new LogicException('Not useful in WebDriver mode.');
     }
