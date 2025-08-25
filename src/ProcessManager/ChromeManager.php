@@ -105,7 +105,7 @@ final class ChromeManager implements BrowserManagerInterface
         }
 
         // Enable devtools for debugging
-        if (filter_var($_SERVER['PANTHER_DEVTOOLS'] ?? true, \FILTER_VALIDATE_BOOLEAN)) {
+        if (filter_var($_SERVER['PANTHER_DEVTOOLS'] ?? false, \FILTER_VALIDATE_BOOLEAN)) {
             $args[] = '--auto-open-devtools-for-tabs';
         }
 
