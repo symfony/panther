@@ -203,6 +203,7 @@ trait PantherTestCaseTrait
             }
         }
 
+        // @phpstan-ignore-next-line
         if (is_a(self::class, KernelTestCase::class, true)) {
             static::bootKernel($kernelOptions); // @phpstan-ignore-line
         }
@@ -247,6 +248,7 @@ trait PantherTestCaseTrait
             self::$httpBrowserClient = new HttpBrowserClient(HttpClient::create($httpClientOptions));
         }
 
+        // @phpstan-ignore-next-line
         if (is_a(self::class, KernelTestCase::class, true)) {
             static::bootKernel($kernelOptions); // @phpstan-ignore-line
         }

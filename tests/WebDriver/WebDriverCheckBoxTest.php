@@ -15,6 +15,7 @@ namespace Symfony\Component\Panther\Tests\WebDriver;
 
 use Facebook\WebDriver\Exception\NoSuchElementException;
 use Facebook\WebDriver\Exception\UnsupportedOperationException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Panther\Tests\TestCase;
 use Symfony\Component\Panther\WebDriver\WebDriverCheckbox;
 
@@ -39,6 +40,7 @@ class WebDriverCheckBoxTest extends TestCase
     /**
      * @dataProvider getOptionsDataProvider
      */
+    #[DataProvider('getOptionsDataProvider')]
     public function testWebDriverCheckboxGetOptions(string $type, array $options): void
     {
         $crawler = self::createPantherClient()->request('GET', self::$baseUri.'/form.html');
@@ -77,6 +79,7 @@ class WebDriverCheckBoxTest extends TestCase
     /**
      * @dataProvider selectByValueDataProvider
      */
+    #[DataProvider('selectByValueDataProvider')]
     public function testWebDriverCheckboxSelectByValue(string $type, array $selectedOptions): void
     {
         $crawler = self::createPantherClient()->request('GET', self::$baseUri.'/form.html');
@@ -114,6 +117,7 @@ class WebDriverCheckBoxTest extends TestCase
     /**
      * @dataProvider selectByIndexDataProvider
      */
+    #[DataProvider('selectByIndexDataProvider')]
     public function testWebDriverCheckboxSelectByIndex(string $type, array $selectedOptions): void
     {
         $crawler = self::createPantherClient()->request('GET', self::$baseUri.'/form.html');
@@ -151,6 +155,7 @@ class WebDriverCheckBoxTest extends TestCase
     /**
      * @dataProvider selectByVisibleTextDataProvider
      */
+    #[DataProvider('selectByVisibleTextDataProvider')]
     public function testWebDriverCheckboxSelectByVisibleText(string $type, string $text, string $value): void
     {
         $crawler = self::createPantherClient()->request('GET', self::$baseUri.'/form.html');
@@ -172,6 +177,7 @@ class WebDriverCheckBoxTest extends TestCase
     /**
      * @dataProvider selectByVisiblePartialTextDataProvider
      */
+    #[DataProvider('selectByVisiblePartialTextDataProvider')]
     public function testWebDriverCheckboxSelectByVisiblePartialText(string $type, string $text, string $value): void
     {
         $crawler = self::createPantherClient()->request('GET', self::$baseUri.'/form.html');
@@ -303,6 +309,7 @@ class WebDriverCheckBoxTest extends TestCase
     /**
      * @dataProvider selectByValueDataProviderWithZeroValue
      */
+    #[DataProvider('selectByValueDataProviderWithZeroValue')]
     public function testWebDriverCheckboxSelectByValueWithZeroValue(string $type, string $selectedAndExpectedOption): void
     {
         $crawler = self::createPantherClient()->request('GET', self::$baseUri.'/form.html');

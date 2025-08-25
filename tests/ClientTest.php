@@ -20,6 +20,7 @@ use Facebook\WebDriver\Exception\TimeoutException;
 use Facebook\WebDriver\JavaScriptExecutor;
 use Facebook\WebDriver\WebDriver;
 use Facebook\WebDriver\WebDriverExpectedCondition;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\BrowserKit\AbstractBrowser;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\BrowserKit\CookieJar as BrowserKitCookieJar;
@@ -59,6 +60,7 @@ class ClientTest extends TestCase
     /**
      * @dataProvider waitForDataProvider
      */
+    #[DataProvider('waitForDataProvider')]
     public function testWaitFor(string $locator): void
     {
         $client = self::createPantherClient();
@@ -86,6 +88,7 @@ class ClientTest extends TestCase
     /**
      * @dataProvider waitForDataProvider
      */
+    #[DataProvider('waitForDataProvider')]
     public function testWaitForVisibility(string $locator): void
     {
         $client = self::createPantherClient();
@@ -98,6 +101,7 @@ class ClientTest extends TestCase
     /**
      * @dataProvider waitForDataProvider
      */
+    #[DataProvider('waitForDataProvider')]
     public function testWaitForInvisibility(string $locator): void
     {
         $client = self::createPantherClient();
@@ -110,6 +114,7 @@ class ClientTest extends TestCase
     /**
      * @dataProvider waitForDataProvider
      */
+    #[DataProvider('waitForDataProvider')]
     public function testWaitForElementToContain(string $locator): void
     {
         $client = self::createPantherClient();
@@ -122,6 +127,7 @@ class ClientTest extends TestCase
     /**
      * @dataProvider waitForDataProvider
      */
+    #[DataProvider('waitForDataProvider')]
     public function testWaitForElementToNotContain(string $locator): void
     {
         $client = self::createPantherClient();
@@ -134,6 +140,7 @@ class ClientTest extends TestCase
     /**
      * @dataProvider waitForDataProvider
      */
+    #[DataProvider('waitForDataProvider')]
     public function testWaitForEnabled(string $locator): void
     {
         $client = self::createPantherClient();
@@ -146,6 +153,7 @@ class ClientTest extends TestCase
     /**
      * @dataProvider waitForDataProvider
      */
+    #[DataProvider('waitForDataProvider')]
     public function testWaitForDisabled(string $locator): void
     {
         $client = self::createPantherClient();
@@ -158,6 +166,7 @@ class ClientTest extends TestCase
     /**
      * @dataProvider waitForDataProvider
      */
+    #[DataProvider('waitForDataProvider')]
     public function testWaitForAttributeToContain(string $locator): void
     {
         $client = self::createPantherClient();
@@ -170,6 +179,7 @@ class ClientTest extends TestCase
     /**
      * @dataProvider waitForDataProvider
      */
+    #[DataProvider('waitForDataProvider')]
     public function testWaitForAttributeToNotContain(string $locator): void
     {
         $client = self::createPantherClient();
@@ -182,6 +192,7 @@ class ClientTest extends TestCase
     /**
      * @dataProvider waitForDataProvider
      */
+    #[DataProvider('waitForDataProvider')]
     public function testWaitForStalenessElement(string $locator): void
     {
         $client = self::createPantherClient();
@@ -247,6 +258,7 @@ class ClientTest extends TestCase
     /**
      * @dataProvider waitForExceptionsProvider
      */
+    #[DataProvider('waitForDataProvider')]
     public function testWaitForExceptions(string $method, array $args, string $message): void
     {
         $this->expectException(TimeoutException::class);
@@ -282,15 +294,15 @@ setTimeout(function (parentArgs) {
     const t = document.querySelector(parentArgs[0]).innerText;
     callback(t);
 }, 100, arguments);
-JS
-            , ['.p-1']);
+JS, ['.p-1']);
 
         $this->assertSame('P1', $innerText);
     }
 
     /**
-     * @dataProvider clientFactoryProvider
+     * @dataProvider clientFactoryProviderWithType
      */
+    #[DataProvider('clientFactoryProviderWithType')]
     public function testGetCrawler(callable $clientFactory, string $type): void
     {
         $crawler = $this->request($clientFactory, '/basic.html');
@@ -320,8 +332,9 @@ JS
     }
 
     /**
-     * @dataProvider clientFactoryProvider
+     * @dataProvider clientFactoryProviderWithType
      */
+    #[DataProvider('clientFactoryProviderWithType')]
     public function testFollowLink(callable $clientFactory, string $type): void
     {
         /** @var AbstractBrowser $client */
@@ -340,6 +353,7 @@ JS
     /**
      * @dataProvider clientFactoryProvider
      */
+    #[DataProvider('waitForDataProvider')]
     public function testSubmitForm(callable $clientFactory): void
     {
         /** @var AbstractBrowser $client */
@@ -395,6 +409,7 @@ JS
     /**
      * @dataProvider clientFactoryProvider
      */
+    #[DataProvider('waitForDataProvider')]
     public function testSubmitFormWithValues(callable $clientFactory): void
     {
         /** @var AbstractBrowser $client */
@@ -421,6 +436,7 @@ JS
     /**
      * @dataProvider clientFactoryProvider
      */
+    #[DataProvider('waitForDataProvider')]
     public function testHistory(callable $clientFactory): void
     {
         /** @var AbstractBrowser $client */
@@ -446,8 +462,9 @@ JS
     }
 
     /**
-     * @dataProvider clientFactoryProvider
+     * @dataProvider clientFactoryProviderWithType
      */
+    #[DataProvider('clientFactoryProviderWithType')]
     public function testCookie(callable $clientFactory, string $type): void
     {
         /** @var AbstractBrowser $client */
@@ -500,6 +517,7 @@ JS
     /**
      * @dataProvider clientFactoryProvider
      */
+    #[DataProvider('waitForDataProvider')]
     public function testServerPort(callable $clientFactory): void
     {
         $expectedPort = $_SERVER['PANTHER_WEB_SERVER_PORT'] ?? '9080';
@@ -510,6 +528,7 @@ JS
     /**
      * @dataProvider clientFactoryProvider
      */
+    #[DataProvider('waitForDataProvider')]
     public function testBrowserProvider(callable $clientFactory): void
     {
         $client = $clientFactory();
@@ -599,6 +618,7 @@ JS
     /**
      * @dataProvider providePrefersReducedMotion
      */
+    #[DataProvider('waitForDataProvider')]
     public function testPrefersReducedMotion(string $browser): void
     {
         $client = self::createPantherClient(['browser' => $browser]);
@@ -611,6 +631,7 @@ JS
     /**
      * @dataProvider providePrefersReducedMotion
      */
+    #[DataProvider('waitForDataProvider')]
     public function testPrefersReducedMotionDisabled(string $browser): void
     {
         $this->expectException(ElementClickInterceptedException::class);

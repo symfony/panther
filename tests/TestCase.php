@@ -30,6 +30,21 @@ abstract class TestCase extends PantherTestCase
     public static function clientFactoryProvider(): iterable
     {
         // Tests must pass with both Panther and HttpBrowser
+        yield 'HttpBrowser' => [[static::class, 'createHttpBrowserClient']];
+        yield 'Panther' => [[static::class, 'createPantherClient']];
+
+        if ('' === ($_SERVER['SKIP_FIREFOX'] ?? '')) {
+            $firefoxFactory = static function (): PantherClient {
+                return self::createPantherClient(['browser' => self::FIREFOX]);
+            };
+
+            yield 'PantherFirefox' => [$firefoxFactory];
+        }
+    }
+
+    public static function clientFactoryProviderWithType(): iterable
+    {
+        // Tests must pass with both Panther and HttpBrowser
         yield 'HttpBrowser' => [[static::class, 'createHttpBrowserClient'], HttpBrowserClient::class];
         yield 'Panther' => [[static::class, 'createPantherClient'], PantherClient::class];
 

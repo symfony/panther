@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\Tests\WebDriver;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Panther\Tests\TestCase;
 
 /**
@@ -28,6 +29,7 @@ class WebDriverMouseTest extends TestCase
     /**
      * @dataProvider provide
      */
+    #[DataProvider('provide')]
     public function test(string $method, string $cssSelector, string $result): void
     {
         $client = self::createPantherClient();

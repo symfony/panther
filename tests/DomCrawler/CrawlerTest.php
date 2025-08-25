@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace Symfony\Component\Panther\Tests\DomCrawler;
 
 use Facebook\WebDriver\WebDriverElement;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Panther\Client;
 use Symfony\Component\Panther\Client as PantherClient;
@@ -37,6 +39,7 @@ class CrawlerTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
+    #[DataProvider('clientFactoryProvider')]
     public function testGetUri(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/basic.html');
@@ -46,6 +49,7 @@ class CrawlerTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
+    #[DataProvider('clientFactoryProvider')]
     public function testHtml(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/basic.html');
@@ -55,6 +59,7 @@ class CrawlerTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
+    #[DataProvider('clientFactoryProvider')]
     public function testIterate(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/basic.html');
@@ -66,6 +71,7 @@ class CrawlerTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
+    #[DataProvider('clientFactoryProvider')]
     public function testFilterXpath(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/basic.html');
@@ -89,6 +95,7 @@ class CrawlerTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
+    #[DataProvider('clientFactoryProvider')]
     public function testFilter(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/basic.html');
@@ -105,6 +112,7 @@ class CrawlerTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
+    #[DataProvider('clientFactoryProvider')]
     public function testReduce(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/basic.html');
@@ -118,6 +126,7 @@ class CrawlerTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
+    #[DataProvider('clientFactoryProvider')]
     public function testEq(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/basic.html');
@@ -127,6 +136,7 @@ class CrawlerTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
+    #[DataProvider('clientFactoryProvider')]
     public function testFirst(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/basic.html');
@@ -136,6 +146,7 @@ class CrawlerTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
+    #[DataProvider('clientFactoryProvider')]
     public function testLast(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/basic.html');
@@ -145,6 +156,7 @@ class CrawlerTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
+    #[DataProvider('clientFactoryProvider')]
     public function testSiblings(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/basic.html');
@@ -160,6 +172,7 @@ class CrawlerTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
+    #[DataProvider('clientFactoryProvider')]
     public function testMatches(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/basic.html');
@@ -176,6 +189,7 @@ class CrawlerTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
+    #[DataProvider('clientFactoryProvider')]
     public function testClosest(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/closest.html');
@@ -204,6 +218,7 @@ class CrawlerTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
+    #[DataProvider('clientFactoryProvider')]
     public function testNextAll(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/basic.html');
@@ -219,6 +234,7 @@ class CrawlerTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
+    #[DataProvider('clientFactoryProvider')]
     public function testPreviousAll(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/basic.html');
@@ -234,6 +250,7 @@ class CrawlerTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
+    #[DataProvider('clientFactoryProvider')]
     public function testChildren(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/basic.html');
@@ -249,6 +266,7 @@ class CrawlerTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
+    #[DataProvider('clientFactoryProvider')]
     public function testChildrenFilter($clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/basic.html');
@@ -266,6 +284,8 @@ class CrawlerTest extends TestCase
      *
      * @group legacy
      */
+    #[DataProvider('clientFactoryProvider')]
+    #[Group('legacy')]
     public function testParents(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/basic.html');
@@ -285,6 +305,7 @@ class CrawlerTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
+    #[DataProvider('clientFactoryProvider')]
     public function testAncestors(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/basic.html');
@@ -300,6 +321,7 @@ class CrawlerTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
+    #[DataProvider('clientFactoryProvider')]
     public function testExtract(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/basic.html');
@@ -311,8 +333,9 @@ class CrawlerTest extends TestCase
     }
 
     /**
-     * @dataProvider clientFactoryProvider
+     * @dataProvider clientFactoryProviderWithType
      */
+    #[DataProvider('clientFactoryProviderWithType')]
     public function testLink(callable $clientFactory, string $type): void
     {
         $crawler = $this->request($clientFactory, '/link.html');
@@ -340,8 +363,9 @@ class CrawlerTest extends TestCase
     }
 
     /**
-     * @dataProvider clientFactoryProvider
+     * @dataProvider clientFactoryProviderWithType
      */
+    #[DataProvider('clientFactoryProviderWithType')]
     public function testImage(callable $clientFactory, string $type): void
     {
         $crawler = $this->request($clientFactory, '/link.html');
@@ -368,6 +392,7 @@ class CrawlerTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
+    #[DataProvider('clientFactoryProvider')]
     public function testTextDefault(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/basic.html');
@@ -377,6 +402,7 @@ class CrawlerTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
+    #[DataProvider('clientFactoryProvider')]
     public function testHtmlDefault(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/basic.html');
@@ -386,6 +412,7 @@ class CrawlerTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
+    #[DataProvider('clientFactoryProvider')]
     public function testEmptyHtml(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/basic.html');
@@ -395,6 +422,7 @@ class CrawlerTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
+    #[DataProvider('clientFactoryProvider')]
     public function testEmptyHtmlWithoutDefault(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/basic.html');
@@ -402,8 +430,9 @@ class CrawlerTest extends TestCase
     }
 
     /**
-     * @dataProvider clientFactoryProvider
+     * @dataProvider clientFactoryProviderWithType
      */
+    #[DataProvider('clientFactoryProviderWithType')]
     public function testNormalizeText(callable $clientFactory, string $clientClass): void
     {
         if (PantherClient::class !== $clientClass) {

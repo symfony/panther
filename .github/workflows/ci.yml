@@ -190,7 +190,7 @@ jobs:
         - name: Remove phpunit-bridge dependency (not yet PHPUnit 10+ compliant)
           run: composer remove --dev symfony/phpunit-bridge
 
-        - name: Install latest PHPUnit 11
+        - name: Install latest PHPUnit
           run: composer require --dev --prefer-dist 'phpunit/phpunit:>=10'
 
         - name: Run tests

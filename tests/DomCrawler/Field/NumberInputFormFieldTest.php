@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\Tests\DomCrawler\Field;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\DomCrawler\Field\InputFormField;
 use Symfony\Component\Panther\Tests\TestCase;
 
@@ -24,6 +25,7 @@ class NumberInputFormFieldTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
+    #[DataProvider('clientFactoryProvider')]
     public function testGetValueWithSomeValueFromTextInput(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/input-number-form-field.html');
@@ -38,6 +40,7 @@ class NumberInputFormFieldTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
+    #[DataProvider('clientFactoryProvider')]
     public function testGetValueWithNoValueFromTextInput(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/input-number-form-field.html');
@@ -52,6 +55,7 @@ class NumberInputFormFieldTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
+    #[DataProvider('clientFactoryProvider')]
     public function testSetValueMultipleTimesInTextInput(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/input-number-form-field.html');
@@ -71,6 +75,7 @@ class NumberInputFormFieldTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
+    #[DataProvider('clientFactoryProvider')]
     public function testChangeValueFromExistingValue(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/input-number-form-field.html');

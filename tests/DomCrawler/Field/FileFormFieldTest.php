@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\Tests\DomCrawler\Field;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\DomCrawler\Field\FileFormField;
 use Symfony\Component\Panther\Tests\TestCase;
 
@@ -41,6 +42,7 @@ class FileFormFieldTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
+    #[DataProvider('clientFactoryProvider')]
     public function testFileUploadWithUpload(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/file-form-field.html');
@@ -57,6 +59,7 @@ class FileFormFieldTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
+    #[DataProvider('clientFactoryProvider')]
     public function testFileUploadWithSetValue(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/file-form-field.html');
@@ -73,7 +76,8 @@ class FileFormFieldTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
-    public function testFileUploadWithSetFilePath(callable $clientFactory, $class): void
+    #[DataProvider('clientFactoryProvider')]
+    public function testFileUploadWithSetFilePath(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/file-form-field.html');
         $form = $crawler->filter('form')->form();
@@ -92,6 +96,7 @@ class FileFormFieldTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
+    #[DataProvider('clientFactoryProvider')]
     public function testFileUploadWithInvalidValue(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/file-form-field.html');
@@ -117,6 +122,7 @@ class FileFormFieldTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
+    #[DataProvider('clientFactoryProvider')]
     public function testPreventIsNotCanonicalError(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/file-form-field.html');
