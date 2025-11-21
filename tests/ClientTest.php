@@ -572,11 +572,11 @@ JS, ['.p-1']);
             ],
         ]);
 
-        ($httpClientRef = new \ReflectionProperty($client, 'client'));
+        $httpClientRef = new \ReflectionProperty($client, 'client');
         /** @var HttpClientInterface $httpClient */
         $httpClient = $httpClientRef->getValue($client);
 
-        ($httpClientOptionsRef = new \ReflectionProperty($httpClient, 'defaultOptions'));
+        $httpClientOptionsRef = new \ReflectionProperty($httpClient, 'defaultOptions');
         $httpClientOptions = $httpClientOptionsRef->getValue($httpClient);
 
         $this->assertSame('foo:bar', $httpClientOptions['auth_basic']);
