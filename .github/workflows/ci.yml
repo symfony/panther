@@ -19,7 +19,7 @@ jobs:
                   tools: php-cs-fixer, cs2pr
 
             - name: PHP Coding Standards Fixer
-              run: php-cs-fixer fix --dry-run --format checkstyle | cs2pr
+              run: php-cs-fixer fix --dry-run --diff
 
     phpstan:
         runs-on: ubuntu-latest

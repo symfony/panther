@@ -282,8 +282,7 @@ setTimeout(function (parentArgs) {
     const t = document.querySelector(parentArgs[0]).innerText;
     callback(t);
 }, 100, arguments);
-JS
-            , ['.p-1']);
+JS, ['.p-1']);
 
         $this->assertSame('P1', $innerText);
     }
