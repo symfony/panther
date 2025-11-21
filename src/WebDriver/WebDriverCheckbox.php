@@ -3,7 +3,7 @@
 /*
  * This file is part of the Panther project.
  *
- * (c) Kévin Dunglas <dunglas@gmail.com>
+ * (c) Kévin Dunglas <kevin@dunglas.dev>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -27,7 +27,7 @@ use Facebook\WebDriver\WebDriverSelectInterface;
  *
  * This class has been proposed to php-webdriver/php-webdriver and will be deleted from this project when it will me merged.
  *
- * @author Kévin Dunglas <dunglas@gmail.com>
+ * @author Kévin Dunglas <kevin@dunglas.dev>
  *
  * @internal
  *

@@ -22,7 +22,7 @@
             "homepage": "https://symfony.com/contributors"
         }
     ],
-    "homepage": "https://symfony.com/doc/current/testing/end_to_end.html",
+    "homepage": "https://symfony.com/packages/Panther",
     "require": {
         "php": ">=8.1",
         "ext-dom": "*",

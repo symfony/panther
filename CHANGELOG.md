@@ -4,6 +4,8 @@ CHANGELOG
 2.3.0
 -----
 
+* Add support for PHP 8.5
+* Add support for Symfony 8
 * Disable dev-tools by default
 
 2.2.0
