@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+2.3.0
+-----
+
+* Disable dev-tools by default
+
 2.2.0
 -----
 
