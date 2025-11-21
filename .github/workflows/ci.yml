@@ -73,7 +73,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                php-versions: ['8.1', '8.2', '8.3', '8.4']
+                php-versions: ['8.1', '8.2', '8.3', '8.4', '8.5']
             fail-fast: false
         name: PHP ${{ matrix.php-versions }} Test dev dependencies on ubuntu-latest
         steps:
@@ -97,7 +97,7 @@ jobs:
 
     phpunit-lowest:
         runs-on: ubuntu-latest
-        name: PHP 8.4 (lowest) Test on ubuntu-latest
+        name: PHP 8.5 (lowest) Test on ubuntu-latest
         steps:
             - name: Checkout
               uses: actions/checkout@v4
@@ -105,7 +105,7 @@ jobs:
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: '8.4'
+                  php-version: '8.5'
                   extensions: zip
 
             - name: Install dependencies
@@ -120,7 +120,7 @@ jobs:
 
     phpunit-windows:
         runs-on: windows-latest
-        name: PHP 8.4 Test on windows-latest
+        name: PHP 8.5 Test on windows-latest
         env:
             PANTHER_FIREFOX_BINARY: 'C:\Program Files\Mozilla Firefox\firefox.exe'
             SKIP_FIREFOX: 1
@@ -131,7 +131,7 @@ jobs:
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: '8.4'
+                  php-version: '8.5'
                   extensions: zip
 
             - name: Install dependencies
@@ -142,7 +142,7 @@ jobs:
 
     phpunit-macos:
         runs-on: macos-latest
-        name: PHP 8.4 Test on macos-latest
+        name: PHP 8.5 Test on macos-latest
         steps:
             - name: Checkout
               uses: actions/checkout@v4
@@ -150,7 +150,7 @@ jobs:
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: '8.4'
+                  php-version: '8.5'
                   extensions: zip
 
             - name: Install Firefox
@@ -169,9 +169,9 @@ jobs:
       runs-on: ubuntu-latest
       strategy:
         matrix:
-          php-versions: [ '8.1', '8.2', '8.3', '8.4']
+          php-versions: ['8.1', '8.2', '8.3', '8.4', '8.5']
         fail-fast: false
-      name: PHP ${{ matrix.php-versions }} (PHPUnit 11) Test on ubuntu-latest
+      name: PHP ${{ matrix.php-versions }} (PHPUnit 10) Test on ubuntu-latest
       steps:
         - name: Checkout
           uses: actions/checkout@v4

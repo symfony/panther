@@ -3,7 +3,7 @@
 /*
  * This file is part of the Panther project.
  *
- * (c) Kévin Dunglas <dunglas@gmail.com>
+ * (c) Kévin Dunglas <kevin@dunglas.dev>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -34,7 +34,7 @@ use Symfony\Component\Panther\ProcessManager\ChromeManager;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
- * @author Kévin Dunglas <dunglas@gmail.com>
+ * @author Kévin Dunglas <kevin@dunglas.dev>
  */
 class ClientTest extends TestCase
 {
@@ -572,12 +572,10 @@ JS, ['.p-1']);
             ],
         ]);
 
-        ($httpClientRef = new \ReflectionProperty($client, 'client'))->setAccessible(true);
         /** @var HttpClientInterface $httpClient */
-        $httpClient = $httpClientRef->getValue($client);
+        $httpClient = (new \ReflectionProperty($client, 'client'))->getValue($client);
 
-        ($httpClientOptionsRef = new \ReflectionProperty($httpClient, 'defaultOptions'))->setAccessible(true);
-        $httpClientOptions = $httpClientOptionsRef->getValue($httpClient);
+        $httpClientOptions = (new \ReflectionProperty($httpClient, 'defaultOptions'))->getValue($httpClient);
 
         $this->assertSame('foo:bar', $httpClientOptions['auth_basic']);
         $this->assertSame($closure, $httpClientOptions['on_progress']);
