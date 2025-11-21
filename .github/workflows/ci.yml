@@ -19,7 +19,7 @@ jobs:
                   tools: php-cs-fixer, cs2pr
 
             - name: PHP Coding Standards Fixer
-              run: php-cs-fixer fix --dry-run --format checkstyle | cs2pr
+              run: php-cs-fixer fix --dry-run --diff
 
     phpstan:
         runs-on: ubuntu-latest
@@ -190,8 +190,8 @@ jobs:
         - name: Remove phpunit-bridge dependency (not yet PHPUnit 10+ compliant)
           run: composer remove --dev symfony/phpunit-bridge
 
-        - name: Install latest PHPUnit 11
-          run: composer require --dev --prefer-dist 'phpunit/phpunit:>=10'
+        - name: Install latest PHPUnit 10
+          run: composer require --dev --prefer-dist 'phpunit/phpunit:10.5.*'
 
         - name: Run tests
           run: vendor/bin/phpunit --configuration phpunit.xml.dist.10
