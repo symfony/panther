@@ -14,33 +14,33 @@
     "authors": [
         {
             "name": "Kévin Dunglas",
-            "email": "dunglas@gmail.com",
-            "homepage": "https://dunglas.fr"
+            "email": "kevin@dunglas.dev",
+            "homepage": "https://dunglas.dev"
         },
         {
             "name": "Symfony Community",
             "homepage": "https://symfony.com/contributors"
         }
     ],
-    "homepage": "https://dunglas.fr",
+    "homepage": "https://symfony.com/packages/Panther",
     "require": {
-        "php": ">=8.0",
+        "php": ">=8.1",
         "ext-dom": "*",
         "ext-libxml": "*",
         "php-webdriver/webdriver": "^1.14.0",
-        "symfony/browser-kit": "^5.4 || ^6.4 || ^7.0",
-        "symfony/dependency-injection": "^5.4 || ^6.4 || ^7.0",
+        "symfony/browser-kit": "^6.4 || ^7.3 || ^8.0",
+        "symfony/dependency-injection": "^6.4 || ^7.3 || ^8.0",
         "symfony/deprecation-contracts": "^2.4 || ^3",
-        "symfony/dom-crawler": "^5.4 || ^6.4 || ^7.0",
+        "symfony/dom-crawler": "^6.4 || ^7.3 || ^8.0",
         "symfony/http-client": "^6.4 || ^7.0",
-        "symfony/http-kernel": "^5.4 || ^6.4 || ^7.0",
-        "symfony/process": "^5.4 || ^6.4 || ^7.0"
+        "symfony/http-kernel": "^6.4 || ^7.3 || ^8.0",
+        "symfony/process": "^6.4 || ^7.3 || ^8.0"
     },
     "require-dev": {
-        "symfony/css-selector": "^5.4 || ^6.4 || ^7.0",
-        "symfony/framework-bundle": "^5.4 || ^6.4 || ^7.0",
-        "symfony/mime": "^5.4 || ^6.4 || ^7.0",
-        "symfony/phpunit-bridge": "^7.2.0"
+        "symfony/css-selector": "^6.4 || ^7.3 || ^8.0",
+        "symfony/framework-bundle": "^6.4 || ^7.3 || ^8.0",
+        "symfony/mime": "^6.4 || ^7.3 || ^8.0",
+        "symfony/phpunit-bridge": ">=7.3.4"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,

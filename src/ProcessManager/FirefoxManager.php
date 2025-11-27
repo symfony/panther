@@ -3,7 +3,7 @@
 /*
  * This file is part of the Panther project.
  *
- * (c) Kévin Dunglas <dunglas@gmail.com>
+ * (c) Kévin Dunglas <kevin@dunglas.dev>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -22,7 +22,7 @@ use Symfony\Component\Process\ExecutableFinder;
 use Symfony\Component\Process\Process;
 
 /**
- * @author Kévin Dunglas <dunglas@gmail.com>
+ * @author Kévin Dunglas <kevin@dunglas.dev>
  */
 final class FirefoxManager implements BrowserManagerInterface
 {
@@ -110,7 +110,7 @@ final class FirefoxManager implements BrowserManagerInterface
         }
 
         // Enable devtools for debugging
-        if (filter_var($_SERVER['PANTHER_DEVTOOLS'] ?? true, \FILTER_VALIDATE_BOOLEAN)) {
+        if (filter_var($_SERVER['PANTHER_DEVTOOLS'] ?? false, \FILTER_VALIDATE_BOOLEAN)) {
             $args[] = '--devtools';
         }
 

@@ -21,7 +21,7 @@ If you like this software, help save the (real) panthers by [donating to the Pan
 
 ## Credits
 
-Created by [Kévin Dunglas](https://dunglas.fr). Sponsored by [Les-Tilleuls.coop](https://les-tilleuls.coop).
+Created by [Kévin Dunglas](https://dunglas.dev). Sponsored by [Les-Tilleuls.coop](https://les-tilleuls.coop).
 
 Panther is built on top of [PHP WebDriver](https://github.com/php-webdriver/php-webdriver) and [several other FOSS libraries](https://symfony.com/blog/introducing-symfony-panther-a-browser-testing-and-web-scrapping-library-for-php#thank-you-open-source).
 It has been inspired by [Nightwatch.js](http://nightwatchjs.org/), a WebDriver-based testing tool for JavaScript.

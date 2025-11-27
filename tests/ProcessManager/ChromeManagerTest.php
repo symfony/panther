@@ -3,7 +3,7 @@
 /*
  * This file is part of the Panther project.
  *
- * (c) Kévin Dunglas <dunglas@gmail.com>
+ * (c) Kévin Dunglas <kevin@dunglas.dev>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -18,7 +18,7 @@ use Symfony\Component\Panther\Exception\RuntimeException;
 use Symfony\Component\Panther\ProcessManager\ChromeManager;
 
 /**
- * @author Kévin Dunglas <dunglas@gmail.com>
+ * @author Kévin Dunglas <kevin@dunglas.dev>
  */
 class ChromeManagerTest extends TestCase
 {

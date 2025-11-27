@@ -3,7 +3,7 @@
 /*
  * This file is part of the Panther project.
  *
- * (c) Kévin Dunglas <dunglas@gmail.com>
+ * (c) Kévin Dunglas <kevin@dunglas.dev>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -26,7 +26,7 @@ use Symfony\Component\Panther\ProcessManager\WebServerManager;
 /**
  * Eases conditional class definition.
  *
- * @author Kévin Dunglas <dunglas@gmail.com>
+ * @author Kévin Dunglas <kevin@dunglas.dev>
  */
 trait PantherTestCaseTrait
 {
@@ -203,6 +203,7 @@ trait PantherTestCaseTrait
             }
         }
 
+        /* @phpstan-ignore-next-line */
         if (is_a(self::class, KernelTestCase::class, true)) {
             static::bootKernel($kernelOptions); // @phpstan-ignore-line
         }
@@ -247,6 +248,7 @@ trait PantherTestCaseTrait
             self::$httpBrowserClient = new HttpBrowserClient(HttpClient::create($httpClientOptions));
         }
 
+        /* @phpstan-ignore-next-line */
         if (is_a(self::class, KernelTestCase::class, true)) {
             static::bootKernel($kernelOptions); // @phpstan-ignore-line
         }
