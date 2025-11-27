@@ -14,9 +14,11 @@ declare(strict_types=1);
 namespace Symfony\Component\Panther\Tests;
 
 use Facebook\WebDriver\Exception\ElementClickInterceptedException;
+use Facebook\WebDriver\Exception\Internal\UnexpectedResponseException;
 use Facebook\WebDriver\Exception\InvalidSelectorException;
 use Facebook\WebDriver\Exception\StaleElementReferenceException;
 use Facebook\WebDriver\Exception\TimeoutException;
+use Facebook\WebDriver\Exception\WebDriverException;
 use Facebook\WebDriver\JavaScriptExecutor;
 use Facebook\WebDriver\WebDriver;
 use Facebook\WebDriver\WebDriverExpectedCondition;
@@ -30,6 +32,7 @@ use Symfony\Component\Panther\Cookie\CookieJar;
 use Symfony\Component\Panther\DomCrawler\Crawler;
 use Symfony\Component\Panther\Exception\LogicException;
 use Symfony\Component\Panther\PantherTestCase;
+use Symfony\Component\Panther\ProcessManager\BrowserManagerInterface;
 use Symfony\Component\Panther\ProcessManager\ChromeManager;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
@@ -623,5 +626,38 @@ JS, ['.p-1']);
     {
         yield 'Chrome' => [PantherTestCase::CHROME];
         yield 'Firefox' => [PantherTestCase::FIREFOX];
+    }
+
+    /**
+     * In order to test if destructing is fine, even when WebDriver throws exceptions, we test Client directly and use
+     * mocks to simulate wrong webdriver behaviour.
+     *
+     * @dataProvider provideSupportedWebDriverExceptions
+     */
+    public function testQuitBrowserManagerDuringDeconstructionEvenIfWebDriverThrowsExceptions(\Throwable $exception): void
+    {
+        $webDriverMock = $this->createMock(WebDriver::class);
+        $browserManagerMock = $this->createMock(BrowserManagerInterface::class);
+
+        $browserManagerMock->expects(self::once())
+            ->method('start')
+            ->willReturn($webDriverMock);
+        $browserManagerMock->expects(self::once())
+            ->method('quit');
+
+        $webDriverMock->expects(self::once())
+            ->method('quit')
+            ->willThrowException($exception);
+
+        $client = new Client($browserManagerMock);
+        $client->start();
+
+        unset($client);
+    }
+
+    public static function provideSupportedWebDriverExceptions(): iterable
+    {
+        yield 'WebDriverException' => [new WebDriverException('something went wrong')];
+        yield 'UnexpectedResponseException' => [UnexpectedResponseException::forError('something went wrong')];
     }
 }

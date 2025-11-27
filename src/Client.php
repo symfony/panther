@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace Symfony\Component\Panther;
 
 use Facebook\WebDriver\Exception\NoSuchElementException;
+use Facebook\WebDriver\Exception\PhpWebDriverExceptionInterface;
 use Facebook\WebDriver\Exception\TimeoutException;
-use Facebook\WebDriver\Exception\WebDriverException;
 use Facebook\WebDriver\JavaScriptExecutor;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriver;
@@ -108,11 +108,7 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
 
     public function __destruct()
     {
-        try {
-            $this->quit();
-        } catch (WebDriverException) {
-            // ignore
-        }
+        $this->quit();
     }
 
     public function start(): void
@@ -602,8 +598,12 @@ final class Client extends AbstractBrowser implements WebDriver, JavaScriptExecu
     public function quit(bool $quitBrowserManager = true): void
     {
         if (null !== $this->webDriver) {
-            $this->webDriver->quit();
-            $this->webDriver = null;
+            try {
+                $this->webDriver->quit();
+                $this->webDriver = null;
+            } catch (PhpWebDriverExceptionInterface) {
+                // ignore
+            }
         }
 
         if ($quitBrowserManager) {
