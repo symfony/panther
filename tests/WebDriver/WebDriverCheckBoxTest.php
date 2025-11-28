@@ -15,6 +15,7 @@ namespace Symfony\Component\Panther\Tests\WebDriver;
 
 use Facebook\WebDriver\Exception\NoSuchElementException;
 use Facebook\WebDriver\Exception\UnsupportedOperationException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Panther\Tests\TestCase;
 use Symfony\Component\Panther\WebDriver\WebDriverCheckbox;
 
@@ -36,6 +37,7 @@ class WebDriverCheckBoxTest extends TestCase
         $this->assertFalse($c->isMultiple());
     }
 
+    #[DataProvider('getOptionsDataProvider')]
     /**
      * @dataProvider getOptionsDataProvider
      */
@@ -74,6 +76,7 @@ class WebDriverCheckBoxTest extends TestCase
         $this->assertSame('j3a', $c->getFirstSelectedOption()->getAttribute('value'));
     }
 
+    #[DataProvider('selectByValueDataProvider')]
     /**
      * @dataProvider selectByValueDataProvider
      */
@@ -111,6 +114,7 @@ class WebDriverCheckBoxTest extends TestCase
         $c->selectByValue('notexist');
     }
 
+    #[DataProvider('selectByIndexDataProvider')]
     /**
      * @dataProvider selectByIndexDataProvider
      */
@@ -148,6 +152,7 @@ class WebDriverCheckBoxTest extends TestCase
         $c->selectByIndex(\PHP_INT_MAX);
     }
 
+    #[DataProvider('selectByVisibleTextDataProvider')]
     /**
      * @dataProvider selectByVisibleTextDataProvider
      */
@@ -169,6 +174,7 @@ class WebDriverCheckBoxTest extends TestCase
         yield ['radio', 'J3C', 'j3c'];
     }
 
+    #[DataProvider('selectByVisiblePartialTextDataProvider')]
     /**
      * @dataProvider selectByVisiblePartialTextDataProvider
      */
@@ -300,6 +306,7 @@ class WebDriverCheckBoxTest extends TestCase
         $c->deselectByVisiblePartialText('AB');
     }
 
+    #[DataProvider('selectByValueDataProviderWithZeroValue')]
     /**
      * @dataProvider selectByValueDataProviderWithZeroValue
      */
