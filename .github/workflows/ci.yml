@@ -37,8 +37,10 @@ jobs:
 
             - name: Install dependencies
               uses: ramsey/composer-install@v3
+              with:
+                  dependency-versions: highest
               env:
-                  SYMFONY_REQUIRE: ^7
+                  SYMFONY_REQUIRE: ^8
 
             - name: Install PHPUnit dependencies
               run: vendor/bin/simple-phpunit --version
