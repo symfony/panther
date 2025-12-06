@@ -142,7 +142,7 @@ final class Crawler extends BaseCrawler implements WebDriverElement
         return $this->filterXPath($xpath)->count() > 0;
     }
 
-    public function closest(string $selector): ?self
+    public function closest(string $selector): ?static
     {
         $converter = $this->createCssSelectorConverter();
         $xpath = WebDriverBy::xpath($converter->toXPath($selector, 'self::'));
