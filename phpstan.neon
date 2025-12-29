@@ -10,6 +10,7 @@ parameters:
 	    - tests/DummyKernel.php
 	    # There are lots of missing phpunit classes since we are supporting multiple versions
 	    - src/ServerExtension.php
+	reportUnmatchedIgnoredErrors: false
 	ignoreErrors:
 		# False positive
 		- '#Call to an undefined method ReflectionType::getName\(\)\.#'
@@ -17,6 +18,8 @@ parameters:
 		- '#Call to static method PHPUnit\\Framework\\Assert::assert(Not)?Empty\(\) with Symfony\\Component\\DomCrawler\\Crawler will always evaluate to (true|false)\.#'
 		# False positive : getStatus exists for PHPUnit < 10 only
 		- '#Call to function method_exists\(\) with \$this\(Symfony\\Component\\Panther\\PantherTestCase\) and ''getStatus'' will always evaluate to true\.#'
+		# False positive : status exists for PHPUnit > 10 only
+		- '#Call to function method_exists\(\) with \$this\(Symfony\\Component\\Panther\\PantherTestCase\) and ''status'' will always evaluate to true\.#'
 		# False positive : PantherTestCase has no getClient method when symfony/framework-bundle (and WebTestCase) are not available
 		- '#Call to function method_exists\(\) with ''Symfony\\\\Component\\\\Panther\\\\PantherTestCase'' and ''getClient'' will always evaluate to true\.#'
 		# To fix in PHP WebDriver
