@@ -1,0 +1,66 @@
+---------------------------------------------------------------------------
+
+by Kocal at 2025-11-17T17:55:36Z
+
+The CI was already red before this PR btw
+
+---------------------------------------------------------------------------
+
+by dunglas at 2025-11-21T14:11:47Z
+
+@Kocal, I added Symfony 8 compatibility in https://github.com/symfony/panther/pull/682, but that would be great to merge your PR when it is green.
+
+I don't know exactly why @xabbuh downgraded PHPUnit.
+
+---------------------------------------------------------------------------
+
+by Kocal at 2025-11-22T09:03:36Z
+
+@dunglas PR rebased, I also fixed `Client::doRequest()` types.
+PHPStan is still failing there, but I'm not sure about what to do
+
+---------------------------------------------------------------------------
+
+by Kocal at 2025-11-27T10:20:13Z
+
+Everything is green 🙌🏻
+
+---------------------------------------------------------------------------
+
+by Kocal at 2025-12-26T07:44:18Z
+
+https://github.com/php-webdriver/php-webdriver/pull/1142 has been merged but not released yet
+
+---------------------------------------------------------------------------
+
+by OndraM at 2025-12-29T00:02:18Z
+
+Hi, `php-webdriver` 1.16.0 with Symfony 8 support has been released.
+
+---------------------------------------------------------------------------
+
+by Kocal at 2025-12-29T08:40:11Z
+
+The PR is finally green again, with fully Symfony 8 support 🙌🏻
+
+cc @dunglas
+
+---------------------------------------------------------------------------
+
+by tacman at 2026-01-02T19:03:34Z
+
+releasing this would allow some downstream dependencies to support Symfony 8 as well.  In particular, https://github.com/zenstruck/browser/pull/184
+
+Any chance for a merge?
+
+---------------------------------------------------------------------------
+
+by loic425 at 2026-01-05T15:53:02Z
+
+@dunglas I tested the branch with composer vcs, and it works great.
+
+---------------------------------------------------------------------------
+
+by Kocal at 2026-01-07T15:33:47Z
+
+@dunglas I addressed Copilot review comment. Any chance for a merge and release? Thanks 🙏🏻
