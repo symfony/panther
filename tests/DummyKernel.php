@@ -26,7 +26,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
  */
 class DummyKernel implements KernelInterface
 {
-    public function handle(Request $request, $type = self::MASTER_REQUEST, $catch = true): Response
+    public function handle(Request $request, $type = self::MAIN_REQUEST, $catch = true): Response
     {
         return new Response();
     }
@@ -149,5 +149,10 @@ class DummyKernel implements KernelInterface
     public function getBuildDir(): string
     {
         return '';
+    }
+
+    public function getShareDir(): ?string
+    {
+        return null;
     }
 }

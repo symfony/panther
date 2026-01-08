@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Symfony\Component\Panther\Tests\DomCrawler\Field;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\DomCrawler\Field\FileFormField;
 use Symfony\Component\Panther\Tests\TestCase;
 
@@ -38,6 +39,7 @@ class FileFormFieldTest extends TestCase
         $this->assertContains($needle, $haystack);
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -54,6 +56,7 @@ class FileFormFieldTest extends TestCase
         $this->assertValueContains(self::$uploadFileName, $form['file_upload']->getValue());
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -70,6 +73,7 @@ class FileFormFieldTest extends TestCase
         $this->assertValueContains(self::$uploadFileName, $form['file_upload']->getValue());
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -89,6 +93,7 @@ class FileFormFieldTest extends TestCase
         $this->assertValueContains(self::$anotherUploadFileName, $form['file_upload']->getValue());
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
@@ -114,6 +119,7 @@ class FileFormFieldTest extends TestCase
         );
     }
 
+    #[DataProvider('clientFactoryProvider')]
     /**
      * @dataProvider clientFactoryProvider
      */
