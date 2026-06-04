@@ -43,7 +43,7 @@
         "symfony/phpunit-bridge": ">=7.3.4"
     },
     "minimum-stability": "dev",
-    "prefer-stable": true,
+    "prefer-stable": false,
     "autoload": {
         "psr-4": {
             "Symfony\\Component\\Panther\\": "src/"
