@@ -97,6 +97,10 @@ final class ChromeManager implements BrowserManagerInterface
     {
         $args = [];
 
+        // Disable the search engine choice screen shown by Chrome 127+ (mostly in the
+        // EU/EEA), which otherwise pops up and blocks automated interactions
+        $args[] = '--disable-search-engine-choice-screen';
+
         // Enable the headless mode unless PANTHER_NO_HEADLESS is defined
         if (!filter_var($_SERVER['PANTHER_NO_HEADLESS'] ?? false, \FILTER_VALIDATE_BOOLEAN)) {
             $args[] = '--headless';
