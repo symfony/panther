@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+2.5.0
+-----
+
+* Disable the search engine choice screen by default in Chrome
+
 2.3.0
 -----
 
