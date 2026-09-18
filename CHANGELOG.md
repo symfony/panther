@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+Unreleased
+----------
+
+* Fix startup errors being hidden when process output is disabled
+
 2.3.0
 -----
 
