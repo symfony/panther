@@ -22,7 +22,7 @@ use Symfony\Component\Panther\Tests\TestCase;
  */
 class WebServerManagerTest extends TestCase
 {
-    public function testRun()
+    public function testRun(): void
     {
         $server = new WebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234);
         $server->start();
@@ -31,7 +31,7 @@ class WebServerManagerTest extends TestCase
         $server->quit();
     }
 
-    public function testAlreadyRunning()
+    public function testAlreadyRunning(): void
     {
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('The port 1234 is already in use.');
@@ -47,7 +47,7 @@ class WebServerManagerTest extends TestCase
         }
     }
 
-    public function testPassEnv()
+    public function testPassEnv(): void
     {
         $server = new WebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234, '', '', ['FOO' => 'bar']);
         $server->start();
@@ -56,7 +56,7 @@ class WebServerManagerTest extends TestCase
         $server->quit();
     }
 
-    public function testPassPantherAppEnv()
+    public function testPassPantherAppEnv(): void
     {
         $value = $_SERVER['PANTHER_APP_ENV'] ?? null; // store app env
 
@@ -76,7 +76,7 @@ class WebServerManagerTest extends TestCase
         $_SERVER['PANTHER_APP_ENV'] = $value;
     }
 
-    public function testInvalidDocumentRoot()
+    public function testInvalidDocumentRoot(): void
     {
         $this->expectException(\Symfony\Component\Process\Exception\RuntimeException::class);
         $this->expectExceptionMessageMatches('#/not-exists#');
@@ -89,7 +89,7 @@ class WebServerManagerTest extends TestCase
         }
     }
 
-    public function testServerTerminatesWithDisabledOutput()
+    public function testServerTerminatesWithDisabledOutput(): void
     {
         // The web server process has its output disabled: when it terminates
         // during the readiness check, a Panther RuntimeException (not a
