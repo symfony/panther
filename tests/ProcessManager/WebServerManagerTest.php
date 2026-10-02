@@ -88,4 +88,20 @@ class WebServerManagerTest extends TestCase
             $server->quit();
         }
     }
+
+    public function testServerTerminatesWithDisabledOutput(): void
+    {
+        // The web server process has its output disabled: when it terminates
+        // during the readiness check, a Panther RuntimeException (not a
+        // Process LogicException) must be thrown, with the exit code available
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessageMatches('#^Could not start web server\. Exit code: \d+#');
+
+        $server = new WebServerManager(__DIR__.'/../fixtures/', 'nonexistent', 9080);
+        try {
+            $server->start();
+        } finally {
+            $server->quit();
+        }
+    }
 }

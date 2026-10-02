@@ -51,6 +51,11 @@ trait WebServerReadinessProbeTrait
         while (true) {
             $status = $process->getStatus();
             if (Process::STATUS_TERMINATED === $status) {
+                if ($process->isOutputDisabled()) {
+                    // Reading the output of a process with disabled output throws a LogicException
+                    throw new RuntimeException(\sprintf('Could not start %s. Exit code: %d (%s).', $service, $process->getExitCode(), $process->getExitCodeText()));
+                }
+
                 throw new RuntimeException(\sprintf('Could not start %s. Exit code: %d (%s). Error output: %s', $service, $process->getExitCode(), $process->getExitCodeText(), $process->getErrorOutput()));
             }
 
