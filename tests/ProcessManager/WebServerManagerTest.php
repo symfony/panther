@@ -22,7 +22,7 @@ use Symfony\Component\Panther\Tests\TestCase;
  */
 class WebServerManagerTest extends TestCase
 {
-    public function testRun(): void
+    public function testRun()
     {
         $server = new WebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234);
         $server->start();
@@ -31,7 +31,7 @@ class WebServerManagerTest extends TestCase
         $server->quit();
     }
 
-    public function testAlreadyRunning(): void
+    public function testAlreadyRunning()
     {
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('The port 1234 is already in use.');
@@ -47,7 +47,7 @@ class WebServerManagerTest extends TestCase
         }
     }
 
-    public function testPassEnv(): void
+    public function testPassEnv()
     {
         $server = new WebServerManager(__DIR__.'/../fixtures/', '127.0.0.1', 1234, '', '', ['FOO' => 'bar']);
         $server->start();
@@ -56,7 +56,7 @@ class WebServerManagerTest extends TestCase
         $server->quit();
     }
 
-    public function testPassPantherAppEnv(): void
+    public function testPassPantherAppEnv()
     {
         $value = $_SERVER['PANTHER_APP_ENV'] ?? null; // store app env
 
@@ -76,7 +76,7 @@ class WebServerManagerTest extends TestCase
         $_SERVER['PANTHER_APP_ENV'] = $value;
     }
 
-    public function testInvalidDocumentRoot(): void
+    public function testInvalidDocumentRoot()
     {
         $this->expectException(\Symfony\Component\Process\Exception\RuntimeException::class);
         $this->expectExceptionMessageMatches('#/not-exists#');
@@ -89,13 +89,13 @@ class WebServerManagerTest extends TestCase
         }
     }
 
-    public function testServerTerminatesWithDisabledOutput(): void
+    public function testServerTerminatesWithDisabledOutput()
     {
         // The web server process has its output disabled: when it terminates
         // during the readiness check, a Panther RuntimeException (not a
         // Process LogicException) must be thrown, with the exit code available
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessageMatches('#^Could not start web server\. Exit code: \d+#');
+        $this->expectExceptionMessageMatches('#^Could not start "web server"\. Exit code: \d+#');
 
         $server = new WebServerManager(__DIR__.'/../fixtures/', 'nonexistent', 9080);
         try {
