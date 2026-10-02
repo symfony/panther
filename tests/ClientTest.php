@@ -604,6 +604,29 @@ JS, ['.p-1']);
         self::stopWebServer();
     }
 
+    /**
+     * @dataProvider provideExternalBaseUris
+     */
+    #[DataProvider('provideExternalBaseUris')]
+    public function testCreateHttpBrowserClientSetsTheHostFromAnExternalBaseUri(string $externalBaseUri, string $expectedHost): void
+    {
+        $client = self::createHttpBrowserClient(['external_base_uri' => $externalBaseUri]);
+
+        $this->assertSame($expectedHost, $client->getServerParameter('HTTP_HOST'));
+
+        self::stopWebServer();
+    }
+
+    /**
+     * @return iterable<string, array{string, string}>
+     */
+    public static function provideExternalBaseUris(): iterable
+    {
+        yield 'with a port' => ['http://localhost:9080/', 'localhost:9080'];
+        yield 'without a port' => ['http://localhost/', 'localhost'];
+        yield 'https without a port' => ['https://localhost/', 'localhost'];
+    }
+
     public function testCreateHttpBrowserClientWithInvalidHttpClientOptions(): void
     {
         $this->expectException(\TypeError::class);
