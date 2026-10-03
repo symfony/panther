@@ -72,8 +72,11 @@ jobs:
                   php-version: ${{ matrix.php-versions }}
                   extensions: zip
 
-            - name: Allow dev dependencies
-              run: composer config minimum-stability dev
+            - name: Force dev dependencies
+              # composer.json already sets "minimum-stability: dev", but with
+              # "prefer-stable: true" Composer still installs stable releases.
+              # Disabling it makes this job actually resolve the "*-dev" versions.
+              run: composer config prefer-stable false
 
             - name: Install dependencies
               uses: ramsey/composer-install@v3
