@@ -254,7 +254,13 @@ trait PantherTestCaseTrait
         }
 
         $urlComponents = parse_url(self::$baseUri);
-        self::$httpBrowserClient->setServerParameter('HTTP_HOST', \sprintf('%s:%s', $urlComponents['host'], $urlComponents['port']));
+        // parse_url() omits the port when the URI does not carry one, as an
+        // external_base_uri on the default port does not.
+        $host = $urlComponents['host'];
+        if (isset($urlComponents['port'])) {
+            $host .= ':'.$urlComponents['port'];
+        }
+        self::$httpBrowserClient->setServerParameter('HTTP_HOST', $host);
         if ('https' === $urlComponents['scheme']) {
             self::$httpBrowserClient->setServerParameter('HTTPS', 'true');
         }
