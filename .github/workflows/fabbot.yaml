@@ -13,3 +13,4 @@ jobs:
         with:
             package: Panther
             check_license: true
+            check_test_return_type: false
