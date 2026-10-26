@@ -102,6 +102,40 @@ class ChoiceFormFieldTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
+    public function testGetValueFromSelectSingleWithoutValue(callable $clientFactory): void
+    {
+        $crawler = $this->request($clientFactory, '/choice-form-field.html');
+        $form = $crawler->filter('form')->form();
+
+        /** @var ChoiceFormField $field */
+        $field = $form['select_single_without_value'];
+        $this->assertInstanceOf(ChoiceFormField::class, $field);
+        $this->assertSame('none selected', $field->getValue());
+
+        $field->select('thirty');
+        $this->assertEquals('thirty', $field->getValue());
+    }
+
+    /**
+     * @dataProvider clientFactoryProvider
+     */
+    public function testGetValueFromSelectMultipleWithoutValue(callable $clientFactory): void
+    {
+        $crawler = $this->request($clientFactory, '/choice-form-field.html');
+        $form = $crawler->filter('form')->form();
+
+        /** @var ChoiceFormField $field */
+        $field = $form['select_multiple_without_value'];
+        $this->assertInstanceOf(ChoiceFormField::class, $field);
+        $this->assertSame([], $field->getValue());
+
+        $field->select('thirty');
+        $this->assertEquals(['thirty'], $field->getValue());
+    }
+
+    /**
+     * @dataProvider clientFactoryProvider
+     */
     public function testGetValueFromRadioIfSelected(callable $clientFactory): void
     {
         $crawler = $this->request($clientFactory, '/choice-form-field.html');
