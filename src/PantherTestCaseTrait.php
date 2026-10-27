@@ -55,6 +55,7 @@ trait PantherTestCaseTrait
         'hostname' => '127.0.0.1',
         'port' => 9080,
         'router' => '',
+        'base_uri' => null, // the URI used by the clients to reach the built-in web server, defaults to "http://hostname:port"
         'external_base_uri' => null,
         'readinessPath' => '',
         'env' => [],
@@ -107,6 +108,8 @@ trait PantherTestCaseTrait
             return;
         }
 
+        $baseUri = $options['base_uri'] ?? self::$defaultOptions['base_uri'];
+
         $options = [
             'webServerDir' => self::getWebServerDir($options),
             'hostname' => $options['hostname'] ?? self::$defaultOptions['hostname'],
@@ -119,7 +122,7 @@ trait PantherTestCaseTrait
         self::$webServerManager = new WebServerManager(...array_values($options));
         self::$webServerManager->start();
 
-        self::$baseUri = \sprintf('http://%s:%s', $options['hostname'], $options['port']);
+        self::$baseUri = $baseUri ?: \sprintf('http://%s:%s', $options['hostname'], $options['port']);
     }
 
     public static function isWebServerStarted(): bool

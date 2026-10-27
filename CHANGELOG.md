@@ -5,6 +5,7 @@ CHANGELOG
 -----
 
 * Disable the search engine choice screen by default in Chrome
+* Add a `base_uri` option to use a different URI than the built-in web server's listening address (e.g. when the server listens on `0.0.0.0` inside a Docker container)
 
 2.3.0
 -----

@@ -529,6 +529,26 @@ JS, ['.p-1']);
     /**
      * @dataProvider clientFactoryProvider
      */
+    public function testBaseUri(callable $clientFactory): void
+    {
+        self::stopWebServer();
+
+        // The web server keeps listening on 127.0.0.1, but the clients must use the configured base URI
+        $baseUri = \sprintf('http://localhost:%s', $_SERVER['PANTHER_WEB_SERVER_PORT'] ?? '9080');
+        self::startWebServer(['base_uri' => $baseUri]);
+        $this->assertSame($baseUri, self::$baseUri);
+
+        $crawler = $clientFactory()->request('GET', '/basic.html');
+        $this->assertStringStartsWith($baseUri.'/basic.html', $crawler->getUri());
+        $this->assertSame('Hello', $crawler->filter('h1')->text(null, true));
+
+        self::stopWebServer();
+    }
+
+    #[DataProvider('clientFactoryProvider')]
+    /**
+     * @dataProvider clientFactoryProvider
+     */
     public function testBrowserProvider(callable $clientFactory): void
     {
         $client = $clientFactory();
